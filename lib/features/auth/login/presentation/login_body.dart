@@ -1,0 +1,170 @@
+import 'package:alafein/core/presentation/routes/app_router.gr.dart';
+import 'package:alafein/core/presentation/widgets/main_custom_button.dart';
+import 'package:alafein/core/presentation/widgets/secondary_custom_button.dart';
+import 'package:alafein/core/utility/assets_data.dart';
+import 'package:alafein/core/utility/colors_data.dart';
+import 'package:alafein/core/utility/strings.dart';
+import 'package:alafein/features/auth/login/application/cubit/login_cubit.dart';
+import 'package:alafein/features/auth/login/presentation/widgets/custom_login_main_text.dart';
+import 'package:alafein/features/auth/login/presentation/widgets/email_field.dart';
+import 'package:alafein/features/auth/login/presentation/widgets/password_field.dart';
+import 'package:alafein/features/auth/login/presentation/widgets/platform_login_button.dart';
+import 'package:alafein/features/main/main_screen.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
+import 'package:responsive_builder/responsive_builder.dart';
+
+class LoginBody extends StatefulWidget {
+  const LoginBody({super.key});
+
+  @override
+  State<LoginBody> createState() => _LoginBodyState();
+}
+
+class _LoginBodyState extends State<LoginBody>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<Size> _heightAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 300));
+
+    _heightAnimation = Tween<Size>(
+            begin: const Size(double.infinity, 0),
+            end: Size(double.infinity, 14.sw))
+        .animate(
+            CurvedAnimation(parent: _controller, curve: Curves.fastOutSlowIn));
+    _heightAnimation.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 6.sw),
+        child: SingleChildScrollView(
+          child: BlocConsumer<LoginCubit, LoginState>(
+            listener: (context, state) {
+              if (state is LoginStateLoaded) {
+                AutoRouter.of(context).replace(
+                  OnboardingRoute(route: MainRoute()),
+                );
+              }
+            },
+            builder: (context, state) {
+              final cubit = context.read<LoginCubit>();
+              return Form(
+                key: cubit.formKey,
+                child: Column(
+                  children: [
+                    Gap(8.sw),
+                    const CustomLoginMainText(
+                      text: 'Write your Email',
+                    ),
+                    Gap(6.sw),
+                    const EmailField(),
+                    Gap(6.sw),
+                    const PasswordField(),
+                    Gap(6.sw),
+                    MainCustomButton(
+                      buttonName: 'Login',
+                      onPressed: () async {
+                        if (cubit.formKey.currentState!.validate()) {
+                          cubit.formKey.currentState!.save();
+                          cubit.signIn();
+                        }
+                      },
+                    ),
+                    Gap(6.sw),
+                    SecondaryCustomButton(
+                      text: 'Skip',
+                      onPressed: () async {
+                        AutoRouter.of(context).replaceAll([MainRoute()]);
+                      },
+                    ),
+                    Gap(8.sw),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            height: 0.2.sw,
+                            color: kHintColor,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 2.sw,
+                          ),
+                          child: Text(
+                            'or',
+                            style: TextStyle(
+                              fontFamily: StringConst.formulaFont,
+                              color: kHintColor,
+                              fontWeight: FontWeight.w300,
+                              fontSize: 4.sw,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            height: 0.2.sw,
+                            color: kHintColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Gap(8.sw),
+                    SecondaryCustomButton(
+                      text: "Create New Account",
+                      onPressed: () {
+                        AutoRouter.of(context).push(const SignupRoute());
+                      },
+                    ),
+                    Gap(4.sw),
+                    PlatformCustomButton(
+                      onPressed: () {},
+                      platform: 'Apple',
+                      image: AssetsData.apple,
+                    ),
+                    Gap(4.sw),
+                    PlatformCustomButton(
+                      onPressed: () {},
+                      platform: 'Google',
+                      image: AssetsData.google,
+                    ),
+                    Gap(4.sw),
+                    PlatformCustomButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MainScreen(),
+                            ));
+                      },
+                      platform: 'Facebook',
+                      image: AssetsData.facebook,
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+}
