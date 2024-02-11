@@ -37,7 +37,7 @@ class SecondaryCustomButton extends StatelessWidget {
           Text(
             text,
             style: GoogleFonts.plusJakartaSans(
-                fontSize: 4.sw, fontWeight: FontWeight.w700),
+                fontSize: 16, fontWeight: FontWeight.w700),
           ),
           const Spacer(),
           SvgPicture.asset(

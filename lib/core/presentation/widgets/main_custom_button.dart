@@ -37,8 +37,8 @@ class MainCustomButton extends StatelessWidget {
           const Spacer(),
           Text(
             buttonName,
-            style: GoogleFonts.anton(
-                fontSize: 4.2.sw, fontWeight: FontWeight.w400),
+            style: GoogleFonts.plusJakartaSans(
+                fontSize: 16, fontWeight: FontWeight.w700),
           ),
           const Spacer(),
           SvgPicture.asset(AssetsData.forward),

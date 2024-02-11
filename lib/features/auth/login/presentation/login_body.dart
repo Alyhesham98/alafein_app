@@ -14,7 +14,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:svg_flutter/svg.dart';
 
 class LoginBody extends StatefulWidget {
   const LoginBody({super.key});
@@ -71,9 +73,10 @@ class _LoginBodyState extends State<LoginBody>
                 key: cubit.formKey,
                 child: Column(
                   children: [
+                    SvgPicture.asset(AssetsData.blueLogo,),
                     Gap(8.sw),
                     const CustomLoginMainText(
-                      text: 'Write your Email',
+                      text: 'Let’s check if you have an account',
                     ),
                     Gap(6.sw),
                     const EmailField(),
@@ -81,7 +84,7 @@ class _LoginBodyState extends State<LoginBody>
                     const PasswordField(),
                     Gap(6.sw),
                     MainCustomButton(
-                      buttonName: 'Login',
+                      buttonName: 'CONTINUE',
                       onPressed: () async {
                         if (cubit.formKey.currentState!.validate()) {
                           cubit.formKey.currentState!.save();
@@ -96,38 +99,48 @@ class _LoginBodyState extends State<LoginBody>
                         AutoRouter.of(context).replaceAll([MainRoute()]);
                       },
                     ),
-                    Gap(8.sw),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            height: 0.2.sw,
-                            color: kHintColor,
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 2.sw,
-                          ),
-                          child: Text(
-                            'or',
-                            style: TextStyle(
-                              fontFamily: StringConst.formulaFont,
-                              color: kHintColor,
-                              fontWeight: FontWeight.w300,
-                              fontSize: 4.sw,
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Container(
-                            height: 0.2.sw,
-                            color: kHintColor,
-                          ),
-                        ),
-                      ],
+                    Gap(6.sw),
+                    // Row(
+                    //   children: [
+                    //     Expanded(
+                    //       child: Container(
+                    //         height: 0.2.sw,
+                    //         color: kHintColor,
+                    //       ),
+                    //     ),
+                    //     Padding(
+                    //       padding: EdgeInsets.symmetric(
+                    //         horizontal: 2.sw,
+                    //       ),
+                    //       child: Text(
+                    //         'or',
+                    //         style: TextStyle(
+                    //           fontFamily: StringConst.formulaFont,
+                    //           color: kHintColor,
+                    //           fontWeight: FontWeight.w300,
+                    //           fontSize: 4.sw,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //     Expanded(
+                    //       child: Container(
+                    //         height: 0.2.sw,
+                    //         color: kHintColor,
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 2.sw,
+                      ),
+                      child: Text(
+                        'OR',
+                        style: GoogleFonts.ubuntu(
+                            fontSize: 16, color: kPrimaryColor,fontWeight: FontWeight.w700),
+                      ),
                     ),
-                    Gap(8.sw),
+                    Gap(6.sw),
                     SecondaryCustomButton(
                       text: "Create New Account",
                       onPressed: () {

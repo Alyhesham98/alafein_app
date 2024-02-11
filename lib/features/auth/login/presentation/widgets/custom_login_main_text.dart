@@ -14,8 +14,8 @@ class CustomLoginMainText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: GoogleFonts.anton(
-          fontWeight: FontWeight.w400, color: kSemiBlack, fontSize: 6.sw),
+      style: GoogleFonts.ubuntu(
+          fontWeight: FontWeight.w500, color: kSecondaryFontColor, fontSize: 14),
     );
   }
 }
