@@ -5,6 +5,8 @@ import 'package:alafein/core/utility/assets_data.dart';
 import 'package:alafein/core/utility/colors_data.dart';
 import 'package:alafein/core/utility/strings.dart';
 import 'package:alafein/features/auth/login/application/cubit/login_cubit.dart';
+import 'package:alafein/features/auth/login/application/google_auth_cubit.dart';
+import 'package:alafein/features/auth/login/application/google_auth_state.dart';
 import 'package:alafein/features/auth/login/presentation/widgets/custom_login_main_text.dart';
 import 'package:alafein/features/auth/login/presentation/widgets/email_field.dart';
 import 'package:alafein/features/auth/login/presentation/widgets/password_field.dart';
@@ -141,10 +143,21 @@ class _LoginBodyState extends State<LoginBody>
                       image: AssetsData.apple,
                     ),
                     Gap(4.sw),
-                    PlatformCustomButton(
-                      onPressed: () {},
-                      platform: 'Google',
-                      image: AssetsData.google,
+                    BlocConsumer<GoogleAuthCubit , GoogleAuthState>(
+                      listener: (context , state){},
+                      builder: (context , state){
+                        return PlatformCustomButton(
+                        onPressed: (){
+                          print("u contiue with google button");
+                          // state is GoogleAuthLoadingState ? null : () => context.read<GoogleAuthCubit>().login();
+                          context.read<GoogleAuthCubit>().login();
+                          print("${state is GoogleAuthLoadingState}");
+                        },
+                        platform: 'Google',
+                        image: AssetsData.google,
+                      );
+
+                      },
                     ),
                     Gap(4.sw),
                     PlatformCustomButton(

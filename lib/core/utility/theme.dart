@@ -57,6 +57,13 @@ final appBarTextStyle = GoogleFonts.abhayaLibre(
   fontSize: 4.sw,
   fontWeight: FontWeight.w700,
 );
+const homeLabeProfileStyle = TextStyle(
+  color: kSemiBlack,
+  fontSize: 24,
+  fontFamily: StringConst.formulaFont,
+  fontWeight: FontWeight.bold,
+);
+
 const homeLabelStyle = TextStyle(
   color: kSemiBlack,
   fontSize: 24,
@@ -74,6 +81,12 @@ const homeLabel2Style = TextStyle(
 const homeLabel3Style = TextStyle(
   color: kSemiBlack,
   fontSize: 14,
+  fontFamily: StringConst.formulaFont,
+  fontWeight: FontWeight.bold,
+);
+const homeLabel4Style = TextStyle(
+  color: kSemiBlack,
+  fontSize: 16,
   fontFamily: StringConst.formulaFont,
   fontWeight: FontWeight.bold,
 );
