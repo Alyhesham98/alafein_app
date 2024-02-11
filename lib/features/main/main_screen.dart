@@ -6,6 +6,7 @@ import 'package:alafein/core/utility/strings.dart';
 import 'package:alafein/features/event/organizer/presentation/views/event_page.dart';
 import 'package:alafein/features/favourite/presentation/views/favoritepage.dart';
 import 'package:alafein/features/home/presentation/home_page.dart';
+import 'package:alafein/features/profile_page/presentation/screen/profile_page.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:svg_flutter/svg_flutter.dart';
@@ -54,6 +55,7 @@ class _MainScreenState extends State<MainScreen> {
           HomePage(),
           const Eventpage(),
           const FavoritePage(),
+          // const Profilepage(),
           Center(
             child: InkWell(
                 onTap: () {
