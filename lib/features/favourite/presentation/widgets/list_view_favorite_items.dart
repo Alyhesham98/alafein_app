@@ -40,9 +40,9 @@ class ListEventFavoriteItems extends StatelessWidget {
               child: Row(
                 children: [
                   InformationEvent(
-                    name: "",
-                    date: "",
-                    venue: "",
+                    name: "Name",
+                    date: "6/3/1999",
+                    venue: "Opera",
                   ),
                   CustomIcon(
                     icon: Icon(

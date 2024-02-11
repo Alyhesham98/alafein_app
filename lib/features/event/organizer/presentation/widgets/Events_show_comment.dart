@@ -14,6 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
+import '../../../../create_event/organizer/cubit/toggle_fav_cubit.dart';
+
 class EventsShowCommentBody extends StatelessWidget {
   const EventsShowCommentBody({
     super.key,
@@ -27,6 +29,18 @@ class EventsShowCommentBody extends StatelessWidget {
     return BlocBuilder<GetEventCubit, GetEventState>(
       builder: (context, state) {
         final getDeatils = context.read<GetEventCubit>().eventDetails;
+/*                child: BlocConsumer<ToggleFavCubit, ToggleFavState>(
+                  listener: (context, state) {},
+                  builder: (context, state) {
+                    return EventName(
+                      imageurl: getDeatils!.category?.image ?? "",
+                      name: getDeatils.category?.name ?? "",
+                      size: size,
+                      onTap: () => context
+                          .read<ToggleFavCubit>()
+                          .favToggle(getDeatils?.id as int),
+                    );
+                  },*/
         if (getDeatils != null) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,5 +1,6 @@
 import 'package:alafein/core/utility/assets_data.dart';
 import 'package:alafein/features/event/organizer/presentation/widgets/custom_event_image.dart';
+import 'package:alafein/features/event/organizer/presentation/widgets/header_event_image.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBarEventDeatils extends StatelessWidget {
@@ -14,7 +15,7 @@ class CustomAppBarEventDeatils extends StatelessWidget {
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.25,
           width: double.infinity,
-          child: const CustomEventImage(
+          child: const HeaderEventImage(
             imageurl: AssetsData.eventImg,
           ),
         ),

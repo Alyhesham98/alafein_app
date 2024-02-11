@@ -8,4 +8,5 @@ abstract class Endpoints {
   static String get getPagination => "Event/GetPagination";
   static String get eventDetails => "Event/Details";
   static String get eventHome => "Event/Home";
+  static String get favToggle => "Event/ToggleFavourite";
 }

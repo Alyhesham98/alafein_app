@@ -2,6 +2,7 @@ import 'package:alafein/core/utility/theme.dart';
 import 'package:alafein/features/event/organizer/presentation/widgets/custom_event_image.dart';
 import 'package:alafein/features/event/organizer/presentation/widgets/custom_icon.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 class EventName extends StatelessWidget {
@@ -10,12 +11,13 @@ class EventName extends StatelessWidget {
     required this.size,
     required this.imageurl,
     required this.name,
+    // required this.onTap,
   });
 
   final Size size;
   final String imageurl;
   final String name;
-
+  // final Function onTap;
   @override
   Widget build(BuildContext context) {
     return Padding(

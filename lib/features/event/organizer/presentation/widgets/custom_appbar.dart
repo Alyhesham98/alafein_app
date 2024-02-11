@@ -9,6 +9,7 @@ class CustomAppBarEvent extends StatelessWidget {
     required this.title1,
     required this.title2,
   });
+
   final String title1;
   final String title2;
 
@@ -23,8 +24,8 @@ class CustomAppBarEvent extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                'EVENTS',
+              Text(
+                title1,
                 style: homeLabelStyle,
               ),
               // const Spacer(),
@@ -36,7 +37,7 @@ class CustomAppBarEvent extends StatelessWidget {
             ],
           ),
           Text(
-            "Discover what’s going on",
+            title2,
             style: secondaryTextStyle,
           ),
         ],

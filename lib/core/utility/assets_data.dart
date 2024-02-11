@@ -21,6 +21,7 @@ class AssetsData {
   static const String audience = "${(src)}/audience.svg";
   static const String search = "${(src)}/ic_search.svg";
   static const String eventImg = "${(src)}/placeholders/event_img.png";
+  static const String headerImage = "${(src)}/placeholders/header_image.png";
   static const String music = "${(src)}/placeholders/music.png";
   static const String bottomBanner = "${(src)}/placeholders/bottom_banner.png";
   static const String svgIcHomeDisabled = "${(src)}/ic_home_disabled.svg";
