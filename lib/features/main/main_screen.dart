@@ -55,15 +55,15 @@ class _MainScreenState extends State<MainScreen> {
           HomePage(),
           const Eventpage(),
           const FavoritePage(),
-          // const Profilepage(),
-          Center(
-            child: InkWell(
-                onTap: () {
-                  SessionManagement.signOut();
-                  AutoRouter.of(context).replaceAll([const LoginRoute()]);
-                },
-                child: const Text("Log out")),
-          ),
+          const Profilepage(),
+          // Center(
+          //   child: InkWell(
+          //       onTap: () {
+          //         SessionManagement.signOut();
+          //         AutoRouter.of(context).replaceAll([const LoginRoute()]);
+          //       },
+          //       child: const Text("Log out")),
+          // ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

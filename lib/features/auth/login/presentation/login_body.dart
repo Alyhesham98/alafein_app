@@ -101,7 +101,7 @@ class _LoginBodyState extends State<LoginBody>
                         AutoRouter.of(context).replaceAll([MainRoute()]);
                       },
                     ),
-                    Gap(6.sw),
+                    Gap(4.sw),
                     // Row(
                     //   children: [
                     //     Expanded(
@@ -142,14 +142,14 @@ class _LoginBodyState extends State<LoginBody>
                             fontSize: 16, color: kPrimaryColor,fontWeight: FontWeight.w700),
                       ),
                     ),
-                    Gap(6.sw),
-                    SecondaryCustomButton(
-                      text: "Create New Account",
-                      onPressed: () {
-                        AutoRouter.of(context).push(const SignupRoute());
-                      },
-                    ),
                     Gap(4.sw),
+                    // SecondaryCustomButton(
+                    //   text: "Create New Account",
+                    //   onPressed: () {
+                    //     AutoRouter.of(context).push(const SignupRoute());
+                    //   },
+                    // ),
+                    // Gap(4.sw),
                     PlatformCustomButton(
                       onPressed: () {},
                       platform: 'Apple',

@@ -4,9 +4,12 @@ import 'package:alafein/features/event/organizer/presentation/widgets/events_sho
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+
 class EventDeatils extends StatelessWidget {
   const EventDeatils({super.key, required this.index});
+
   final int index;
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -31,3 +34,35 @@ class EventDeatils extends StatelessWidget {
     );
   }
 }
+  // @override
+  // Widget build(BuildContext context) {
+  //   var size = MediaQuery
+  //       .of(context)
+  //       .size;
+  //   return MultiBlocProvider(providers: [BlocProvider(
+  //     create: (context) =>
+  //     GetEventCubit()
+  //       ..getEventDeatils(id: index),),
+  //     BlocProvider<ToggleFavCubit>(
+  //       create: (context) =>
+  //           ToggleFavCubit(), // Provide your ToggleFavCubit here
+  //     ),
+  //   ],
+  //     child: BlocBuilder<GetEventCubit, GetEventState>(
+  //       builder: (context, state) {
+  //         return Scaffold(
+  //           body: CustomScrollView(
+  //             physics: const BouncingScrollPhysics(),
+  //             slivers: [
+  //               SliverToBoxAdapter(
+  //                 child: EventsShowCommentBody(
+  //                   size: size,
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         );
+  //       },
+  //     ),
+  //   );
+  // }}
