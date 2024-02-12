@@ -33,7 +33,7 @@ dependencies:
   google_fonts: ^6.1.0
   google_sign_in: ^6.2.1
   hive: ^2.2.3
-  http: ^1.1.2
+  http: ^1.2.0
   image_picker: ^1.0.7
   json_annotation: ^4.8.1
   logger: ^2.0.2+1

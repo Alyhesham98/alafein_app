@@ -3,25 +3,30 @@ import 'package:alafein/core/presentation/routes/app_router.gr.dart';
 import 'package:alafein/core/utility/assets_data.dart';
 import 'package:alafein/core/utility/colors_data.dart';
 import 'package:alafein/core/utility/strings.dart';
+import 'package:alafein/features/event/organizer/presentation/bloc/event_category_bloc.dart';
 import 'package:alafein/features/event/organizer/presentation/views/event_page.dart';
+import 'package:alafein/features/event/organizer/presentation/views/ui.dart';
 import 'package:alafein/features/favourite/presentation/views/favoritepage.dart';
 import 'package:alafein/features/home/presentation/home_page.dart';
-import 'package:alafein/features/profile_page/presentation/screen/profile_page.dart';
+// import 'package:alafein/features/profile_page/presentation/screen/profile_page.dart';
+// import 'package:http/http.dart' as http;
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:svg_flutter/svg_flutter.dart';
 
 @RoutePage()
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key, this.index = 0});
+   MainScreen({super.key, this.index = 0});
 
   final int? index;
+
 
   @override
   State<MainScreen> createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
+  final EventCategoryBloc eventCategoryBloc = EventCategoryBloc();
   int _currentIndex = 0;
 
   // List<Widget> body = [
@@ -40,6 +45,7 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void initState() {
+    eventCategoryBloc.add(EventCategoryInitialFetchEvent());
     super.initState();
     _currentIndex = widget.index!;
   }
@@ -57,12 +63,58 @@ class _MainScreenState extends State<MainScreen> {
           const FavoritePage(),
           // const Profilepage(),
           Center(
-            child: InkWell(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                InkWell(
                 onTap: () {
                   SessionManagement.signOut();
                   AutoRouter.of(context).replaceAll([const LoginRoute()]);
                 },
                 child: const Text("Log out")),
+                
+                SizedBox(height: 20,),
+                
+                InkWell(
+                onTap: () async{
+                  var x = SessionManagement.getUserToken();
+                  print(" token :${x.toString()}");
+                  // eventCategoryBloc.eventCategoryInitialFetchEvent;
+                  // print(" response :${eventCategoryBloc.eventCategoryInitialFetchEvent}");
+
+                  // print("u are in eventCategoryInitialFetchEvent");
+                  // var client = http.Client();
+
+                  // // var url = Uri.parse('https://alafein.azurewebsites.net/api/v1/Event/GetCategories?isAscending=false');
+                  // // var  header= {"Authorization": "Bearer ${SessionManagement.getUserToken()}"};
+                  //   try {
+                    
+                  //   var response = await client.get(
+                  //     Uri.parse('https://alafein.azurewebsites.net/api/v1/Event/GetCategories?isAscending=false'),
+                  //     headers: {"Authorization": "Bearer ${SessionManagement.getUserToken()}"},
+                  //   );
+                    
+                  //   print(response.body);
+
+                  //   } catch(e) {
+                  //   // log(e.toString());
+                  //   print("error");
+                  // }
+
+                },
+                child: const Text("print token")),
+
+                SizedBox(height: 20,),
+
+                InkWell(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => UiTest(),));
+                },
+                child: const Text("Go to test")),
+
+              ],
+            )
           ),
         ],
       ),
