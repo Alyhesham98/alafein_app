@@ -1,5 +1,6 @@
 import 'package:alafein/core/presentation/routes/app_router.gr.dart';
 import 'package:alafein/core/utility/theme.dart';
+import 'package:alafein/features/profile_page/presentation/widgets/profile_item_text.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -29,18 +30,11 @@ class ThreeItems extends StatelessWidget {
           ListTile(
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
-            title: const Text(
-              "About Us",
-              textAlign: TextAlign.start,
-              style: TextStyle(
-                  color: Colors.black,
-                  fontFamily: StringConst.formulaFont,
-                  fontWeight: FontWeight.w300,
-                  fontSize: 16),
+            title: const ProfileItemText(
+              text: "About Us",
             ),
             trailing: SvgPicture.asset(AssetsData.arrowRight),
             onTap: () {
-              AutoRouter.of(context).replaceAll([const LoginRoute()]);
 
             },
           ),
@@ -53,18 +47,11 @@ class ThreeItems extends StatelessWidget {
           ListTile(
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0.0),
-            title: const Text(
-              "Privacy Policy",
-              textAlign: TextAlign.start,
-              style: TextStyle(
-                  color: Colors.black,
-                  fontFamily: StringConst.formulaFont,
-                  fontWeight: FontWeight.w300,
-                  fontSize: 16),
-            ),
+                title: const ProfileItemText(
+                  text: "Privacy Policy",
+                ),
             trailing: SvgPicture.asset(AssetsData.arrowRight),
             onTap: () {
-              AutoRouter.of(context).replaceAll([const LoginRoute()]);
 
             },
           ),
@@ -77,18 +64,9 @@ class ThreeItems extends StatelessWidget {
           ListTile(
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
-            title: const Text(
-              "Terms and Conditions",
-              textAlign: TextAlign.start,
-              style: TextStyle(
-                  color: Colors.black,
-                  fontFamily: StringConst.formulaFont,
-                  fontWeight: FontWeight.w300,
-                  fontSize: 16),
-            ),
+            title: const ProfileItemText(text: "Terms and Conditions",),
             trailing: SvgPicture.asset(AssetsData.arrowRight),
             onTap: () {
-              AutoRouter.of(context).replaceAll([const LoginRoute()]);
             },
           )
         ],

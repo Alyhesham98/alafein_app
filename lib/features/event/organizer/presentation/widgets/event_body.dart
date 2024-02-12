@@ -1,3 +1,4 @@
+import 'package:alafein/core/local_data/session_management.dart';
 import 'package:alafein/core/utility/assets_data.dart';
 import 'package:alafein/features/event/organizer/cubit/get_event_cubit.dart';
 import 'package:alafein/features/event/organizer/cubit/get_event_state.dart';
@@ -27,9 +28,11 @@ class Eventbody extends StatelessWidget {
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             const Gap(16),
-            const CustomAppBarEvent(
+            CustomAppBarEvent(
               title1: "EVENTS",
               title2: "Discover what’s going on",
+              hasIcon: SessionManagement.getUserRole() != "" &&
+                  SessionManagement.getUserRole() != "Audience",
             ),
             const SearchItems(),
             Image.asset(

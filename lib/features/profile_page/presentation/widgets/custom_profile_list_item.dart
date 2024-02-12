@@ -1,5 +1,6 @@
 import 'package:alafein/core/presentation/routes/app_router.gr.dart';
 import 'package:alafein/core/utility/theme.dart';
+import 'package:alafein/features/profile_page/presentation/widgets/profile_item_text.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -34,15 +35,7 @@ class CustomProfileAppBarEvent extends StatelessWidget {
       child: ListTile(
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-        title: Text(
-          title,
-          textAlign: TextAlign.start,
-          style: TextStyle(
-              color: color,
-              fontFamily: StringConst.formulaFont,
-              fontWeight: FontWeight.w300,
-              fontSize: 16),
-        ),
+        title: ProfileItemText(text: title,textColor: color,),
         trailing: SvgPicture.asset(AssetsData.arrowRight),
         onTap:(){
           switch(onTap){
@@ -56,15 +49,6 @@ class CustomProfileAppBarEvent extends StatelessWidget {
               {}
               break;
             case 4:
-              {}
-              break;
-            case 5:
-              {}
-              break;
-            case 6:
-              {}
-              break;
-            case 7:
               {
                 SessionManagement.signOut();
                 AutoRouter.of(context).replaceAll([const LoginRoute()]);

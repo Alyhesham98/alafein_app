@@ -13,7 +13,6 @@ part 'home_state.dart';
 class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(HomeInitial());
 
-
   Future<void> getData() async {
     emit(HomeLoading());
     final call = await APICaller.instance.call(
@@ -28,10 +27,14 @@ class HomeCubit extends Cubit<HomeState> {
       (l) => EasyLoading.showError(l),
       (response) {
         if (response.succeeded == true) {
-           emit(HomeLoaded(HomeResponse.fromMap(response.data)));
+          emit(HomeLoaded(HomeResponse.fromMap(response.data)));
           EasyLoading.dismiss();
         } else {
-          EasyLoading.showError(response.message ?? "Error !");
+          if (SessionManagement.getUserRole() != "") {
+            EasyLoading.showError(response.message ?? "Error !");
+          } else {
+            EasyLoading.showError("Logged in as Gust");
+          }
           emit(HomeError());
         }
       },

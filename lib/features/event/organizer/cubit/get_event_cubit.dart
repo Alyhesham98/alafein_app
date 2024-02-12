@@ -28,7 +28,10 @@ class GetEventCubit extends Cubit<GetEventState> {
         }));
     call.fold(
       (failure) {
-        EasyLoading.showError(failure.toString());
+        if (SessionManagement.getUserRole() != "") {
+          EasyLoading.showError(failure.toString());
+        }else {
+        }
       },
       (response) {
         if (response.succeeded == true) {
@@ -39,7 +42,9 @@ class GetEventCubit extends Cubit<GetEventState> {
           }
           EasyLoading.dismiss();
         } else {
-          EasyLoading.showError(response.message ?? "Error !");
+          if (SessionManagement.getUserRole() != "") {
+            EasyLoading.showError(response.message ?? "Error !");
+          }
           emit(ErrorGetEventState(response.message ?? "Error !"));
         }
       },

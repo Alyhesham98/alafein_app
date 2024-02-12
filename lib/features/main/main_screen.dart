@@ -1,5 +1,4 @@
 import 'package:alafein/core/local_data/session_management.dart';
-import 'package:alafein/core/presentation/routes/app_router.gr.dart';
 import 'package:alafein/core/utility/assets_data.dart';
 import 'package:alafein/core/utility/colors_data.dart';
 import 'package:alafein/core/utility/strings.dart';
@@ -24,20 +23,6 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
 
-  // List<Widget> body = [
-  //   HomePage(),
-  //   const Eventpage(),
-  //   const FavoritePage(),
-  //   Placeholder(
-  //     child: InkWell(
-  //         onTap: () {
-  //           SessionManagement.signOut();
-  //           AutoRouter.of(context)
-  //         },
-  //         child: const Text("Log out")),
-  //   ),
-  // ];
-
   @override
   void initState() {
     super.initState();
@@ -46,24 +31,15 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // return _isConnected
-    //     ?
     return Scaffold(
       body: IndexedStack(
         index: _currentIndex,
         children: [
           HomePage(),
           const Eventpage(),
+          if(SessionManagement.getUserRole()=="Audience")
           const FavoritePage(),
           const Profilepage(),
-          // Center(
-          //   child: InkWell(
-          //       onTap: () {
-          //         SessionManagement.signOut();
-          //         AutoRouter.of(context).replaceAll([const LoginRoute()]);
-          //       },
-          //       child: const Text("Log out")),
-          // ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -73,7 +49,7 @@ class _MainScreenState extends State<MainScreen> {
         currentIndex: _currentIndex,
         onTap: (int index) {
           setState(() {
-            _currentIndex = index;
+              _currentIndex = index;
           });
         },
         showSelectedLabels: true,
@@ -115,19 +91,20 @@ class _MainScreenState extends State<MainScreen> {
               height: 24,
             ),
           ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              AssetsData.svgIcFavoriteDisabled,
-              width: 24,
-              height: 24,
+          if (SessionManagement.getUserRole() == "Audience")
+            BottomNavigationBarItem(
+              icon: SvgPicture.asset(
+                AssetsData.svgIcFavoriteDisabled,
+                width: 24,
+                height: 24,
+              ),
+              label: 'Favourite',
+              activeIcon: SvgPicture.asset(
+                AssetsData.svgIcFavorite,
+                width: 24,
+                height: 24,
+              ),
             ),
-            label: 'Favourite',
-            activeIcon: SvgPicture.asset(
-              AssetsData.svgIcFavorite,
-              width: 24,
-              height: 24,
-            ),
-          ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               AssetsData.svgIcProfileDisabled,
@@ -143,8 +120,6 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ],
       ),
-    )
-        // : const InternetNotAvailable()
-        ;
+    );
   }
 }

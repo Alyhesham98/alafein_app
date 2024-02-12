@@ -52,12 +52,18 @@ class Profilepage extends StatelessWidget {
                 c:context
               ),
               const Gap(16),
-              const CustomProfileAppBarEvent(
-                title: "LOGOUT",
-                onTap:7,
-                color: Colors.redAccent,
-              )
-            ]),
+                  if(SessionManagement.getUserRole()!="")
+                const CustomProfileAppBarEvent(
+                  title: "LOGOUT",
+                  onTap: 4,
+                  color: Colors.redAccent,
+                ) else
+                    const CustomProfileAppBarEvent(
+                      title: "REGISTER",
+                      onTap: 4,
+                      color: Colors.redAccent,
+                    )
+                ]),
           ),
         ),
       ],
