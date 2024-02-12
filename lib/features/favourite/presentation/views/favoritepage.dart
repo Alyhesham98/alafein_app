@@ -19,7 +19,7 @@ class FavoritePage extends StatelessWidget {
           ),
           const CustomAppBarEvent(
             title1: "FAVOURITE EVENTS",
-            title2: "Here's what you've liked so far", hasIcon: true,
+            title2: "Here's what you've liked so far", hasIcon: false,
           ),
           const Gap(10),
           ListViewEventFavorite(
