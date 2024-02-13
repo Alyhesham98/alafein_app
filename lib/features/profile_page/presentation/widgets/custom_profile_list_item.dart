@@ -1,5 +1,6 @@
 import 'package:alafein/core/presentation/routes/app_router.gr.dart';
 import 'package:alafein/core/utility/theme.dart';
+import 'package:alafein/features/profile_page/presentation/screen/profile_info/profile_info.dart';
 import 'package:alafein/features/profile_page/presentation/widgets/profile_item_text.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ import '../../../../core/local_data/session_management.dart';
 import '../../../../core/utility/assets_data.dart';
 import '../../../../core/utility/colors_data.dart';
 import '../../../../core/utility/strings.dart';
+import '../../../main/main_screen.dart';
 
 class CustomProfileAppBarEvent extends StatelessWidget {
   const CustomProfileAppBarEvent(
@@ -19,7 +21,7 @@ class CustomProfileAppBarEvent extends StatelessWidget {
       this.color = Colors.black});
 
   final String title;
-  final int onTap;
+  final int? onTap;
   final Color color;
 
   @override
@@ -35,32 +37,47 @@ class CustomProfileAppBarEvent extends StatelessWidget {
       child: ListTile(
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-        title: ProfileItemText(text: title,textColor: color,),
-        trailing: SvgPicture.asset(AssetsData.arrowRight),
-        onTap:(){
-          switch(onTap){
-            case 1:
-              {}
-              break;
-            case 2:
-              {}
-              break;
-            case 3:
-              {}
-              break;
-            case 4:
-              {
-                SessionManagement.signOut();
-                AutoRouter.of(context).replaceAll([const LoginRoute()]);
-              }
-              break;
-            default:
-              break;
-
-          }
-        },
+        title: onTap == null
+            ? Text(
+                title,
+                style: personalInfoTextStyle,
+              )
+            : ProfileItemText(
+                text: title,
+                textColor: color,
+              ),
+        trailing:
+            onTap == null ? null : SvgPicture.asset(AssetsData.arrowRight),
+        onTap: onTap == null
+            ? null
+            : () {
+                switch (onTap) {
+                  case 1:
+                    {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (c) => const ProfileInfoPage(),
+                          ));
+                    }
+                    break;
+                  case 2:
+                    {}
+                    break;
+                  case 3:
+                    {}
+                    break;
+                  case 4:
+                    {
+                      SessionManagement.signOut();
+                      AutoRouter.of(context).replaceAll([const LoginRoute()]);
+                    }
+                    break;
+                  default:
+                    break;
+                }
+              },
       ),
     );
   }
 }
-
