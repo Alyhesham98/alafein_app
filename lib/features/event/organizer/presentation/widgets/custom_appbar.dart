@@ -7,11 +7,12 @@ class CustomAppBarEvent extends StatelessWidget {
   const CustomAppBarEvent({
     super.key,
     required this.title1,
-    required this.title2,
+    required this.title2,  required this.hasIcon ,
   });
 
   final String title1;
   final String title2;
+  final bool hasIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +30,7 @@ class CustomAppBarEvent extends StatelessWidget {
                 style: homeLabelStyle,
               ),
               // const Spacer(),
+              if(hasIcon)
               IconButton(
                   onPressed: () {
                     AutoRouter.of(context).push(const CreateEventRoute());

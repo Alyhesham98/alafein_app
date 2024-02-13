@@ -5,19 +5,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
+import '../../../../create_event/organizer/cubit/toggle_fav_cubit.dart';
+import '../../cubit/get_event_cubit.dart';
+import '../../cubit/get_event_state.dart';
+
 class EventName extends StatelessWidget {
   const EventName({
     super.key,
     required this.size,
     required this.imageurl,
     required this.name,
-    // required this.onTap,
+    required this.index,
+    required this.onTap,
   });
 
   final Size size;
+  final int index;
   final String imageurl;
   final String name;
-  // final Function onTap;
+  final Function onTap;
   @override
   Widget build(BuildContext context) {
     return Padding(

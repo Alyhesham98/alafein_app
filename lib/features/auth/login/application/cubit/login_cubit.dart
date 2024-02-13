@@ -34,17 +34,27 @@ class LoginCubit extends Cubit<LoginState> {
     );
     call.fold(
       (failure) {
-        EasyLoading.showError(failure.toString());
+        if (SessionManagement.getUserRole() != "") {
+          EasyLoading.showError(failure.toString());
+
+        }else {
+          EasyLoading.showError("SSSSh!");
+        }
+
         emit(LoginStateError(message: "Error !"));
+
       },
       (response) {
         if (response.succeeded == true) {
           LoginModel loginModel = LoginModel.fromMap(response.data);
-          SessionManagement.createSession(token: loginModel.jwtToken ?? "");
+          SessionManagement.createSession(
+              token: loginModel.jwtToken ?? "", role: loginModel.role ?? "");
           EasyLoading.dismiss();
           emit(LoginStateLoaded());
         } else {
-          EasyLoading.showError(response.message ?? "Error !");
+          if (SessionManagement.getUserRole() != "") {
+            EasyLoading.showError(response.message ?? "Error !");
+          }
 
           emit(LoginStateError(message: response.message ?? "Error !"));
         }

@@ -8,6 +8,7 @@ class SessionManagement {
   static const String EMAIL_KEY = "email_key";
   static const String NAME_KEY = "name_key";
   static const String PHONE_KEY = "phone_key";
+  static const String ROLE_KEY = "role_key";
   static const String ON_Boarding_KEY = "on_boarding_key";
   static const String IS_LOGIN_KEY = "login_key";
   static const String TOKEN_KEY = "token_key";
@@ -62,6 +63,7 @@ class SessionManagement {
   static String getLanguage() => box.get(LANG_KEY);
 
   static String? getUserToken() => box.get(TOKEN_KEY) ?? "";
+  static String? getUserRole() => box.get(ROLE_KEY) ?? "";
 
   static int getCountryId() => box.get(COUNTRY_ID_KEY);
 
@@ -78,12 +80,13 @@ class SessionManagement {
       // required String email,
       // required String name,
       // required String phone,
-      required String token}) {
+      required String token, required String role}) {
     // box.put(EMAIL_KEY, email);
     // box.put(NAME_KEY, name);
     box.put(TOKEN_KEY, token);
     // box.put(PHONE_KEY, phone);
     box.put(IS_LOGIN_KEY, true);
+    box.put(ROLE_KEY, role);
   }
 
   static void setLanguage(String lang) {

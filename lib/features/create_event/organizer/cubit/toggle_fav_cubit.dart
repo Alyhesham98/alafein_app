@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:alafein/core/api/api_caller.dart';
 import 'package:alafein/core/api/constants/endpoints.dart';
 import 'package:alafein/core/local_data/session_management.dart';
@@ -34,8 +36,7 @@ class ToggleFavCubit extends Cubit<ToggleFavState> {
       (response) {
         if (response.succeeded == true) {
           EasyLoading.dismiss();
-
-          emit(ToggleFavSuccessed());
+          emit(ToggleFavSuccessed(isFav: response.data));
         } else {
           EasyLoading.showError(response.message ?? "Error !");
 

@@ -17,6 +17,7 @@ class AssetsData {
   static const String checkMark = '${(src)}/check_mark.svg';
   static const String youAreAllSet = "${(src)}/YOU'RE ALL SET.gif";
   static const String arrowDown = "${(src)}/arrow_down.svg";
+  static const String arrowRight = "${(src)}/arrow_right.svg";
   static const String plus = "${(src)}/plus.svg";
   static const String audience = "${(src)}/audience.svg";
   static const String search = "${(src)}/ic_search.svg";

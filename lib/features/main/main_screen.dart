@@ -24,20 +24,6 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
 
-  // List<Widget> body = [
-  //   HomePage(),
-  //   const Eventpage(),
-  //   const FavoritePage(),
-  //   Placeholder(
-  //     child: InkWell(
-  //         onTap: () {
-  //           SessionManagement.signOut();
-  //           AutoRouter.of(context)
-  //         },
-  //         child: const Text("Log out")),
-  //   ),
-  // ];
-
   @override
   void initState() {
     super.initState();
@@ -46,24 +32,15 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // return _isConnected
-    //     ?
     return Scaffold(
       body: IndexedStack(
         index: _currentIndex,
         children: [
           HomePage(),
           const Eventpage(),
+          if(SessionManagement.getUserRole()=="Audience")
           const FavoritePage(),
-          // const Profilepage(),
-          Center(
-            child: InkWell(
-                onTap: () {
-                  SessionManagement.signOut();
-                  AutoRouter.of(context).replaceAll([const LoginRoute()]);
-                },
-                child: const Text("Log out")),
-          ),
+          const Profilepage(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -115,19 +92,20 @@ class _MainScreenState extends State<MainScreen> {
               height: 24,
             ),
           ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              AssetsData.svgIcFavoriteDisabled,
-              width: 24,
-              height: 24,
+          if (SessionManagement.getUserRole() == "Audience")
+            BottomNavigationBarItem(
+              icon: SvgPicture.asset(
+                AssetsData.svgIcFavoriteDisabled,
+                width: 24,
+                height: 24,
+              ),
+              label: 'Favourite',
+              activeIcon: SvgPicture.asset(
+                AssetsData.svgIcFavorite,
+                width: 24,
+                height: 24,
+              ),
             ),
-            label: 'Favourite',
-            activeIcon: SvgPicture.asset(
-              AssetsData.svgIcFavorite,
-              width: 24,
-              height: 24,
-            ),
-          ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               AssetsData.svgIcProfileDisabled,
@@ -143,8 +121,6 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ],
       ),
-    )
-        // : const InternetNotAvailable()
-        ;
+    );
   }
 }

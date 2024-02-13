@@ -49,10 +49,14 @@ class EventsShowCommentBody extends StatelessWidget {
               SizedBox(
                 height: 120,
                 child: EventName(
-                  imageurl: getDeatils!.category?.image ?? "",
-                  name: getDeatils.category?.name ?? "",
-                  size: size,
-                ),
+                    imageurl: getDeatils!.category?.image ?? "",
+                    name: getDeatils.category?.name ?? "",
+                    size: size,
+                    index: getDeatils!.id ?? 0,
+                    onTap: () {
+
+                    },
+                  ),
               ),
               Description(
                 size: size,

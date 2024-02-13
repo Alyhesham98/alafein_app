@@ -5,7 +5,11 @@ sealed class ToggleFavState {}
 
 final class ToggleFavInitial extends ToggleFavState {}
 
-final class ToggleFavSuccessed extends ToggleFavState {}
+final class ToggleFavSuccessed extends ToggleFavState {
+  final bool isFav;
+
+  ToggleFavSuccessed({required this.isFav});
+}
 
 final class ToggleFavError extends ToggleFavState {
   final String message;

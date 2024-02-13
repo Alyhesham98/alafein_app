@@ -77,6 +77,12 @@ const homeLabel2Style = TextStyle(
   fontFamily: StringConst.formulaFont,
   fontWeight: FontWeight.bold,
 );
+const personalInfoLabelPrimary = TextStyle(
+  color: kPrimaryColor,
+  fontSize: 20,
+  fontFamily: StringConst.formulaFont,
+  fontWeight: FontWeight.w700,
+);
 
 const homeLabel3Style = TextStyle(
   color: kSemiBlack,
@@ -87,6 +93,12 @@ const homeLabel3Style = TextStyle(
 const homeLabel4Style = TextStyle(
   color: kSemiBlack,
   fontSize: 16,
+  fontFamily: StringConst.formulaFont,
+  fontWeight: FontWeight.bold,
+);
+const personalInfoTextStyle = TextStyle(
+  color: kSemiBlack,
+  fontSize: 18,
   fontFamily: StringConst.formulaFont,
   fontWeight: FontWeight.bold,
 );
