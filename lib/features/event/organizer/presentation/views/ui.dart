@@ -49,7 +49,6 @@ class _UiTestState extends State<UiTest> {
                             name: successState.eventCatigories[index].name,
                             imageUrl: successState.eventCatigories[index].image,),
                           Text(successState.eventCatigories[index].name)
-
                         ],
                       ),
                     );
@@ -58,7 +57,7 @@ class _UiTestState extends State<UiTest> {
               );
             }
             // default:
-            return SizedBox(child: Text("======================================="),);
+            return const SizedBox(child: Text(""),);
           }, 
           ),
       ),

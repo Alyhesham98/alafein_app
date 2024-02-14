@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
+import '../../../../../core/api/constants/api_caller_config.dart';
 import '../../../../create_event/organizer/cubit/toggle_fav_cubit.dart';
 
 class EventsShowCommentBody extends StatelessWidget {
@@ -49,7 +50,7 @@ class EventsShowCommentBody extends StatelessWidget {
               SizedBox(
                 height: 120,
                 child: EventName(
-                    imageurl: getDeatils!.category?.image ?? "",
+                    imageurl: getDeatils.category?.image != null ?"${APICallerConfiguration.baseImageUrl}${getDeatils.category?.image}": "",
                     name: getDeatils.category?.name ?? "",
                     size: size,
                     index: getDeatils!.id ?? 0,

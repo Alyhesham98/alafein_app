@@ -95,7 +95,14 @@ class HomePage extends StatelessWidget {
                                             name: state.homeResponse
                                                     .spotlight?[index].name ??
                                                 "",
-                                            image: state.homeResponse
+                                            image: state
+                                                        .homeResponse
+                                                        .spotlight?[index]
+                                                        .poster !=
+                                                    null
+                                                ? "${APICallerConfiguration.baseImageUrl}${state.homeResponse.spotlight?[index].poster}"
+                                                : "",
+                                            catImage: state.homeResponse
                                                     .spotlight?[index].poster ??
                                                 "",
                                             date: state.homeResponse
@@ -205,7 +212,12 @@ class HomePage extends StatelessWidget {
                                                     .today?[index].name ??
                                                 "",
                                             image: state.homeResponse
-                                                    .today?[index].poster ??
+                                                .today?[index].poster !=null ?"${APICallerConfiguration.baseImageUrl}${state.homeResponse
+                                                .today?[index].poster}":
+                                            "",
+                                            catImage: state.homeResponse
+                                                    .today?[index].poster !=null ?"${APICallerConfiguration.baseImageUrl}${state.homeResponse
+                                                .today?[index].poster}":
                                                 "",
                                             date: state.homeResponse
                                                     .today?[index].date ??

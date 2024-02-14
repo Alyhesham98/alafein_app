@@ -1,15 +1,21 @@
 import 'package:alafein/core/utility/assets_data.dart';
 import 'package:alafein/core/utility/theme.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
+import '../../../../core/api/constants/api_caller_config.dart';
+
 class HomeEventItem extends StatelessWidget {
   final String image;
+  final String catImage;
   final String name;
   final String date;
+
   const HomeEventItem({
     super.key,
     required this.image,
+    required this.catImage,
     required this.name,
     required this.date,
   });
@@ -29,20 +35,29 @@ class HomeEventItem extends StatelessWidget {
         children: [
           Stack(
             children: [
-              Image.network(
-                image,
-                errorBuilder: (context, error, stackTrace) =>
+              CachedNetworkImage(
+                imageUrl:image,
+                errorWidget:  (context, url, error) =>
                     Image.asset(AssetsData.eventImg),
               ),
               Positioned(
-                bottom: 5,
-                right: 5,
-                child: Image.asset(
-                  AssetsData.music,
-                  width: 50,
-                  height: 50,
-                ),
-              )
+                  bottom: 5,
+                  right: 5,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(17),
+                    child: CachedNetworkImage(
+                      width: 50,
+                      height: 50,
+                      imageUrl:
+                      catImage,
+                      fit: BoxFit.fitWidth,
+                      errorWidget: (context, url, error) =>
+                          Image.asset(
+                            AssetsData.music,
+                            fit: BoxFit.contain,
+                          ),
+                    ),
+                  ))
             ],
           ),
           const Gap(8),
