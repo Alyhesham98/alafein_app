@@ -14,7 +14,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../create_event/organizer/cubit/toggle_fav_cubit.dart';
 
 class EventsShowCommentBody extends StatelessWidget {
   const EventsShowCommentBody({
@@ -128,7 +127,7 @@ class EventsShowCommentBody extends StatelessWidget {
                 ),
               const Gap(10),
               if (getDeatils.attendanceOption?.name != "Registration")
-                const Padding(
+                 Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: 24,
                   ),
@@ -137,15 +136,23 @@ class EventsShowCommentBody extends StatelessWidget {
                     textColor: Colors.white,
                     data: "FREE EVENT",
                     borderColor: Colors.white,
+                    onTap: (){
+                      //Url for paying if event not free
+                    },
                   ),
                 ),
               const Gap(10),
-              const Padding(
+               Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: 24,
                 ),
                 child: CustomButtonComment(
                   data: "ADD COMMENT",
+                  onTap: (){
+                    _showCommentPopUp(context);
+                    print("hiiiiiii");
+                    _showCommentPopUp(context);
+                  },
                 ),
               ),
               const Gap(10),
@@ -163,6 +170,19 @@ class EventsShowCommentBody extends StatelessWidget {
           return const SizedBox();
         }
       },
+    );
+  }
+  Future<void> _showCommentPopUp(BuildContext context) async{
+    return showModalBottomSheet(
+      context: context,
+      builder: (context){
+        return Column(
+          children: [
+            // TextFormField(),
+            // ElevatedButton(onPressed: (){}, child: Text("ADD COMMENT"))
+          ],
+        );
+      }
     );
   }
 }

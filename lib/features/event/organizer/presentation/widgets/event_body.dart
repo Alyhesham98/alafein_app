@@ -1,18 +1,24 @@
 import 'package:alafein/core/local_data/session_management.dart';
 import 'package:alafein/core/api/constants/api_caller_config.dart';
 import 'package:alafein/core/utility/assets_data.dart';
+import 'package:alafein/core/utility/colors_data.dart';
 import 'package:alafein/core/utility/theme.dart';
-import 'package:alafein/features/event/organizer/cubit/get_event_cubit.dart';
-import 'package:alafein/features/event/organizer/cubit/get_event_state.dart';
+// import 'package:alafein/features/event/organizer/cubit/get_event_cubit.dart';
+// import 'package:alafein/features/event/organizer/cubit/get_event_state.dart';
 import 'package:alafein/features/event/organizer/presentation/bloc/event_category_bloc.dart';
+import 'package:alafein/features/event/organizer/presentation/bloc_listEvent/list_event_bloc.dart';
+import 'package:alafein/features/event/organizer/presentation/views/event_deatils.dart';
 
 import 'package:alafein/features/event/organizer/presentation/widgets/custom_appbar.dart';
+import 'package:alafein/features/event/organizer/presentation/widgets/custom_event_image.dart';
+import 'package:alafein/features/event/organizer/presentation/widgets/information_event.dart';
 
-import 'package:alafein/features/event/organizer/presentation/widgets/list_view_event.dart';
+// import 'package:alafein/features/event/organizer/presentation/widgets/list_view_event.dart';
 import 'package:alafein/features/event/organizer/presentation/widgets/search_items.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:gap/gap.dart';
 
 class Eventbody extends StatefulWidget {
@@ -28,11 +34,15 @@ class Eventbody extends StatefulWidget {
 }
 
 class _EventbodyState extends State<Eventbody> {
+
   final EventCategoryBloc eventCategoryBloc = EventCategoryBloc();
+
+  final ListEventBloc listEventBloc = ListEventBloc();
 
   @override
   void initState() {
     eventCategoryBloc.add(EventCategoryInitialFetchEvent());
+    listEventBloc.add(ListEventInitialFetchEvent());
     super.initState();
   }
 
@@ -69,6 +79,10 @@ class _EventbodyState extends State<Eventbody> {
                   listener: (context, state) {},
                   builder: (context, state) {
                     switch (state.runtimeType) {
+                      case EventCategoryErrorState:
+                        return Text("Error Or data not found");
+                      case EventCategoryLoadingState:
+                        return const Center(child: CircularProgressIndicator(color: kPrimaryColor,),);
                       case EventCategoryFetchingSuccessfulState:
                         final successState =
                             state as EventCategoryFetchingSuccessfulState;
@@ -109,48 +123,96 @@ class _EventbodyState extends State<Eventbody> {
                             ),
                           ),
                         );
-                      // return Container(
-                      //   child: ListView.builder(
-                      //     itemCount: successState.eventCatigories.length,
-                      //     itemBuilder: (context,index){
-
-                      //           // ListEventCategoryItems(
-                      //       //     categoryLength:successState.eventCatigories.length,
-                      //       //     name: successState.eventCatigories[index].name,
-                      //       //     imageUrl: successState.eventCatigories[index].image,
-                      //       // );
-                      //       // Container(
-                      //       //   child: Column(
-                      //       //     children: [
-                      //       //       Text(successState.eventCatigories[index].name),
-                      //       //       Text(""),
-                      //       //       Text(successState.eventCatigories[index].image)
-                      //       //     ],
-                      //       //   ),
-                      //       // );
-                      //     },
-                      //   ),
-                      // );
+                      
+                      default:
+                        return Container();
                     }
-                    // default:
-                    return SizedBox(
-                      child: Text("======================================="),
-                    );
                   },
                 ),
               ),
             ),
           ]),
         ),
+        // SliverFillRemaining(
+        //   child: BlocBuilder<GetEventCubit, GetEventState>(
+        //     builder: (context, state) {
+        //       return ListViewEvent(
+        //         size: widget.size,
+        //       );
+        //     },
+        //   ),
+        // ),
+
         SliverFillRemaining(
-          child: BlocBuilder<GetEventCubit, GetEventState>(
+          child: BlocConsumer<ListEventBloc, ListEventState>(
+            bloc: listEventBloc,
+            listenWhen: (previous, current) =>
+                current is ListEventActionState,
+            buildWhen: (previous, current) =>
+                current is! ListEventActionState,
+            listener: (context, state) {},
             builder: (context, state) {
-              return ListViewEvent(
-                size: widget.size,
-              );
-            },
+              switch (state.runtimeType) {
+              case ListEventFetchingSuccessfulState:
+                final successState =
+                    state as ListEventFetchingSuccessfulState;
+                return ListView.separated(
+                      physics: const NeverScrollableScrollPhysics(),
+                      padding: EdgeInsets.zero,
+                      itemCount: successState.listEvent.length,
+                      separatorBuilder: (context, index) => Container(
+                        width: double.infinity,
+                        height: 1,
+                        color: const Color(0xffECECEC),
+                      ),
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => EventDeatils(
+                                    index: successState.listEvent[index].id,//bloc.event!.id!,
+                                  ),
+                                ));
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 10,
+                              horizontal: 24,
+                            ),
+                            child: SizedBox(
+                              height: 100,
+                              child: Row(children: [
+                                CustomEventImage(
+                                  imageurl: successState.listEvent[index].poster,//event.poster!,
+                                ),
+                                SizedBox(
+                                  width: MediaQuery.sizeOf(context).width * 0.05,
+                                ),
+                                InformationEvent(
+                                  name: "${successState.listEvent[index].name}",
+                                  date: "${successState.listEvent[index].date}",
+                                  venue: "${successState.listEvent[index].venue.name}",
+                                ),
+                              ]),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                   
+                // ListView.builder(
+                //   itemCount: successState.listEvent.length,
+                //   itemBuilder: (BuildContext context, int index) { 
+
+                // );
+              }
+              return Text("No data");
+            }
           ),
         ),
+
       ],
     );
   }
