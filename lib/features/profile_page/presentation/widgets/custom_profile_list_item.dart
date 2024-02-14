@@ -4,14 +4,14 @@ import 'package:alafein/features/profile_page/presentation/screen/profile_info/p
 import 'package:alafein/features/profile_page/presentation/widgets/profile_item_text.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+// import 'package:google_fonts/google_fonts.dart';
 import 'package:svg_flutter/svg.dart';
 
 import '../../../../core/local_data/session_management.dart';
 import '../../../../core/utility/assets_data.dart';
 import '../../../../core/utility/colors_data.dart';
-import '../../../../core/utility/strings.dart';
-import '../../../main/main_screen.dart';
+// import '../../../../core/utility/strings.dart';
+// import '../../../main/main_screen.dart';
 
 class CustomProfileAppBarEvent extends StatelessWidget {
   const CustomProfileAppBarEvent(
@@ -62,7 +62,9 @@ class CustomProfileAppBarEvent extends StatelessWidget {
                     }
                     break;
                   case 2:
-                    {}
+                    {
+                      print(SessionManagement.getUserToken());
+                    }
                     break;
                   case 3:
                     {}

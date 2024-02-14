@@ -1,41 +1,38 @@
 import 'dart:async';
-import 'package:alafein/features/event/organizer/presentation/model/event_data_ui_model.dart';
-import 'package:alafein/features/event/organizer/repos/event_category_repo.dart';
+
+import 'package:alafein/features/event/organizer/presentation/model/list_event_model.dart';
+import 'package:alafein/features/event/organizer/repos/event_list_repo.dart';
 import 'package:bloc/bloc.dart';
-import 'package:flutter/foundation.dart';
-
-part 'event_category_event.dart';
-part 'event_category_state.dart';
 
 
-class EventCategoryBloc extends Bloc<EventCategoryEvent, EventCategoryState> {
-  EventCategoryBloc() : super(EventCategoryInitial()) {
-    on<EventCategoryInitialFetchEvent>(eventCategoryInitialFetchEvent);
+part 'list_event_event.dart';
+part 'list_event_state.dart';
+
+class ListEventBloc extends Bloc<ListEventEvent, ListEventState> {
+  ListEventBloc() : super(ListEventInitial()) {
+
+    on<ListEventInitialFetchEvent>(listEventInitialFetchEvent);
   }
 
-  FutureOr<void> eventCategoryInitialFetchEvent(
-    EventCategoryInitialFetchEvent event, Emitter<EventCategoryState> emit) async {
+    FutureOr<void> listEventInitialFetchEvent(
+    ListEventInitialFetchEvent event, Emitter<ListEventState> emit) async {
+      emit(ListEventLoadingState());
       print("u are in eventCategoryInitialFetchEvent");
-      emit(EventCategoryLoadingState());
-      
-      List<EventDataUiModel> events= await EventCategoryRepo.fetchEvent();
 
-      emit(EventCategoryFetchingSuccessfulState(eventCatigories :events));
+      List<ListEventModel> events= await ListEventRepo.fetchEvent();
+
+      emit(ListEventFetchingSuccessfulState(listEvent :events));
+  }
   }
 
-}
-
-/*
-
-var client = http.Client();
-
-      // List<EventDataUiModel> events= [];
+  /*
+  // var client = http.Client();
       // // var url = Uri.parse('https://alafein.azurewebsites.net/api/v1/Event/GetCategories?isAscending=false');
       // // var  header= {"Authorization": "Bearer ${SessionManagement.getUserToken()}"};
       //   try {
         
       //   var response = await client.get(
-      //     Uri.parse('https://alafein.azurewebsites.net/api/v1/Event/GetCategories?isAscending=false'),
+      //     Uri.parse('https://alafein.azurewebsites.net/api/v1/Event/GetPagination'),
       //     headers: {"Authorization": "Bearer ${SessionManagement.getUserToken()}"},
       //   );        
       //   // List result = jsonDecode(response.body);
@@ -47,7 +44,7 @@ var client = http.Client();
 
 
       //   for (int i = 0 ; i < eventsData.length ; i++ ){
-      //     EventDataUiModel event = EventDataUiModel.fromJson(eventsData[i]);// as Map<String, dynamic>
+      //     ListEventModel event = ListEventModel.fromJson(eventsData[i]);// as Map<String, dynamic>
       //     events.add(event);
       //   }
       //     print(" events : ${events}");
@@ -60,11 +57,39 @@ var client = http.Client();
       //   //   for (int i = 0; i < eventsData.length; i++) {
       //   //     EventDataUiModel event = EventDataUiModel.fromJson(eventsData[i]);
       //   //     events.add(event);
-      
+      //   //   }
 
- */
+      //   } catch(e) {
+      //     log(e.toString());
+      //   print("-----------------------------------------------------------------error");
+      // }
+  
+  
+  
+  
+  */
+
+/*
+
+import 'dart:async';
+import 'dart:convert';
+import 'dart:developer';
+
+import 'package:alafein/features/event/organizer/presentation/model/event_data_ui_model.dart';
 
 
+part 'event_category_event.dart';
+part 'event_category_state.dart';
+
+
+class EventCategoryBloc extends Bloc<EventCategoryEvent, EventCategoryState> {
+  EventCategoryBloc() : super(EventCategoryInitial()) {
+    on<EventCategoryInitialFetchEvent>(eventCategoryInitialFetchEvent);
+  }
+
+  
+
+}
 // {
 
 //   if (state.homeResponse.category != null)
@@ -134,3 +159,5 @@ var client = http.Client();
 //     ),
 //   ),
 // }
+
+*/
