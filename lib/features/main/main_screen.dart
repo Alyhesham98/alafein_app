@@ -36,10 +36,14 @@ class _MainScreenState extends State<MainScreen> {
       body: IndexedStack(
         index: _currentIndex,
         children: [
-          HomePage(),
+          HomePage(onCatTapped: () =>
+            setState(() {
+              _currentIndex =1;
+            })
+          ),
           const Eventpage(),
-          if(SessionManagement.getUserRole()=="Audience")
-          const FavoritePage(),
+          if (SessionManagement.getUserRole() == "Audience")
+            const FavoritePage(),
           const Profilepage(),
         ],
       ),

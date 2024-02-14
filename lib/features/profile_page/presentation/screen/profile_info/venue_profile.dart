@@ -2,91 +2,160 @@ import 'dart:ffi';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:responsive_builder/responsive_builder.dart';
+import 'package:svg_flutter/svg.dart';
 
 import '../../../../../core/utility/assets_data.dart';
+import '../../../../../core/utility/colors_data.dart';
 import '../../../../../core/utility/theme.dart';
-import '../../../../event/organizer/presentation/widgets/custom_event_image.dart';
-import '../../../../event/organizer/presentation/widgets/icon_button.dart';
+import '../../../../auth/signup/widgets/signup_custom_text.dart';
+import '../../../../create_event/organizer/presentation/widget/page_one.dart';
+import '../../../../create_event/organizer/presentation/widget/page_three.dart';
+import '../../../../create_event/organizer/presentation/widget/page_two.dart';
+import '../../widgets/venue_profile_items.dart';
 
-class VenueProfile extends StatelessWidget {
+class VenueProfile extends StatefulWidget {
   const VenueProfile({super.key});
 
   @override
+  State<VenueProfile> createState() => _VenueProfileState();
+}
+
+class _VenueProfileState extends State<VenueProfile>
+    with SingleTickerProviderStateMixin {
+  late int tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    tabController = 0;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      physics: const BouncingScrollPhysics(),
-      slivers: [
-        SliverToBoxAdapter(
-          child: Container(
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(24, 50, 24, 8),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Gap(16),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+    var size = MediaQuery.of(context).size;
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          "Venue Profile",
+          style: venueProfileTextStyle,
+        ),
+      ),
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 6.sw),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Gap(4.sw),
+              VenueProfileItem(
+                address: "address" ?? "",
+                facebook: "getDeatils.venue?.facebook" ?? "",
+                instagram: "getDeatils.venue?.instagram" ?? "",
+                mapLink: "getDeatils.venue?.mapLink" ?? "",
+                other: "getDeatils.venue?.other" ?? "",
+                photo: "getDeatils.venue?.photo" ?? "",
+                websiteURL: "getDeatils.venue?.websiteUrl" ?? "",
+                name: "getDeatils.venue?.name" ?? "",
+                size: size,
+              ),
+              Gap(8.sw),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(
+                  3,
+                  (index) => AnimatedContainer(
+                    duration: 1.seconds,
+                    width: 80.screenWidth / 3,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Column(
                       children: [
-                        IconButton(
-                            onPressed: () {},
-                            icon: const Icon(Icons.arrow_back)),
-                        const Spacer(),
-                        const Text(
-                          'Venue Profile',
-                          style: homeLabeProfileStyle,
+                        Text(
+                          "Branch",
+                          style: index != tabController
+                              ? branchStyle
+                              : branchSelectedStyle,
                         ),
-                        const Spacer(),
+                        Container(
+                          height: 5,
+                          color: index == tabController
+                              ? kPrimaryColor
+                              : kHintColor,
+                        )
                       ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 24, vertical: 16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            height: 100,
-                            width: 100,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(17),
-                              child: CachedNetworkImage(
-                                imageUrl:
-                                    "https://th.bing.com/th/id/R.3bf6defde5c52b2dd385ed4b3d18818c?rik=XZ4f8hPBaB2gLg&pid=ImgRaw&r=0",
-                                fit: BoxFit.cover,
-                                errorWidget: (context, url, error) =>
-                                    Image.asset(
-                                  AssetsData.eventImg,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Column(
-                            children: [
-                              Text("Bibliotheca Alexandrina"),
-                              Row(
-                                children: [SquareIconButton(
-                                  icon: AssetsData.facebook,
-                                  color:Colors.blueAccent,
-                                  onPressed: () {
-                                    // Add your onPressed function here
-                                    print('IconButton pressed!');
-                                  },
-                                ),],
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                  ]),
-            ),
+                  ).animate().shimmer(duration: 2.seconds),
+                ),
+              ),
+              Gap(4.sw),
+              Expanded(
+                child: PageView(
+                  reverse: false,
+                  onPageChanged: (index) {
+                    setState(() {
+                      tabController = index;
+                    });
+                  },
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Description",
+                          style: venueProfileTextStyle,
+                          textAlign: TextAlign.start,
+                        ),
+                        Gap(2.sw),
+                        Text(
+                          "I want to attend different interesting events and have a good timeI want to attend different interesting events and have a good timeI want to attend different interesting events and have a good time",
+                          style: descTextStyle,
+                          textAlign: TextAlign.justify,
+                        ),
+                        Gap(4.sw),
+                        Text(
+                          "Location",
+                          style: venueProfileTextStyle,
+                          textAlign: TextAlign.start,
+                        ),
+                        Gap(2.sw),
+                        Row(
+                          children: [
+                            SizedBox(height: 24,width: 24,child: SvgPicture.string(AssetsData.mapMark ,color: kIconGrayColor,))
+                          ],
+                        ),
+                        Gap(2.sw),
+                        Text(
+                          "Phone Number",
+                          style: venueProfileTextStyle,
+                          textAlign: TextAlign.start,
+                        ),
+                        Gap(2.sw),
+                        Text(
+                          "01069595665",
+                          style: descTextStyle,
+                          textAlign: TextAlign.justify,
+                        ),
+                      ],
+                    )
+                  ],
+                  // children: signupCubit.branches_pages,
+                ),
+              ),
+            ],
           ),
         ),
-      ],
+      ),
     );
   }
 }

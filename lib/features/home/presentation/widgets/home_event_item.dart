@@ -36,6 +36,7 @@ class HomeEventItem extends StatelessWidget {
           Stack(
             children: [
               CachedNetworkImage(
+                height: 120,
                 imageUrl:image,
                 errorWidget:  (context, url, error) =>
                     Image.asset(AssetsData.eventImg),
