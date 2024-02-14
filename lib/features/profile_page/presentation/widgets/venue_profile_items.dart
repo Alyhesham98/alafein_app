@@ -3,6 +3,8 @@ import 'package:alafein/core/utility/theme.dart';
 import 'package:alafein/features/event/organizer/presentation/widgets/custom_event_image.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:svg_flutter/svg.dart';
 
 class VenueProfileItem extends StatelessWidget {
@@ -57,47 +59,57 @@ class VenueProfileItem extends StatelessWidget {
           SizedBox(
             width: size.width * 0.04,
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  name,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: homeLabelStyle,
+                ),
+                SizedBox(
+                  height: 50,
+                  child: ListView(scrollDirection: Axis.horizontal,
+                      children: [
+                    IconButton(
+                      onPressed: () {},
+                      icon: SvgPicture.asset(
+                        AssetsData.fasbookevent,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {},
+                      icon: SvgPicture.asset(
+                        AssetsData.instagram,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {},
+                      icon: SvgPicture.asset(
+                        AssetsData.youtupe,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {},
+                      icon: SvgPicture.asset(
+                        AssetsData.wattsApp,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {},
+                      icon: SvgPicture.asset(
+                        AssetsData.net,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ]),
+                ),
 
-            children: [
-              Text(
-                name,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: homeLabelStyle,
-              ),
-              Row(
-                children: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: SvgPicture.asset(
-                      AssetsData.fasbookevent,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: SvgPicture.asset(
-                      AssetsData.youtupe,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: SvgPicture.asset(
-                      AssetsData.wattsApp,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: SvgPicture.asset(
-                      AssetsData.net,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
-              ),
-            ],
+              ],
+            ),
           ),
         ]),
       ),

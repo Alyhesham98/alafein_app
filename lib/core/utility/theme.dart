@@ -46,6 +46,11 @@ const descTextStyle = TextStyle(
     color: Colors.black,
     fontSize:16,
     fontWeight: FontWeight.w300);
+const descTextGrayStyle = TextStyle(
+    fontFamily: StringConst.formulaFont,
+    color: kIconGrayColor,
+    fontSize:16,
+    fontWeight: FontWeight.w300);
 
 final secondaryTextStyle = TextStyle(
     fontFamily: StringConst.formulaFont,

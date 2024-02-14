@@ -5,6 +5,8 @@ class AssetsData {
   static const String logo = '${(src)}/logo.svg';
   static const String map = '${(src)}/map.png';
   static const String mapMark = '${(src)}/map_mark.png';
+  static const String location = '${(src)}/location.png';
+  static const String externalLink = '${(src)}/external.png';
   static const String blueLogo = '${(src)}/blue_logo.svg';
   static const String forward = '${(src)}/forward.svg';
   static const String apple = '${(src)}/apple.svg';
