@@ -7,6 +7,7 @@ import 'package:alafein/features/profile_page/presentation/screen/profile_page.d
 import 'package:alafein/features/profile_page/repos/profile_repo.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 
 part 'profile_page_event.dart';
