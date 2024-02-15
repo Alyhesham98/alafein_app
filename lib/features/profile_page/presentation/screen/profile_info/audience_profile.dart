@@ -102,15 +102,7 @@ class AudienceProfile extends StatelessWidget {
                       onTap: null,
                     ),
                     const Gap(24),
-                    const Text(
-                      'SECURITY',
-                      style: homeLabel4Style,
-                    ),
-                    const Gap(16),
-                    const CustomProfileAppBarEvent(
-                      title: "••••••••",
-                      onTap: null,
-                    )
+
                   ]),
             ),
           ),

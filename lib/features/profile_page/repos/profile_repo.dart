@@ -42,8 +42,8 @@ class ProfilePageRepo{
     var client = http.Client();
 
     final msg = jsonEncode({
-            "firstName": "eslam",
-            "lastName": "دغدوغ يلا",
+            "firstName": "first",
+            "lastName": "last",
             "photo": "string",
             "phone": "01022971429"
           });
