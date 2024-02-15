@@ -1,3 +1,5 @@
+import 'package:alafein/core/api/constants/api_caller_config.dart';
+import 'package:alafein/core/local_data/session_management.dart';
 import 'package:alafein/core/utility/assets_data.dart';
 import 'package:alafein/core/utility/colors_data.dart';
 import 'package:alafein/features/event/organizer/presentation/bloc_listEvent/list_event_bloc.dart';
@@ -85,8 +87,8 @@ class _FavoritePageState extends State<FavoritePage> {
                                 ),
                               );
                             },
-                            child: const CustomEventImage(
-                              imageurl: AssetsData.eventImg,
+                            child:  CustomEventImage(
+                              imageurl: favList[index].poster != null ?"${APICallerConfiguration.baseImageUrl}${favList[index].poster}": "",
                             ),
                           ),
                           SizedBox(
