@@ -18,7 +18,7 @@ import 'package:alafein/features/event/organizer/presentation/widgets/search_ite
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+// import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:gap/gap.dart';
 
 class Eventbody extends StatefulWidget {
@@ -133,17 +133,9 @@ class _EventbodyState extends State<Eventbody> {
             ),
           ]),
         ),
-        // SliverFillRemaining(
-        //   child: BlocBuilder<GetEventCubit, GetEventState>(
-        //     builder: (context, state) {
-        //       return ListViewEvent(
-        //         size: widget.size,
-        //       );
-        //     },
-        //   ),
-        // ),
 
         SliverFillRemaining(
+          hasScrollBody: true,
           child: BlocConsumer<ListEventBloc, ListEventState>(
             bloc: listEventBloc,
             listenWhen: (previous, current) =>

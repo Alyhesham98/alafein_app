@@ -6,6 +6,7 @@ import 'package:alafein/features/event/organizer/presentation/bloc_listEvent/lis
 import 'package:alafein/features/event/organizer/presentation/model/list_event_model.dart';
 import 'package:alafein/features/event/organizer/presentation/views/event_deatils.dart';
 import 'package:alafein/features/event/organizer/presentation/widgets/custom_appbar.dart';
+import 'package:alafein/features/favourite/presentation/toggle_bloc/toggle_favorite_bloc.dart';
 // import 'package:alafein/features/favourite/presentation/widgets/list_view_favorite.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,8 +26,11 @@ class FavoritePage extends StatefulWidget {
 class _FavoritePageState extends State<FavoritePage> {
   final ListEventBloc listEventBloc = ListEventBloc();
 
+  final ToggleFavoriteBloc toggleFavoriteBloc = ToggleFavoriteBloc();
+
   @override
   void initState() {
+    toggleFavoriteBloc.add(ToggleFavoriteInitialFetchEvent());
     listEventBloc.add(ListEventInitialFetchEvent());
     super.initState();
   }
@@ -102,12 +106,42 @@ class _FavoritePageState extends State<FavoritePage> {
                                   date: favList[index].date,
                                   venue: favList[index].venue.name,
                                 ),
-                                const CustomIcon(
-                                  icon: Icon(
-                                    Icons.favorite_outline,
-                                    color: Color(0xFF7C7C7C),
-                                  ),
-                                ),
+                                BlocConsumer<ToggleFavoriteBloc,ToggleFavoriteState>(
+                                  bloc: toggleFavoriteBloc,
+                                   listenWhen: (previous, current) =>
+                                      current is ToggleFavoriteActionState,
+                                  buildWhen: (previous, current) =>
+                                      current is! ToggleFavoriteActionState,
+                                  listener: (context, state) {},
+                                  builder: (context, state){
+                                    switch (state.runtimeType) {
+                                      case ToggleFavoriteLoadingState :
+                                        return const Center(
+                                            child: CircularProgressIndicator(
+                                          color: kPrimaryColor,
+                                        ));
+                                      
+                                      case ToggleFavoriteSuccessfulState:
+                                      final successState = state as ToggleFavoriteSuccessfulState;
+                                      
+                                      return CustomIcon(
+                                        onTap: (){
+                                           toggleFavoriteBloc.add(ToggleFavoriteInitialFetchEvent());
+                                        },
+                                        icon: Icon(
+                                        Icons.favorite_outline,
+                                        color: Color(0xFF7C7C7C),
+                                          ),
+                                        );
+                                        default: return const CustomIcon(
+                                          icon: Icon(
+                                            Icons.favorite_outline,
+                                            color: Color(0xFF7C7C7C),
+                                          ),
+                                        );
+                                      }
+                                    }
+                                 )  
                               ],
                             ),
                           ),

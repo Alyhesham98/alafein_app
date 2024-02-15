@@ -41,6 +41,7 @@ class _MainScreenState extends State<MainScreen> {
               _currentIndex =1;
             })
           ),
+          if (SessionManagement.getUserRole() != "")
           const Eventpage(),
           if (SessionManagement.getUserRole() == "Audience")
             const FavoritePage(),
