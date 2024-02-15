@@ -45,7 +45,7 @@ class EventsShowCommentBody extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const CustomAppBarEventDeatils(),
+              CustomAppBarEventDeatils(headerImgUrl: getDeatils.poster != null ?"${APICallerConfiguration.baseImageUrl}${getDeatils.poster}": "" ,),
               SizedBox(
                 height: 120,
                 child: EventName(

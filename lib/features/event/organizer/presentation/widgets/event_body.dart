@@ -185,7 +185,7 @@ class _EventbodyState extends State<Eventbody> {
                               height: 100,
                               child: Row(children: [
                                 CustomEventImage(
-                                  imageurl: successState.listEvent[index].poster,//event.poster!,
+                                  imageurl: "${APICallerConfiguration.baseImageUrl}${successState.listEvent[index].poster}" ,
                                 ),
                                 SizedBox(
                                   width: MediaQuery.sizeOf(context).width * 0.05,

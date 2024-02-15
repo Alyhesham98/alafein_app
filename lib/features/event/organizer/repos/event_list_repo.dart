@@ -16,9 +16,9 @@ class ListEventRepo{
       // var url = Uri.parse('https://alafein.azurewebsites.net/api/v1/Event/GetCategories?isAscending=false');
       // var  header= {"Authorization": "Bearer ${SessionManagement.getUserToken()}"};
         try {
-        
+        //?PageNumber=1&PageSize=500
         var response = await client.get(
-          Uri.parse('https://alafein.azurewebsites.net/api/v1/Event/GetPagination'),
+          Uri.parse('https://alafein.azurewebsites.net/api/v1/Event/GetPagination?PageNumber=${SessionManagement.pageNumber}&PageSize=${SessionManagement.pageSize}'),
           headers: {"Authorization": "Bearer ${SessionManagement.getUserToken()}"},
         );        
         // List result = jsonDecode(response.body);
