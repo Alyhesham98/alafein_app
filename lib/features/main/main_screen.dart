@@ -83,6 +83,7 @@ class _MainScreenState extends State<MainScreen> {
               height: 24,
             ),
           ),
+          if (SessionManagement.getUserRole() != "")
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               AssetsData.svgIcEventsDisabled,
