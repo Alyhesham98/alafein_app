@@ -1,15 +1,18 @@
+import 'package:alafein/core/utility/colors_data.dart';
 import 'package:alafein/core/utility/theme.dart';
 import 'package:alafein/features/event/organizer/presentation/widgets/custom_event_image.dart';
 import 'package:alafein/features/event/organizer/presentation/widgets/custom_icon.dart';
+import 'package:alafein/features/favourite/presentation/toggle_bloc/toggle_favorite_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../create_event/organizer/cubit/toggle_fav_cubit.dart';
 import '../../cubit/get_event_cubit.dart';
 import '../../cubit/get_event_state.dart';
 
-class EventName extends StatelessWidget {
+class EventName extends StatefulWidget {
   const EventName({
     super.key,
     required this.size,
@@ -17,6 +20,7 @@ class EventName extends StatelessWidget {
     required this.name,
     required this.index,
     required this.onTap,
+    required this.id,
   });
 
   final Size size;
@@ -24,16 +28,28 @@ class EventName extends StatelessWidget {
   final String imageurl;
   final String name;
   final Function onTap;
+  final int id;
+
+
+  @override
+  State<EventName> createState() => _EventNameState();
+}
+
+class _EventNameState extends State<EventName> {
+
+  bool toggle = false;
+
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
       child: Row(children: [
         CustomEventImage(
-          imageurl: imageurl,
+          imageurl: widget.imageurl,
         ),
         SizedBox(
-          width: size.width * 0.05,
+          width: widget.size.width * 0.05,
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,7 +57,7 @@ class EventName extends StatelessWidget {
             SizedBox(
               width: MediaQuery.of(context).size.width * .25,
               child: Text(
-                name,
+                widget.name,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: homeLabelStyle,
@@ -66,17 +82,70 @@ class EventName extends StatelessWidget {
                 ),
                 onTap: () {},
               ),
-              CustomIcon(
-                icon: const Icon(
-                  Icons.favorite_border_outlined,
-                  color: Color(0xFF7C7C7C),
-                ),
-                onTap: () {},
+              // CustomIcon(
+              //   icon: const Icon(
+              //     Icons.favorite_border_outlined,
+              //     color: Color(0xFF7C7C7C),
+              //   ),
+              //   onTap: () {
+              //     print("object");
+              //   },
+              // ),
+            BlocProvider(
+              create: (context)=>ToggleFavoriteBloc(
+                widget.id
               ),
+              child: BlocListener<ToggleFavoriteBloc,ToggleFavoriteState>(
+                  listener: (context,state)async{
+                    if(state is ToggleFavoriteSuccessfulState){
+                      //change color
+                      EasyLoading.show();
+                    }
+                  },
+                  child:BlocBuilder<ToggleFavoriteBloc,ToggleFavoriteState>(
+                    builder: (context,state){
+                      if (state is ToggleFavoriteLoadingState) {
+                          return const Center(
+                            child: CircularProgressIndicator(
+                          color: kPrimaryColor,
+                        ));} else if( state is ToggleFavoriteErrorState){
+                          return const Text("error");
+                        }
+                      
+                        return   toggleEvent(widget.id);                                     
+                    },
+                  ),
+                ),
+            ),
+
             ],
           ),
         ),
       ]),
     );
+  }
+
+
+
+  Widget toggleEvent (int id){
+    final ToggleFavoriteBloc toggleFavoriteBloc = ToggleFavoriteBloc(id);
+    return CustomIcon(
+          onTap: (){
+           setState(() {
+            toggle = !toggle;
+            toggleFavoriteBloc.add(ToggleFavoriteInitialFetchEvent());
+           });
+          },
+        icon: toggle ? 
+        const Icon(
+        Icons.favorite_outline,
+        color: Color(0xFF7C7C7C)
+        ) 
+        : 
+        const Icon(
+        Icons.favorite_outline,
+        color:Colors.redAccent,
+        ),
+      );
   }
 }

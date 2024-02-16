@@ -24,6 +24,7 @@ class EventDeatils extends StatelessWidget {
                 SliverToBoxAdapter(
                   child: EventsShowCommentBody(
                     size: size,
+                    id:index,
                   ),
                 ),
               ],

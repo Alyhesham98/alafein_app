@@ -20,10 +20,13 @@ class EventsShowCommentBody extends StatelessWidget {
   const EventsShowCommentBody({
     super.key,
     required this.size,
+    required this.id,
   });
 
   final Size size;
+  final int id;
 
+  
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<GetEventCubit, GetEventState>(
@@ -56,6 +59,7 @@ class EventsShowCommentBody extends StatelessWidget {
                     onTap: () {
 
                     },
+                    id: id,
                   ),
               ),
               Description(
@@ -150,9 +154,9 @@ class EventsShowCommentBody extends StatelessWidget {
                 child: CustomButtonComment(
                   data: "ADD COMMENT",
                   onTap: (){
-                    _showCommentPopUp(context);
-                    print("hiiiiiii");
-                    _showCommentPopUp(context);
+                    // _showCommentPopUp(context);
+                    // print("hiiiiiii");
+                    // _showCommentPopUp(context);
                   },
                 ),
               ),
@@ -171,19 +175,6 @@ class EventsShowCommentBody extends StatelessWidget {
           return const SizedBox();
         }
       },
-    );
-  }
-  Future<void> _showCommentPopUp(BuildContext context) async{
-    return showModalBottomSheet(
-      context: context,
-      builder: (context){
-        return Column(
-          children: [
-            // TextFormField(),
-            // ElevatedButton(onPressed: (){}, child: Text("ADD COMMENT"))
-          ],
-        );
-      }
     );
   }
 }
