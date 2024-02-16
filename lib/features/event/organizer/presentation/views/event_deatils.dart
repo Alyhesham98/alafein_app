@@ -14,7 +14,11 @@ class EventDeatils extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return BlocProvider(
-      create: (context) => GetEventCubit()..getEventDeatils(id: index),
+      create: (context) {
+
+        return GetEventCubit()..getEventDeatils(id: index);
+
+      },
       child: BlocBuilder<GetEventCubit, GetEventState>(
         builder: (context, state) {
           return Scaffold(

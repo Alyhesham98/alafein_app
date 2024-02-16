@@ -1,5 +1,6 @@
 import 'package:alafein/core/presentation/widgets/main_custom_button.dart';
 import 'package:alafein/core/utility/colors_data.dart';
+import 'package:alafein/core/utility/strings.dart';
 import 'package:alafein/core/utility/theme.dart';
 import 'package:alafein/features/event/organizer/cubit/get_event_cubit.dart';
 import 'package:alafein/features/event/organizer/cubit/get_event_state.dart';
@@ -13,11 +14,13 @@ import 'package:alafein/features/event/organizer/presentation/widgets/list_comme
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../../../../core/api/constants/api_caller_config.dart';
 
 class EventsShowCommentBody extends StatelessWidget {
-  const EventsShowCommentBody({
+    EventsShowCommentBody({
     super.key,
     required this.size,
   });
@@ -29,6 +32,8 @@ class EventsShowCommentBody extends StatelessWidget {
     return BlocBuilder<GetEventCubit, GetEventState>(
       builder: (context, state) {
         final getDeatils = context.read<GetEventCubit>().eventDetails;
+        final comments = context.read<GetEventCubit>().comments;
+
 /*                child: BlocConsumer<ToggleFavCubit, ToggleFavState>(
                   listener: (context, state) {},
                   builder: (context, state) {
@@ -116,7 +121,7 @@ class EventsShowCommentBody extends StatelessWidget {
                   style: homeLabelStyle,
                 ),
               ),
-              const ListCommetItems(),
+                ListCommetItems(comments!),
               if (getDeatils.attendanceOption?.name == "Registration")
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -150,9 +155,10 @@ class EventsShowCommentBody extends StatelessWidget {
                 child: CustomButtonComment(
                   data: "ADD COMMENT",
                   onTap: (){
-                    _showCommentPopUp(context);
-                    print("hiiiiiii");
-                    _showCommentPopUp(context);
+
+                    var  commentValue;
+                    _showCommentPopUp(context,commentValue,getDeatils.id);
+
                   },
                 ),
               ),
@@ -173,14 +179,86 @@ class EventsShowCommentBody extends StatelessWidget {
       },
     );
   }
-  Future<void> _showCommentPopUp(BuildContext context) async{
+  Future<void> _showCommentPopUp(BuildContext context,commentValue,id) async{
     return showModalBottomSheet(
       context: context,
       builder: (context){
         return Column(
           children: [
-            // TextFormField(),
-            // ElevatedButton(onPressed: (){}, child: Text("ADD COMMENT"))
+            Gap(20),
+            Padding(
+              padding:   EdgeInsets.symmetric(
+                horizontal: 10.sw
+              ),
+              child: TextFormField(
+                style: GoogleFonts.abhayaLibre(
+                  color: kSemiBlack,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 4.sw,
+                ),
+                onTapOutside: (event) => FocusScope.of(context).unfocus(),
+                onSaved: (value) {
+               //   signupCubit.lastName = value!;
+                },
+                onChanged: (val){
+                  commentValue=val;
+                },
+                validator: (value) {
+
+                },
+                maxLines: 3,
+                cursorColor: Colors.black,
+                textAlign: TextAlign.left,
+                textAlignVertical: TextAlignVertical.bottom,
+                decoration: InputDecoration(
+                    constraints: BoxConstraints(
+                        maxHeight: 14.sw,
+                        minHeight: 14.sw,
+                        maxWidth: double.infinity,
+                        minWidth: double.infinity),
+                    contentPadding: EdgeInsets.all(
+                      4.sw,
+                    ),
+                    border: textFormFieldBorderStyle,
+                    enabledBorder: textFormFieldBorderStyle,
+                    errorBorder: textFormFieldBorderStyle,
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(width: 1.5, color: kPrimaryColor),
+                    ),
+                    disabledBorder: textFormFieldBorderStyle,
+                    floatingLabelBehavior: FloatingLabelBehavior.never,
+                    label: const Text(
+                      'Add Comment',
+                    ),
+                    labelStyle: const TextStyle(
+                        color: kHintColor,
+                        fontFamily: StringConst.formulaFont,
+                        fontWeight: FontWeight.w300),
+                    filled: true,
+                    fillColor: Colors.white),
+                textInputAction: TextInputAction.next,
+                textCapitalization: TextCapitalization.none,
+                autocorrect: false,
+              ),
+            ),
+            Gap(10),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: 24,
+              ),
+              child: CustomButtonComment(
+                data: "ADD COMMENT",
+                onTap: () async {
+
+             await
+             GetEventCubit()..addComments(id: id,comment: commentValue);
+             Navigator.pop(context);
+                //  _showCommentPopUp(context);
+
+                },
+              ),
+            ),
           ],
         );
       }

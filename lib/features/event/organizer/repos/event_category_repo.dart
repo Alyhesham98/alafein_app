@@ -27,6 +27,21 @@ class EventCategoryRepo{
 
         for (int i = 0 ; i < eventsData.length ; i++ ){
           EventDataUiModel event = EventDataUiModel.fromJson(eventsData[i]);// as Map<String, dynamic>
+
+          if(i==0)
+            {
+
+              event = EventDataUiModel.fromJson( {
+                "Id": 0,
+                "Name": "All",
+                "Image": "Resources//CategoryResources//Images/Category/8671410f-40c4-405e-b852-1ba620e4ffb1.png",
+                "IsPublished": true,
+                "SortNo": 0
+              },);//
+              events.add(event);
+
+            }
+          event = EventDataUiModel.fromJson(eventsData[i]);// as Map<String, dynamic>
           events.add(event);
         }
           print(" events : ${events}");

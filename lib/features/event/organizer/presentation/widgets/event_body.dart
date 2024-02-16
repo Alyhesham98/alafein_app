@@ -3,6 +3,7 @@ import 'package:alafein/core/api/constants/api_caller_config.dart';
 import 'package:alafein/core/utility/assets_data.dart';
 import 'package:alafein/core/utility/colors_data.dart';
 import 'package:alafein/core/utility/theme.dart';
+import 'package:alafein/features/event/organizer/cubit/get_event_cubit.dart';
 // import 'package:alafein/features/event/organizer/cubit/get_event_cubit.dart';
 // import 'package:alafein/features/event/organizer/cubit/get_event_state.dart';
 import 'package:alafein/features/event/organizer/presentation/bloc/event_category_bloc.dart';
@@ -94,7 +95,12 @@ class _EventbodyState extends State<Eventbody> {
                           ),
                           itemBuilder: (context, index) => SizedBox(
                             child: InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                if(index==0)
+                                GetEventCubit()..getEventPagination();
+                              else
+                                GetEventCubit()..getEventFilterPagination(successState.eventCatigories.elementAt(index).id);
+                              },
                               borderRadius: BorderRadius.circular(17),
                               child: Column(
                                 children: [
