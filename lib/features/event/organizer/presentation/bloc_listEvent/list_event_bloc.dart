@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:alafein/features/event/organizer/presentation/model/list_event_model.dart';
 import 'package:alafein/features/event/organizer/repos/event_list_repo.dart';
 import 'package:bloc/bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 
 part 'list_event_event.dart';
@@ -20,6 +21,8 @@ class ListEventBloc extends Bloc<ListEventEvent, ListEventState> {
       print("u are in eventCategoryInitialFetchEvent");
 
       List<ListEventModel> events= await ListEventRepo.fetchEvent();
+
+
 
       emit(ListEventFetchingSuccessfulState(listEvent :events));
   }

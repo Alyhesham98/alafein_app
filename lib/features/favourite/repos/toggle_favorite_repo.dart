@@ -3,8 +3,6 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:alafein/core/local_data/session_management.dart';
-import 'package:alafein/features/favourite/presentation/model/toggle_favorite_ui_model.dart';
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 
@@ -12,11 +10,12 @@ class ToggleRepo{
 
   // POST 
   //Fetch toggle favorite
-  static Future<bool> fetchToggleFavorite() async{
+  static Future<bool> fetchToggleFavorite(int submissionId) async{
+    print(submissionId);
     var client = http.Client();
     final msg = jsonEncode(
       {
-        "submissionId": 2   // event id
+        "submissionId": submissionId,   // event id
       }
     );
     try { 

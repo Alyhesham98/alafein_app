@@ -1,5 +1,4 @@
 import 'package:alafein/core/local_data/session_management.dart';
-import 'package:alafein/core/presentation/routes/app_router.gr.dart';
 import 'package:alafein/core/utility/assets_data.dart';
 import 'package:alafein/core/utility/colors_data.dart';
 import 'package:alafein/core/utility/strings.dart';

@@ -1,6 +1,9 @@
 import 'package:alafein/core/presentation/routes/app_router.gr.dart';
 import 'package:alafein/core/utility/theme.dart';
+import 'package:alafein/features/about_us/presentation/screen/about_us_screen.dart';
+import 'package:alafein/features/privacy_and_policy/presentation/screen/privacy_and_policy.dart';
 import 'package:alafein/features/profile_page/presentation/widgets/profile_item_text.dart';
+import 'package:alafein/features/term_conditiom/presentation/screen/term_conditiom.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -35,7 +38,11 @@ class ThreeItems extends StatelessWidget {
             ),
             trailing: SvgPicture.asset(AssetsData.arrowRight),
             onTap: () {
-
+              Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (c) => const AboutUS(),
+              ));
             },
           ),
           const Padding(
@@ -52,7 +59,11 @@ class ThreeItems extends StatelessWidget {
                 ),
             trailing: SvgPicture.asset(AssetsData.arrowRight),
             onTap: () {
-
+              Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (c) => const PrivacyAndPolicy(),
+              ));
             },
           ),
           const Padding(
@@ -67,6 +78,11 @@ class ThreeItems extends StatelessWidget {
             title: const ProfileItemText(text: "Terms and Conditions",),
             trailing: SvgPicture.asset(AssetsData.arrowRight),
             onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (c) => const TermCondition(),
+              ));
             },
           )
         ],

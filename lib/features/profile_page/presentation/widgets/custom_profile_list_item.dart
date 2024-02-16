@@ -1,5 +1,6 @@
 import 'package:alafein/core/presentation/routes/app_router.gr.dart';
 import 'package:alafein/core/utility/theme.dart';
+import 'package:alafein/features/about_us/presentation/screen/about_us_screen.dart';
 import 'package:alafein/features/profile_page/presentation/screen/profile_info/profile_info.dart';
 import 'package:alafein/features/profile_page/presentation/widgets/profile_item_text.dart';
 import 'package:auto_route/auto_route.dart';
@@ -67,7 +68,9 @@ class CustomProfileAppBarEvent extends StatelessWidget {
                     }
                     break;
                   case 3:
-                    {}
+                    {
+                      
+                    }
                     break;
                   case 4:
                     {
