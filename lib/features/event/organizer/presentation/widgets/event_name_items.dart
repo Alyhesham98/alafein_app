@@ -139,12 +139,12 @@ class _EventNameState extends State<EventName> {
         icon: toggle ? 
         const Icon(
         Icons.favorite_outline,
-        color: Color(0xFF7C7C7C)
+        color:Colors.redAccent,
         ) 
         : 
         const Icon(
         Icons.favorite_outline,
-        color:Colors.redAccent,
+        color: Color(0xFF7C7C7C)
         ),
       );
   }
