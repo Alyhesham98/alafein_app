@@ -21,6 +21,7 @@ class EventName extends StatefulWidget {
     required this.index,
     required this.onTap,
     required this.id,
+    required this.isFavorite,
   });
 
   final Size size;
@@ -29,6 +30,7 @@ class EventName extends StatefulWidget {
   final String name;
   final Function onTap;
   final int id;
+  final bool  isFavorite;
 
 
   @override
@@ -36,12 +38,25 @@ class EventName extends StatefulWidget {
 }
 
 class _EventNameState extends State<EventName> {
-
   bool toggle = false;
-
+  @override
+  void initState() {
+    super.initState();
+    toggle = widget.isFavorite;
+  }
 
   @override
+  void didUpdateWidget(EventName oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.isFavorite != oldWidget.isFavorite) {
+      setState(() {
+        toggle = widget.isFavorite;
+      });
+    }
+  }
+  @override
   Widget build(BuildContext context) {
+  // bool toggle = widget.isFavorite;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
       child: Row(children: [
@@ -111,13 +126,15 @@ class _EventNameState extends State<EventName> {
                         ));} else if( state is ToggleFavoriteErrorState){
                           return const Text("error");
                         }
-                      
-                        return   toggleEvent(widget.id);                                     
+                        // bool x = widget.isFavorite;
+
+                        // final ToggleFavoriteBloc toggleFavoriteBloc = ToggleFavoriteBloc(widget.id);
+                        return 
+                         widget.isFavorite ? toggleEvent(widget.id) : toggleEvent(widget.id);                                    
                     },
                   ),
                 ),
-            ),
-
+              ),
             ],
           ),
         ),
@@ -137,14 +154,14 @@ class _EventNameState extends State<EventName> {
            });
           },
         icon: toggle ? 
-        const Icon(
+         const Icon(
         Icons.favorite_outline,
         color:Colors.redAccent,
         ) 
         : 
         const Icon(
         Icons.favorite_outline,
-        color: Color(0xFF7C7C7C)
+        color: Color(0xFF7C7C7C),
         ),
       );
   }

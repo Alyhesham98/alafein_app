@@ -7,6 +7,7 @@ class EventDeatilsModel {
   int? id;
   String? poster;
   Category? category;
+  bool? isFavorite;
   String? name;
   Organizer? organizer;
   String? description;
@@ -23,6 +24,7 @@ class EventDeatilsModel {
     this.id,
     this.poster,
     this.category,
+    this.isFavorite,
     this.name,
     this.organizer,
     this.description,
@@ -43,6 +45,7 @@ class EventDeatilsModel {
       category: json['Category'] == null
           ? null
           : Category.fromJson(json['Category'] as Map<String, dynamic>),
+      isFavorite: json['IsFavourite'],
       name: json['Name'] as String?,
       organizer: json['Organizer'] == null
           ? null
@@ -68,6 +71,7 @@ class EventDeatilsModel {
         'Id': id,
         'Poster': poster,
         'Category': category?.toJson(),
+        'IsFavorite': isFavorite,
         'Name': name,
         'Organizer': organizer?.toJson(),
         'Description': description,

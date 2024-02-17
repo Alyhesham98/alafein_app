@@ -20,7 +20,7 @@ import 'package:responsive_builder/responsive_builder.dart';
 import '../../../../../core/api/constants/api_caller_config.dart';
 
 class EventsShowCommentBody extends StatelessWidget {
-    EventsShowCommentBody({
+    const EventsShowCommentBody({
     super.key,
     required this.size,
     required this.id,
@@ -65,6 +65,7 @@ class EventsShowCommentBody extends StatelessWidget {
 
                     },
                     id: id,
+                    isFavorite: getDeatils.isFavorite?? true,
                   ),
               ),
               Description(
@@ -159,16 +160,10 @@ class EventsShowCommentBody extends StatelessWidget {
                 child: CustomButtonComment(
                   data: "ADD COMMENT",
                   onTap: (){
-<<<<<<< HEAD
-                    // _showCommentPopUp(context);
-                    // print("hiiiiiii");
-                    // _showCommentPopUp(context);
-=======
 
                     var  commentValue;
                     _showCommentPopUp(context,commentValue,getDeatils.id);
 
->>>>>>> Devolopment
                   },
                 ),
               ),
@@ -189,8 +184,6 @@ class EventsShowCommentBody extends StatelessWidget {
       },
     );
   }
-<<<<<<< HEAD
-=======
   Future<void> _showCommentPopUp(BuildContext context,commentValue,id) async{
     return showModalBottomSheet(
       context: context,
@@ -276,5 +269,4 @@ class EventsShowCommentBody extends StatelessWidget {
       }
     );
   }
->>>>>>> Devolopment
 }
