@@ -1,24 +1,24 @@
 // To parse this JSON data, do
 //
-//     final profilePageDataUiModel2 = profilePageDataUiModel2FromJson(jsonString);
+//     final profileModel = profileModelFromJson(jsonString);
 
 import 'dart:convert';
 
-ProfilePageDataUiModel2 profilePageDataUiModel2FromJson(String str) => ProfilePageDataUiModel2.fromJson(json.decode(str));
+ProfileModel profileModelFromJson(String str) => ProfileModel.fromJson(json.decode(str));
 
-String profilePageDataUiModel2ToJson(ProfilePageDataUiModel2 data) => json.encode(data.toJson());
+String profileModelToJson(ProfileModel data) => json.encode(data.toJson());
 
-class ProfilePageDataUiModel2 {
+class ProfileModel {
     String id;
     String firstName;
     String lastName;
     String email;
     String photo;
     String phone;
-    Venue venue;
-    Organizer organizer;
+    Venue? venue;
+    Organizer? organizer;
 
-    ProfilePageDataUiModel2({
+    ProfileModel({
         required this.id,
         required this.firstName,
         required this.lastName,
@@ -29,15 +29,15 @@ class ProfilePageDataUiModel2 {
         required this.organizer,
     });
 
-    factory ProfilePageDataUiModel2.fromJson(Map<String, dynamic> json) => ProfilePageDataUiModel2(
+    factory ProfileModel.fromJson(Map<String, dynamic> json) => ProfileModel(
         id: json["id"],
         firstName: json["firstName"],
         lastName: json["lastName"],
         email: json["email"],
         photo: json["photo"],
         phone: json["phone"],
-        venue: Venue.fromJson(json["venue"]),
-        organizer: Organizer.fromJson(json["organizer"]),
+        venue: json["venue"] == null ? null  : Venue.fromJson(json["venue"]),
+        organizer: json["organizer"] == null ? null : Organizer.fromJson(json["organizer"]),
     );
 
     Map<String, dynamic> toJson() => {
@@ -47,8 +47,8 @@ class ProfilePageDataUiModel2 {
         "email": email,
         "photo": photo,
         "phone": phone,
-        "venue": venue.toJson(),
-        "organizer": organizer.toJson(),
+        "venue": venue?.toJson(),
+        "organizer": organizer?.toJson(),
     };
 }
 

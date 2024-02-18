@@ -64,8 +64,8 @@ class AudienceProfile extends StatelessWidget {
                           image: DecorationImage(
                               fit: BoxFit.cover,
                               image: NetworkImage(
-                                  successState.profilePage.photo != null
-                                      ? successState.profilePage.photo
+                                  successState.profilePage?.photo != null
+                                      ? successState.profilePage?.photo?? "photo"
                                       : "")),
                           shape: BoxShape.circle,
                           border:
@@ -80,24 +80,24 @@ class AudienceProfile extends StatelessWidget {
                     ),
                     const Gap(16),
                     CustomProfileAppBarEvent(
-                      title: successState.profilePage.firstName,
+                      title: successState.profilePage?.firstName??"first name",
                       onTap: null,
                     ),
                     const Gap(16),
                     CustomProfileAppBarEvent(
-                      title: successState.profilePage.lastName,
+                      title: successState.profilePage?.lastName??"last name",
                       onTap: null,
                     ),
                     const Gap(16),
                     CustomProfileAppBarEvent(
-                      title: successState.profilePage.email,
+                      title: successState.profilePage?.email??"Email",
                       onTap: null,
                     ),
                     const Gap(16),
                     CustomProfileAppBarEvent(
-                      title: successState.profilePage.phone == null
+                      title: successState.profilePage?.phone == null
                           ? "No Data"
-                          : successState.profilePage.phone,
+                          : successState.profilePage?.phone?? "phone",
                       // title: "01022971429",
                       onTap: null,
                     ),

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:alafein/features/profile_page/presentation/model/profile_model.dart';
 import 'package:alafein/features/profile_page/presentation/model/profile_page_ui_model.dart';
 import 'package:alafein/features/profile_page/repos/profile_repo.dart';
 import 'package:bloc/bloc.dart';
@@ -28,8 +29,10 @@ class ProfilePageBloc extends Bloc<ProfilePageEvent, ProfilePageState> {
       print("Used to fetch profile data from server and save it into local storage.");
       print("=====================================================================.");
       
-      ProfilePageDataUiModel? profilePage = await ProfilePageRepo.fetchProfile();
-        emit(ProfilePageFetchingSuccessfulState(profilePage :profilePage!));
+      // ProfilePageDataUiModel? profilePage = await ProfilePageRepo.fetchProfile();
+      ProfileModel? profilePage = await ProfilePageRepo.fetchProfile();
+
+        emit(ProfilePageFetchingSuccessfulState(profilePage :profilePage));
 
       }
 

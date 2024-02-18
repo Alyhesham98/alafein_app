@@ -27,19 +27,19 @@ class _FavoritePageState extends State<FavoritePage> {
 
   @override
   void initState() {
-    favoriteListBloc.add(FavoriteListInitialFetchEvent());
+    favoriteListBloc.add(FavoriteListInitialEvent());
     super.initState();
 
   }
   
   Future<void> _refresh()async{
     // initState();
-     setState(() {});
-    favoriteListBloc.add(FavoriteListInitialFetchEvent());
+    setState(() {
+      EasyLoading.show(status: 'Loading...');
+      favoriteListBloc.add(FavoriteListInitialEvent());
+    });
+      EasyLoading.dismiss();
     return Future.delayed(const Duration(seconds: 1),
-      (){
-         
-      }
     );
   }
 
@@ -66,19 +66,18 @@ class _FavoritePageState extends State<FavoritePage> {
                 listenWhen: (previous, current) =>
                     current is FavoriteListActionState,
                 buildWhen: (previous, current) =>
-                    current is! FavoriteListActionState,
+                    current is !FavoriteListActionState,
                 listener: (context, state) async{
-                  if(state is FavoriteListLoadingState){
-                    EasyLoading.show(status: 'loading');
-                  }else if(state is FavoriteListErrorState){
-                    EasyLoading.showError("Error!");
-                  }
+                  // if(state is FavoriteListLoadingState){
+                  //   EasyLoading.show(status: 'loading');
+                  // }else if(state is FavoriteListErrorState){
+                  //   EasyLoading.showError("Error!");
+                  // }
                 },
                 builder: (context, state) {
                 switch (state.runtimeType) {
                   case FavoriteListSuccessfulState:
                     final successState = state as FavoriteListSuccessfulState;
-                    // final List<ListEventModel> favList = successState.listEvent.where((e) =>  e.isFavourite).toList();
                   return ListView.separated(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
@@ -147,8 +146,8 @@ class _FavoritePageState extends State<FavoritePage> {
                                             final ToggleFavoriteBloc toggleFavoriteBloc = ToggleFavoriteBloc( successState.favoriteList[index].id);
                                               return  CustomIcon(
                                                 onTap: ()async{
-                                                  toggleFavoriteBloc.add(ToggleFavoriteInitialFetchEvent());
-                                                  favoriteListBloc.add(FavoriteListInitialFetchEvent());
+                                                    toggleFavoriteBloc.add(ToggleFavoriteInitialFetchEvent());
+                                                    // favoriteListBloc.add(FavoriteListInitialEvent());
                                                   await _refresh();
                                                 },
                                               icon: Icon(

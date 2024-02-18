@@ -15,12 +15,12 @@ class FavoriteListBloc extends Bloc<FavoriteListEvent, FavoriteListState> {
   final int pageSize;
   final bool isFavourite;
   FavoriteListBloc(this.pageNumber, this.pageSize, this.isFavourite) : super(FavoriteListInitial()) {
-    on<FavoriteListInitialFetchEvent>(favoriteListInitialFetchEvent);
+    on<FavoriteListInitialEvent>(favoriteListInitialFetchEvent);
 
   }
 
   FutureOr<void> favoriteListInitialFetchEvent(
-    FavoriteListInitialFetchEvent event, Emitter<FavoriteListState> emit) async{
+    FavoriteListInitialEvent event, Emitter<FavoriteListState> emit) async{
       emit(FavoriteListLoadingState());
       List<FavoriteListModel> favorites = await FavoriteListRepo.fetchFavoriteList(
         pageNumber,

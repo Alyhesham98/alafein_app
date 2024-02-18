@@ -5,6 +5,7 @@ import 'package:alafein/features/profile_page/presentation/bloc/profile_page_blo
 import 'package:alafein/features/profile_page/presentation/screen/profile_info/venue_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:gap/gap.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 // import 'package:svg_flutter/svg.dart';
@@ -40,17 +41,14 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
             listenWhen: (previous, current) =>
                 current is ProfilePageActionState,
             buildWhen: (previous, current) =>
-                current is! ProfilePageActionState,
+                current is !ProfilePageActionState,
             listener: (context, state) {},
             builder: (context, state) {
               switch (state.runtimeType) {
                 case ProfilePageLoadingState :
-                  return const Center(
-                      child: CircularProgressIndicator(
-                    color: kPrimaryColor,
-                  ));
-
+                  EasyLoading.show();
                 case ProfilePageFetchingSuccessfulState:
+                  EasyLoading.dismiss();
                   final successState =
                       state as ProfilePageFetchingSuccessfulState;
                   switch (SessionManagement.getUserRole()) {
@@ -61,7 +59,7 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
                           profilePageBloc: profilePageBloc,
                         );
                       }
-                    case "Host Venue":
+                    case "Host Venue": 
                       {
                         return const VenueProfile();
                       }
