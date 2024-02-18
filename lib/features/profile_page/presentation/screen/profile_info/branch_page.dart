@@ -1,3 +1,4 @@
+import 'package:alafein/features/profile_page/presentation/model/profile.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,13 +11,13 @@ import '../../../../../core/utility/theme.dart';
 import '../../../../event/organizer/presentation/widgets/information_event.dart';
 
 class BranchPage extends StatelessWidget {
-  BranchPage({super.key, required this.tabId, required this.size});
+  const BranchPage({super.key, required this.branch});
 
-  final int tabId;
-  final Size size;
+  final Branches branch;
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     return Container(
       height: double.infinity,
       child: SingleChildScrollView(
@@ -50,7 +51,7 @@ class BranchPage extends StatelessWidget {
                   height: 24,
                 ),
                 Text(
-                  "Cairo,Egypt",
+                  branch.address ?? '',
                   style: descTextGrayStyle,
                   textAlign: TextAlign.start,
                 ),
@@ -84,53 +85,44 @@ class BranchPage extends StatelessWidget {
             ),
             Column(
               children: [
-                GestureDetector(
-                  onTap: () {
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //       builder: (context) => const EventDeatils(),
-                    //     ));
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 20,
-                    ),
-                    child: SizedBox(
-                      height: 100,
-                      child: Row(children: [
-                        SizedBox(
-                          width: 100,
-                          height: 100,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(17),
-                            child: CachedNetworkImage(
-                              imageUrl: '',
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10,
+                    horizontal: 20,
+                  ),
+                  child: SizedBox(
+                    height: 100,
+                    child: Row(children: [
+                      SizedBox(
+                        width: 100,
+                        height: 100,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(17),
+                          child: CachedNetworkImage(
+                            imageUrl: '',
+                            fit: BoxFit.cover,
+                            errorWidget: (context, url, error) => Image.asset(
+                              AssetsData.eventImg,
                               fit: BoxFit.cover,
-                              errorWidget: (context, url, error) => Image.asset(
-                                AssetsData.eventImg,
-                                fit: BoxFit.cover,
-                              ),
                             ),
                           ),
                         ),
-                        SizedBox(
-                          width: size.width * 0.05,
+                      ),
+                      SizedBox(
+                        width: size.width * 0.05,
+                      ),
+                      const Expanded(
+                        child: Row(
+                          children: [
+                            InformationEvent(
+                              name: "Name",
+                              date: "6/3/1999",
+                              venue: "Opera",
+                            ),
+                          ],
                         ),
-                        const Expanded(
-                          child: Row(
-                            children: [
-                              InformationEvent(
-                                name: "Name",
-                                date: "6/3/1999",
-                                venue: "Opera",
-                              ),
-                            ],
-                          ),
-                        ),
-                      ]),
-                    ),
+                      ),
+                    ]),
                   ),
                 ),
                 Divider(

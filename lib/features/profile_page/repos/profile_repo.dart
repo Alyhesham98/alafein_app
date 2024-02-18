@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:alafein/core/local_data/session_management.dart';
+import 'package:alafein/features/profile_page/presentation/model/profile.dart';
 import 'package:alafein/features/profile_page/presentation/model/profile_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -15,7 +16,7 @@ class ProfilePageRepo{
 
   // GET 
   //Fetch User Profile
-  static Future<ProfileModel?> fetchProfile() async{
+  static Future<Profile?> fetchProfile() async{
     var client = http.Client();
 
       try {
@@ -26,18 +27,20 @@ class ProfilePageRepo{
         );        
         Map<String, dynamic> result = jsonDecode(response.body);
 
-        debugPrint("1 :${result.toString()}");
-
         debugPrint("2 :${result['Data'].toString()}");
 
         ///////////////////////////////////////////////////////////////////////////////////////////
-        ProfileModel? profilePage = ProfileModel.fromJson(result['Data']);// as Map<String, dynamic>
-        
-        print("3 :${profilePage.toString()}");
-        print("Request Done");
+        Profile? profilePage = Profile.fromJson(result['Data']);// as Map<String, dynamic>
+
+        if (result.containsKey('Data') && result['Data'] != null) {
+          profilePage = Profile.fromJson(result['Data']);
+          print("3 :${profilePage.email}");
+        } else {
+          print("Data is null or not available");
+        }
         return profilePage;
       } catch (e){
-        log(e.toString());
+        log('error$e');
         EasyLoading.dismiss();
         return null;
       }

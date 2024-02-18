@@ -17,7 +17,6 @@ class VenueProfileItem extends StatelessWidget {
     required this.websiteURL,
     required this.other,
     required this.address,
-    required this.mapLink,
     required this.photo,
   });
 
@@ -28,7 +27,6 @@ class VenueProfileItem extends StatelessWidget {
   final String websiteURL;
   final String other;
   final String address;
-  final String mapLink;
   final String photo;
 
   @override

@@ -15,7 +15,7 @@ class ProfilePageErrorState extends ProfilePageState {}
 
 class ProfilePageFetchingSuccessfulState extends ProfilePageState {
   // final ProfilePageDataUiModel profilePage; //should be change for 1 profile map
-  final ProfileModel? profilePage;
+  final Profile? profilePage;
   ProfilePageFetchingSuccessfulState({
     required this.profilePage,
   });

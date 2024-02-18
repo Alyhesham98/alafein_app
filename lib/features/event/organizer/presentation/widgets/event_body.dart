@@ -50,7 +50,7 @@ class _EventbodyState extends State<Eventbody> {
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
-      physics: const BouncingScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       slivers: [
         SliverToBoxAdapter(
           child:
@@ -155,7 +155,7 @@ class _EventbodyState extends State<Eventbody> {
                 final successState =
                     state as ListEventFetchingSuccessfulState;
                 return ListView.separated(
-                      physics: const NeverScrollableScrollPhysics(),
+                      physics: const BouncingScrollPhysics(),
                       padding: EdgeInsets.zero,
                       itemCount: successState.listEvent.length,
                       separatorBuilder: (context, index) => Container(

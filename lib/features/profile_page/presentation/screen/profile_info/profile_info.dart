@@ -61,7 +61,8 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
                       }
                     case "Host Venue": 
                       {
-                        return const VenueProfile();
+                        return  VenueProfile(successState: successState,
+                          profilePageBloc: profilePageBloc,);
                       }
                     default:
                       {
