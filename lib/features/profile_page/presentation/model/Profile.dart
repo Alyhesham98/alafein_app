@@ -259,7 +259,7 @@ class Venue {
       String? venueImage, 
       String? venueDescription, 
       Category? category, 
-      Schedule? schedule, 
+      List<Schedule>? schedule,
       List<String>? photos, 
       List<Facilities>? facilities, 
       List<Branches>? branches,}){
@@ -290,12 +290,17 @@ class Venue {
     _venueImage = json['VenueImage'];
     _venueDescription = json['VenueDescription'];
     _category = json['Category'] != null ? Category.fromJson(json['Category']) : null;
-    _schedule = json['Schedule'] != null ? Schedule.fromJson(json['Schedule']) : null;
     _photos = json['Photos'] != null ? json['Photos'].cast<String>() : [];
     if (json['Facilities'] != null) {
       _facilities = [];
       json['Facilities'].forEach((v) {
         _facilities?.add(Facilities.fromJson(v));
+      });
+    }
+    if (json['Schedule'] != null) {
+      _schedule = [];
+      json['Schedule'].forEach((v) {
+        _schedule?.add(Schedule.fromJson(v));
       });
     }
     if (json['Branches'] != null) {
@@ -315,7 +320,7 @@ class Venue {
   String? _venueImage;
   String? _venueDescription;
   Category? _category;
-  Schedule? _schedule;
+  List<Schedule>? _schedule;
   List<String>? _photos;
   List<Facilities>? _facilities;
   List<Branches>? _branches;
@@ -329,7 +334,7 @@ Venue copyWith({  num? id,
   String? venueImage,
   String? venueDescription,
   Category? category,
-  Schedule? schedule,
+  List<Schedule>? schedule,
   List<String>? photos,
   List<Facilities>? facilities,
   List<Branches>? branches,
@@ -358,7 +363,7 @@ Venue copyWith({  num? id,
   String? get venueImage => _venueImage;
   String? get venueDescription => _venueDescription;
   Category? get category => _category;
-  Schedule? get schedule => _schedule;
+  List<Schedule>? get schedule => _schedule;
   List<String>? get photos => _photos;
   List<Facilities>? get facilities => _facilities;
   List<Branches>? get branches => _branches;
@@ -378,7 +383,7 @@ Venue copyWith({  num? id,
       map['Category'] = _category?.toJson();
     }
     if (_schedule != null) {
-      map['Schedule'] = _schedule?.toJson();
+      map['Schedule'] = _schedule?.map((v) => v.toJson()).toList();
     }
     map['Photos'] = _photos;
     if (_facilities != null) {

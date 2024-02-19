@@ -1,17 +1,20 @@
-import 'package:alafein/features/profile_page/presentation/bloc/Profile.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:path/path.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:svg_flutter/svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../../core/api/constants/api_caller_config.dart';
 import '../../../../../core/utility/assets_data.dart';
 import '../../../../../core/utility/colors_data.dart';
 import '../../../../../core/utility/theme.dart';
 import '../../../../event/organizer/presentation/widgets/information_event.dart';
 import '../../bloc/profile_page_bloc.dart';
+import '../../model/Profile.dart';
 
 class BranchPage extends StatelessWidget {
   const BranchPage(
@@ -27,14 +30,11 @@ class BranchPage extends StatelessWidget {
     List<Widget> pages = [];
 
     uiState?.schedule?.forEach((element) {
-      if (kDebugMode) {
-        print("Ahmed$element");
-      }
       pages.add(ScheduleListItem(
         size: size,
         image: element.poster ?? '',
         name: element.name ?? '',
-        date: 'date',
+        date: element.date?.join(" , ") ?? '',
         venue: uiState.venueName ?? "",
       ));
     });
@@ -114,74 +114,80 @@ class BranchPage extends StatelessWidget {
               children: pages,
             ),
             Gap(4.sw),
-            Text(
-              "Photos",
-              style: venueProfileTextStyle,
-              textAlign: TextAlign.start,
+            Visibility(
+              visible: uiState.photos!.isEmpty,
+              child: Column(
+                children: [
+                  Text(
+                    "Photos",
+                    style: venueProfileTextStyle,
+                    textAlign: TextAlign.start,
+                  ),
+                  Gap(2.sw),
+                  SizedBox(
+                    height: 56,
+                    child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (c, i) {
+                          return SizedBox(
+                            width: 56,
+                            height: 56,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(17),
+                              child: CachedNetworkImage(
+                                imageUrl:
+                                    "${APICallerConfiguration.baseImageUrl}${uiState.photos?[i]}",
+                                fit: BoxFit.cover,
+                                errorWidget: (context, url, error) =>
+                                    Image.asset(
+                                  AssetsData.eventImg,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                        separatorBuilder: (c, i) {
+                          return const SizedBox(
+                            width: 16,
+                          );
+                        },
+                        itemCount: uiState.photos?.length ?? 0),
+                  ),
+                ],
+              ),
             ),
-            Gap(2.sw),
-            SizedBox(
-              height: 56,
-              child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (c, i) {
-                    return SizedBox(
-                      width: 56,
-                      height: 56,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(17),
-                        child: CachedNetworkImage(
-                          imageUrl: '',
-                          fit: BoxFit.cover,
-                          errorWidget: (context, url, error) => Image.asset(
-                            AssetsData.eventImg,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                  separatorBuilder: (c, i) {
-                    return const SizedBox(
-                      width: 16,
-                    );
-                  },
-                  itemCount: 5),
-            ),
-            Gap(4.sw),
-            Text(
-              "Facilities",
-              style: venueProfileTextStyle,
-              textAlign: TextAlign.start,
-            ),
-            Gap(2.sw),
-            SizedBox(
-              height: 48,
-              child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (c, i) {
-                    return SizedBox(
-                      width: 107,
-                      height: 48,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(17),
-                        child: CachedNetworkImage(
-                          imageUrl: '',
-                          fit: BoxFit.cover,
-                          errorWidget: (context, url, error) => Image.asset(
-                            AssetsData.eventImg,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                  separatorBuilder: (c, i) {
-                    return const SizedBox(
-                      width: 16,
-                    );
-                  },
-                  itemCount: 5),
+            Visibility(
+              visible: uiState.facilities!.isNotEmpty,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Gap(4.sw),
+                  Text(
+                    "Facilities",
+                    style: venueProfileTextStyle,
+                    textAlign: TextAlign.start,
+                  ),
+                  Gap(2.sw),
+                  SizedBox(
+                    height: 48,
+                    child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (c, i) {
+                          return ClipRRect(
+                            borderRadius: BorderRadius.circular(17),
+                            child: SvgPicture.network("${APICallerConfiguration.baseImageUrl}${uiState.facilities?[i].imagePath}",width: 107,height: 48,),
+                          );
+                        },
+                        separatorBuilder: (c, i) {
+                          return const SizedBox(
+                            width: 16,
+                          );
+                        },
+                        itemCount: uiState.facilities?.length ?? 0),
+                  ),
+                ],
+              ),
             ),
             Gap(4.sw),
             Image.asset(AssetsData.bottomBanner),

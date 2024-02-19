@@ -31,6 +31,7 @@ class ProfilePageRepo{
 
         ///////////////////////////////////////////////////////////////////////////////////////////
         Profile? profilePage = Profile.fromJson(result['Data']);// as Map<String, dynamic>
+        debugPrint("2 :${result['Facilities'].toString()}");
 
         if (result.containsKey('Data') && result['Data'] != null) {
           profilePage = Profile.fromJson(result['Data']);
