@@ -34,12 +34,12 @@ class _FavoritePageState extends State<FavoritePage> {
   
   Future<void> _refresh()async{
     // initState();
-    setState(() {
       EasyLoading.show(status: 'Loading...');
       favoriteListBloc.add(FavoriteListInitialEvent());
+    setState(() {
     });
       EasyLoading.dismiss();
-    return Future.delayed(const Duration(seconds: 1),
+    return Future.delayed(const Duration(microseconds: 1),
     );
   }
 
@@ -148,6 +148,7 @@ class _FavoritePageState extends State<FavoritePage> {
                                                 onTap: ()async{
                                                     toggleFavoriteBloc.add(ToggleFavoriteInitialFetchEvent());
                                                     // favoriteListBloc.add(FavoriteListInitialEvent());
+                                                    await Future.delayed(const Duration(milliseconds: 300));
                                                   await _refresh();
                                                 },
                                               icon: Icon(
