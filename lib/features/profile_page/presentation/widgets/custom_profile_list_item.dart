@@ -73,9 +73,13 @@ class CustomProfileAppBarEvent extends StatelessWidget {
                     }
                     break;
                   case 4:
-                    {
-                      SessionManagement.signOut();
-                      AutoRouter.of(context).replaceAll([const LoginRoute()]);
+                    {                     
+                      if(SessionManagement.getUserRole() != ""){
+                        SessionManagement.signOut();
+                        AutoRouter.of(context).replaceAll([const LoginRoute()]);
+                      } else {
+                        AutoRouter.of(context).replaceAll([const SignupRoute()]);
+                      }
                     }
                     break;
                   default:
