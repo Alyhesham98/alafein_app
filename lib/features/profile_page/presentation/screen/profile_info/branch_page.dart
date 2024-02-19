@@ -1,23 +1,43 @@
-import 'package:alafein/features/profile_page/presentation/model/profile.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:path/path.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:svg_flutter/svg.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../../core/api/constants/api_caller_config.dart';
 import '../../../../../core/utility/assets_data.dart';
 import '../../../../../core/utility/colors_data.dart';
 import '../../../../../core/utility/theme.dart';
 import '../../../../event/organizer/presentation/widgets/information_event.dart';
+import '../../bloc/profile_page_bloc.dart';
+import '../../model/Profile.dart';
 
 class BranchPage extends StatelessWidget {
-  const BranchPage({super.key, required this.branch});
+  const BranchPage(
+      {super.key, required this.branch, required this.successState});
 
   final Branches branch;
+  final ProfilePageFetchingSuccessfulState successState;
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    var uiState = successState.profilePage?.venue;
+    List<Widget> pages = [];
+
+    uiState?.schedule?.forEach((element) {
+      pages.add(ScheduleListItem(
+        size: size,
+        image: element.poster ?? '',
+        name: element.name ?? '',
+        date: element.date?.join(" , ") ?? '',
+        venue: uiState.venueName ?? "",
+      ));
+    });
     return Container(
       height: double.infinity,
       child: SingleChildScrollView(
@@ -31,7 +51,7 @@ class BranchPage extends StatelessWidget {
             ),
             Gap(2.sw),
             Text(
-              "I want to attend different interesting events and have a good time I want to attend different interesting events and have a good timeI want to attend different interesting events and have a good time",
+              uiState?.venueDescription ?? '',
               style: descTextStyle,
               textAlign: TextAlign.justify,
             ),
@@ -57,7 +77,9 @@ class BranchPage extends StatelessWidget {
                 ),
                 InkWell(
                     child: IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          launchUrl(Uri.parse(branch.mapLink!));
+                        },
                         icon: Image.asset(
                           AssetsData.externalLink,
                           width: 16,
@@ -72,10 +94,15 @@ class BranchPage extends StatelessWidget {
               textAlign: TextAlign.start,
             ),
             Gap(2.sw),
-            Text(
-              "01069595665",
-              style: descTextStyle,
-              textAlign: TextAlign.start,
+            InkWell(
+              onTap: () {
+                launch("tel://${uiState.phoneNumber}");
+              },
+              child: Text(
+                uiState!.phoneNumber ?? '',
+                style: descTextStyle,
+                textAlign: TextAlign.start,
+              ),
             ),
             Gap(4.sw),
             Text(
@@ -84,127 +111,150 @@ class BranchPage extends StatelessWidget {
               textAlign: TextAlign.start,
             ),
             Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 10,
-                    horizontal: 20,
-                  ),
-                  child: SizedBox(
-                    height: 100,
-                    child: Row(children: [
-                      SizedBox(
-                        width: 100,
-                        height: 100,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(17),
-                          child: CachedNetworkImage(
-                            imageUrl: '',
-                            fit: BoxFit.cover,
-                            errorWidget: (context, url, error) => Image.asset(
-                              AssetsData.eventImg,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: size.width * 0.05,
-                      ),
-                      const Expanded(
-                        child: Row(
-                          children: [
-                            InformationEvent(
-                              name: "Name",
-                              date: "6/3/1999",
-                              venue: "Opera",
-                            ),
-                          ],
-                        ),
-                      ),
-                    ]),
-                  ),
-                ),
-                Divider(
-                  color: kDividerColor,
-                ),
-              ],
+              children: pages,
             ),
             Gap(4.sw),
-            Text(
-              "Photos",
-              style: venueProfileTextStyle,
-              textAlign: TextAlign.start,
+            Visibility(
+              visible: uiState.photos!.isEmpty,
+              child: Column(
+                children: [
+                  Text(
+                    "Photos",
+                    style: venueProfileTextStyle,
+                    textAlign: TextAlign.start,
+                  ),
+                  Gap(2.sw),
+                  SizedBox(
+                    height: 56,
+                    child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (c, i) {
+                          return SizedBox(
+                            width: 56,
+                            height: 56,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(17),
+                              child: CachedNetworkImage(
+                                imageUrl:
+                                    "${APICallerConfiguration.baseImageUrl}${uiState.photos?[i]}",
+                                fit: BoxFit.cover,
+                                errorWidget: (context, url, error) =>
+                                    Image.asset(
+                                  AssetsData.eventImg,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                        separatorBuilder: (c, i) {
+                          return const SizedBox(
+                            width: 16,
+                          );
+                        },
+                        itemCount: uiState.photos?.length ?? 0),
+                  ),
+                ],
+              ),
             ),
-            Gap(2.sw),
-            SizedBox(
-              height: 56,
-              child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (c, i) {
-                    return SizedBox(
-                      width: 56,
-                      height: 56,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(17),
-                        child: CachedNetworkImage(
-                          imageUrl: '',
-                          fit: BoxFit.cover,
-                          errorWidget: (context, url, error) => Image.asset(
-                            AssetsData.eventImg,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                  separatorBuilder: (c, i) {
-                    return const SizedBox(
-                      width: 16,
-                    );
-                  },
-                  itemCount: 5),
-            ),
-            Gap(4.sw),
-            Text(
-              "Facilities",
-              style: venueProfileTextStyle,
-              textAlign: TextAlign.start,
-            ),
-            Gap(2.sw),
-            SizedBox(
-              height: 48,
-              child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (c, i) {
-                    return SizedBox(
-                      width: 107,
-                      height: 48,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(17),
-                        child: CachedNetworkImage(
-                          imageUrl: '',
-                          fit: BoxFit.cover,
-                          errorWidget: (context, url, error) => Image.asset(
-                            AssetsData.eventImg,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                  separatorBuilder: (c, i) {
-                    return const SizedBox(
-                      width: 16,
-                    );
-                  },
-                  itemCount: 5),
+            Visibility(
+              visible: uiState.facilities!.isNotEmpty,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Gap(4.sw),
+                  Text(
+                    "Facilities",
+                    style: venueProfileTextStyle,
+                    textAlign: TextAlign.start,
+                  ),
+                  Gap(2.sw),
+                  SizedBox(
+                    height: 48,
+                    child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (c, i) {
+                          return ClipRRect(
+                            borderRadius: BorderRadius.circular(17),
+                            child: SvgPicture.network("${APICallerConfiguration.baseImageUrl}${uiState.facilities?[i].imagePath}",width: 107,height: 48,),
+                          );
+                        },
+                        separatorBuilder: (c, i) {
+                          return const SizedBox(
+                            width: 16,
+                          );
+                        },
+                        itemCount: uiState.facilities?.length ?? 0),
+                  ),
+                ],
+              ),
             ),
             Gap(4.sw),
             Image.asset(AssetsData.bottomBanner),
             Gap(8.sw),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class ScheduleListItem extends StatelessWidget {
+  const ScheduleListItem({
+    super.key,
+    required this.size,
+    required this.image,
+    required this.name,
+    required this.date,
+    required this.venue,
+  });
+
+  final Size size;
+  final String image;
+  final String name;
+  final String date;
+  final String venue;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        vertical: 10,
+        horizontal: 20,
+      ),
+      child: SizedBox(
+        height: 100,
+        child: Row(children: [
+          SizedBox(
+            width: 100,
+            height: 100,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(17),
+              child: CachedNetworkImage(
+                imageUrl: image,
+                fit: BoxFit.cover,
+                errorWidget: (context, url, error) => Image.asset(
+                  AssetsData.eventImg,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: size.width * 0.05,
+          ),
+          Expanded(
+            child: Row(
+              children: [
+                InformationEvent(
+                  name: name,
+                  date: date,
+                  venue: venue,
+                ),
+              ],
+            ),
+          ),
+        ]),
       ),
     );
   }

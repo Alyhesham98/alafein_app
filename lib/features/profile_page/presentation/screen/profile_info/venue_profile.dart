@@ -34,7 +34,7 @@ class _VenueProfileState extends State<VenueProfile>
     super.initState();
     tabController = 0;
     widget.successState.profilePage?.venue?.branches?.forEach((element) {
-      pages.add(BranchPage(branch: element));
+      pages.add(BranchPage(branch: element,successState: widget.successState,));
     });
   }
 
@@ -66,7 +66,7 @@ class _VenueProfileState extends State<VenueProfile>
                       "",
               websiteURL: uiState?.websiteURL ?? "",
               name: uiState?.venueName ?? "",
-              size: size,
+              size: size, youtube: '', whatsapp:uiState?.phoneNumber?? '',
             ),
             Gap(8.sw),
             SizedBox(

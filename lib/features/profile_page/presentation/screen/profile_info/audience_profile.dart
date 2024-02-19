@@ -11,12 +11,35 @@ import '../../../../../core/utility/colors_data.dart';
 import '../../../../../core/utility/theme.dart';
 import '../../bloc/profile_page_bloc.dart';
 import '../../model/profile_page_ui_model.dart';
+import '../../widgets/custom_text_field_item.dart';
 
-class AudienceProfile extends StatelessWidget {
-  const AudienceProfile({super.key, required this.successState, required this.profilePageBloc});
+class AudienceProfile extends StatefulWidget {
+  const AudienceProfile(
+      {super.key, required this.successState, required this.profilePageBloc});
 
   final ProfilePageFetchingSuccessfulState successState;
   final ProfilePageBloc profilePageBloc;
+
+  @override
+  State<AudienceProfile> createState() => _AudienceProfileState();
+}
+
+class _AudienceProfileState extends State<AudienceProfile> {
+  final TextEditingController _fNameController= TextEditingController() ;
+  final TextEditingController  _lastNameController = TextEditingController();
+  final TextEditingController  _emailController = TextEditingController();
+  final TextEditingController  _mobilefNameController = TextEditingController();
+
+  @override
+  void dispose() {
+    _fNameController.dispose();
+    super.dispose();
+  }
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
@@ -43,7 +66,7 @@ class AudienceProfile extends StatelessWidget {
                           onTap: () {
                             //Call  the update user info function in the bloc
                             // get the event ProfilePageEditEvent ()
-                            profilePageBloc.add(ProfilePageEditEvent());
+                            widget.profilePageBloc.add(ProfilePageEditEvent());
                           },
                           child: const Text(
                             'Edit profile',
@@ -64,12 +87,13 @@ class AudienceProfile extends StatelessWidget {
                           image: DecorationImage(
                               fit: BoxFit.cover,
                               image: NetworkImage(
-                                  successState.profilePage?.photo != null
-                                      ? successState.profilePage?.photo?? "photo"
+                                  widget.successState.profilePage?.photo != null
+                                      ? widget.successState.profilePage
+                                      ?.photo ?? "photo"
                                       : "")),
                           shape: BoxShape.circle,
                           border:
-                              Border.all(width: 0, color: Colors.transparent),
+                          Border.all(width: 0, color: Colors.transparent),
                           color: kProfilePicBackgroundColor),
                       child: null,
                     ),
@@ -79,25 +103,25 @@ class AudienceProfile extends StatelessWidget {
                       style: homeLabel4Style,
                     ),
                     const Gap(16),
+                    CustomInput(
+                      title: widget.successState.profilePage?.firstName ??
+                          "first name", controller:_fNameController, enabled: true,),
+                    const Gap(16),
                     CustomProfileAppBarEvent(
-                      title: successState.profilePage?.firstName??"first name",
+                      title: widget.successState.profilePage?.lastName ??
+                          "last name",
                       onTap: null,
                     ),
                     const Gap(16),
                     CustomProfileAppBarEvent(
-                      title: successState.profilePage?.lastName??"last name",
+                      title: widget.successState.profilePage?.email ?? "Email",
                       onTap: null,
                     ),
                     const Gap(16),
                     CustomProfileAppBarEvent(
-                      title: successState.profilePage?.email??"Email",
-                      onTap: null,
-                    ),
-                    const Gap(16),
-                    CustomProfileAppBarEvent(
-                      title: successState.profilePage?.phone == null
+                      title: widget.successState.profilePage?.phone == null
                           ? "No Data"
-                          : successState.profilePage?.phone?? "phone",
+                          : widget.successState.profilePage?.phone ?? "phone",
                       // title: "01022971429",
                       onTap: null,
                     ),

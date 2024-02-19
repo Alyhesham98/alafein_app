@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:alafein/features/profile_page/presentation/model/profile.dart';
+import 'package:alafein/features/profile_page/presentation/model/Profile.dart';
 import 'package:alafein/features/profile_page/presentation/model/profile_model.dart';
 import 'package:alafein/features/profile_page/presentation/model/profile_page_ui_model.dart';
 import 'package:alafein/features/profile_page/repos/profile_repo.dart';
