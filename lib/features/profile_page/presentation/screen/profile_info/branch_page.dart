@@ -1,23 +1,43 @@
-import 'package:alafein/features/profile_page/presentation/model/profile.dart';
+import 'package:alafein/features/profile_page/presentation/bloc/Profile.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../core/utility/assets_data.dart';
 import '../../../../../core/utility/colors_data.dart';
 import '../../../../../core/utility/theme.dart';
 import '../../../../event/organizer/presentation/widgets/information_event.dart';
+import '../../bloc/profile_page_bloc.dart';
 
 class BranchPage extends StatelessWidget {
-  const BranchPage({super.key, required this.branch});
+  const BranchPage(
+      {super.key, required this.branch, required this.successState});
 
   final Branches branch;
+  final ProfilePageFetchingSuccessfulState successState;
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    var uiState = successState.profilePage?.venue;
+    List<Widget> pages = [];
+
+    uiState?.schedule?.forEach((element) {
+      if (kDebugMode) {
+        print("Ahmed$element");
+      }
+      pages.add(ScheduleListItem(
+        size: size,
+        image: element.poster ?? '',
+        name: element.name ?? '',
+        date: 'date',
+        venue: uiState.venueName ?? "",
+      ));
+    });
     return Container(
       height: double.infinity,
       child: SingleChildScrollView(
@@ -31,7 +51,7 @@ class BranchPage extends StatelessWidget {
             ),
             Gap(2.sw),
             Text(
-              "I want to attend different interesting events and have a good time I want to attend different interesting events and have a good timeI want to attend different interesting events and have a good time",
+              uiState?.venueDescription ?? '',
               style: descTextStyle,
               textAlign: TextAlign.justify,
             ),
@@ -57,7 +77,9 @@ class BranchPage extends StatelessWidget {
                 ),
                 InkWell(
                     child: IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          launchUrl(Uri.parse(branch.mapLink!));
+                        },
                         icon: Image.asset(
                           AssetsData.externalLink,
                           width: 16,
@@ -72,10 +94,15 @@ class BranchPage extends StatelessWidget {
               textAlign: TextAlign.start,
             ),
             Gap(2.sw),
-            Text(
-              "01069595665",
-              style: descTextStyle,
-              textAlign: TextAlign.start,
+            InkWell(
+              onTap: () {
+                launch("tel://${uiState.phoneNumber}");
+              },
+              child: Text(
+                uiState!.phoneNumber ?? '',
+                style: descTextStyle,
+                textAlign: TextAlign.start,
+              ),
             ),
             Gap(4.sw),
             Text(
@@ -84,51 +111,7 @@ class BranchPage extends StatelessWidget {
               textAlign: TextAlign.start,
             ),
             Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 10,
-                    horizontal: 20,
-                  ),
-                  child: SizedBox(
-                    height: 100,
-                    child: Row(children: [
-                      SizedBox(
-                        width: 100,
-                        height: 100,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(17),
-                          child: CachedNetworkImage(
-                            imageUrl: '',
-                            fit: BoxFit.cover,
-                            errorWidget: (context, url, error) => Image.asset(
-                              AssetsData.eventImg,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: size.width * 0.05,
-                      ),
-                      const Expanded(
-                        child: Row(
-                          children: [
-                            InformationEvent(
-                              name: "Name",
-                              date: "6/3/1999",
-                              venue: "Opera",
-                            ),
-                          ],
-                        ),
-                      ),
-                    ]),
-                  ),
-                ),
-                Divider(
-                  color: kDividerColor,
-                ),
-              ],
+              children: pages,
             ),
             Gap(4.sw),
             Text(
@@ -205,6 +188,67 @@ class BranchPage extends StatelessWidget {
             Gap(8.sw),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class ScheduleListItem extends StatelessWidget {
+  const ScheduleListItem({
+    super.key,
+    required this.size,
+    required this.image,
+    required this.name,
+    required this.date,
+    required this.venue,
+  });
+
+  final Size size;
+  final String image;
+  final String name;
+  final String date;
+  final String venue;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        vertical: 10,
+        horizontal: 20,
+      ),
+      child: SizedBox(
+        height: 100,
+        child: Row(children: [
+          SizedBox(
+            width: 100,
+            height: 100,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(17),
+              child: CachedNetworkImage(
+                imageUrl: image,
+                fit: BoxFit.cover,
+                errorWidget: (context, url, error) => Image.asset(
+                  AssetsData.eventImg,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: size.width * 0.05,
+          ),
+          Expanded(
+            child: Row(
+              children: [
+                InformationEvent(
+                  name: name,
+                  date: date,
+                  venue: venue,
+                ),
+              ],
+            ),
+          ),
+        ]),
       ),
     );
   }

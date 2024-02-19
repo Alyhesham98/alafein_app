@@ -1,16 +1,10 @@
-/// Succeeded : true
-/// Message : null
-/// Errors : null
-/// Data : {"Id":"fea3d873-b1f7-4f28-9ff8-aa819354acad","FirstName":"first","LastName":"last","Email":"user@audience.com","Photo":"string","Phone":"01022971429","Venue":{"Id":0,"Instagram":"string","Facebook":"string","WebsiteURL":"string","Other":"string","PhoneNumber":"string","VenueName":"string","VenueDescription":"string","Category":{"Id":0,"Name":"string","Image":"string"},"Photos":["string"],"Facilities":[{"Id":0,"ImagePath":"string","ImageName":"string"}],"Branches":[{"Id":0,"Name":"string","Address":"string","MapLink":"string","WorkDay":[{"Id":0,"Day":{"Id":0,"Name":"string"},"From":"string","To":"string"}]}]},"Organizer":{"Id":0,"MapLink":"string","Address":"string","Instagram":"string","Facebook":"string","WebsiteURL":"string","Other":"string","Description":"string","Category":{"Id":0,"Name":"string","Image":"string"}}}
-
-
-/// Id : "fea3d873-b1f7-4f28-9ff8-aa819354acad"
-/// FirstName : "first"
-/// LastName : "last"
-/// Email : "user@audience.com"
+/// Id : "string"
+/// FirstName : "string"
+/// LastName : "string"
+/// Email : "string"
 /// Photo : "string"
-/// Phone : "01022971429"
-/// Venue : {"Id":0,"Instagram":"string","Facebook":"string","WebsiteURL":"string","Other":"string","PhoneNumber":"string","VenueName":"string","VenueDescription":"string","Category":{"Id":0,"Name":"string","Image":"string"},"Photos":["string"],"Facilities":[{"Id":0,"ImagePath":"string","ImageName":"string"}],"Branches":[{"Id":0,"Name":"string","Address":"string","MapLink":"string","WorkDay":[{"Id":0,"Day":{"Id":0,"Name":"string"},"From":"string","To":"string"}]}]}
+/// Phone : "string"
+/// Venue : {"Id":0,"Instagram":"string","Facebook":"string","WebsiteURL":"string","Other":"string","PhoneNumber":"string","VenueName":"string","VenueImage":"string","VenueDescription":"string","Category":{"Id":0,"Name":"string","Image":"string"},"Schedule":{"Id":0,"Name":"string","Poster":"string","Date":["string"],"CategoryPoster":"string"},"Photos":["string"],"Facilities":[{"Id":0,"ImagePath":"string","ImageName":"string"}],"Branches":[{"Id":0,"Name":"string","Address":"string","MapLink":"string","WorkDay":[{"Id":0,"Day":{"Id":0,"Name":"string"},"From":"string","To":"string"}]}]}
 /// Organizer : {"Id":0,"MapLink":"string","Address":"string","Instagram":"string","Facebook":"string","WebsiteURL":"string","Other":"string","Description":"string","Category":{"Id":0,"Name":"string","Image":"string"}}
 
 class Profile {
@@ -51,7 +45,7 @@ class Profile {
   String? _phone;
   Venue? _venue;
   Organizer? _organizer;
-  Profile copyWith({  String? id,
+Profile copyWith({  String? id,
   String? firstName,
   String? lastName,
   String? email,
@@ -245,8 +239,10 @@ Category copyWith({  num? id,
 /// Other : "string"
 /// PhoneNumber : "string"
 /// VenueName : "string"
+/// VenueImage : "string"
 /// VenueDescription : "string"
 /// Category : {"Id":0,"Name":"string","Image":"string"}
+/// Schedule : {"Id":0,"Name":"string","Poster":"string","Date":["string"],"CategoryPoster":"string"}
 /// Photos : ["string"]
 /// Facilities : [{"Id":0,"ImagePath":"string","ImageName":"string"}]
 /// Branches : [{"Id":0,"Name":"string","Address":"string","MapLink":"string","WorkDay":[{"Id":0,"Day":{"Id":0,"Name":"string"},"From":"string","To":"string"}]}]
@@ -260,9 +256,10 @@ class Venue {
       String? other, 
       String? phoneNumber, 
       String? venueName, 
-      String? venueImage,
-      String? venueDescription,
+      String? venueImage, 
+      String? venueDescription, 
       Category? category, 
+      Schedule? schedule, 
       List<String>? photos, 
       List<Facilities>? facilities, 
       List<Branches>? branches,}){
@@ -273,9 +270,10 @@ class Venue {
     _other = other;
     _phoneNumber = phoneNumber;
     _venueName = venueName;
-    _venueImage = _venueImage;
+    _venueImage = venueImage;
     _venueDescription = venueDescription;
     _category = category;
+    _schedule = schedule;
     _photos = photos;
     _facilities = facilities;
     _branches = branches;
@@ -292,6 +290,7 @@ class Venue {
     _venueImage = json['VenueImage'];
     _venueDescription = json['VenueDescription'];
     _category = json['Category'] != null ? Category.fromJson(json['Category']) : null;
+    _schedule = json['Schedule'] != null ? Schedule.fromJson(json['Schedule']) : null;
     _photos = json['Photos'] != null ? json['Photos'].cast<String>() : [];
     if (json['Facilities'] != null) {
       _facilities = [];
@@ -316,6 +315,7 @@ class Venue {
   String? _venueImage;
   String? _venueDescription;
   Category? _category;
+  Schedule? _schedule;
   List<String>? _photos;
   List<Facilities>? _facilities;
   List<Branches>? _branches;
@@ -329,6 +329,7 @@ Venue copyWith({  num? id,
   String? venueImage,
   String? venueDescription,
   Category? category,
+  Schedule? schedule,
   List<String>? photos,
   List<Facilities>? facilities,
   List<Branches>? branches,
@@ -339,9 +340,10 @@ Venue copyWith({  num? id,
   other: other ?? _other,
   phoneNumber: phoneNumber ?? _phoneNumber,
   venueName: venueName ?? _venueName,
-  venueImage:venueImage,
+  venueImage: venueImage ?? _venueImage,
   venueDescription: venueDescription ?? _venueDescription,
   category: category ?? _category,
+  schedule: schedule ?? _schedule,
   photos: photos ?? _photos,
   facilities: facilities ?? _facilities,
   branches: branches ?? _branches,
@@ -356,6 +358,7 @@ Venue copyWith({  num? id,
   String? get venueImage => _venueImage;
   String? get venueDescription => _venueDescription;
   Category? get category => _category;
+  Schedule? get schedule => _schedule;
   List<String>? get photos => _photos;
   List<Facilities>? get facilities => _facilities;
   List<Branches>? get branches => _branches;
@@ -373,6 +376,9 @@ Venue copyWith({  num? id,
     map['VenueDescription'] = _venueDescription;
     if (_category != null) {
       map['Category'] = _category?.toJson();
+    }
+    if (_schedule != null) {
+      map['Schedule'] = _schedule?.toJson();
     }
     map['Photos'] = _photos;
     if (_facilities != null) {
@@ -585,46 +591,106 @@ Facilities copyWith({  num? id,
 
 }
 
-/*
 /// Id : 0
 /// Name : "string"
-/// Image : "string"
+/// Poster : "string"
+/// Date : ["string"]
+/// CategoryPoster : "string"
 
-class Category {
-  Category({
-      num? id,
-      String? name,
-      String? image,}){
+class Schedule {
+  Schedule({
+      num? id, 
+      String? name, 
+      String? poster, 
+      List<String>? date, 
+      String? categoryPoster,}){
     _id = id;
     _name = name;
-    _image = image;
+    _poster = poster;
+    _date = date;
+    _categoryPoster = categoryPoster;
 }
 
-  Category.fromJson(dynamic json) {
+  Schedule.fromJson(dynamic json) {
     _id = json['Id'];
     _name = json['Name'];
-    _image = json['Image'];
+    _poster = json['Poster'];
+    _date = json['Date'] != null ? json['Date'].cast<String>() : [];
+    _categoryPoster = json['CategoryPoster'];
   }
   num? _id;
   String? _name;
-  String? _image;
-Category copyWith({  num? id,
+  String? _poster;
+  List<String>? _date;
+  String? _categoryPoster;
+Schedule copyWith({  num? id,
   String? name,
-  String? image,
-}) => Category(  id: id ?? _id,
+  String? poster,
+  List<String>? date,
+  String? categoryPoster,
+}) => Schedule(  id: id ?? _id,
   name: name ?? _name,
-  image: image ?? _image,
+  poster: poster ?? _poster,
+  date: date ?? _date,
+  categoryPoster: categoryPoster ?? _categoryPoster,
 );
   num? get id => _id;
   String? get name => _name;
-  String? get image => _image;
+  String? get poster => _poster;
+  List<String>? get date => _date;
+  String? get categoryPoster => _categoryPoster;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['Id'] = _id;
     map['Name'] = _name;
-    map['Image'] = _image;
+    map['Poster'] = _poster;
+    map['Date'] = _date;
+    map['CategoryPoster'] = _categoryPoster;
     return map;
   }
 
-}*/
+}
+
+// /// Id : 0
+// /// Name : "string"
+// /// Image : "string"
+//
+// class Category {
+//   Category({
+//       num? id,
+//       String? name,
+//       String? image,}){
+//     _id = id;
+//     _name = name;
+//     _image = image;
+// }
+//
+//   Category.fromJson(dynamic json) {
+//     _id = json['Id'];
+//     _name = json['Name'];
+//     _image = json['Image'];
+//   }
+//   num? _id;
+//   String? _name;
+//   String? _image;
+// Category copyWith({  num? id,
+//   String? name,
+//   String? image,
+// }) => Category(  id: id ?? _id,
+//   name: name ?? _name,
+//   image: image ?? _image,
+// );
+//   num? get id => _id;
+//   String? get name => _name;
+//   String? get image => _image;
+//
+//   Map<String, dynamic> toJson() {
+//     final map = <String, dynamic>{};
+//     map['Id'] = _id;
+//     map['Name'] = _name;
+//     map['Image'] = _image;
+//     return map;
+//   }
+//
+// }
