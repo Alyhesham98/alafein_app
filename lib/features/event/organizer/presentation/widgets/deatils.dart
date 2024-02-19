@@ -4,17 +4,19 @@ import 'package:alafein/features/event/organizer/presentation/widgets/deatils_it
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:svg_flutter/svg.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Deatils extends StatelessWidget {
   const Deatils({
     super.key,
     required this.date,
     required this.price,
-    required this.postion,
+    required this.postion, required this.location,
   });
   final String date;
   final num price;
   final String postion;
+  final String location;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,7 @@ class Deatils extends StatelessWidget {
                   Icons.calendar_month,
                   color: Color(0xFF7C7C7C),
                 ),
-                text: date,
+                text: date, location: '',
               ),
               const Gap(42),
               DeatilsItems(
@@ -43,7 +45,7 @@ class Deatils extends StatelessWidget {
                   AssetsData.svgIcFavorite,
                   color: const Color(0xFF7C7C7C),
                 ),
-                text: price.toString(),
+                text: price.toString(), location: '',
               ),
             ],
           ),
@@ -55,12 +57,17 @@ class Deatils extends StatelessWidget {
                   Icons.location_on,
                   color: Color(0xFF7C7C7C),
                 ),
-                text: postion,
+                text: postion, location:location ,
               ),
-              const Icon(
-                Icons.link,
-                size: 15,
-                color: Colors.grey,
+              InkWell(
+                onTap: (){
+                  launchUrl(Uri.parse(location));
+                },
+                child: const Icon(
+                  Icons.link,
+                  size: 15,
+                  color: Colors.grey,
+                ),
               ),
             ],
           ),

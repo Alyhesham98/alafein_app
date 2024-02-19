@@ -20,7 +20,7 @@ import 'package:responsive_builder/responsive_builder.dart';
 import '../../../../../core/api/constants/api_caller_config.dart';
 
 class EventsShowCommentBody extends StatelessWidget {
-    const EventsShowCommentBody({
+    const  EventsShowCommentBody({
     super.key,
     required this.size,
     required this.id,
@@ -76,6 +76,7 @@ class EventsShowCommentBody extends StatelessWidget {
                 date: getDeatils.date ?? "",
                 postion: getDeatils.address ?? "",
                 price: getDeatils.paymentFee ?? 0.0,
+                location: getDeatils.mapLink??'',
               ),
               if (getDeatils.eventOrganizer != null)
                 const Padding(
@@ -95,6 +96,7 @@ class EventsShowCommentBody extends StatelessWidget {
                   photo: getDeatils.venue?.photo ?? "",
                   websiteURL: getDeatils.venue?.websiteUrl ?? "",
                   name: getDeatils.venue?.name ?? "",
+                  whatsapp: '',
                   size: size,
                 ),
               const Padding(
@@ -115,6 +117,7 @@ class EventsShowCommentBody extends StatelessWidget {
                 photo: getDeatils.venue?.photo ?? "",
                 websiteURL: getDeatils.venue!.websiteUrl!,
                 name: getDeatils.venue?.name ?? "",
+                whatsapp: '',
                 size: size,
               ),
               const Padding(
