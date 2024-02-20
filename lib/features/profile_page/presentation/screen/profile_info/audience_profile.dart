@@ -114,7 +114,7 @@ class _AudienceProfileState extends State<AudienceProfile> {
                             
                           },
                           child: Text(
-                            checker? 'Edit profile' : "Save",
+                            checker?  'Save' : 'Edit profile',
                             style: personalInfoLabelPrimary,
                           ),
                         ),
@@ -126,6 +126,7 @@ class _AudienceProfileState extends State<AudienceProfile> {
                       style: homeLabel4Style,
                     ),
                     Container(
+                      
                       width: 27.sw,
                       height: 27.sw,
                       decoration: BoxDecoration(
