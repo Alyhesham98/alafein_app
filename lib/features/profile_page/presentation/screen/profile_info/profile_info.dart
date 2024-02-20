@@ -24,7 +24,7 @@ class ProfileInfoPage extends StatefulWidget {
 }
 
 class _ProfileInfoPageState extends State<ProfileInfoPage> {
-  final ProfilePageBloc profilePageBloc = ProfilePageBloc();
+  final ProfilePageBloc profilePageBloc = ProfilePageBloc("","","","");
 
   @override
   void initState() {

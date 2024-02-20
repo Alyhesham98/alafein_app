@@ -49,14 +49,14 @@ class ProfilePageRepo{
 
   // PATCH
   //Edit User Profile
-  static Future<bool> editProfile() async{
+  static Future<bool> editProfile(String firstName,String lastName,String photo,String phone,) async{
     var client = http.Client();
 
     final msg = jsonEncode({
-            "firstName": "first",
-            "lastName": "last",
-            "photo": "string",
-            "phone": "01022971429"
+            "firstName": firstName,
+            "lastName": lastName,
+            "photo": photo,
+            "phone": phone
           });
       try {
         
