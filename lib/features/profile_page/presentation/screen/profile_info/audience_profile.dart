@@ -27,21 +27,38 @@ class AudienceProfile extends StatefulWidget {
 class _AudienceProfileState extends State<AudienceProfile> {
   final TextEditingController _fNameController= TextEditingController() ;
   final TextEditingController  _lastNameController = TextEditingController();
+  final TextEditingController  _photoController = TextEditingController();
+  final TextEditingController  _phoneController = TextEditingController();
   final TextEditingController  _emailController = TextEditingController();
-  final TextEditingController  _mobilefNameController = TextEditingController();
 
+  bool checker = false;
+  
+  
+  @override
+  void initState() {
+     _fNameController.text = widget.successState.profilePage!.firstName!;
+    _lastNameController.text = widget.successState.profilePage!.lastName!;
+    _photoController.text = widget.successState.profilePage!.photo!;
+    _phoneController.text = widget.successState.profilePage!.phone!;
+    _emailController.text = widget.successState.profilePage!.email!;
+    super.initState();
+  }
+  
   @override
   void dispose() {
     _fNameController.dispose();
+    _lastNameController.dispose();
+    _photoController.dispose();
+    _phoneController.dispose();
+    _emailController.dispose();
     super.dispose();
-  }
-  @override
-  void initState() {
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+
+    
+      
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: [
@@ -63,13 +80,41 @@ class _AudienceProfileState extends State<AudienceProfile> {
                           style: homeLabeProfileStyle,
                         ),
                         InkWell(
-                          onTap: () {
+                          onTap: () async{
                             //Call  the update user info function in the bloc
                             // get the event ProfilePageEditEvent ()
-                            widget.profilePageBloc.add(ProfilePageEditEvent());
+                            // setState(() {
+                            //   checker=!checker;
+                            // });
+                              // final ProfilePageBloc profilePageBlocEdit = ProfilePageBloc(
+                              //   _fNameController.text, 
+                              //   _lastNameController.text, 
+                              //   _photoController.text, 
+                              //   _photoController.text
+                              //   ) ;
+                              
+                            if (checker) {
+                              final ProfilePageBloc profilePageBlocEdit = ProfilePageBloc(
+                                _fNameController.text, 
+                                _lastNameController.text, 
+                                _photoController.text, 
+                                _phoneController.text
+                                ) ;
+                            await Future.delayed(const Duration(milliseconds: 100));
+                            profilePageBlocEdit.add(ProfilePageEditEvent());
+                              setState(() {
+                              checker=!checker;
+                            });
+                            } else {
+                              setState(() {
+                              checker=!checker;
+                            });
+                            }
+                            
+                            
                           },
-                          child: const Text(
-                            'Edit profile',
+                          child: Text(
+                            checker?  'Save' : 'Edit profile',
                             style: personalInfoLabelPrimary,
                           ),
                         ),
@@ -81,6 +126,7 @@ class _AudienceProfileState extends State<AudienceProfile> {
                       style: homeLabel4Style,
                     ),
                     Container(
+                      
                       width: 27.sw,
                       height: 27.sw,
                       decoration: BoxDecoration(
@@ -105,29 +151,29 @@ class _AudienceProfileState extends State<AudienceProfile> {
                     const Gap(16),
                     CustomInput(
                       title: widget.successState.profilePage?.firstName ??
-                          "first name", controller:_fNameController, enabled: true,),
+                          "first name", 
+                          controller: _fNameController,
+                          enabled: checker,),
                     const Gap(16),
-                    CustomProfileAppBarEvent(
+                    CustomInput(
                       title: widget.successState.profilePage?.lastName ??
-                          "last name",
-                      onTap: null,
-                    ),
+                          "last name", 
+                          controller: _lastNameController,
+                          enabled: checker,),
                     const Gap(16),
-                    CustomProfileAppBarEvent(
-                      title: widget.successState.profilePage?.email ?? "Email",
-                      onTap: null,
-                    ),
+                    CustomInput(
+                      title: widget.successState.profilePage?.email ??
+                          "Email", 
+                          controller: _emailController,
+                          enabled: false,),
                     const Gap(16),
-                    CustomProfileAppBarEvent(
-                      title: widget.successState.profilePage?.phone == null
-                          ? "No Data"
-                          : widget.successState.profilePage?.phone ?? "phone",
-                      // title: "01022971429",
-                      onTap: null,
-                    ),
+                     CustomInput(
+                      title: widget.successState.profilePage?.phone ??
+                          "phone", 
+                          controller: _phoneController,
+                          enabled: checker,),
                     const Gap(24),
-
-                  ]),
+              ]),
             ),
           ),
         ),

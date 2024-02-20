@@ -6,13 +6,18 @@ import 'package:alafein/features/profile_page/presentation/model/profile_page_ui
 import 'package:alafein/features/profile_page/repos/profile_repo.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 
 part 'profile_page_event.dart';
 part 'profile_page_state.dart';
 
 class ProfilePageBloc extends Bloc<ProfilePageEvent, ProfilePageState> {
-  ProfilePageBloc() : super(ProfilePageInitial()) {
+  final String firstName;
+  final String lastName;
+  final String photo;
+  final String phone;
+  ProfilePageBloc(this.firstName, this.lastName, this.photo, this.phone) : super(ProfilePageInitial()) {
     //Get profile
     on<ProfilePageInitialFetchEvent>(profilePageInitialFetchEvent);
 
@@ -39,13 +44,22 @@ class ProfilePageBloc extends Bloc<ProfilePageEvent, ProfilePageState> {
 
   
   FutureOr<void> profilePageEdit(ProfilePageEditEvent event, Emitter<ProfilePageState> emit) async {
-    bool success = await ProfilePageRepo.editProfile();
+    bool success = await ProfilePageRepo.editProfile(
+      firstName ,
+      lastName ,
+      photo ,
+      phone ,
+    );
     print("Profile paged Edited !! : ${success}");
 
     if(success){
       emit(ProfilePageEdittingSuccessfulState());
+      EasyLoading.show(status: "Edited Done !");
+      Timer(const Duration(seconds: 1), () => EasyLoading.dismiss(animation: true));
     }else{
       emit(ProfilePageEdittingErrorState());
+      EasyLoading.showError("Something went wrong !");
+      Timer(const Duration(seconds: 2), () => EasyLoading.dismiss(animation: true));
     }
   }
   }
