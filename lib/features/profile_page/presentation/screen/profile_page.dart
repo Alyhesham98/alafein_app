@@ -9,8 +9,11 @@ import 'package:auto_route/auto_route.dart';
 
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:svg_flutter/svg.dart';
 
+import '../../../../core/utility/strings.dart';
 import '../../../../core/utility/theme.dart';
 import '../widgets/profile_three_items.dart';
 
@@ -71,18 +74,6 @@ class Profilepage extends StatelessWidget {
       ///buttons
     );
 
-    //  Center(
-    //         child: InkWell(
-    //             onTap: () {
-    //               SessionManagement.signOut();
-    //               AutoRouter.of(context).replaceAll([const LoginRoute()]);
-    //             },
-    //             child: const Text("Log ouuuut")),
-    //       );
-
-    //  BlocProvider(
-    //   create: (context) => GetEventCubit()..getEventPagination(),
-    //   child: Eventbody(size: size),
-    // );
   }
+
 }
