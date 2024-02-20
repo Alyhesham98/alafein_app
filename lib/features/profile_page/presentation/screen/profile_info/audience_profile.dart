@@ -113,8 +113,8 @@ class _AudienceProfileState extends State<AudienceProfile> {
                             
                             
                           },
-                          child: const Text(
-                            'Edit profile',
+                          child: Text(
+                            checker? 'Edit profile' : "Save",
                             style: personalInfoLabelPrimary,
                           ),
                         ),
