@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 // import 'package:alafein/core/local_data/session_management.dart';
 import 'package:alafein/features/profile_page/presentation/bloc/profile_page_bloc.dart';
+import 'package:alafein/features/profile_page/presentation/screen/profile_info/organizer_profile%20copy.dart';
 import 'package:alafein/features/profile_page/presentation/screen/profile_info/venue_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -66,7 +67,10 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
                       }
                     default:
                       {
-                        return const Text("Organizer");
+                        return OrganizerProfile(
+                          successState: successState,
+                          profilePageBloc: profilePageBloc,
+                        );
                       }
                   }
               }

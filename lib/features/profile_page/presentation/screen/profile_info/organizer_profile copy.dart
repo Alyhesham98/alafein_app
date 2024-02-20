@@ -14,18 +14,18 @@ import '../../bloc/profile_page_bloc.dart';
 import '../../model/profile_page_ui_model.dart';
 import '../../widgets/custom_text_field_item.dart';
 
-class AudienceProfile extends StatefulWidget {
-  const AudienceProfile(
+class OrganizerProfile extends StatefulWidget {
+  const OrganizerProfile(
       {super.key, required this.successState, required this.profilePageBloc});
 
   final ProfilePageFetchingSuccessfulState successState;
   final ProfilePageBloc profilePageBloc;
 
   @override
-  State<AudienceProfile> createState() => _AudienceProfileState();
+  State<OrganizerProfile> createState() => _OrganizerProfileState();
 }
 
-class _AudienceProfileState extends State<AudienceProfile> {
+class _OrganizerProfileState extends State<OrganizerProfile> {
   final TextEditingController _fNameController= TextEditingController() ;
   final TextEditingController  _lastNameController = TextEditingController();
   final TextEditingController  _photoController = TextEditingController();
@@ -83,7 +83,7 @@ class _AudienceProfileState extends State<AudienceProfile> {
                         InkWell(
                           onTap: () async{
                             //Call  the update user info function in the bloc
-                            // get the event ProfilePageEditEvent ()   
+                            // get the event ProfilePageEditEvent ()                      
                             if (checker) {
                               final ProfilePageBloc profilePageBlocEdit = ProfilePageBloc(
                                 _fNameController.text, 
