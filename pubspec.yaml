@@ -45,6 +45,7 @@ dependencies:
   smooth_page_indicator: ^1.1.0
   svg_flutter: ^0.0.1
   url_launcher: ^6.2.4
+  firebase_messaging: ^14.7.16
 
 dev_dependencies:
   auto_route_generator: ^7.3.2

@@ -52,11 +52,9 @@ class _FavoritePageState extends State<FavoritePage> {
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-                height: size.height * 0.05,
-              ),
-              const CustomAppBarEvent(
+          children:[
+          const  Gap(14),
+          const CustomAppBarEvent(
                 title1: "FAVOURITE EVENTS",
                 title2: "Here's what you've liked so far", hasIcon: false,
               ),
@@ -68,11 +66,6 @@ class _FavoritePageState extends State<FavoritePage> {
                 buildWhen: (previous, current) =>
                     current is !FavoriteListActionState,
                 listener: (context, state) async{
-                  // if(state is FavoriteListLoadingState){
-                  //   EasyLoading.show(status: 'loading');
-                  // }else if(state is FavoriteListErrorState){
-                  //   EasyLoading.showError("Error!");
-                  // }
                 },
                 builder: (context, state) {
                 switch (state.runtimeType) {
@@ -160,43 +153,6 @@ class _FavoritePageState extends State<FavoritePage> {
                                         ),
                                       ),
                                   ),
-                                  // BlocConsumer<ToggleFavoriteBloc,ToggleFavoriteState>(
-                                  //   bloc: toggleFavoriteBloc,
-                                  //    listenWhen: (previous, current) =>
-                                  //       current is ToggleFavoriteActionState,
-                                  //   buildWhen: (previous, current) =>
-                                  //       current is! ToggleFavoriteActionState,
-                                  //   listener: (context, state) {},
-                                  //   builder: (context, state){
-                                  //     switch (state.runtimeType) {
-                                  //       case ToggleFavoriteLoadingState :
-                                  //         return const Center(
-                                  //             child: CircularProgressIndicator(
-                                  //           color: kPrimaryColor,
-                                  //         ));
-                                        
-                                  //       case ToggleFavoriteSuccessfulState:
-                                  //       final successState = state as ToggleFavoriteSuccessfulState;
-                                        
-                                  //       return CustomIcon(
-                                  //         onTap: (){
-                                  //            toggleFavoriteBloc.add(ToggleFavoriteInitialFetchEvent());
-                                  //         },
-                                  //         icon: Icon(
-                                  //         Icons.favorite_outline,
-                                  //         color: Color(0xFF7C7C7C),
-                                  //           ),
-                                  //         );
-                                  //         default: return const CustomIcon(
-                                  //           icon: Icon(
-                                  //             Icons.favorite_outline,
-                                  //             color: Color(0xFF7C7C7C),
-                                  //           ),
-                                  //         );
-                                  //       }
-                                  //     }
-                                  //  )  
-                                
                                 ],
                               ),
                             ),
@@ -215,9 +171,6 @@ class _FavoritePageState extends State<FavoritePage> {
                 ),
               ),
               const  Gap(10),
-              Container(
-                height: MediaQuery.sizeOf(context).height*0.8,
-              )
           ],
         )
       ),
