@@ -148,7 +148,7 @@ class _FavoritePageState extends State<FavoritePage> {
                                                 onTap: ()async{
                                                     toggleFavoriteBloc.add(ToggleFavoriteInitialFetchEvent());
                                                     // favoriteListBloc.add(FavoriteListInitialEvent());
-                                                    await Future.delayed(const Duration(milliseconds: 100));
+                                                    await Future.delayed(const Duration(milliseconds: 200));
                                                   await _refresh();
                                                 },
                                               icon: Icon(
