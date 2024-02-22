@@ -1,5 +1,4 @@
 import 'package:alafein/core/local_data/session_management.dart';
-import 'package:alafein/core/presentation/routes/app_router.gr.dart';
 import 'package:alafein/core/utility/assets_data.dart';
 import 'package:alafein/core/utility/colors_data.dart';
 import 'package:alafein/core/utility/strings.dart';
@@ -36,10 +35,15 @@ class _MainScreenState extends State<MainScreen> {
       body: IndexedStack(
         index: _currentIndex,
         children: [
-          HomePage(),
+          HomePage(onCatTapped: () =>
+            setState(() {
+              _currentIndex =1;
+            })
+          ),
+          if (SessionManagement.getUserRole() != "")
           const Eventpage(),
-          if(SessionManagement.getUserRole()=="Audience")
-          const FavoritePage(),
+          if (SessionManagement.getUserRole() == "Audience")
+            const FavoritePage(),
           const Profilepage(),
         ],
       ),
@@ -79,6 +83,7 @@ class _MainScreenState extends State<MainScreen> {
               height: 24,
             ),
           ),
+          if (SessionManagement.getUserRole() != "")
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               AssetsData.svgIcEventsDisabled,

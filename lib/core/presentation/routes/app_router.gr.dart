@@ -55,7 +55,7 @@ abstract class $AppRouter extends _i14.RootStackRouter {
           routeData.argsAs<HomeRouteArgs>(orElse: () => const HomeRouteArgs());
       return _i14.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i3.HomePage(key: args.key),
+        child: _i3.HomePage(key: args.key, onCatTapped: () {  },),
       );
     },
     LoginRoute.name: (routeData) {

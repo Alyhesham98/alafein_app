@@ -1,41 +1,33 @@
 {
   "project_info": {
-    "project_number": "92581426653",
-    "project_id": "alafein-4be65",
-    "storage_bucket": "alafein-4be65.appspot.com"
+    "project_number": "587761639039",
+    "project_id": "alafein",
+    "storage_bucket": "alafein.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:92581426653:android:e07557aa0771512396f234",
+        "mobilesdk_app_id": "1:587761639039:android:230c35dde1a21f7629a94a",
         "android_client_info": {
           "package_name": "com.example.alafein"
         }
       },
       "oauth_client": [
         {
-          "client_id": "92581426653-jp4pevf7f052smjqcjrdik41abjsop41.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.alafein",
-            "certificate_hash": "3d6bdca072fa27b100da2f92a1f4af59a6f9c5bb"
-          }
-        },
-        {
-          "client_id": "92581426653-a4uru3v1004ptanuffh97e1bdv8al96m.apps.googleusercontent.com",
+          "client_id": "587761639039-9j8u9grfd98cajlb0i4p9i0c2aa91s48.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDwiUgQObAF0WDwCa7E_IKdSESDHRt-x-g"
+          "current_key": "AIzaSyDWtGpWFRGcb7EQM_T7nNrlM2ad-dTj1kQ"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "92581426653-a4uru3v1004ptanuffh97e1bdv8al96m.apps.googleusercontent.com",
+              "client_id": "587761639039-9j8u9grfd98cajlb0i4p9i0c2aa91s48.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

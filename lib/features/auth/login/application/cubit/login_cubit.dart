@@ -34,12 +34,7 @@ class LoginCubit extends Cubit<LoginState> {
     );
     call.fold(
       (failure) {
-        if (SessionManagement.getUserRole() != "") {
           EasyLoading.showError(failure.toString());
-
-        }else {
-          EasyLoading.showError("SSSSh!");
-        }
 
         emit(LoginStateError(message: "Error !"));
 
@@ -52,10 +47,7 @@ class LoginCubit extends Cubit<LoginState> {
           EasyLoading.dismiss();
           emit(LoginStateLoaded());
         } else {
-          if (SessionManagement.getUserRole() != "") {
             EasyLoading.showError(response.message ?? "Error !");
-          }
-
           emit(LoginStateError(message: response.message ?? "Error !"));
         }
       },

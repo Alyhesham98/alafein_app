@@ -6,6 +6,7 @@ import 'package:alafein/features/event/organizer/presentation/views/event_deatil
 import 'package:alafein/features/home/cubit/home_cubit.dart';
 import 'package:alafein/features/home/presentation/widgets/home_event_item.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -18,7 +19,9 @@ import 'package:svg_flutter/svg.dart';
 class HomePage extends StatelessWidget {
   final PageController _scrollController = PageController();
 
-  HomePage({super.key});
+  final VoidCallback onCatTapped;
+
+  HomePage({super.key, required this.onCatTapped});
 
   @override
   Widget build(BuildContext context) {
@@ -95,9 +98,20 @@ class HomePage extends StatelessWidget {
                                             name: state.homeResponse
                                                     .spotlight?[index].name ??
                                                 "",
-                                            image: state.homeResponse
-                                                    .spotlight?[index].poster ??
-                                                "",
+                                            image: state
+                                                        .homeResponse
+                                                        .spotlight?[index]
+                                                        .poster !=
+                                                    null
+                                                ? "${APICallerConfiguration.baseImageUrl}${state.homeResponse.spotlight?[index].poster}"
+                                                : "",
+                                            catImage: state
+                                                        .homeResponse
+                                                        .spotlight?[index]
+                                                        .catPoster !=
+                                                    null
+                                                ? "${APICallerConfiguration.baseImageUrl}${state.homeResponse.spotlight?[index].catPoster}"
+                                                : "",
                                             date: state.homeResponse
                                                     .spotlight?[index].date ??
                                                 "",
@@ -130,22 +144,37 @@ class HomePage extends StatelessWidget {
                                 shrinkWrap: true,
                                 itemCount:
                                     state.homeResponse.category?.length ?? 0,
-                                itemBuilder: (context, index) => SizedBox(
-                                  child: Column(
-                                    children: [
-                                      SvgPicture.network(
-                                        "${APICallerConfiguration.baseImageUrl}${state.homeResponse.category?[index].image}",
-                                        placeholderBuilder: (context) =>
-                                            Image.asset(AssetsData.music),
-                                      ),
-                                      const Gap(4),
-                                      Text(
-                                          state.homeResponse.category?[index]
-                                                  .name ??
-                                              "Event",
-                                          textAlign: TextAlign.center,
-                                          style: homeLabel3Style)
-                                    ],
+                                itemBuilder: (context, index) => InkWell(
+                                  borderRadius: BorderRadius.circular(17),
+                                  onTap: onCatTapped,
+                                  child: SizedBox(
+                                    child: Column(
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(17),
+                                          child: CachedNetworkImage(
+                                            width: double.infinity,
+                                            imageUrl:
+                                                "${APICallerConfiguration.baseImageUrl}${state.homeResponse.category?[index].image}",
+                                            fit: BoxFit.fitWidth,
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    Image.asset(
+                                              AssetsData.music,
+                                              fit: BoxFit.contain,
+                                            ),
+                                          ),
+                                        ),
+                                        const Gap(4),
+                                        Text(
+                                            state.homeResponse.category?[index]
+                                                    .name ??
+                                                "Event",
+                                            textAlign: TextAlign.center,
+                                            style: homeLabel3Style)
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -205,8 +234,17 @@ class HomePage extends StatelessWidget {
                                                     .today?[index].name ??
                                                 "",
                                             image: state.homeResponse
-                                                    .today?[index].poster ??
-                                                "",
+                                                        .today?[index].poster !=
+                                                    null
+                                                ? "${APICallerConfiguration.baseImageUrl}${state.homeResponse.today?[index].poster}"
+                                                : "",
+                                            catImage: state
+                                                        .homeResponse
+                                                        .today?[index]
+                                                        .catPoster !=
+                                                    null
+                                                ? "${APICallerConfiguration.baseImageUrl}${state.homeResponse.today?[index].catPoster}"
+                                                : "",
                                             date: state.homeResponse
                                                     .today?[index].date ??
                                                 "",

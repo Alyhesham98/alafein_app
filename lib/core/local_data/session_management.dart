@@ -4,6 +4,9 @@ import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 
 class SessionManagement {
+  static const int pageNumber = 1;
+  static const int pageSize = 500;
+
   static const String APP_KEY = "catering_app";
   static const String EMAIL_KEY = "email_key";
   static const String NAME_KEY = "name_key";

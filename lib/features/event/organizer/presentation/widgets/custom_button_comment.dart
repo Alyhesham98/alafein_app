@@ -10,10 +10,13 @@ class CustomButtonComment extends StatelessWidget {
     this.textColor,
     required this.data,
     this.borderColor,
+    required this.onTap,
+
   });
   final Color? color;
   final Color? textColor;
   final Color? borderColor;
+  final Function? onTap;
 
   final String data;
   @override
@@ -32,7 +35,9 @@ class CustomButtonComment extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(12),
       ),
-      onPressed: () {},
+      onPressed: (){
+        onTap!();
+      },
       color: color ?? Colors.white,
       textColor: textColor ?? kPrimaryColor,
       padding: EdgeInsets.symmetric(

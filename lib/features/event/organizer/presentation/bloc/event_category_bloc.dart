@@ -1,12 +1,8 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:developer';
-
-import 'package:alafein/core/local_data/session_management.dart';
 import 'package:alafein/features/event/organizer/presentation/model/event_data_ui_model.dart';
+import 'package:alafein/features/event/organizer/repos/event_category_repo.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
 
 part 'event_category_event.dart';
 part 'event_category_state.dart';
@@ -20,49 +16,55 @@ class EventCategoryBloc extends Bloc<EventCategoryEvent, EventCategoryState> {
   FutureOr<void> eventCategoryInitialFetchEvent(
     EventCategoryInitialFetchEvent event, Emitter<EventCategoryState> emit) async {
       print("u are in eventCategoryInitialFetchEvent");
-      var client = http.Client();
+      emit(EventCategoryLoadingState());
+      
+      List<EventDataUiModel> events= await EventCategoryRepo.fetchEvent();
 
-      List<EventDataUiModel> events= [];
-      // var url = Uri.parse('https://alafein.azurewebsites.net/api/v1/Event/GetCategories?isAscending=false');
-      // var  header= {"Authorization": "Bearer ${SessionManagement.getUserToken()}"};
-        try {
-        
-        var response = await client.get(
-          Uri.parse('https://alafein.azurewebsites.net/api/v1/Event/GetCategories?isAscending=false'),
-          headers: {"Authorization": "Bearer ${SessionManagement.getUserToken()}"},
-        );        
-        // List result = jsonDecode(response.body);
-        Map<String, dynamic> result = jsonDecode(response.body);
-        print("////${result['Data']}\\\\");
-
-        List eventsData = result['Data'];
-        print("//${eventsData}\\");
-
-
-        for (int i = 0 ; i < eventsData.length ; i++ ){
-          EventDataUiModel event = EventDataUiModel.fromJson(eventsData[i]);// as Map<String, dynamic>
-          events.add(event);
-        }
-          print(" events : ${events}");
-
-        // Map<String, dynamic> result = jsonDecode(response.body);
-        // print("////${result['Data']}\\\\");
-
-        //   Map<String, dynamic> eventsData = result['Data'];
-          
-        //   for (int i = 0; i < eventsData.length; i++) {
-        //     EventDataUiModel event = EventDataUiModel.fromJson(eventsData[i]);
-        //     events.add(event);
-        //   }
-          emit(EventCategoryFetchingSuccessfulState(eventCatigories :events));
-
-        } catch(e) {
-        log(e.toString());
-        print("-----------------------------------------------------------------error");
-      }
+      emit(EventCategoryFetchingSuccessfulState(eventCatigories :events));
   }
 
 }
+
+/*
+
+var client = http.Client();
+
+      // List<EventDataUiModel> events= [];
+      // // var url = Uri.parse('https://alafein.azurewebsites.net/api/v1/Event/GetCategories?isAscending=false');
+      // // var  header= {"Authorization": "Bearer ${SessionManagement.getUserToken()}"};
+      //   try {
+        
+      //   var response = await client.get(
+      //     Uri.parse('https://alafein.azurewebsites.net/api/v1/Event/GetCategories?isAscending=false'),
+      //     headers: {"Authorization": "Bearer ${SessionManagement.getUserToken()}"},
+      //   );        
+      //   // List result = jsonDecode(response.body);
+      //   Map<String, dynamic> result = jsonDecode(response.body);
+      //   print("////${result['Data']}\\\\");
+
+      //   List eventsData = result['Data'];
+      //   print("//${eventsData}\\");
+
+
+      //   for (int i = 0 ; i < eventsData.length ; i++ ){
+      //     EventDataUiModel event = EventDataUiModel.fromJson(eventsData[i]);// as Map<String, dynamic>
+      //     events.add(event);
+      //   }
+      //     print(" events : ${events}");
+
+      //   // Map<String, dynamic> result = jsonDecode(response.body);
+      //   // print("////${result['Data']}\\\\");
+
+      //   //   Map<String, dynamic> eventsData = result['Data'];
+          
+      //   //   for (int i = 0; i < eventsData.length; i++) {
+      //   //     EventDataUiModel event = EventDataUiModel.fromJson(eventsData[i]);
+      //   //     events.add(event);
+      
+
+ */
+
+
 // {
 
 //   if (state.homeResponse.category != null)

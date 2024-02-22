@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 
 class CustomAppBarEventDeatils extends StatelessWidget {
   const CustomAppBarEventDeatils({
-    super.key,
+    super.key, required this.headerImgUrl,
   });
 
+  final String headerImgUrl;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -15,8 +16,8 @@ class CustomAppBarEventDeatils extends StatelessWidget {
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.25,
           width: double.infinity,
-          child: const HeaderEventImage(
-            imageurl: AssetsData.eventImg,
+          child: HeaderEventImage(
+            imageurl: headerImgUrl,
           ),
         ),
         Positioned(
