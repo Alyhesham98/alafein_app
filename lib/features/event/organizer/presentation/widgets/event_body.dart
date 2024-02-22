@@ -12,6 +12,7 @@ import 'package:alafein/features/event/organizer/cubit/get_event_cubit.dart';
 import 'package:alafein/features/event/organizer/presentation/bloc/event_category_bloc.dart';
 import 'package:alafein/features/event/organizer/presentation/bloc_listEvent/list_event_bloc.dart';
 import 'package:alafein/features/event/organizer/presentation/views/event_deatils.dart';
+import 'package:alafein/features/event/organizer/presentation/views/event_search.dart';
 
 import 'package:alafein/features/event/organizer/presentation/widgets/custom_appbar.dart';
 import 'package:alafein/features/event/organizer/presentation/widgets/custom_button_comment.dart';
@@ -93,41 +94,56 @@ class _EventbodyState extends State<Eventbody> {
               child: Row(
                 children: [
                   Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: kDividerColor, width: 1.5),
-                      ),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset(
-                            AssetsData.search,
-                            color: const Color(0xFF7C7C7C),
-                          ),
-                          const Gap(16),
-                          Text(
-                            "Search",
-                            style: secondaryTextStyle,
-                          ),
-                        ],
+                    child: InkWell(
+                      onTap: (){
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EventSearch(
+
+                                )
+                            ));
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: kDividerColor, width: 1.5),
+                        ),
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(
+                              AssetsData.search,
+                              color: const Color(0xFF7C7C7C),
+                            ),
+                            const Gap(16),
+                            Text(
+                              "Search",
+                              style: secondaryTextStyle,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                   const Gap(16),
                   InkWell(
                     onTap: () async{
-                      // _showFilterPopUp(
-                      //   context, 
-                      //   _timeAndDateContoller
-                      //   );
+/*
                       _showFilterPopUp(
                         context,
                         _timeAndDateFromContoller,
                         _timeAndDateToContoller
-                      );
+                      );*/
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => EventSearch(
+
+                            )
+                          ));
+
                     },
-                    // onTap: (){},
                     child: Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
