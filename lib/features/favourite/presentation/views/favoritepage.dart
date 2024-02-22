@@ -209,7 +209,7 @@ class _FavoritePageState extends State<FavoritePage> {
                   return const SizedBox();
               }),
               InkWell(
-                onTap: _refresh,
+                onTap: (){},
                 child: Image.asset(
                   AssetsData.bottomBanner,
                 ),
