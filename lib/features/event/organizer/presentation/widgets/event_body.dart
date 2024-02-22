@@ -1,7 +1,10 @@
+
 import 'package:alafein/core/local_data/session_management.dart';
 import 'package:alafein/core/api/constants/api_caller_config.dart';
+import 'package:alafein/core/presentation/widgets/main_custom_button.dart';
 import 'package:alafein/core/utility/assets_data.dart';
 import 'package:alafein/core/utility/colors_data.dart';
+import 'package:alafein/core/utility/strings.dart';
 import 'package:alafein/core/utility/theme.dart';
 import 'package:alafein/features/event/organizer/cubit/get_event_cubit.dart';
 // import 'package:alafein/features/event/organizer/cubit/get_event_cubit.dart';
@@ -11,16 +14,23 @@ import 'package:alafein/features/event/organizer/presentation/bloc_listEvent/lis
 import 'package:alafein/features/event/organizer/presentation/views/event_deatils.dart';
 
 import 'package:alafein/features/event/organizer/presentation/widgets/custom_appbar.dart';
+import 'package:alafein/features/event/organizer/presentation/widgets/custom_button_comment.dart';
 import 'package:alafein/features/event/organizer/presentation/widgets/custom_event_image.dart';
+import 'package:alafein/features/event/organizer/presentation/widgets/custom_icon.dart';
 import 'package:alafein/features/event/organizer/presentation/widgets/information_event.dart';
 
 // import 'package:alafein/features/event/organizer/presentation/widgets/list_view_event.dart';
 import 'package:alafein/features/event/organizer/presentation/widgets/search_items.dart';
+import 'package:alafein/features/profile_page/presentation/widgets/custom_text_field_item.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 // import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:gap/gap.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:responsive_builder/responsive_builder.dart';
+import 'package:svg_flutter/svg.dart';
 
 class Eventbody extends StatefulWidget {
   const Eventbody({
@@ -36,9 +46,15 @@ class Eventbody extends StatefulWidget {
 
 class _EventbodyState extends State<Eventbody> {
 
+  RangeValues values = const RangeValues(1.0 , 10.0);
+
   final EventCategoryBloc eventCategoryBloc = EventCategoryBloc();
 
   final ListEventBloc listEventBloc = ListEventBloc();
+
+  final  TextEditingController _timeAndDateFromContoller = TextEditingController();
+  final  TextEditingController _timeAndDateToContoller = TextEditingController();
+
 
   @override
   void initState() {
@@ -46,6 +62,13 @@ class _EventbodyState extends State<Eventbody> {
     listEventBloc.add(ListEventInitialFetchEvent());
     super.initState();
   }
+    @override
+  void dispose() {
+    _timeAndDateFromContoller.dispose();
+    _timeAndDateToContoller.dispose();
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +85,70 @@ class _EventbodyState extends State<Eventbody> {
               hasIcon: SessionManagement.getUserRole() != "" &&
                   SessionManagement.getUserRole() != "Audience",
             ),
-            const SearchItems(),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 24,
+                vertical: 20,
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: kDividerColor, width: 1.5),
+                      ),
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(
+                            AssetsData.search,
+                            color: const Color(0xFF7C7C7C),
+                          ),
+                          const Gap(16),
+                          Text(
+                            "Search",
+                            style: secondaryTextStyle,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const Gap(16),
+                  InkWell(
+                    onTap: () async{
+                      // _showFilterPopUp(
+                      //   context, 
+                      //   _timeAndDateContoller
+                      //   );
+                      _showFilterPopUp(
+                        context,
+                        _timeAndDateFromContoller,
+                        _timeAndDateToContoller
+                      );
+                    },
+                    // onTap: (){},
+                    child: Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: kDividerColor, width: 1.5),
+                      ),
+                      child: SvgPicture.asset(
+                        AssetsData.svgIcEventicon,
+                        color: const Color(0xFF7C7C7C),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            //  SearchItems(
+            //   onTap: (){
+            //     var commentValue;
+            //     return  _showCommentPopUp(context, commentValue, id);
+            //   }
+            //   ),
             Image.asset(
               AssetsData.bottomBanner,
             ),
@@ -81,10 +167,11 @@ class _EventbodyState extends State<Eventbody> {
                   builder: (context, state) {
                     switch (state.runtimeType) {
                       case EventCategoryErrorState:
-                        return Text("Error Or data not found");
+                         EasyLoading.showError('Oops.. Something went wrong');
                       case EventCategoryLoadingState:
-                        return const Center(child: CircularProgressIndicator(color: kPrimaryColor,),);
+                         EasyLoading.show();
                       case EventCategoryFetchingSuccessfulState:
+                         EasyLoading.dismiss();
                         final successState =
                             state as EventCategoryFetchingSuccessfulState;
                         return ListView.separated(
@@ -133,6 +220,8 @@ class _EventbodyState extends State<Eventbody> {
                       default:
                         return Container();
                     }
+                    EasyLoading.showError("Error");
+                    return Container();
                   },
                 ),
               ),
@@ -151,10 +240,15 @@ class _EventbodyState extends State<Eventbody> {
             listener: (context, state) {},
             builder: (context, state) {
               switch (state.runtimeType) {
-              case ListEventFetchingSuccessfulState:
-                final successState =
-                    state as ListEventFetchingSuccessfulState;
-                return ListView.separated(
+                case ListEventLoadingState :
+                EasyLoading.show();
+                case ListEventErrorState:
+                EasyLoading.showError("An error has been ouccer");
+                case ListEventFetchingSuccessfulState:
+                EasyLoading.dismiss();
+                  final successState =
+                      state as ListEventFetchingSuccessfulState;
+                  return ListView.separated(
                       physics: const BouncingScrollPhysics(),
                       padding: EdgeInsets.zero,
                       itemCount: successState.listEvent.length,
@@ -199,19 +293,118 @@ class _EventbodyState extends State<Eventbody> {
                         );
                       },
                     );
-                   
-                // ListView.builder(
-                //   itemCount: successState.listEvent.length,
-                //   itemBuilder: (BuildContext context, int index) { 
-
-                // );
               }
-              return Text("No data");
+              return Text("");
             }
           ),
         ),
-
       ],
     );
   }
+
+    Future<void> _showFilterPopUp(
+      BuildContext context,
+      TextEditingController dateAndTimeFromController,
+      TextEditingController dateAndTimeToController
+      ) async {
+        RangeLabels labels = RangeLabels(
+        values.start.round().toString(),
+        values.end.round().toString(),
+        );
+        return showModalBottomSheet(
+        isScrollControlled: false,
+        backgroundColor: Colors.white,
+        scrollControlDisabledMaxHeightRatio: 0.75,
+        context: context,
+        builder: (context) {
+          return StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState){
+              return  Padding(
+              padding: const EdgeInsets.only(left: 24, top: 20,right: 24),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Gap(20),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text( 
+                        "ADVANCED SEARCH",
+                        style: homeLabelStyle,
+                      ),
+                      Text(
+                        "You can filter the result from here!",
+                        style: secondaryTextStyle,
+                      ),
+                    ],
+                  ),
+                  const Gap(20),
+                  const Text(
+                    "Cost",
+                    style: homeLabelStyle,
+                  ),
+                  const Gap(20),
+                  RangeSlider(
+                    values: values,
+                    min: 1,
+                    max: 10,
+                    divisions: 10,
+                    labels: labels,
+                    activeColor: Color(0xFFFF73C6),
+                    
+                    onChanged: (value) {
+                      setState(() {
+                        values = value;
+                        labels = RangeLabels(
+                          value.start.round().toString(),
+                          value.end.round().toString(),
+                        );
+                        print("${this.values}");
+                      });
+                    },
+                  ),
+                  const Gap(20),
+                  const Text(
+                    "When",
+                    style: homeLabelStyle,
+                  ),
+                  const Gap(10),
+                  const Text(
+                    "\tFrom",
+                    style: homeLabel4Style,
+                  ),
+                  CustomInput(
+                    title: "Event date and time", 
+                        controller: dateAndTimeFromController,
+                    enabled: true,),
+                  // const Gap(10),
+                  const Text(
+                    "\tTo",
+                    style: homeLabel4Style,
+                  ),
+                  CustomInput(
+                  title: "Event date and time", 
+                      controller: dateAndTimeToController,
+                  enabled: true,),
+                  const Gap(20),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: MainCustomButton(
+                      buttonName: "APPLY",
+                      onPressed: () {
+                      },
+                      backgroundColor: kPrimaryColor,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+        );
+      }
+    );
+  }
+
 }

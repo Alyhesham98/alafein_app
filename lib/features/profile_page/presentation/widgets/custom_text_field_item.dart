@@ -32,7 +32,7 @@ class CustomInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 0,
-      color: Colors.white,
+      color: Colors.transparent,
       child: ListTile(
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 0.0, vertical: 8.0),
