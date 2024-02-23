@@ -5,6 +5,8 @@ import 'package:alafein/core/utility/colors_data.dart';
 import 'package:alafein/features/auth/login/application/cubit/login_cubit.dart';
 import 'package:alafein/features/auth/login/application/google_auth_cubit.dart';
 import 'package:alafein/features/auth/signup/application/signup_cubit/signup_cubit.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -16,16 +18,17 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: const FirebaseOptions(
-      apiKey: "AIzaSyBTDvNMfPQS4cQIUytdrcAKcUeO9OQlcXc",
-      appId: "1:92581426653:android:e07557aa0771512396f234",
+      apiKey: "AIzaSyDWtGpWFRGcb7EQM_T7nNrlM2ad-dTj1kQ",
+      appId: "1:587761639039:android:02750868d015c7b629a94a",
       messagingSenderId: "messaging id",
-      projectId: "alafein-4be65",
+      projectId: "alafein",
     ),
-    // options: DefaultFirebaseOptions.currentPlatform,
   );
+  callFirebase();
   await SessionManagement.init();
   configLoading();
   Bloc.observer = MyBlocObserver();
+
   initLocator();
   runApp(MultiBlocProvider(
     providers: [
@@ -43,6 +46,44 @@ Future<void> main() async {
     ],
     child: const AppWidget(),
   ));
+}
+
+callFirebase() async {
+  try {
+    await FirebaseMessaging.instance
+        .requestPermission(alert: true, announcement: true, sound: true);
+    FirebaseMessaging.instance.getToken().then((value) {
+      if (kDebugMode) {
+        print("DeviceToken:$value");
+      }
+      SessionManagement.notificationToken(value ?? '');
+    });
+    FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+
+    FirebaseMessaging.instance
+        .getInitialMessage()
+        .then((RemoteMessage? message) {
+      if (kDebugMode) {
+        print(message!.data);
+      }
+      if (kDebugMode) {
+        print(message?.messageId);
+      }
+    });
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
+      if (kDebugMode) {
+        print("onMessageOpenedApp: $message");
+      }
+    });
+  } catch (e) {
+    if (kDebugMode) {
+      print(e);
+    }
+  }
 }
 
 void configLoading() {

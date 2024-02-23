@@ -30,6 +30,9 @@ class LoginCubit extends Cubit<LoginState> {
       data: {
         'email': email,
         'password': password,
+        'device':{
+          'notificationToken':SessionManagement.getNotificationToken()
+        }
       },
     );
     call.fold(
