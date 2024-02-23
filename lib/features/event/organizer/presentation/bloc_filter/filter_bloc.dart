@@ -9,18 +9,19 @@ part 'filter_event.dart';
 part 'filter_state.dart';
 
 class FilterBloc extends Bloc<FilterEvent, FilterState> {
-  final int pageNumber;
-  final int pageSize;
-  // final bool isFavourite;
+  // final int pageNumber;
+  // final int pageSize;
+  // // final bool isFavourite;
   
-  final String categoryName;
-  final  String dateFrom;
-  final  String dateTo;
-  final  double minFeeCost;
-  final  double maxFeeCost;
+  // final String categoryName;
+  // final  String dateFrom;
+  // final  String dateTo;
+  // final  double minFeeCost;
+  // final  double maxFeeCost;
 
   FilterBloc(
-    this.pageNumber, this.pageSize, this.categoryName, this.dateFrom, this.dateTo, this.minFeeCost, this.maxFeeCost,)
+    // this.pageNumber, this.pageSize, this.categoryName, this.dateFrom, this.dateTo, this.minFeeCost, this.maxFeeCost,
+    )
      : super(FilterInitial()) {
     on<FilterInitialEvent>(filterInitialFetchEvent);
 
@@ -30,13 +31,20 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
     FilterInitialEvent event, Emitter<FilterState> emit) async{
       emit(FilterLoadingState());
       List<FilterModel> filters = await FilterRepo.fetchFilter(
-        pageNumber,
-        pageSize,
-        categoryName,
-        dateFrom,
-        dateTo,
-        minFeeCost,
-        maxFeeCost
+        event.pageNumber,
+        event.pageSize,
+        event.name,
+        event.dateFrom,
+        event.dateTo,
+        event.minFeeCost,
+        event.maxFeeCost
+        // pageNumber,
+        // pageSize,
+        // categoryName,
+        // dateFrom,
+        // dateTo,
+        // minFeeCost,
+        // maxFeeCost
       );
       emit(FilterSuccessfulState(filterList :filters));
   }

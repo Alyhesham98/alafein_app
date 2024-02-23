@@ -35,30 +35,7 @@ class _SearchBodyState extends State<SearchBody> {
   DateTimeRange? _dateTimeRange = null;
 
   RangeValues values = const RangeValues(1.0, 10.0);
-  // late FilterBloc filterBloc = FilterBloc(
-  //   1,
-  //   500, 
-  //   _searchController.text,
-  //   _dateTimeRange?.start.toString() == null ? null.toString() : _dateTimeRange!.start.toString(),
-  //   _dateTimeRange?.end.toString() == null ? null.toString() : _dateTimeRange!.end.toString(),
-  //   values.start,
-  //   values.end
-  //   );
-
-  FilterBloc  filter = FilterBloc(
-    1, 
-    500, 
-    // _searchController.text, 
-    // "${_dateTimeRange?.start.year}-${_dateTimeRange?.start.month}-${_dateTimeRange?.start.day}",
-    // "${_dateTimeRange?.end.year}-${_dateTimeRange?.end.month}-${_dateTimeRange?.end.day}",
-    // 0.0, // values.start,
-    // 0.0 // values.end
-    null.toString(),
-    "2024-02-22T17:32:44.165Z",
-    "2024-03-01T17:32:44.165Z",
-    0.0,
-    0.0
-  );
+  final FilterBloc filterBloc = FilterBloc();
 
   final TextEditingController _timeAndDateFromContoller =
       TextEditingController();
@@ -67,15 +44,23 @@ class _SearchBodyState extends State<SearchBody> {
   @override
   void initState() {
     // eventCategoryBloc.add(EventCategoryInitialFetchEvent());
-    filter.add(FilterInitialEvent());
+    filterBloc.add(FilterInitialEvent(
+      pageNumber: 1,
+      pageSize: 500,
+      name: null.toString(),
+      dateFrom:"2000-02-23T13:16:57.785Z",
+      dateTo: "2050-02-23T13:16:57.785Z",
+      minFeeCost:0.0,
+      maxFeeCost:0.0,
+    ));
     super.initState();
   }
   
 Future<void> _refresh()async{
     // initState();
       EasyLoading.show(status: 'Loading...');
-      filter.add(FilterInitialEvent());
-    setState(() {});
+      // filter.add(FilterInitialEvent());
+    // setState(() {});
       EasyLoading.dismiss();
     return Future.delayed(const Duration(microseconds: 1),
     );
@@ -157,14 +142,8 @@ Future<void> _refresh()async{
                   const Gap(16),
                   InkWell(
                     onTap: () async {
-                      // _showFilterPopUp(
-                      //   context,
-                      //   _timeAndDateContoller
-                      //   );
                       _showFilterPopUp(
-                        context, _timeAndDateFromContoller,
-                        _timeAndDateToContoller,
-                        filter
+                        context, 
                       );
                     },
                     // onTap: (){},
@@ -186,9 +165,9 @@ Future<void> _refresh()async{
           ]),
         ),
         SliverFillRemaining(
-          hasScrollBody: true,
+          // hasScrollBody: true,
           child: BlocConsumer<FilterBloc, FilterState>(
-            bloc: filter,
+            bloc: filterBloc,
             listenWhen: (previous, current) =>
                 current is FilterActionState,
             buildWhen: (previous, current) =>
@@ -207,7 +186,7 @@ Future<void> _refresh()async{
                 EasyLoading.dismiss();
                 final successState = state as FilterSuccessfulState;
               return ListView.separated(
-                physics: const NeverScrollableScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,
                 itemCount: successState.filterList.length,
@@ -262,7 +241,6 @@ Future<void> _refresh()async{
               return const SizedBox();
           }),
         ),
-      
       ],
     );
   }
@@ -289,16 +267,13 @@ Future<void> _refresh()async{
         });
     if (picked != null) {
       setState(() {
-      _dateTimeRange = picked;
       });
+      _dateTimeRange = picked;
     }
   }
 
   Future<void> _showFilterPopUp(
       BuildContext co,
-      TextEditingController dateAndTimeFromController,
-      TextEditingController dateAndTimeToController,
-      FilterBloc filter,
       ) async {
     RangeLabels labels = RangeLabels(
       values.start.round().toString(),
@@ -417,18 +392,29 @@ Future<void> _refresh()async{
                       onPressed: () async{
                         Navigator.of(context).pop();
                         print("\n${_searchController.text}\n${_dateTimeRange}\n${values} ");
-                        filter = FilterBloc(
-                          1, 
-                          500, 
-                          _searchController.text, 
-                          "${_dateTimeRange?.start.year}-${_dateTimeRange?.start.month}-${_dateTimeRange?.start.day}",
-                          "${_dateTimeRange?.end.year}-${_dateTimeRange?.end.month}-${_dateTimeRange?.end.day}",
-                          0.0, // values.start,
-                          0.0 // values.end
-                          );
-                          filter.add(FilterInitialEvent());
+                        filterBloc.add(FilterInitialEvent(
+                            pageNumber: 1,
+                            pageSize: 500,
+                            name: _searchController.text,
+                            dateFrom:"${_dateTimeRange?.start.year}-${_dateTimeRange?.start.month}-${_dateTimeRange?.start.day}",
+                            dateTo: "${_dateTimeRange?.end.year}-${_dateTimeRange?.end.month}-${_dateTimeRange?.end.day}",
+                            minFeeCost:0.0,
+                            maxFeeCost:0.0,
+                          ));
+                        // BlocProvider.of<FilterBloc>(context).add(
+                        // FilterInitialEvent(
+                        //   pageNumber: 1, 
+                        //   pageSize: 500, 
+                        //   categoryName: _searchController.text, 
+                        //   dateFrom: "${_dateTimeRange?.start.year}-${_dateTimeRange?.start.month}-${_dateTimeRange?.start.day}", 
+                        //   dateTo: "${_dateTimeRange?.end.year}-${_dateTimeRange?.end.month}-${_dateTimeRange?.end.day}", 
+                        //   minFeeCost: 0.0, 
+                        //   maxFeeCost: 0.0)
+                        // );
+                        
+                        //   filter.add(FilterInitialEvent());
                         await Future.delayed(const Duration(milliseconds: 300));
-                        await _refresh();
+                        // await _refresh();
                         //////////////////////////////////////////////////////////////////
                       },
                       backgroundColor: kPrimaryColor,
