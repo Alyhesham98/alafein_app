@@ -1,7 +1,6 @@
 
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:ffi';
 
 import 'package:alafein/core/local_data/session_management.dart';
 import 'package:alafein/features/event/organizer/presentation/model/filter_model.dart';
@@ -32,9 +31,9 @@ class FilterRepo{
         "pageSize": pageSize,
         "name": categoryName,
         "from": dateFrom,
-        "to": dateTo,
-        "minFee": minFeeCost,
-        "maxFee": maxFeeCost
+        "to": dateTo
+        // "minFee": minFeeCost,
+        // "maxFee": maxFeeCost
       }
     );
     try { 
