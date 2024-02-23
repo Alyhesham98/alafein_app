@@ -16,7 +16,6 @@ import 'package:firebase_core/firebase_core.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp();
   await Firebase.initializeApp(
     options: const FirebaseOptions(
       apiKey: "AIzaSyDWtGpWFRGcb7EQM_T7nNrlM2ad-dTj1kQ",
@@ -24,7 +23,6 @@ Future<void> main() async {
       messagingSenderId: "messaging id",
       projectId: "alafein",
     ),
-    // options: DefaultFirebaseOptions.currentPlatform,
   );
   callFirebase();
   await SessionManagement.init();
@@ -49,38 +47,44 @@ Future<void> main() async {
     child: const AppWidget(),
   ));
 }
+
 callFirebase() async {
   try {
     await FirebaseMessaging.instance
         .requestPermission(alert: true, announcement: true, sound: true);
-    FirebaseMessaging.instance
-        .getToken()
-        .then((value) => print("DeviceToken:${value}"));/*SharedPRefHelper().setSetDeviceToken(value.toString()))*/
+    FirebaseMessaging.instance.getToken().then((value) {
+      if (kDebugMode) {
+        print("DeviceToken:$value");
+      }
+      SessionManagement.notificationToken(value ?? '');
+    });
     FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
       alert: true,
       badge: true,
       sound: true,
     );
 
-
-
     FirebaseMessaging.instance
         .getInitialMessage()
         .then((RemoteMessage? message) {
-      print(message!.data);
-      print(message.messageId);
+      if (kDebugMode) {
+        print(message!.data);
+      }
+      if (kDebugMode) {
+        print(message?.messageId);
+      }
     });
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
-      print("onMessageOpenedApp: $message");
+      if (kDebugMode) {
+        print("onMessageOpenedApp: $message");
+      }
     });
-
   } catch (e) {
     if (kDebugMode) {
       print(e);
     }
   }
 }
-
 
 void configLoading() {
   EasyLoading.instance
