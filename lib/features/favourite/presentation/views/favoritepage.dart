@@ -14,6 +14,7 @@ import 'package:gap/gap.dart';
 import 'package:alafein/features/event/organizer/presentation/widgets/custom_icon.dart';
 import 'package:alafein/features/event/organizer/presentation/widgets/information_event.dart';
 import 'package:alafein/features/event/organizer/presentation/widgets/custom_event_image.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 class FavoritePage extends StatefulWidget {
   const FavoritePage({super.key});
@@ -38,7 +39,9 @@ class _FavoritePageState extends State<FavoritePage> {
       favoriteListBloc.add(FavoriteListInitialEvent());
     setState(() {
     });
+    await Future.delayed(Duration(seconds : 1),(){
       EasyLoading.dismiss();
+    });
     return Future.delayed(const Duration(microseconds: 1),
     );
   }
@@ -47,7 +50,8 @@ class _FavoritePageState extends State<FavoritePage> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    return RefreshIndicator(
+    return LiquidPullToRefresh(
+      color: Colors.transparent,
       onRefresh: _refresh,
       child: SingleChildScrollView(
         child: Column(
@@ -68,15 +72,25 @@ class _FavoritePageState extends State<FavoritePage> {
                 buildWhen: (previous, current) =>
                     current is !FavoriteListActionState,
                 listener: (context, state) async{
-                  // if(state is FavoriteListLoadingState){
-                  //   EasyLoading.show(status: 'loading');
-                  // }else if(state is FavoriteListErrorState){
-                  //   EasyLoading.showError("Error!");
-                  // }
+                   if (state is !FavoriteListActionState){
+                    if(state is FavoriteListLoadingState){
+                     EasyLoading.show(status: 'loading');
+                  }else if(state is FavoriteListErrorState){
+                    EasyLoading.dismiss();
+                    EasyLoading.showError("Error!");
+                  }
+                  _refresh();
+                  }
                 },
                 builder: (context, state) {
                 switch (state.runtimeType) {
+                  case FavoriteListLoadingState:
+                    EasyLoading.show();
+                  case FavoriteListErrorState:
+                    EasyLoading.dismiss();
+                    EasyLoading.showError("Error");
                   case FavoriteListSuccessfulState:
+                    EasyLoading.dismiss();
                     final successState = state as FavoriteListSuccessfulState;
                   return ListView.separated(
                     physics: const NeverScrollableScrollPhysics(),
@@ -160,43 +174,6 @@ class _FavoritePageState extends State<FavoritePage> {
                                         ),
                                       ),
                                   ),
-                                  // BlocConsumer<ToggleFavoriteBloc,ToggleFavoriteState>(
-                                  //   bloc: toggleFavoriteBloc,
-                                  //    listenWhen: (previous, current) =>
-                                  //       current is ToggleFavoriteActionState,
-                                  //   buildWhen: (previous, current) =>
-                                  //       current is! ToggleFavoriteActionState,
-                                  //   listener: (context, state) {},
-                                  //   builder: (context, state){
-                                  //     switch (state.runtimeType) {
-                                  //       case ToggleFavoriteLoadingState :
-                                  //         return const Center(
-                                  //             child: CircularProgressIndicator(
-                                  //           color: kPrimaryColor,
-                                  //         ));
-                                        
-                                  //       case ToggleFavoriteSuccessfulState:
-                                  //       final successState = state as ToggleFavoriteSuccessfulState;
-                                        
-                                  //       return CustomIcon(
-                                  //         onTap: (){
-                                  //            toggleFavoriteBloc.add(ToggleFavoriteInitialFetchEvent());
-                                  //         },
-                                  //         icon: Icon(
-                                  //         Icons.favorite_outline,
-                                  //         color: Color(0xFF7C7C7C),
-                                  //           ),
-                                  //         );
-                                  //         default: return const CustomIcon(
-                                  //           icon: Icon(
-                                  //             Icons.favorite_outline,
-                                  //             color: Color(0xFF7C7C7C),
-                                  //           ),
-                                  //         );
-                                  //       }
-                                  //     }
-                                  //  )  
-                                
                                 ],
                               ),
                             ),
@@ -215,11 +192,11 @@ class _FavoritePageState extends State<FavoritePage> {
                 ),
               ),
               const  Gap(10),
-              Container(
+              SizedBox(
                 height: MediaQuery.sizeOf(context).height*0.8,
               )
           ],
-        )
+        ),
       ),
     );
   }

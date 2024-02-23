@@ -33,7 +33,7 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
       List<FilterModel> filters = await FilterRepo.fetchFilter(
         event.pageNumber,
         event.pageSize,
-        event.categoryName,
+        event.name,
         event.dateFrom,
         event.dateTo,
         event.minFeeCost,

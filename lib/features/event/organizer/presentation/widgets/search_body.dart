@@ -47,11 +47,11 @@ class _SearchBodyState extends State<SearchBody> {
     filterBloc.add(FilterInitialEvent(
       pageNumber: 1,
       pageSize: 500,
-      categoryName: null.toString(),
-      dateFrom:"2024-02-23T13:16:57.785Z",
-      dateTo: "2024-02-23T13:16:57.785Z",
-        minFeeCost:0.0,
-        maxFeeCost:0.0,
+      name: null.toString(),
+      dateFrom:"2000-02-23T13:16:57.785Z",
+      dateTo: "2050-02-23T13:16:57.785Z",
+      minFeeCost:0.0,
+      maxFeeCost:0.0,
     ));
     super.initState();
   }
@@ -247,76 +247,6 @@ Future<void> _refresh()async{
               return const SizedBox();
           }),
         ),
-    
-        // SliverFillRemaining(
-        //   child: BlocBuilder<FilterBloc,FilterState>(
-        //     builder: (context,state){
-        //         switch (state.runtimeType){
-        //           case FilterLoadingState:
-        //             EasyLoading.show();
-        //           case FilterErrorState:
-        //             EasyLoading.showError("Error");
-        //           case FilterSuccessfulState:
-        //            EasyLoading.dismiss();
-        //            final successState = state as FilterSuccessfulState;
-        //             return Column();
-        //         //     ListView.separated(
-        //         // physics: const NeverScrollableScrollPhysics(),
-        //         // shrinkWrap: true,
-        //         // padding: EdgeInsets.zero,
-        //         // itemCount: successState.filterList.length,
-        //         // separatorBuilder: (context, index) => Container(
-        //         //   width: double.infinity,
-        //         //   height: 1,
-        //         //   color: const Color(0xffECECEC),
-        //         // ),
-        //         // itemBuilder: (context, index) {
-        //         //   return Padding(
-        //         //     padding: const EdgeInsets.symmetric(
-        //         //       vertical: 10,
-        //         //       horizontal: 20,
-        //         //     ),
-        //         //     child: SizedBox(
-        //         //       height: 100,
-        //         //       child: Row(
-        //         //         children: [
-        //         //         GestureDetector(
-        //         //           onTap: () {
-        //         //             Navigator.push(
-        //         //               context,
-        //         //               MaterialPageRoute(
-        //         //                 builder: (context) => EventDeatils(index: successState.filterList[index].id,),
-        //         //               ),
-        //         //             );
-        //         //           },
-        //         //           child:  CustomEventImage(
-        //         //             imageurl: successState.filterList[index].poster != null ?"${APICallerConfiguration.baseImageUrl}${successState.filterList[index].poster}": "",
-        //         //           ),
-        //         //         ),
-        //         //         SizedBox(
-        //         //           width: size.width * 0.05,
-        //         //         ),
-        //         //           Expanded(
-        //         //           child: Row(
-        //         //             children: [
-        //         //               InformationEvent(
-        //         //                 name: successState.filterList[index].name,
-        //         //                 date: successState.filterList[index].date,
-        //         //                 venue: successState.filterList[index].venue.name,
-        //         //               ),
-        //         //             ],
-        //         //           ),
-        //         //         ),
-        //         //       ]),
-        //         //     ),
-        //         //   );
-        //         //   },
-        //         // );
-        //         } 
-        //         return Container() ;
-        //       }
-        //     ),
-        // )
       ],
     );
   }
@@ -329,33 +259,16 @@ Future<void> _refresh()async{
         initialDateRange: _dateTimeRange,
         initialEntryMode: DatePickerEntryMode.calendarOnly,
         builder: (context, child) {
-          // return Column(
-          //   mainAxisAlignment: MainAxisAlignment.center,
-          //   children: [
-          //     ConstrainedBox(
-          //       constraints: BoxConstraints(
-          //           maxWidth: MediaQuery.sizeOf(context).width * 0.8,
-          //           maxHeight: MediaQuery.sizeOf(context).height * 0.8),
-          //       child: child,
-          //     )
-          //   ],
-          // );
-        
-            return StatefulBuilder(
-            builder: (context, setState) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ConstrainedBox(
-                    constraints: BoxConstraints(
-                      maxWidth: MediaQuery.of(context).size.width * 0.8,
-                      maxHeight: MediaQuery.of(context).size.height * 0.8,
-                    ),
-                    child: child,
-                  )
-                ],
-              );
-            },
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                    maxWidth: MediaQuery.sizeOf(context).width * 0.8,
+                    maxHeight: MediaQuery.sizeOf(context).height * 0.8),
+                child: child,
+              )
+            ],
           );
         });
     if (picked != null) {
@@ -434,7 +347,7 @@ Future<void> _refresh()async{
                   ),
                   const Gap(10),
                   GestureDetector(
-                    onTap: () async{
+                    onTap: () {
                       _showDatePicker(
                         context,
                       );
@@ -490,7 +403,7 @@ Future<void> _refresh()async{
                         filterBloc.add(FilterInitialEvent(
                             pageNumber: 1,
                             pageSize: 500,
-                            categoryName: _searchController.text,
+                            name: _searchController.text,
                             dateFrom:"${_dateTimeRange?.start.year}-${_dateTimeRange?.start.month}-${_dateTimeRange?.start.day}",
                             dateTo: "${_dateTimeRange?.end.year}-${_dateTimeRange?.end.month}-${_dateTimeRange?.end.day}",
                             minFeeCost:0.0,

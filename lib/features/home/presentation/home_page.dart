@@ -3,6 +3,7 @@ import 'package:alafein/core/utility/assets_data.dart';
 import 'package:alafein/core/utility/colors_data.dart';
 import 'package:alafein/core/utility/theme.dart';
 import 'package:alafein/features/event/organizer/presentation/views/event_deatils.dart';
+import 'package:alafein/features/event/organizer/presentation/views/event_search.dart';
 import 'package:alafein/features/home/cubit/home_cubit.dart';
 import 'package:alafein/features/home/presentation/widgets/home_event_item.dart';
 import 'package:auto_route/auto_route.dart';
@@ -43,14 +44,23 @@ class HomePage extends StatelessWidget {
             ),
           ),
           actions: [
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 12),
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(6),
-                  border: Border.all(color: Colors.white, width: 1.5)),
-              child: SvgPicture.asset(
-                AssetsData.search,
+            InkWell(
+              onTap: (){
+                Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const EventSearch()
+                ));
+              },
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 12),
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6),
+                    border: Border.all(color: Colors.white, width: 1.5)),
+                child: SvgPicture.asset(
+                  AssetsData.search,
+                ),
               ),
             ),
           ],

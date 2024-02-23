@@ -6,7 +6,7 @@ abstract class FilterEvent {}
 class FilterInitialEvent extends FilterEvent {
   final int pageNumber;
   final int pageSize;
-  final String categoryName;
+  final String name;
   final String dateFrom;
   final String dateTo;
   final double minFeeCost;
@@ -15,7 +15,7 @@ class FilterInitialEvent extends FilterEvent {
   FilterInitialEvent({
     required this.pageNumber,
     required this.pageSize,
-    required this.categoryName,
+    required this.name,
     required this.dateFrom,
     required this.dateTo,
     required this.minFeeCost,
