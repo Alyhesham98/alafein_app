@@ -2,19 +2,19 @@ import 'dart:ffi';
 
 // import 'package:alafein/core/local_data/session_management.dart';
 import 'package:alafein/features/profile_page/presentation/bloc/profile_page_bloc.dart';
-import 'package:alafein/features/profile_page/presentation/screen/profile_info/organizer_profile%20copy.dart';
+import 'package:alafein/features/profile_page/presentation/screen/profile_info/organizer_profile.dart';
 import 'package:alafein/features/profile_page/presentation/screen/profile_info/venue_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:gap/gap.dart';
-import 'package:responsive_builder/responsive_builder.dart';
+// import 'package:gap/gap.dart';
+// import 'package:responsive_builder/responsive_builder.dart';
 // import 'package:svg_flutter/svg.dart';
 
 import '../../../../../core/local_data/session_management.dart';
 import '../../../../../core/utility/colors_data.dart';
-import '../../../../../core/utility/theme.dart';
-import '../../widgets/custom_profile_list_item.dart';
+// import '../../../../../core/utility/theme.dart';
+// import '../../widgets/custom_profile_list_item.dart';
 import 'audience_profile.dart';
 
 class ProfileInfoPage extends StatefulWidget {
@@ -62,8 +62,16 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
                       }
                     case "Host Venue": 
                       {
-                        return  VenueProfile(successState: successState,
-                          profilePageBloc: profilePageBloc,);
+                        return successState.profilePage?.venue != null ?
+                         VenueProfile(successState: successState,
+                          profilePageBloc: profilePageBloc,)
+                          
+                          : 
+                          
+                          OrganizerProfile(
+                          successState: successState,
+                          profilePageBloc: profilePageBloc,
+                        );
                       }
                     default:
                       {
