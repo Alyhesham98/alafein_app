@@ -208,8 +208,6 @@ class _OrganizerProfileState extends State<OrganizerProfile> {
                             //   checker=!checker;
                             // });
                             // }
-                            // 
-                            // 
                           },
                           child: Text(
                             checker?  'Save' : 'Edit profile',

@@ -142,14 +142,8 @@ Future<void> _refresh()async{
                   const Gap(16),
                   InkWell(
                     onTap: () async {
-                      // _showFilterPopUp(
-                      //   context,
-                      //   _timeAndDateContoller
-                      //   );
                       _showFilterPopUp(
-                        context, _timeAndDateFromContoller,
-                        _timeAndDateToContoller,
-                        // filter
+                        context, 
                       );
                     },
                     // onTap: (){},
@@ -171,7 +165,7 @@ Future<void> _refresh()async{
           ]),
         ),
         SliverFillRemaining(
-          hasScrollBody: true,
+          // hasScrollBody: true,
           child: BlocConsumer<FilterBloc, FilterState>(
             bloc: filterBloc,
             listenWhen: (previous, current) =>
@@ -192,7 +186,7 @@ Future<void> _refresh()async{
                 EasyLoading.dismiss();
                 final successState = state as FilterSuccessfulState;
               return ListView.separated(
-                physics: const NeverScrollableScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,
                 itemCount: successState.filterList.length,
@@ -280,8 +274,6 @@ Future<void> _refresh()async{
 
   Future<void> _showFilterPopUp(
       BuildContext co,
-      TextEditingController dateAndTimeFromController,
-      TextEditingController dateAndTimeToController,
       ) async {
     RangeLabels labels = RangeLabels(
       values.start.round().toString(),
