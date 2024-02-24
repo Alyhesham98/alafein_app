@@ -11,6 +11,7 @@ class CustomInputTextFieldWidget extends StatelessWidget {
     required this.hintText,
     required this.secure,
     required this.controller,
+    required this.onSubmitted,
     this.labelText,
     this.icon,
     this.fillColor,
@@ -18,6 +19,7 @@ class CustomInputTextFieldWidget extends StatelessWidget {
   final String hintText;
   final String? labelText;
   final bool secure;
+  final Function(String) onSubmitted;
   final TextEditingController controller;
   final IconData? icon;
   final Color? fillColor;
@@ -26,7 +28,9 @@ class CustomInputTextFieldWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 10,right: 10),
-      child: TextFormField(
+      child: TextField(
+        textInputAction:TextInputAction.search,
+        onSubmitted: onSubmitted,
         controller: controller,
         obscureText: secure,
         decoration: InputDecoration(

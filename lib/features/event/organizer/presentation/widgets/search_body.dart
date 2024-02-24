@@ -133,7 +133,20 @@ Future<void> _refresh()async{
                       child: CustomInputTextFieldWidget(
                         hintText: 'Search',
                         secure: false,
-                        controller: _searchController,
+                        controller: _searchController, 
+                        onSubmitted: (value) async{
+                          print(value);
+                          filterBloc.add(FilterInitialEvent(
+                            pageNumber: 1,
+                            pageSize: 500,
+                            name: value,
+                            dateFrom: _dateTimeRange?.start.year !=null ? "${_dateTimeRange?.start.year}-${_dateTimeRange?.start.month}-${_dateTimeRange?.start.day}" : "2020-02-24",
+                            dateTo: _dateTimeRange?.end.year !=null ? "${_dateTimeRange?.end.year}-${_dateTimeRange?.end.month}-${_dateTimeRange?.end.day}" : "2080-02-24",
+                            minFeeCost:values.start,
+                            maxFeeCost:values.end,
+                          ));
+                        await Future.delayed(const Duration(milliseconds: 300));
+                        },
                       ),
                     ),
                   ),
