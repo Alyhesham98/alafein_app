@@ -23,23 +23,31 @@ class CustomInputTextFieldWidget extends StatelessWidget {
   final TextEditingController controller;
   final IconData? icon;
   final Color? fillColor;
-          
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 10,right: 10),
+      padding: const EdgeInsets.only(left: 10, right: 10),
       child: TextField(
-        textInputAction:TextInputAction.search,
+        textInputAction: TextInputAction.search,
         onSubmitted: onSubmitted,
         controller: controller,
         obscureText: secure,
         decoration: InputDecoration(
-          fillColor: fillColor == null ? Colors.transparent: fillColor!,
+          focusColor: Colors.transparent,
+          border: InputBorder.none,
+          fillColor: fillColor == null ? Colors.transparent : fillColor!,
           filled: true,
           labelText: labelText,
-          labelStyle: const TextStyle(fontSize: 15,fontFamily: StringConst.formulaFont,),
+          labelStyle: const TextStyle(
+            fontSize: 15,
+            fontFamily: StringConst.formulaFont,
+          ),
           hintText: hintText,
-          hintStyle: const TextStyle(fontSize: 16,fontFamily: StringConst.formulaFont,),
+          hintStyle: const TextStyle(
+            fontSize: 16,
+            fontFamily: StringConst.formulaFont,
+          ),
           icon: SvgPicture.asset(
             AssetsData.search,
             color: const Color(0xFF7C7C7C),

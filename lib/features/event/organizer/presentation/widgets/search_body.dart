@@ -40,7 +40,7 @@ class SearchBody extends StatefulWidget {
 
 class _SearchBodyState extends State<SearchBody> {
   final TextEditingController _searchController= TextEditingController() ;
-  DateTimeRange? _dateTimeRange = null;
+  DateTimeRange? _dateTimeRange;
 
   // RangeValues values =  RangeValues(SessionManagement.minCost, SessionManagement.maxCost);
    RangeValues values =  RangeValues(SessionManagement.minCost, SessionManagement.maxCost);

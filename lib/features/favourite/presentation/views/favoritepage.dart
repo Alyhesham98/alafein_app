@@ -190,9 +190,6 @@ class _FavoritePageState extends State<FavoritePage> {
                 ),
               ),
               const  Gap(10),
-              SizedBox(
-                height: MediaQuery.sizeOf(context).height*0.8,
-              )
           ],
         ),
       ),
