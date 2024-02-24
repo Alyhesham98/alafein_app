@@ -1,6 +1,7 @@
 import 'package:alafein/core/observer.dart';
 import 'package:alafein/core/presentation/app_widget.dart';
 import 'package:alafein/core/shared/providers.dart';
+import 'package:alafein/core/utility/assets_data.dart';
 import 'package:alafein/core/utility/colors_data.dart';
 import 'package:alafein/features/auth/login/application/cubit/login_cubit.dart';
 import 'package:alafein/features/auth/login/application/google_auth_cubit.dart';
@@ -13,6 +14,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'core/local_data/session_management.dart';
 import 'package:firebase_core/firebase_core.dart';
+
+import 'core/utility/CustomLoader.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -89,10 +92,12 @@ callFirebase() async {
 void configLoading() {
   EasyLoading.instance
     ..loadingStyle = EasyLoadingStyle.custom
-    ..indicatorType = EasyLoadingIndicatorType.threeBounce
+    ..customAnimation=  CustomLoader()
+    ..indicatorWidget = Image.asset(AssetsData.animatedLoading )
+    ..infoWidget = Image.asset(AssetsData.animatedLoading)
     ..indicatorSize = 60
     ..indicatorColor = kPrimaryColor
-    ..contentPadding = const EdgeInsets.all(12)
+    ..contentPadding = const EdgeInsets.symmetric(vertical: 12)
     ..displayDuration = const Duration(milliseconds: 1400)
     ..radius = 10.0
     ..progressColor = kPrimaryColor
