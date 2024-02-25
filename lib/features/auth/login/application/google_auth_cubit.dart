@@ -23,10 +23,10 @@ class GoogleAuthCubit extends Cubit<GoogleAuthState>{
       // user dismissed the account dilog
       if(userAccont == null) return;
 
-      //get authemdiration object from account
+      //get authentication object from account
       final GoogleSignInAuthentication googleAuth = await userAccont.authentication;
       print("================================================================================");
-      print("get authemdiration object from account");
+      print("get authentication object from account");
       print("================================================================================");
       //create OauthCredentials from auth object
       final credential = GoogleAuthProvider.credential(
@@ -34,7 +34,8 @@ class GoogleAuthCubit extends Cubit<GoogleAuthState>{
         idToken: googleAuth.idToken,
       );
       print("================================================================================");
-      print("create OauthCredentials from auth object");
+      print("create OauthCredentials from auth object:accessToken:${googleAuth.accessToken}");
+      print("create OauthCredentials from auth object:idToken:${googleAuth.idToken}");
       print("================================================================================");
 
       //login to firebase using the Credential
@@ -51,6 +52,7 @@ class GoogleAuthCubit extends Cubit<GoogleAuthState>{
       
     }catch(e){
       emit(GoogleAuthFaildState(e.toString()));
+      print("Eroor:"+e.toString());
     }
   }
 

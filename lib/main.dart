@@ -22,9 +22,10 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: const FirebaseOptions(
       apiKey: "AIzaSyDWtGpWFRGcb7EQM_T7nNrlM2ad-dTj1kQ",
-      appId: "1:587761639039:android:02750868d015c7b629a94a",
+      appId: "1:587761639039:android:230c35dde1a21f7629a94a",
       messagingSenderId: "messaging id",
       projectId: "alafein",
+      androidClientId: "587761639039-nme8uh34kc0h86eklfmpa7rpaerofkkv.apps.googleusercontent.com"
     ),
   );
   callFirebase();
@@ -55,7 +56,7 @@ callFirebase() async {
   try {
     await FirebaseMessaging.instance
         .requestPermission(alert: true, announcement: true, sound: true);
-    FirebaseMessaging.instance.getToken().then((value) {
+  await  FirebaseMessaging.instance.getToken().then((value) {
       if (kDebugMode) {
         print("DeviceToken:$value");
       }
