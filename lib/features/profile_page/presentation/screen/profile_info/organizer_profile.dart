@@ -61,116 +61,7 @@ class _OrganizerProfileState extends State<OrganizerProfile> {
       
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
-      slivers: [
-        // SliverToBoxAdapter(
-        //   child: Container(
-        //     color: Colors.white,
-        //     child: Padding(
-        //       padding: const EdgeInsets.fromLTRB(24, 50, 24, 8),
-        //       child: Column(
-        //           crossAxisAlignment: CrossAxisAlignment.start,
-        //           children: [
-        //             const Gap(16),
-        //             Row(
-        //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //               crossAxisAlignment: CrossAxisAlignment.center,
-        //               children: [
-        //                 const Text(
-        //                   'PERSONAL INFORMATION',
-        //                   style: homeLabeProfileStyle,
-        //                 ),
-        //                 InkWell(
-        //                   onTap: () async{
-        //                     //Call  the update user info function in the bloc
-        //                     // get the event ProfilePageEditEvent ()                      
-        //                     if (checker) {
-        //                       final ProfilePageBloc profilePageBlocEdit = ProfilePageBloc(
-        //                         _fNameController.text, 
-        //                         _lastNameController.text, 
-        //                         _photoController.text, 
-        //                         _phoneController.text
-        //                         ) ;
-        //                     await Future.delayed(const Duration(milliseconds: 100));
-        //                     profilePageBlocEdit.add(ProfilePageEditEvent());
-        //                       setState(() {
-        //                       checker=!checker;
-        //                     });
-        //                     } else {
-        //                       setState(() {
-        //                       checker=!checker;
-        //                     });
-        //                     }
-                            
-                            
-        //                   },
-        //                   child: Text(
-        //                     checker?  'Save' : 'Edit profile',
-        //                     style: personalInfoLabelPrimary,
-        //                   ),
-        //                 ),
-        //               ],
-        //             ),
-        //             const Gap(40),
-        //             const Text(
-        //               'PROFILE PICTURE',
-        //               style: homeLabel4Style,
-        //             ),
-        //             checker ?
-        //               const  ProfilePicture()
-        //               :
-        //               Container(    
-        //                 width: 27.sw,
-        //                 height: 27.sw,
-        //                 decoration: BoxDecoration(
-        //                     image: DecorationImage(
-        //                         fit: BoxFit.cover,
-        //                         image: NetworkImage(
-        //                             widget.successState.profilePage?.photo != null
-        //                                 ? widget.successState.profilePage
-        //                                 ?.photo ?? "photo"
-        //                                 : "")),
-        //                     shape: BoxShape.circle,
-        //                     border:
-        //                     Border.all(width: 0, color: Colors.transparent),
-        //                     color: kProfilePicBackgroundColor),
-        //                 child: null,
-        //               ), 
-                      
-        //             const Gap(24),
-        //             const Text(
-        //               'PERSONAL INFORMATION',
-        //               style: homeLabel4Style,
-        //             ),
-        //             const Gap(16),
-        //             CustomInput(
-        //               title: widget.successState.profilePage?.firstName ??
-        //                   "first name", 
-        //                   controller: _fNameController,
-        //                   enabled: checker,),
-        //             const Gap(16),
-        //             CustomInput(
-        //               title: widget.successState.profilePage?.lastName ??
-        //                   "last name", 
-        //                   controller: _lastNameController,
-        //                   enabled: checker,),
-        //             const Gap(16),
-        //             CustomInput(
-        //               title: widget.successState.profilePage?.email ??
-        //                   "Email", 
-        //                   controller: _emailController,
-        //                   enabled: false,),
-        //             const Gap(16),
-        //              CustomInput(
-        //               title: widget.successState.profilePage?.phone ??
-        //                   "phone", 
-        //                   controller: _phoneController,
-        //                   enabled: checker,),
-        //             const Gap(24),
-        //       ]),
-        //     ),
-        //   ),
-        // ),
-        SliverToBoxAdapter(
+      slivers: [  SliverToBoxAdapter(
           child: Container(
             color: Colors.white,
             child: Padding(
@@ -249,13 +140,13 @@ class _OrganizerProfileState extends State<OrganizerProfile> {
                     ),
                     const Gap(16),
                      CustomInput(
-                      title: "First Name:"+( widget.successState.profilePage?.firstName ??
-                          "first name"), 
+                      title: "First Name:${widget.successState.profilePage?.firstName ??
+                          "first name"}", 
                           controller: _fNameController,
                           enabled: checker,),
                      CustomInput(
-                      title: "last Name:"+( widget.successState.profilePage?.lastName??
-                          "last name"), 
+                      title: "last Name:${widget.successState.profilePage?.lastName??
+                          "last name"}", 
                           controller: _lastNameController,
                           enabled: checker,),
                      CustomInput(
@@ -269,31 +160,31 @@ class _OrganizerProfileState extends State<OrganizerProfile> {
                           controller: _phoneController,
                           enabled: checker,),
                     
+                    // TempWidget(
+                    //   input: "ID : "+ (widget.successState.profilePage?.organizer?.id.toString() ?? ""),
+                    // ),
+                    // const Gap(16),
                     TempWidget(
-                      input: "ID : "+ (widget.successState.profilePage?.organizer?.id.toString() ?? ""),
+                      input: "maplink : ${widget.successState.profilePage?.organizer?.mapLink?? ""}",
+                    ),
+                    TempWidget(
+                      input: "address : ${widget.successState.profilePage?.organizer?.address ??  ""}",
                     ),
                     const Gap(16),
                     TempWidget(
-                      input: "maplink : "+ (widget.successState.profilePage?.organizer?.mapLink?? ""),
-                    ),
-                    TempWidget(
-                      input: "address : "+ (widget.successState.profilePage?.organizer?.address ??  ""),
+                      input: "instgram : ${widget.successState.profilePage?.organizer?.instagram ?? ""}",
                     ),
                     const Gap(16),
                     TempWidget(
-                      input: "instgram : "+ ( widget.successState.profilePage?.organizer?.instagram ?? ""),
+                      input: "Facebook : ${widget.successState.profilePage?.organizer?.facebook  ?? ""}",
                     ),
                     const Gap(16),
                     TempWidget(
-                      input: "Facebook : "+ (widget.successState.profilePage?.organizer?.facebook  ?? ""),
+                      input: "website : ${widget.successState.profilePage?.organizer?.websiteURL ?? ""}",
                     ),
                     const Gap(16),
                     TempWidget(
-                      input: "website : "+ (widget.successState.profilePage?.organizer?.websiteURL ?? ""),
-                    ),
-                    const Gap(16),
-                    TempWidget(
-                      input: "other : "+ (widget.successState.profilePage?.organizer?.other ?? ""),
+                      input: "other : ${widget.successState.profilePage?.organizer?.other ?? ""}",
                     ),
                     const Gap(16),
                     Container(
@@ -303,17 +194,17 @@ class _OrganizerProfileState extends State<OrganizerProfile> {
                         border: Border.all(color: kDividerColor, width: 1.5),
                       ),
                       child: Text(
-                        "Description : "+ (widget.successState.profilePage?.organizer?. description ?? ""),
+                        "Description : ${widget.successState.profilePage?.organizer?. description ?? ""}",
                         style: secondaryTextStyle,
                         maxLines: 5,
                       ),
                     ),
-                    const Gap(16),TempWidget(
-                      input: "Category ID : "+ (widget.successState.profilePage?.organizer?.category?.id.toString() ?? ""),
-                    ),
+                    // const Gap(16),TempWidget(
+                    //   input: "Category ID : "+ (widget.successState.profilePage?.organizer?.category?.id.toString() ?? ""),
+                    // ),
                     const Gap(16),
                     TempWidget(
-                      input: "Category name : "+ (widget.successState.profilePage?.organizer?.category?.name?? ""),
+                      input: "Category name : ${widget.successState.profilePage?.organizer?.category?.name?? ""}",
                     ),
                     const Gap(16),
                      Container(
