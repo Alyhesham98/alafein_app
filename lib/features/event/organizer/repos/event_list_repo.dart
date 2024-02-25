@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'dart:developer';
 
@@ -8,46 +7,64 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'package:http/http.dart' as http;
 
-class ListEventRepo{
-
-  static Future <List<ListEventModel>> fetchEvent() async{
+class ListEventRepo {
+  static Future<List<ListEventModel>> fetchEvent(isCategory,categoryId) async {
     var client = http.Client();
 
-      List<ListEventModel> events= [];
-        try {
-        //?PageNumber=1&PageSize=500
-        var response = await client.get(
-          Uri.parse('https://alafein.azurewebsites.net/api/v1/Event/GetPagination?PageNumber=${SessionManagement.pageNumber}&PageSize=${SessionManagement.pageSize}'),
-          headers: {"Authorization": "Bearer ${SessionManagement.getUserToken()}"},
+    List<ListEventModel> events = [];
+    try {
+      //?PageNumber=1&PageSize=500
+      var response;
+      if (isCategory) {
+
+        response = await client.post(
+          Uri.parse(
+              'https://alafein.azurewebsites.net/api/v1/Event/GetFilterPagination'),
+          body: jsonEncode({
+            "pageNumber": SessionManagement.pageNumber.toString(),
+            "pageSize": SessionManagement.pageSize.toString(),
+            "categoryId": categoryId.toString()
+
+          }),
+          headers: {"Content-Type": "application/json",
+            "Authorization": "Bearer ${SessionManagement.getUserToken()}"
+          },
         );
-        
-        
-        EasyLoading.show(status: 'loading');
-        if (response.statusCode == 200) {
-          Future.delayed(const Duration(seconds: 1), () {
+      } else {
+        response = await client.get(
+          Uri.parse(
+              'https://alafein.azurewebsites.net/api/v1/Event/GetPagination?PageNumber=${SessionManagement.pageNumber}&PageSize=${SessionManagement.pageSize}'),
+          headers: {
+            "Authorization": "Bearer ${SessionManagement.getUserToken()}"
+          },
+        );
+      }
+
+      EasyLoading.show(status: 'loading');
+      if (response.statusCode == 200) {
+        Future.delayed(const Duration(seconds: 1), () {
           EasyLoading.dismiss();
-          });
+        });
 
         Map<String, dynamic> result = jsonDecode(response.body);
 
         List eventsData = result['Data'];
         print("//${eventsData}\\");
 
+        for (int i = 0; i < eventsData.length; i++) {
+          print("amrr${eventsData[i]}");
 
-        for (int i = 0 ; i < eventsData.length ; i++ ){
-          ListEventModel event = ListEventModel.fromJson(eventsData[i]);// as Map<String, dynamic>
+          ListEventModel event =
+              ListEventModel.fromJson(eventsData[i]); // as Map<String, dynamic>
           events.add(event);
         }
         return events;
+      } else {
+        EasyLoading.showError("Error");
+      }
 
-        } else{
-               EasyLoading.showError("Error");
-        }
-
-      
-      return events ;
-    }
-    catch (e){
+      return events;
+    } catch (e) {
       log(e.toString());
       return [];
     }

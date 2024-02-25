@@ -11,23 +11,23 @@ part 'list_event_state.dart';
 
 class ListEventBloc extends Bloc<ListEventEvent, ListEventState> {
   ListEventBloc() : super(ListEventInitial()) {
-
-    on<ListEventInitialFetchEvent>(listEventInitialFetchEvent);
+    on<ListEventInitialFetchEvent>(_listEventInitialFetchEvent);
   }
 
-    FutureOr<void> listEventInitialFetchEvent(
-    ListEventInitialFetchEvent event, Emitter<ListEventState> emit) async {
-      emit(ListEventLoadingState());
-      print("u are in eventCategoryInitialFetchEvent");
+  Future<void> _listEventInitialFetchEvent(
+      ListEventInitialFetchEvent event,
+      Emitter<ListEventState> emit,
+      ) async {
+    emit(ListEventLoadingState());
+    print("You are in eventCategoryInitialFetchEvent");
 
-      List<ListEventModel> events= await ListEventRepo.fetchEvent();
+    // Assuming ListEventRepo.fetchEvent requires isCategory and categoryId
+    List<ListEventModel> events =
+    await ListEventRepo.fetchEvent(event.isCategory, event.categoryId);
 
-
-
-      emit(ListEventFetchingSuccessfulState(listEvent :events));
+    emit(ListEventFetchingSuccessfulState(listEvent: events));
   }
-  }
-
+}
   /*
   // var client = http.Client();
       // // var url = Uri.parse('https://alafein.azurewebsites.net/api/v1/Event/GetCategories?isAscending=false');

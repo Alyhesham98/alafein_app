@@ -1,4 +1,3 @@
-
 import 'package:alafein/core/local_data/session_management.dart';
 import 'package:alafein/core/api/constants/api_caller_config.dart';
 import 'package:alafein/core/presentation/widgets/main_custom_button.dart';
@@ -7,6 +6,7 @@ import 'package:alafein/core/utility/colors_data.dart';
 import 'package:alafein/core/utility/strings.dart';
 import 'package:alafein/core/utility/theme.dart';
 import 'package:alafein/features/event/organizer/cubit/get_event_cubit.dart';
+
 // import 'package:alafein/features/event/organizer/cubit/get_event_cubit.dart';
 // import 'package:alafein/features/event/organizer/cubit/get_event_state.dart';
 import 'package:alafein/features/event/organizer/presentation/bloc/event_category_bloc.dart';
@@ -27,6 +27,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+
 // import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -46,30 +47,31 @@ class Eventbody extends StatefulWidget {
 }
 
 class _EventbodyState extends State<Eventbody> {
+  RangeValues values = const RangeValues(1.0, 10.0);
 
-  RangeValues values = const RangeValues(1.0 , 10.0);
-
+  int selectedIndex=0;
   final EventCategoryBloc eventCategoryBloc = EventCategoryBloc();
 
-  final ListEventBloc listEventBloc = ListEventBloc();
+  late ListEventBloc listEventBloc = ListEventBloc();
 
-  final  TextEditingController _timeAndDateFromContoller = TextEditingController();
-  final  TextEditingController _timeAndDateToContoller = TextEditingController();
-
+  final TextEditingController _timeAndDateFromContoller =
+      TextEditingController();
+  final TextEditingController _timeAndDateToContoller = TextEditingController();
 
   @override
   void initState() {
     eventCategoryBloc.add(EventCategoryInitialFetchEvent());
-    listEventBloc.add(ListEventInitialFetchEvent());
+    listEventBloc
+        .add(ListEventInitialFetchEvent(isCategory: false, categoryId: 0));
     super.initState();
   }
-    @override
+
+  @override
   void dispose() {
     _timeAndDateFromContoller.dispose();
     _timeAndDateToContoller.dispose();
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -95,14 +97,11 @@ class _EventbodyState extends State<Eventbody> {
                 children: [
                   Expanded(
                     child: InkWell(
-                      onTap: (){
+                      onTap: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => EventSearch(
-
-                                )
-                            ));
+                                builder: (context) => EventSearch()));
                       },
                       child: Container(
                         padding: const EdgeInsets.all(12),
@@ -128,7 +127,7 @@ class _EventbodyState extends State<Eventbody> {
                   ),
                   const Gap(16),
                   InkWell(
-                    onTap: () async{
+                    onTap: () async {
 /*
                       _showFilterPopUp(
                         context,
@@ -138,11 +137,7 @@ class _EventbodyState extends State<Eventbody> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => EventSearch(
-
-                            )
-                          ));
-
+                              builder: (context) => EventSearch()));
                     },
                     child: Container(
                       padding: const EdgeInsets.all(12),
@@ -183,11 +178,11 @@ class _EventbodyState extends State<Eventbody> {
                   builder: (context, state) {
                     switch (state.runtimeType) {
                       case EventCategoryErrorState:
-                         EasyLoading.showError('Oops.. Something went wrong');
+                        EasyLoading.showError('Oops.. Something went wrong');
                       case EventCategoryLoadingState:
-                         EasyLoading.show();
+                        EasyLoading.show();
                       case EventCategoryFetchingSuccessfulState:
-                         EasyLoading.dismiss();
+                        EasyLoading.dismiss();
                         final successState =
                             state as EventCategoryFetchingSuccessfulState;
                         return ListView.separated(
@@ -199,40 +194,56 @@ class _EventbodyState extends State<Eventbody> {
                           itemBuilder: (context, index) => SizedBox(
                             child: InkWell(
                               onTap: () {
-                                if(index==0)
-                                GetEventCubit()..getEventPagination();
-                              else
-                                GetEventCubit()..getEventFilterPagination(successState.eventCatigories.elementAt(index).id);
+
+                                selectedIndex=index;
+
+                                  setState(() {
+                                    listEventBloc.add(
+                                        ListEventInitialFetchEvent(
+                                            isCategory:selectedIndex==0?false: true,
+                                            categoryId: successState
+                                                .eventCatigories
+                                                .elementAt(index)
+                                                .id));
+                                  });
+
                               },
                               borderRadius: BorderRadius.circular(17),
-                              child: Column(
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(17),
-                                    child: CachedNetworkImage(
-                                      width: 70,
-                                      imageUrl:
-                                          "${APICallerConfiguration.baseImageUrl}${successState.eventCatigories[index].image}",
-                                      fit: BoxFit.fitWidth,
-                                      errorWidget: (context, url, error) =>
-                                          Image.asset(
-                                        AssetsData.eventImg,
-                                        fit: BoxFit.contain,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color:
+                                selectedIndex==index?Color(0xFFEDEDED):Colors.white, width:3),
+                              ),
+                                child: Column(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(17),
+                                      child: CachedNetworkImage(
+                                        width: 70,
+                                        imageUrl:
+                                            "${APICallerConfiguration.baseImageUrl}${successState.eventCatigories[index].image}",
+                                        fit: BoxFit.fitWidth,
+                                        errorWidget: (context, url, error) =>
+                                            Image.asset(
+                                          AssetsData.eventImg,
+                                          fit: BoxFit.contain,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  const Gap(4),
-                                  Text(
-                                    successState.eventCatigories[index].name,
-                                    textAlign: TextAlign.center,
-                                    style: homeLabel3Style,
-                                  ),
-                                ],
+                                    const Gap(4),
+                                    Text(
+                                      successState.eventCatigories[index].name,
+                                      textAlign: TextAlign.center,
+                                      style: homeLabel3Style,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
                         );
-                      
+
                       default:
                         return Container();
                     }
@@ -244,27 +255,26 @@ class _EventbodyState extends State<Eventbody> {
             ),
           ]),
         ),
-
         SliverFillRemaining(
           hasScrollBody: true,
           child: BlocConsumer<ListEventBloc, ListEventState>(
-            bloc: listEventBloc,
-            listenWhen: (previous, current) =>
-                current is ListEventActionState,
-            buildWhen: (previous, current) =>
-                current is! ListEventActionState,
-            listener: (context, state) {},
-            builder: (context, state) {
-              switch (state.runtimeType) {
-                case ListEventLoadingState :
-                EasyLoading.show();
-                case ListEventErrorState:
-                EasyLoading.showError("An error has been ouccer");
-                case ListEventFetchingSuccessfulState:
-                EasyLoading.dismiss();
-                  final successState =
-                      state as ListEventFetchingSuccessfulState;
-                  return ListView.separated(
+              bloc: listEventBloc,
+              listenWhen: (previous, current) =>
+                  current is ListEventActionState,
+              buildWhen: (previous, current) =>
+                  current is! ListEventActionState,
+              listener: (context, state) {},
+              builder: (context, state) {
+                switch (state.runtimeType) {
+                  case ListEventLoadingState:
+                    EasyLoading.show();
+                  case ListEventErrorState:
+                    EasyLoading.showError("An error has been ouccer");
+                  case ListEventFetchingSuccessfulState:
+                    EasyLoading.dismiss();
+                    final successState =
+                        state as ListEventFetchingSuccessfulState;
+                    return ListView.separated(
                       physics: const BouncingScrollPhysics(),
                       padding: EdgeInsets.zero,
                       itemCount: successState.listEvent.length,
@@ -280,7 +290,8 @@ class _EventbodyState extends State<Eventbody> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => EventDeatils(
-                                    index: successState.listEvent[index].id,//bloc.event!.id!,
+                                    index: successState
+                                        .listEvent[index].id, //bloc.event!.id!,
                                   ),
                                 ));
                           },
@@ -293,15 +304,18 @@ class _EventbodyState extends State<Eventbody> {
                               height: 100,
                               child: Row(children: [
                                 CustomEventImage(
-                                  imageurl: "${APICallerConfiguration.baseImageUrl}${successState.listEvent[index].poster}" ,
+                                  imageurl:
+                                      "${APICallerConfiguration.baseImageUrl}${successState.listEvent[index].poster}",
                                 ),
                                 SizedBox(
-                                  width: MediaQuery.sizeOf(context).width * 0.05,
+                                  width:
+                                      MediaQuery.sizeOf(context).width * 0.05,
                                 ),
                                 InformationEvent(
                                   name: "${successState.listEvent[index].name}",
                                   date: "${successState.listEvent[index].date}",
-                                  venue: "${successState.listEvent[index].venue.name}",
+                                  venue:
+                                      "${successState.listEvent[index].venue.name}",
                                 ),
                               ]),
                             ),
@@ -309,10 +323,9 @@ class _EventbodyState extends State<Eventbody> {
                         );
                       },
                     );
-              }
-              return Text("");
-            }
-          ),
+                }
+                return Text("");
+              }),
         ),
       ],
     );
