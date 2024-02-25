@@ -90,13 +90,14 @@ class _EventNameState extends State<EventName> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              Gap(25),/*
               CustomIcon(
                 icon: const Icon(
                   Icons.calendar_month,
                   color: Color(0xFF7C7C7C),
                 ),
                 onTap: () {},
-              ),
+              ),*/
               // CustomIcon(
               //   icon: const Icon(
               //     Icons.favorite_border_outlined,

@@ -1,4 +1,6 @@
 
+import 'dart:developer';
+
 import 'package:alafein/features/auth/login/application/Bloc/google_login_state.dart';
 import 'package:alafein/features/auth/login/application/google_auth_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,7 +37,7 @@ class GoogleAuthCubit extends Cubit<GoogleAuthState>{
       );
       print("================================================================================");
       print("create OauthCredentials from auth object:accessToken:${googleAuth.accessToken}");
-      print("create OauthCredentials from auth object:idToken:${googleAuth.idToken}");
+      log("create OauthCredentials from auth object:idToken:${googleAuth.idToken}");
       print("================================================================================");
 
       //login to firebase using the Credential
