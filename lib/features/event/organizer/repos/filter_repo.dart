@@ -13,7 +13,7 @@ import 'package:http/http.dart' as http;
 class FilterRepo{
 
   // POST 
-  //Fetch favorite list
+  //Fetch Fillter  Data From Server
   static Future<List<FilterModel>> fetchFilter(
     int pageNumber, 
     int pageSize , 
@@ -31,9 +31,9 @@ class FilterRepo{
         "pageSize": pageSize,
         "name": categoryName,
         "from": dateFrom,
-        "to": dateTo
-        // "minFee": minFeeCost,
-        // "maxFee": maxFeeCost
+        "to": dateTo,
+        "minFee": minFeeCost,
+        "maxFee": maxFeeCost
       }
     );
     try { 

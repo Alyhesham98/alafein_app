@@ -9,19 +9,8 @@ part 'filter_event.dart';
 part 'filter_state.dart';
 
 class FilterBloc extends Bloc<FilterEvent, FilterState> {
-  // final int pageNumber;
-  // final int pageSize;
-  // // final bool isFavourite;
-  
-  // final String categoryName;
-  // final  String dateFrom;
-  // final  String dateTo;
-  // final  double minFeeCost;
-  // final  double maxFeeCost;
 
-  FilterBloc(
-    // this.pageNumber, this.pageSize, this.categoryName, this.dateFrom, this.dateTo, this.minFeeCost, this.maxFeeCost,
-    )
+  FilterBloc()
      : super(FilterInitial()) {
     on<FilterInitialEvent>(filterInitialFetchEvent);
 
@@ -38,13 +27,6 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
         event.dateTo,
         event.minFeeCost,
         event.maxFeeCost
-        // pageNumber,
-        // pageSize,
-        // categoryName,
-        // dateFrom,
-        // dateTo,
-        // minFeeCost,
-        // maxFeeCost
       );
       emit(FilterSuccessfulState(filterList :filters));
   }
