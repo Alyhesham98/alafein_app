@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 // import 'package:alafein/core/local_data/session_management.dart';
 import 'package:alafein/features/profile_page/presentation/bloc/profile_page_bloc.dart';
 import 'package:alafein/features/profile_page/presentation/screen/profile_info/organizer_profile.dart';
@@ -12,7 +10,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 // import 'package:svg_flutter/svg.dart';
 
 import '../../../../../core/local_data/session_management.dart';
-import '../../../../../core/utility/colors_data.dart';
 // import '../../../../../core/utility/theme.dart';
 // import '../../widgets/custom_profile_list_item.dart';
 import 'audience_profile.dart';
@@ -25,7 +22,7 @@ class ProfileInfoPage extends StatefulWidget {
 }
 
 class _ProfileInfoPageState extends State<ProfileInfoPage> {
-  final ProfilePageBloc profilePageBloc = ProfilePageBloc("","","","");
+  final ProfilePageBloc profilePageBloc = ProfilePageBloc("", "", "", "");
 
   @override
   void initState() {
@@ -42,11 +39,11 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
             listenWhen: (previous, current) =>
                 current is ProfilePageActionState,
             buildWhen: (previous, current) =>
-                current is !ProfilePageActionState,
+                current is! ProfilePageActionState,
             listener: (context, state) {},
             builder: (context, state) {
               switch (state.runtimeType) {
-                case ProfilePageLoadingState :
+                case ProfilePageLoadingState:
                   EasyLoading.show();
                 case ProfilePageFetchingSuccessfulState:
                   EasyLoading.dismiss();
@@ -60,18 +57,17 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
                           profilePageBloc: profilePageBloc,
                         );
                       }
-                    case "Host Venue": 
+                    case "Host Venue":
                       {
-                        return successState.profilePage?.venue != null ?
-                         VenueProfile(successState: successState,
-                          profilePageBloc: profilePageBloc,)
-                          
-                          : 
-                          
-                          OrganizerProfile(
-                          successState: successState,
-                          profilePageBloc: profilePageBloc,
-                        );
+                        return successState.profilePage?.venue != null
+                            ? VenueProfile(
+                                successState: successState,
+                                profilePageBloc: profilePageBloc,
+                              )
+                            : OrganizerProfile(
+                                successState: successState,
+                                profilePageBloc: profilePageBloc,
+                              );
                       }
                     default:
                       {
@@ -82,9 +78,7 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
                       }
                   }
               }
-              return const CircularProgressIndicator(
-                color: kPrimaryColor,
-              );
+              return Container();
             }));
   }
 }

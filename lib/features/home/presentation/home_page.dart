@@ -271,9 +271,7 @@ class HomePage extends StatelessWidget {
                 ),
               );
             } else {
-              return const SpinKitThreeBounce(
-                color: kPrimaryColor,
-              );
+              return Container();
             }
           },
         ),

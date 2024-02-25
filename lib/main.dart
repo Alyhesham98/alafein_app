@@ -93,8 +93,8 @@ void configLoading() {
   EasyLoading.instance
     ..loadingStyle = EasyLoadingStyle.custom
     ..customAnimation=  CustomLoader()
-    ..indicatorWidget = Image.asset(AssetsData.animatedLoading )
-    ..infoWidget = Image.asset(AssetsData.animatedLoading)
+    ..indicatorWidget = SizedBox(width:150,height:150,child: Image.asset(AssetsData.animatedLoading))
+    ..infoWidget = SizedBox(width:150,height:150,child: Image.asset(AssetsData.animatedLoading))
     ..indicatorSize = 60
     ..indicatorColor = kPrimaryColor
     ..contentPadding = const EdgeInsets.symmetric(vertical: 12)
