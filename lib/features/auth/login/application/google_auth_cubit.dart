@@ -36,8 +36,8 @@ class GoogleAuthCubit extends Cubit<GoogleAuthState>{
         idToken: googleAuth.idToken,
       );
       print("================================================================================");
-      print("create OauthCredentials from auth object:accessToken:${googleAuth.accessToken}");
-      log("create OauthCredentials from auth object:idToken:${googleAuth.idToken}");
+      log("create OauthCredentials from auth object:\naccessToken:${googleAuth.accessToken}");
+      log("idToken:${googleAuth.idToken}");
       print("================================================================================");
 
       //login to firebase using the Credential
@@ -54,7 +54,7 @@ class GoogleAuthCubit extends Cubit<GoogleAuthState>{
       
     }catch(e){
       emit(GoogleAuthFaildState(e.toString()));
-      print("Eroor:"+e.toString());
+      print("Error:$e");
     }
   }
 
