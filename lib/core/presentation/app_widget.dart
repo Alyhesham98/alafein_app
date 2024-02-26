@@ -13,8 +13,8 @@ class AppWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveApp(builder: (context) {
       return MaterialApp.router(
-        routerDelegate: AutoRouterDelegate(AppRouterSingleton().appRouter),
-        routeInformationParser: AppRouterSingleton().appRouter.defaultRouteParser(),
+        // routerDelegate: AutoRouterDelegate(AppRouterSingleton().appRouter),
+        // routeInformationParser: AppRouterSingleton().appRouter.defaultRouteParser(),
         builder:  EasyLoading.init(
           builder: (context, child) {
             return child!;
@@ -23,7 +23,16 @@ class AppWidget extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: StringConst.appName,
         theme: themeData,
-        // routerConfig: AppRouterSingleton().appRouter.config(),
+        routerConfig: AppRouterSingleton().appRouter.config(deepLinkBuilder: (deepLink){
+          if(deepLink.path.startsWith('/event_details')){
+          // continue with the platform link
+          return deepLink;
+          }else{
+          return DeepLink.defaultPath;
+          // or DeepLink.path('/')
+          // or DeepLink([HomeRoute()])
+          }
+          }),
       );
     });
   }
