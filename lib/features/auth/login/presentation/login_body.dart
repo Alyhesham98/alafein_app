@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:alafein/core/local_data/session_management.dart';
 import 'package:alafein/core/presentation/routes/app_router.gr.dart';
 import 'package:alafein/core/presentation/widgets/main_custom_button.dart';
 import 'package:alafein/core/presentation/widgets/secondary_custom_button.dart';
@@ -176,16 +179,38 @@ class _LoginBodyState extends State<LoginBody>
                             {
                               EasyLoading.dismiss();
                               state is GoogleAuthSuccessState;
-                              final s=state as GoogleAuthSuccessState;
-
-                                gssoBloc.add(GSSOInitialEvent(
-                                  accessToken: accessToken,
-                                  notificationToken: notificationToken)
-                              );
+                              final s = state as GoogleAuthSuccessState;
+                              print("UUUUUUUUUUUUUUUUU }");
+                              gssoBloc.add(GSSOInitialEvent(
+                                  accessToken:
+                                      SessionManagement.getGoogleIdToken() ??
+                                          '',
+                                  notificationToken: SessionManagement
+                                          .getNotificationToken() ??
+                                      ''));
+                              switch (gssoBloc.state.runtimeType) {
+                                case GSSOInitialState:
+                                  EasyLoading.show();
+                                  break;
+                                case GSSOLoadingState:
+                                  EasyLoading.show();
+                                  break;
+                                case GSSOSuccessState:
+                                  AutoRouter.of(context).replace(
+                                    OnboardingRoute(route: MainRoute()),
+                                  );
+                                  EasyLoading.dismiss();
+                                  break;
+                                case GSSOErrorState:
+                                  EasyLoading.dismiss();
+                                  final error=state as GSSOErrorState;
+                                  EasyLoading.showError("${error.error}");
+                                  break;
+                              }
                               break;
                             }
-                          case GoogleAuthFaildState :
-                            final s=state as GoogleAuthFaildState;
+                          case GoogleAuthFaildState:
+                            final s = state as GoogleAuthFaildState;
 
                             EasyLoading.dismiss();
                             EasyLoading.showError(s.error);

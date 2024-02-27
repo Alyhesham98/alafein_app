@@ -9,7 +9,13 @@ class GSSOInitialState extends GSSOState{}
 
 class GSSOLoadingState extends GSSOState {}
 
-class GSSOErrorState extends GSSOState {}
+class GSSOErrorState extends GSSOState {
+
+  final String? error;
+  GSSOErrorState({
+    required this.error,
+  });
+}
 
 class  GSSOSuccessState extends GSSOState{
 

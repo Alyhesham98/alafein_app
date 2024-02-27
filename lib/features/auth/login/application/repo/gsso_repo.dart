@@ -4,6 +4,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:alafein/core/local_data/session_management.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
@@ -41,7 +42,9 @@ class GSSORepo{
       );
       Map<String, dynamic> result = jsonDecode(response.body);
       debugPrint(result.toString());
-      
+      GSSOResponse gssoResponse = GSSOResponse.fromJson(result);
+      SessionManagement.createSession(token: gssoResponse.data.jwtToken, role: gssoResponse.data.role);
+      return gssoResponse;
     }
     catch (e){
       log(e.toString());

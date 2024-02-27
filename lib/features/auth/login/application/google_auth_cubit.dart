@@ -57,7 +57,7 @@ class GoogleAuthCubit extends Cubit<GoogleAuthState> {
       print(
           "================================================================================");
 
-      emit(GoogleAuthSuccessState(userCredential.user! as GoogleLoginState));
+      emit(GoogleAuthSuccessState(/*userCredential.user! as GoogleLoginState*/));
       print(
           "================================================================================");
       print("Success Credential");
