@@ -247,7 +247,7 @@ class _EventbodyState extends State<Eventbody> {
                       default:
                         return Container();
                     }
-                    EasyLoading.showError("Error");
+                    // EasyLoading.showError("Error");
                     return Container();
                   },
                 ),

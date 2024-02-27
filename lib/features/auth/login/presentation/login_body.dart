@@ -15,6 +15,7 @@ import 'package:alafein/features/main/main_screen.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -75,7 +76,9 @@ class _LoginBodyState extends State<LoginBody>
                 key: cubit.formKey,
                 child: Column(
                   children: [
-                    SvgPicture.asset(AssetsData.blueLogo,),
+                    SvgPicture.asset(
+                      AssetsData.blueLogo,
+                    ),
                     Gap(8.sw),
                     const CustomLoginMainText(
                       text: 'Let’s check if you have an account',
@@ -139,37 +142,60 @@ class _LoginBodyState extends State<LoginBody>
                       child: Text(
                         'OR',
                         style: GoogleFonts.ubuntu(
-                            fontSize: 16, color: kPrimaryColor,fontWeight: FontWeight.w700),
+                            fontSize: 16,
+                            color: kPrimaryColor,
+                            fontWeight: FontWeight.w700),
                       ),
                     ),
                     Gap(4.sw),
-                    // SecondaryCustomButton(
-                    //   text: "Create New Account",
-                    //   onPressed: () {
-                    //     AutoRouter.of(context).push(const SignupRoute());
-                    //   },
-                    // ),
-                    // Gap(4.sw),
+                    SecondaryCustomButton(
+                      text: "Create New Account",
+                      onPressed: () {
+                        AutoRouter.of(context).push(const SignupRoute());
+                      },
+                    ),
+                    Gap(4.sw),
                     PlatformCustomButton(
                       onPressed: () {},
                       platform: 'Apple',
                       image: AssetsData.apple,
                     ),
                     Gap(4.sw),
-                    BlocConsumer<GoogleAuthCubit , GoogleAuthState>(
-                      listener: (context , state){},
-                      builder: (context , state){
-                        return PlatformCustomButton(
-                        onPressed: (){
-                          print("u contiue with google button");
-                          // state is GoogleAuthLoadingState ? null : () => context.read<GoogleAuthCubit>().login();
-                          context.read<GoogleAuthCubit>().login();
-                          print("${state is GoogleAuthLoadingState}");
-                        },
-                        platform: 'Google',
-                        image: AssetsData.google,
-                      );
+                    BlocConsumer<GoogleAuthCubit, GoogleAuthState>(
+                      listener: (context, state) {
+                        switch (state.runtimeType) {
+                          case GoogleAuthLoadingState:
+                            EasyLoading.show();
+                            break;
+                          case GoogleAuthInitialState:
+                            EasyLoading.show();
+                            break;
+                          case GoogleAuthSuccessState:
+                            {
+                              EasyLoading.dismiss();
+                              state is GoogleAuthSuccessState;
 
+                              break;
+                            }
+                          case GoogleAuthFaildState :
+                            final s=state as GoogleAuthFaildState;
+
+                            EasyLoading.dismiss();
+                            EasyLoading.showError(s.error);
+                            break;
+                        }
+                      },
+                      builder: (context, state) {
+                        return PlatformCustomButton(
+                          onPressed: () {
+                            print("u contiue with google button");
+                            // state is GoogleAuthLoadingState ? null : () => context.read<GoogleAuthCubit>().login();
+                            context.read<GoogleAuthCubit>().login();
+                            print("${state is GoogleAuthLoadingState}");
+                          },
+                          platform: 'Google',
+                          image: AssetsData.google,
+                        );
                       },
                     ),
                     Gap(4.sw),

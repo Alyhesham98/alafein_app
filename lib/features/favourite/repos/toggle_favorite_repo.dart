@@ -29,7 +29,7 @@ class ToggleRepo{
       );       
 
       if (response.statusCode >= 200 && response.statusCode < 300) {
-        print("${response.body}");
+        print(response.body);
         print("true");
         return true;
       } else{
