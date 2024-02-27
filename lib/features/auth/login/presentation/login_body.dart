@@ -181,16 +181,15 @@ class _LoginBodyState extends State<LoginBody>
                               state is GoogleAuthSuccessState;
                               final s = state as GoogleAuthSuccessState;
                               print("UUUUUUUUUUUUUUUUU }");
-                              gssoBloc.add(GSSOInitialEvent(
+                              /*gssoBloc.add(GSSOInitialEvent(
                                   accessToken:
                                       SessionManagement.getGoogleIdToken() ??
                                           '',
                                   notificationToken: SessionManagement
                                           .getNotificationToken() ??
-                                      ''));
+                                      ''));*/
                               switch (gssoBloc.state.runtimeType) {
                                 case GSSOInitialState:
-                                  EasyLoading.show();
                                   break;
                                 case GSSOLoadingState:
                                   EasyLoading.show();
@@ -222,7 +221,7 @@ class _LoginBodyState extends State<LoginBody>
                           onPressed: () {
                             print("u contiue with google button");
                             // state is GoogleAuthLoadingState ? null : () => context.read<GoogleAuthCubit>().login();
-                            context.read<GoogleAuthCubit>().login();
+                            context.read<GoogleAuthCubit>().login(context);
                             print("${state is GoogleAuthLoadingState}");
                           },
                           platform: 'Google',
