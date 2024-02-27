@@ -3,7 +3,7 @@ import 'package:alafein/core/presentation/widgets/main_custom_button.dart';
 import 'package:alafein/core/presentation/widgets/secondary_custom_button.dart';
 import 'package:alafein/core/utility/assets_data.dart';
 import 'package:alafein/core/utility/colors_data.dart';
-import 'package:alafein/core/utility/strings.dart';
+import 'package:alafein/features/auth/login/application/Bloc_GSSO/gsso_bloc.dart';
 import 'package:alafein/features/auth/login/application/cubit/login_cubit.dart';
 import 'package:alafein/features/auth/login/application/google_auth_cubit.dart';
 import 'package:alafein/features/auth/login/application/google_auth_state.dart';
@@ -32,6 +32,8 @@ class _LoginBodyState extends State<LoginBody>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Size> _heightAnimation;
+
+  final GSSOBloc gssoBloc = GSSOBloc();
 
   @override
   void initState() {
@@ -174,7 +176,10 @@ class _LoginBodyState extends State<LoginBody>
                             {
                               EasyLoading.dismiss();
                               state is GoogleAuthSuccessState;
-
+                                gssoBloc.add(GSSOInitialEvent(
+                                  accessToken: accessToken,
+                                  notificationToken: notificationToken)
+                              );
                               break;
                             }
                           case GoogleAuthFaildState :
