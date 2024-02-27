@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:alafein/core/local_data/session_management.dart';
 import 'package:alafein/core/presentation/routes/app_router.gr.dart';
@@ -179,7 +178,7 @@ class _LoginBodyState extends State<LoginBody>
                             {
                               EasyLoading.dismiss();
                               state is GoogleAuthSuccessState;
-                              final s = state as GoogleAuthSuccessState;
+                              // final s = state as GoogleAuthSuccessState;
                               print("UUUUUUUUUUUUUUUUU }");
                               gssoBloc.add(GSSOInitialEvent(
                                   accessToken:

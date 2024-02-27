@@ -56,13 +56,14 @@ class GoogleAuthCubit extends Cubit<GoogleAuthState> {
       print("logining to firebase using the Credential");
       print(
           "================================================================================");
-
-      emit(GoogleAuthSuccessState(/*userCredential.user! as GoogleLoginState*/));
+      User? userDetails = userCredential.user;
+      emit(GoogleAuthSuccessState(userCredential.user! as GoogleLoginState));
       print(
           "================================================================================");
       print("Success Credential");
       print(
           "================================================================================");
+
     } catch (e) {
       emit(GoogleAuthFaildState(e.toString()));
       print("Error:$e");
