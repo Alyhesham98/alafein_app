@@ -16,6 +16,7 @@ class SessionManagement {
   static const String ON_Boarding_KEY = "on_boarding_key";
   static const String IS_LOGIN_KEY = "login_key";
   static const String TOKEN_KEY = "token_key";
+  static const String GIDTOKEN_KEY = "g_id_token_key";
   static const String NOTIFICATIONS_TOKEN_KEY = "notifications_key";
   static const String IMAGE_FILE_KEY = "image_key";
   static const String LANG_KEY = "lang_key";
@@ -58,6 +59,7 @@ class SessionManagement {
   static String? getUserToken() => box.get(TOKEN_KEY) ?? "";
   static String? getUserRole() => box.get(ROLE_KEY) ?? "";
   static String? getNotificationToken() => box.get(NOTIFICATIONS_TOKEN_KEY) ?? "";
+  static String? getGoogleIdToken() => box.get(GIDTOKEN_KEY) ?? "";
 
   static int getCountryId() => box.get(COUNTRY_ID_KEY);
 
@@ -108,6 +110,9 @@ class SessionManagement {
   }
   static void notificationToken(String token) {
     box.put(NOTIFICATIONS_TOKEN_KEY, token);
+  }
+  static void googleIdToken(String token) {
+    box.put(GIDTOKEN_KEY, token);
   }
 
   static String getImagePath() => box.get(IMAGE_FILE_KEY);

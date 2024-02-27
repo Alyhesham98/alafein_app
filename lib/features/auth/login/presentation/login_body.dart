@@ -174,6 +174,7 @@ class _LoginBodyState extends State<LoginBody>
                             {
                               EasyLoading.dismiss();
                               state is GoogleAuthSuccessState;
+                              final s=state as GoogleAuthSuccessState;
 
                               break;
                             }
