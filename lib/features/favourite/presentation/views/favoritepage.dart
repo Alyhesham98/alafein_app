@@ -190,6 +190,7 @@ class _FavoritePageState extends State<FavoritePage> {
                 ),
               ),
               const  Gap(10),
+              SizedBox(height: size.height*0.8,)
           ],
         ),
       ),

@@ -1,4 +1,6 @@
 import 'package:alafein/core/api/constants/api_caller_config.dart';
+import 'package:alafein/core/local_data/session_management.dart';
+import 'package:alafein/core/presentation/routes/app_router.gr.dart';
 import 'package:alafein/core/utility/assets_data.dart';
 import 'package:alafein/core/utility/colors_data.dart';
 import 'package:alafein/core/utility/theme.dart';
@@ -10,7 +12,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gap/gap.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -90,21 +91,36 @@ class HomePage extends StatelessWidget {
                                             0,
                                     scrollDirection: Axis.horizontal,
                                     itemBuilder: (context, index) => InkWell(
-                                          onTap: () {
+                                          onTap: (SessionManagement.getUserRole() != "") ? 
+                                          (){
                                             Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      EventDeatils(
-                                                    index: state
-                                                            .homeResponse
-                                                            .spotlight?[index]
-                                                            .id ??
-                                                        -1,
-                                                  ),
-                                                ));
-                                          },
-                                          child: HomeEventItem(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    EventDeatils(
+                                                  index: state
+                                                          .homeResponse
+                                                          .spotlight?[index]
+                                                          .id ??
+                                                      -1,
+                                                ),
+                                              ));} : ()async{
+                                              Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    EventDeatils(
+                                                  index: state
+                                                          .homeResponse
+                                                          .spotlight?[index]
+                                                          .id ??
+                                                      -1,
+                                                ),
+                                              ));
+                                              await Future.delayed(const Duration(seconds: 2));
+                                              AutoRouter.of(context).popAndPush(const SignupRoute());
+                                              },
+                                           child: HomeEventItem(
                                             name: state.homeResponse
                                                     .spotlight?[index].name ??
                                                 "",
@@ -156,7 +172,36 @@ class HomePage extends StatelessWidget {
                                     state.homeResponse.category?.length ?? 0,
                                 itemBuilder: (context, index) => InkWell(
                                   borderRadius: BorderRadius.circular(17),
-                                  onTap: onCatTapped,
+                                  // onTap: onCatTapped,
+                                  onTap:  (SessionManagement.getUserRole() != "") ? 
+                                    (){
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              EventDeatils(
+                                            index: state
+                                                    .homeResponse
+                                                    .spotlight?[index]
+                                                    .id ??
+                                                -1,
+                                          ),
+                                        ));} : ()async{
+                                        Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              EventDeatils(
+                                            index: state
+                                                    .homeResponse
+                                                    .spotlight?[index]
+                                                    .id ??
+                                                -1,
+                                          ),
+                                        ));
+                                        await Future.delayed(const Duration(seconds: 2));
+                                        AutoRouter.of(context).popAndPush(const SignupRoute());
+                                        },
                                   child: SizedBox(
                                     child: Column(
                                       children: [
@@ -227,8 +272,19 @@ class HomePage extends StatelessWidget {
                                         state.homeResponse.today?.length ?? 0,
                                     scrollDirection: Axis.horizontal,
                                     itemBuilder: (context, index) => InkWell(
-                                          onTap: () {
-                                            Navigator.push(
+                                          onTap: (SessionManagement.getUserRole() != "") ? 
+                                          (){
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      EventDeatils(
+                                                    index: state.homeResponse
+                                                            .today?[index].id ??
+                                                        -1,
+                                                  ),
+                                                ));} : ()async{
+                                                Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) =>
@@ -238,7 +294,9 @@ class HomePage extends StatelessWidget {
                                                         -1,
                                                   ),
                                                 ));
-                                          },
+                                              await Future.delayed(const Duration(seconds: 2));
+                                              AutoRouter.of(context).popAndPush(const SignupRoute());
+                                              },
                                           child: HomeEventItem(
                                             name: state.homeResponse
                                                     .today?[index].name ??
