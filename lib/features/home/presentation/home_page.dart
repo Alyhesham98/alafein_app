@@ -87,15 +87,16 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
-        body: LiquidPullToRefresh(
-          color: Colors.transparent,
-          onRefresh: _refresh,
-          child: BlocBuilder<HomeCubit, HomeState>(
-            builder: (context, state) {
-              if (state is HomeLoaded) {
-                return Padding(
-                  padding: const EdgeInsets.all(16.0),
+        body: BlocBuilder<HomeCubit, HomeState>(
+          builder: (context, state) {
+            if (state is HomeLoaded) {
+              return Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: LiquidPullToRefresh(
+                  color: Colors.transparent,
+                  onRefresh: _refresh,
                   child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -115,7 +116,7 @@ class _HomePageState extends State<HomePage> {
                                               0,
                                       scrollDirection: Axis.horizontal,
                                       itemBuilder: (context, index) => InkWell(
-                                            onTap: (SessionManagement.getUserRole() != "") ? 
+                                            onTap: (SessionManagement.getUserRole() != "") ?
                                             (){
                                               Navigator.push(
                                                 context,
@@ -142,7 +143,7 @@ class _HomePageState extends State<HomePage> {
                                                   ),
                                                 ));
                                                 await Future.delayed(const Duration(seconds: 2));
-                                                AutoRouter.of(context).popAndPush(const SignupRoute());
+                                                AutoRouter.of(context).popAndPush(const LoginRoute());
                                                 },
                                              child: HomeEventItem(
                                               name: state.homeResponse
@@ -196,7 +197,9 @@ class _HomePageState extends State<HomePage> {
                                       state.homeResponse.category?.length ?? 0,
                                   itemBuilder: (context, index) => InkWell(
                                     borderRadius: BorderRadius.circular(17),
-                                    onTap:(SessionManagement.getUserRole() != "")? widget.onCatTapped:null,
+                                    onTap:(SessionManagement.getUserRole() != "")? widget.onCatTapped: (){
+                                      AutoRouter.of(context).popAndPush(const LoginRoute());
+                                    },
                                     // onTap:  (SessionManagement.getUserRole() != "") ?
                                     //   (){
                                     //     Navigator.push(
@@ -296,7 +299,7 @@ class _HomePageState extends State<HomePage> {
                                           state.homeResponse.today?.length ?? 0,
                                       scrollDirection: Axis.horizontal,
                                       itemBuilder: (context, index) => InkWell(
-                                            onTap: (SessionManagement.getUserRole() != "") ? 
+                                            onTap: (SessionManagement.getUserRole() != "") ?
                                             (){
                                                 Navigator.push(
                                                   context,
@@ -319,7 +322,7 @@ class _HomePageState extends State<HomePage> {
                                                     ),
                                                   ));
                                                 await Future.delayed(const Duration(seconds: 2));
-                                                AutoRouter.of(context).popAndPush(const SignupRoute());
+                                                AutoRouter.of(context).popAndPush(const LoginRoute());
                                                 },
                                             child: HomeEventItem(
                                               name: state.homeResponse
@@ -350,15 +353,15 @@ class _HomePageState extends State<HomePage> {
                             AssetsData.bottomBanner,
                           ),
                           const Gap(16),
-                          SizedBox(height: MediaQuery.of(context).size.height*0.1,)
+                          // SizedBox(height: MediaQuery.of(context).size.height*0.1,)
                         ]),
                   ),
-                );
-              } else {
-                return Container();
-              }
-            },
-          ),
+                ),
+              );
+            } else {
+              return Container();
+            }
+          },
         ),
       ),
     );

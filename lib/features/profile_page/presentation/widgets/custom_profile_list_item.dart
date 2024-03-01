@@ -96,7 +96,7 @@ class CustomProfileAppBarEvent extends StatelessWidget {
                         }
                       } else {
                         AutoRouter.of(context)
-                            .replaceAll([const SignupRoute()]);
+                            .replaceAll([const LoginRoute()]);
                       }
                       await _deleteCacheDir();
                       EasyLoading.dismiss();
