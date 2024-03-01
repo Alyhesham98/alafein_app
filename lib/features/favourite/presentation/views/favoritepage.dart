@@ -53,6 +53,7 @@ class _FavoritePageState extends State<FavoritePage> {
       height: double.infinity,
       child: LiquidPullToRefresh(
         color: Colors.transparent,
+        showChildOpacityTransition: false,
         onRefresh: _refresh,
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),

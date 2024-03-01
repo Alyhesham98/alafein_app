@@ -39,35 +39,3 @@ class EventDeatils extends StatelessWidget {
     );
   }
 }
-  // @override
-  // Widget build(BuildContext context) {
-  //   var size = MediaQuery
-  //       .of(context)
-  //       .size;
-  //   return MultiBlocProvider(providers: [BlocProvider(
-  //     create: (context) =>
-  //     GetEventCubit()
-  //       ..getEventDeatils(id: index),),
-  //     BlocProvider<ToggleFavCubit>(
-  //       create: (context) =>
-  //           ToggleFavCubit(), // Provide your ToggleFavCubit here
-  //     ),
-  //   ],
-  //     child: BlocBuilder<GetEventCubit, GetEventState>(
-  //       builder: (context, state) {
-  //         return Scaffold(
-  //           body: CustomScrollView(
-  //             physics: const BouncingScrollPhysics(),
-  //             slivers: [
-  //               SliverToBoxAdapter(
-  //                 child: EventsShowCommentBody(
-  //                   size: size,
-  //                 ),
-  //               ),
-  //             ],
-  //           ),
-  //         );
-  //       },
-  //     ),
-  //   );
-  // }}

@@ -5,16 +5,17 @@ import 'package:flutter/material.dart';
 class ListCommetItems extends StatelessWidget {
   List<Comments> comments;
 
-  ListCommetItems(this.comments);
+  ListCommetItems(this.comments, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
       padding: EdgeInsets.zero,
+      // scrollDirection: Axis.vertical,
       shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
+      // physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) =>   Padding(
-        padding: EdgeInsets.only(left: 24, right: 16),
+        padding: const EdgeInsets.only(left: 24, right: 16),
         child: CommentItems(comments[index]),
       ),
       separatorBuilder: (context, index) => Container(

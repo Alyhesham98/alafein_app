@@ -280,10 +280,11 @@ class _EventbodyState extends State<Eventbody> {
                     final successState =
                         state as ListEventFetchingSuccessfulState;
                     return LiquidPullToRefresh(
+                      showChildOpacityTransition: false,
                       color: Colors.transparent,
                       onRefresh: _refresh,
                       child: ListView.separated(
-                        physics: const BouncingScrollPhysics(),
+                        physics: const AlwaysScrollableScrollPhysics(),
                         padding: EdgeInsets.zero,
                         itemCount: successState.listEvent.length,
                         separatorBuilder: (context, index) => Container(

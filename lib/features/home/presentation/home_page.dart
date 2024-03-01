@@ -95,6 +95,7 @@ class _HomePageState extends State<HomePage> {
                 child: LiquidPullToRefresh(
                   color: Colors.transparent,
                   onRefresh: _refresh,
+                  showChildOpacityTransition: false,
                   child: SingleChildScrollView(
                     physics: const AlwaysScrollableScrollPhysics(),
                     child: Column(
