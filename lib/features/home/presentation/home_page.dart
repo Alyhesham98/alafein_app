@@ -17,6 +17,8 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:svg_flutter/svg.dart';
 
+import '../../event/organizer/presentation/views/event_page.dart';
+
 @RoutePage()
 class HomePage extends StatelessWidget {
   final PageController _scrollController = PageController();
@@ -172,36 +174,36 @@ class HomePage extends StatelessWidget {
                                     state.homeResponse.category?.length ?? 0,
                                 itemBuilder: (context, index) => InkWell(
                                   borderRadius: BorderRadius.circular(17),
-                                  // onTap: onCatTapped,
-                                  onTap:  (SessionManagement.getUserRole() != "") ? 
-                                    (){
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              EventDeatils(
-                                            index: state
-                                                    .homeResponse
-                                                    .spotlight?[index]
-                                                    .id ??
-                                                -1,
-                                          ),
-                                        ));} : ()async{
-                                        Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              EventDeatils(
-                                            index: state
-                                                    .homeResponse
-                                                    .spotlight?[index]
-                                                    .id ??
-                                                -1,
-                                          ),
-                                        ));
-                                        await Future.delayed(const Duration(seconds: 2));
-                                        AutoRouter.of(context).popAndPush(const SignupRoute());
-                                        },
+                                  onTap:(SessionManagement.getUserRole() != "")? onCatTapped:null,
+                                  // onTap:  (SessionManagement.getUserRole() != "") ?
+                                  //   (){
+                                  //     Navigator.push(
+                                  //       context,
+                                  //       MaterialPageRoute(
+                                  //         builder: (context) =>
+                                  //             EventDeatils(
+                                  //           index: state
+                                  //                   .homeResponse
+                                  //                   .spotlight?[index]
+                                  //                   .id ??
+                                  //               -1,
+                                  //         ),
+                                  //       ));} : ()async{
+                                  //       Navigator.push(
+                                  //       context,
+                                  //       MaterialPageRoute(
+                                  //         builder: (context) =>
+                                  //             EventDeatils(
+                                  //           index: state
+                                  //                   .homeResponse
+                                  //                   .spotlight?[index]
+                                  //                   .id ??
+                                  //               -1,
+                                  //         ),
+                                  //       ));
+                                  //       await Future.delayed(const Duration(seconds: 2));
+                                  //       AutoRouter.of(context).popAndPush(const SignupRoute());
+                                  //       },
                                   child: SizedBox(
                                     child: Column(
                                       children: [

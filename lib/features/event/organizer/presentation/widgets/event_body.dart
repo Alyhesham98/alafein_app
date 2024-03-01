@@ -49,7 +49,7 @@ class Eventbody extends StatefulWidget {
 class _EventbodyState extends State<Eventbody> {
   RangeValues values = const RangeValues(1.0, 10.0);
 
-  int selectedIndex=0;
+  int selectedIndex = 0;
   final EventCategoryBloc eventCategoryBloc = EventCategoryBloc();
 
   late ListEventBloc listEventBloc = ListEventBloc();
@@ -101,7 +101,7 @@ class _EventbodyState extends State<Eventbody> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => EventSearch()));
+                                builder: (context) => const EventSearch()));
                       },
                       child: Container(
                         padding: const EdgeInsets.all(12),
@@ -154,12 +154,6 @@ class _EventbodyState extends State<Eventbody> {
                 ],
               ),
             ),
-            //  SearchItems(
-            //   onTap: (){
-            //     var commentValue;
-            //     return  _showCommentPopUp(context, commentValue, id);
-            //   }
-            //   ),
             Image.asset(
               AssetsData.bottomBanner,
             ),
@@ -194,27 +188,26 @@ class _EventbodyState extends State<Eventbody> {
                           itemBuilder: (context, index) => SizedBox(
                             child: InkWell(
                               onTap: () {
-
-                                selectedIndex=index;
-
-                                  setState(() {
-                                    listEventBloc.add(
-                                        ListEventInitialFetchEvent(
-                                            isCategory:selectedIndex==0?false: true,
-                                            categoryId: successState
-                                                .eventCatigories
-                                                .elementAt(index)
-                                                .id));
-                                  });
-
+                                selectedIndex = index;
+                                setState(() {
+                                  listEventBloc.add(ListEventInitialFetchEvent(
+                                      isCategory:
+                                          selectedIndex == 0 ? false : true,
+                                      categoryId: successState.eventCatigories
+                                          .elementAt(index)
+                                          .id));
+                                });
                               },
                               borderRadius: BorderRadius.circular(17),
                               child: Container(
                                 decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(color:
-                                selectedIndex==index?Color(0xFFEDEDED):Colors.white, width:3),
-                              ),
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(
+                                      color: selectedIndex == index
+                                          ? Color(0xFFEDEDED)
+                                          : Colors.white,
+                                      width: 3),
+                                ),
                                 child: Column(
                                   children: [
                                     ClipRRect(
