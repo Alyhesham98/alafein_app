@@ -1,18 +1,14 @@
-import 'dart:ffi';
 
 import 'package:alafein/core/local_data/session_management.dart';
 import 'package:alafein/features/auth/signup/presentation/widgets/profile_picture.dart';
-import 'package:alafein/features/profile_page/presentation/widgets/custom_profile_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:svg_flutter/svg.dart';
 
 import '../../../../../core/api/constants/api_caller_config.dart';
 import '../../../../../core/utility/colors_data.dart';
 import '../../../../../core/utility/theme.dart';
 import '../../bloc/profile_page_bloc.dart';
-import '../../model/profile_page_ui_model.dart';
 import '../../widgets/custom_text_field_item.dart';
 
 class AudienceProfile extends StatefulWidget {

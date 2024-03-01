@@ -34,6 +34,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:svg_flutter/svg.dart';
 
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+
 class Eventbody extends StatefulWidget {
   const Eventbody({
     super.key,
@@ -71,6 +73,16 @@ class _EventbodyState extends State<Eventbody> {
     _timeAndDateFromContoller.dispose();
     _timeAndDateToContoller.dispose();
     super.dispose();
+  }
+    Future<void> _refresh()async{
+      EasyLoading.show(status: 'Loading...');
+    setState(() {
+    });
+    await Future.delayed(Duration(seconds : 1),(){
+      EasyLoading.dismiss();
+    });
+    return Future.delayed(const Duration(microseconds: 1),
+    );
   }
 
   @override
@@ -267,54 +279,58 @@ class _EventbodyState extends State<Eventbody> {
                     EasyLoading.dismiss();
                     final successState =
                         state as ListEventFetchingSuccessfulState;
-                    return ListView.separated(
-                      physics: const BouncingScrollPhysics(),
-                      padding: EdgeInsets.zero,
-                      itemCount: successState.listEvent.length,
-                      separatorBuilder: (context, index) => Container(
-                        width: double.infinity,
-                        height: 1,
-                        color: const Color(0xffECECEC),
-                      ),
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => EventDeatils(
-                                    index: successState
-                                        .listEvent[index].id, //bloc.event!.id!,
+                    return LiquidPullToRefresh(
+                      color: Colors.transparent,
+                      onRefresh: _refresh,
+                      child: ListView.separated(
+                        physics: const BouncingScrollPhysics(),
+                        padding: EdgeInsets.zero,
+                        itemCount: successState.listEvent.length,
+                        separatorBuilder: (context, index) => Container(
+                          width: double.infinity,
+                          height: 1,
+                          color: const Color(0xffECECEC),
+                        ),
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => EventDeatils(
+                                      index: successState
+                                          .listEvent[index].id, //bloc.event!.id!,
+                                    ),
+                                  ));
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 10,
+                                horizontal: 24,
+                              ),
+                              child: SizedBox(
+                                height: 100,
+                                child: Row(children: [
+                                  CustomEventImage(
+                                    imageurl:
+                                        "${APICallerConfiguration.baseImageUrl}${successState.listEvent[index].poster}",
                                   ),
-                                ));
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 24,
+                                  SizedBox(
+                                    width:
+                                        MediaQuery.sizeOf(context).width * 0.05,
+                                  ),
+                                  InformationEvent(
+                                    name: "${successState.listEvent[index].name}",
+                                    date: "${successState.listEvent[index].date}",
+                                    venue:
+                                        "${successState.listEvent[index].venue.name}",
+                                  ),
+                                ]),
+                              ),
                             ),
-                            child: SizedBox(
-                              height: 100,
-                              child: Row(children: [
-                                CustomEventImage(
-                                  imageurl:
-                                      "${APICallerConfiguration.baseImageUrl}${successState.listEvent[index].poster}",
-                                ),
-                                SizedBox(
-                                  width:
-                                      MediaQuery.sizeOf(context).width * 0.05,
-                                ),
-                                InformationEvent(
-                                  name: "${successState.listEvent[index].name}",
-                                  date: "${successState.listEvent[index].date}",
-                                  venue:
-                                      "${successState.listEvent[index].venue.name}",
-                                ),
-                              ]),
-                            ),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
                     );
                 }
                 return Text("");
