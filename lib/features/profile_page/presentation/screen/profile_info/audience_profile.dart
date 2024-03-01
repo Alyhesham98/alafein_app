@@ -1,18 +1,17 @@
-import 'dart:ffi';
 
-import 'package:alafein/core/local_data/session_management.dart';
 import 'package:alafein/features/auth/signup/presentation/widgets/profile_picture.dart';
-import 'package:alafein/features/profile_page/presentation/widgets/custom_profile_list_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:gap/gap.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:svg_flutter/svg.dart';
 
 import '../../../../../core/utility/colors_data.dart';
 import '../../../../../core/utility/theme.dart';
 import '../../bloc/profile_page_bloc.dart';
-import '../../model/profile_page_ui_model.dart';
 import '../../widgets/custom_text_field_item.dart';
+
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+
 
 class AudienceProfile extends StatefulWidget {
   const AudienceProfile(
@@ -34,7 +33,6 @@ class _AudienceProfileState extends State<AudienceProfile> {
 
   bool checker = false;
   
-  
   @override
   void initState() {
      _fNameController.text = widget.successState.profilePage?.firstName??"NoData";
@@ -55,123 +53,136 @@ class _AudienceProfileState extends State<AudienceProfile> {
     super.dispose();
   }
 
+  Future<void> _refresh()async{
+      setState(() {
+      });
+      EasyLoading.show(status: 'Loading...');
+      await Future.delayed(const Duration(seconds : 1),(){
+      EasyLoading.dismiss();
+    });
+    return Future.delayed(const Duration(microseconds: 1),
+    );
+  }
   @override
   Widget build(BuildContext context) {
 
     
       
-    return CustomScrollView(
-      physics: const BouncingScrollPhysics(),
-      slivers: [
-        SliverToBoxAdapter(
-          child: Container(
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(24, 50, 24, 8),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Gap(16),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+    return LiquidPullToRefresh(
+             onRefresh: _refresh,
+            color: Colors.transparent,
+            child: SingleChildScrollView(
+              child: Container(
+                color: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(24, 50, 24, 8),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        const Gap(16),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Text(
+                              'PERSONAL INFORMATION',
+                              style: homeLabeProfileStyle,
+                            ),
+                            InkWell(
+                              onTap: () async{
+                                //Call  the update user info function in the bloc
+                                // get the event ProfilePageEditEvent ()   
+                                if (checker) {
+                                  final ProfilePageBloc profilePageBlocEdit = ProfilePageBloc(
+                                    _fNameController.text, 
+                                    _lastNameController.text, 
+                                    _photoController.text, 
+                                    _phoneController.text
+                                    ) ;
+                                await Future.delayed(const Duration(milliseconds: 100));
+                                profilePageBlocEdit.add(ProfilePageEditEvent());
+                                  setState(() {
+                                  checker=!checker;
+                                });
+                                } else {
+                                  setState(() {
+                                  checker=!checker;
+                                });
+                                }
+                                
+                                
+                              },
+                              child: Text(
+                                checker?  'Save' : 'Edit profile',
+                                style: personalInfoLabelPrimary,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const Gap(40),
+                        const Text(
+                          'PROFILE PICTURE',
+                          style: homeLabel4Style,
+                        ),
+                        checker ?
+                          const  ProfilePicture()
+                          :
+                          Container(    
+                            width: 27.sw,
+                            height: 27.sw,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: NetworkImage(
+                                        widget.successState.profilePage?.photo != null
+                                            ? widget.successState.profilePage
+                                            ?.photo ?? "photo"
+                                            : "")),
+                                shape: BoxShape.circle,
+                                border:
+                                Border.all(width: 0, color: Colors.transparent),
+                                color: kProfilePicBackgroundColor),
+                            child: null,
+                          ), 
+                          
+                        const Gap(24),
                         const Text(
                           'PERSONAL INFORMATION',
-                          style: homeLabeProfileStyle,
+                          style: homeLabel4Style,
                         ),
-                        InkWell(
-                          onTap: () async{
-                            //Call  the update user info function in the bloc
-                            // get the event ProfilePageEditEvent ()   
-                            if (checker) {
-                              final ProfilePageBloc profilePageBlocEdit = ProfilePageBloc(
-                                _fNameController.text, 
-                                _lastNameController.text, 
-                                _photoController.text, 
-                                _phoneController.text
-                                ) ;
-                            await Future.delayed(const Duration(milliseconds: 100));
-                            profilePageBlocEdit.add(ProfilePageEditEvent());
-                              setState(() {
-                              checker=!checker;
-                            });
-                            } else {
-                              setState(() {
-                              checker=!checker;
-                            });
-                            }
-                            
-                            
-                          },
-                          child: Text(
-                            checker?  'Save' : 'Edit profile',
-                            style: personalInfoLabelPrimary,
-                          ),
+                        const Gap(16),
+                        CustomInput(
+                          title: widget.successState.profilePage?.firstName ??
+                              "first name", 
+                              controller: _fNameController,
+                              enabled: checker,),
+                        const Gap(16),
+                        CustomInput(
+                          title: widget.successState.profilePage?.lastName ??
+                              "last name", 
+                              controller: _lastNameController,
+                              enabled: checker,),
+                        const Gap(16),
+                        CustomInput(
+                          title: widget.successState.profilePage?.email ??
+                              "Email", 
+                              controller: _emailController,
+                              enabled: false,),
+                        const Gap(16),
+                         CustomInput(
+                          title: widget.successState.profilePage?.phone ??
+                              "phone", 
+                              controller: _phoneController,
+                              enabled: checker,),
+                        const Gap(24),
+                        Container(
+                          height: MediaQuery.of(context).size.height*0.23,
                         ),
-                      ],
-                    ),
-                    const Gap(40),
-                    const Text(
-                      'PROFILE PICTURE',
-                      style: homeLabel4Style,
-                    ),
-                    checker ?
-                      const  ProfilePicture()
-                      :
-                      Container(    
-                        width: 27.sw,
-                        height: 27.sw,
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: NetworkImage(
-                                    widget.successState.profilePage?.photo != null
-                                        ? widget.successState.profilePage
-                                        ?.photo ?? "photo"
-                                        : "")),
-                            shape: BoxShape.circle,
-                            border:
-                            Border.all(width: 0, color: Colors.transparent),
-                            color: kProfilePicBackgroundColor),
-                        child: null,
-                      ), 
-                      
-                    const Gap(24),
-                    const Text(
-                      'PERSONAL INFORMATION',
-                      style: homeLabel4Style,
-                    ),
-                    const Gap(16),
-                    CustomInput(
-                      title: widget.successState.profilePage?.firstName ??
-                          "first name", 
-                          controller: _fNameController,
-                          enabled: checker,),
-                    const Gap(16),
-                    CustomInput(
-                      title: widget.successState.profilePage?.lastName ??
-                          "last name", 
-                          controller: _lastNameController,
-                          enabled: checker,),
-                    const Gap(16),
-                    CustomInput(
-                      title: widget.successState.profilePage?.email ??
-                          "Email", 
-                          controller: _emailController,
-                          enabled: false,),
-                    const Gap(16),
-                     CustomInput(
-                      title: widget.successState.profilePage?.phone ??
-                          "phone", 
-                          controller: _phoneController,
-                          enabled: checker,),
-                    const Gap(24),
-              ]),
+                  ]),
+                ),
+              ),
             ),
-          ),
-        ),
-      ],
-    );
+          );
+        
   }
 }
