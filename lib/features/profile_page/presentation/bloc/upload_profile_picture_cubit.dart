@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
+import 'package:http_parser/http_parser.dart';
 
 import '../../../../core/api/api_caller.dart';
 import '../../../../core/api/constants/endpoints.dart';
@@ -34,16 +35,20 @@ class UploadProfilePictureCubit extends Cubit<UploadProfilePictureState> {
           },contentType:" multipart/form-data"),
           method: APIMethods.post,
           data: FormData.fromMap({
-            "image": await MultipartFile.fromFile(File(posterPhoto!.path).path,
-
-                filename: posterPhoto!.name)
+            "image": await MultipartFile.fromFile(File(posterPhoto.path).path,
+                contentType: MediaType("image",posterPhoto.path.split(".").last),
+                filename: posterPhoto.name)
           }));
       call.fold(
             (l) => EasyLoading.showError(l),
             (r) {
           if (r.succeeded == true) {
-            Log.info(r.data["Data"]);
-            return r.data["Data"];
+            SessionManagement.saveUserImage(r.data??'');
+            Log.info(r.data);
+            EasyLoading.showInfo(r!.message.toString());
+            emit(UploadProfilePictureLoaded());
+            EasyLoading.dismiss();
+            return r.data;
           } else {
             EasyLoading.showError(r.message ?? "");
             emit(UploadProfilePictureError(message: r.errors!.join(",")));

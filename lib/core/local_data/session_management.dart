@@ -11,6 +11,7 @@ class SessionManagement {
   static const String APP_KEY = "catering_app";
   static const String EMAIL_KEY = "email_key";
   static const String NAME_KEY = "name_key";
+  static const String IMAGE_URL_KEY = "image_url_key";
   static const String PHONE_KEY = "phone_key";
   static const String ROLE_KEY = "role_key";
   static const String ON_Boarding_KEY = "on_boarding_key";
@@ -95,6 +96,10 @@ class SessionManagement {
 
   static void saveUserName(String userName) {
     box.put(NAME_KEY, userName);
+  }
+
+  static void saveUserImage(String image) {
+    box.put(IMAGE_URL_KEY, image);
   }
 
   // static void saveCountryId(CountryModel countryModel) {

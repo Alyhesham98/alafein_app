@@ -46,8 +46,8 @@ class _ProfilePictureState extends State<ProfilePicture> {
                   GestureDetector(
                     onTap:()async {
                       await _pickImage();
-                      await cubit.uploadPosterImage(_imageFile);
-                     print("UUUUUUUUUUUUUUUUUUUUUUUU${await cubit.uploadPosterImage(_imageFile)}");                    },
+                      await  cubit.uploadPosterImage(_imageFile);
+                      },
                     child: Container(
                       width: 27.sw,
                       height: 27.sw,

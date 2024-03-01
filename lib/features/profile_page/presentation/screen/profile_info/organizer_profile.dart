@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
+import '../../../../../core/local_data/session_management.dart';
 import '../../../../../core/utility/colors_data.dart';
 import '../../../../../core/utility/theme.dart';
 import '../../bloc/profile_page_bloc.dart';
@@ -27,7 +28,6 @@ class OrganizerProfile extends StatefulWidget {
 class _OrganizerProfileState extends State<OrganizerProfile> {
   final TextEditingController _fNameController= TextEditingController() ;
   final TextEditingController  _lastNameController = TextEditingController();
-  final TextEditingController  _photoController = TextEditingController();
   final TextEditingController  _phoneController = TextEditingController();
   final TextEditingController  _emailController = TextEditingController();
   final TextEditingController _maplinkController= TextEditingController() ;
@@ -44,19 +44,18 @@ class _OrganizerProfileState extends State<OrganizerProfile> {
   
   @override
   void initState() {
-     _fNameController.text = widget.successState.profilePage?.firstName??"NoData";
-    _lastNameController.text = widget.successState.profilePage?.lastName??"NoData";
-    _photoController.text = widget.successState.profilePage?.photo??"NoPhoto";
-    _phoneController.text = widget.successState.profilePage?.phone??"NoPhone";
-    _emailController.text = widget.successState.profilePage?.email??"NoData";
-    _maplinkController.text = widget.successState.profilePage?.organizer?.mapLink??"maplink";
-    _adressController.text = widget.successState.profilePage?.organizer?.address??"NoData";
-    _instgramController.text = widget.successState.profilePage?.organizer?.instagram??"NoData";
-    _facebookController.text = widget.successState.profilePage?.organizer?.facebook??"NoData";
-    _websiteController.text = widget.successState.profilePage?.organizer?.websiteURL??"NoData";
-    _otherController.text = widget.successState.profilePage?.organizer?.other??"NoData";
-    _descriptionController.text = widget.successState.profilePage?.organizer?.description??"NoData";
-    _catNameController.text = widget.successState.profilePage?.organizer?.category?.name??"NoData";
+     _fNameController.text = widget.successState.profilePage?.firstName??"----";
+    _lastNameController.text = widget.successState.profilePage?.lastName??"----";
+    _phoneController.text = widget.successState.profilePage?.phone??"----";
+    _emailController.text = widget.successState.profilePage?.email??"----";
+    _maplinkController.text = widget.successState.profilePage?.organizer?.mapLink??"----";
+    _adressController.text = widget.successState.profilePage?.organizer?.address??"----";
+    _instgramController.text = widget.successState.profilePage?.organizer?.instagram??"----";
+    _facebookController.text = widget.successState.profilePage?.organizer?.facebook??"----";
+    _websiteController.text = widget.successState.profilePage?.organizer?.websiteURL??"----";
+    _otherController.text = widget.successState.profilePage?.organizer?.other??"----";
+    _descriptionController.text = widget.successState.profilePage?.organizer?.description??"----";
+    _catNameController.text = widget.successState.profilePage?.organizer?.category?.name??"----";
     super.initState();
   }
   
@@ -64,7 +63,6 @@ class _OrganizerProfileState extends State<OrganizerProfile> {
   void dispose() {
     _fNameController.dispose();
     _lastNameController.dispose();
-    _photoController.dispose();
     _phoneController.dispose();
     _emailController.dispose();
     _maplinkController.dispose();
@@ -80,9 +78,6 @@ class _OrganizerProfileState extends State<OrganizerProfile> {
 
   @override
   Widget build(BuildContext context) {
-
-    
-      
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: [  SliverToBoxAdapter(
@@ -94,41 +89,14 @@ class _OrganizerProfileState extends State<OrganizerProfile> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Gap(16),
-                    Row(
+                    const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const Text(
+                        Text(
                           'ORGANIZER PERSONAL INFORMATION',
                           style: homeLabeProfileStyle,
                         ),
-                        // InkWell(
-                        //   onTap: () async{
-                        //     //Call  the update user info function in the bloc
-                        //     // get the event ProfilePageEditEvent ()                      
-                        //     // if (checker) {
-                        //     //   final ProfilePageBloc profilePageBlocEdit = ProfilePageBloc(
-                        //     //     _fNameController.text, 
-                        //     //     _lastNameController.text, 
-                        //     //     _photoController.text, 
-                        //     //     _phoneController.text
-                        //     //     ) ;
-                        //     // await Future.delayed(const Duration(milliseconds: 100));
-                        //     // profilePageBlocEdit.add(ProfilePageEditEvent());
-                        //     //   setState(() {
-                        //     //   checker=!checker;
-                        //     // });
-                        //     // } else {
-                        //     //   setState(() {
-                        //     //   checker=!checker;
-                        //     // });
-                        //     // }
-                        //   },
-                        //   child: Text(
-                        //     checker?  'Save' : 'Edit profile',
-                        //     style: personalInfoLabelPrimary,
-                        //   ),
-                        // ),
                       ],
                     ),
                     const Gap(40),
@@ -137,8 +105,7 @@ class _OrganizerProfileState extends State<OrganizerProfile> {
                       style: homeLabel4Style,
                     ),
                     checker ?
-                      const  ProfilePicture()
-                      :
+                      const  ProfilePicture() :
                       Container(    
                         width: 27.sw,
                         height: 27.sw,
@@ -146,9 +113,7 @@ class _OrganizerProfileState extends State<OrganizerProfile> {
                             image: DecorationImage(
                                 fit: BoxFit.cover,
                                 image: NetworkImage(
-                                    widget.successState.profilePage?.photo != null
-                                        ? widget.successState.profilePage?.photo ?? "https://media.istockphoto.com/id/1443328418/photo/tabby-cat-closeup-portrait.jpg?s=1024x1024&w=is&k=20&c=YLswAUjNHz34ZNHajbhuiRfCQen4y47-5oS13dbvdsQ="
-                                        : "https://media.istockphoto.com/id/1443328418/photo/tabby-cat-closeup-portrait.jpg?s=1024x1024&w=is&k=20&c=YLswAUjNHz34ZNHajbhuiRfCQen4y47-5oS13dbvdsQ=")),
+                                    "${APICallerConfiguration.baseImageUrl}${imageUrl()}")),
                             shape: BoxShape.circle,
                             border:
                             Border.all(width: 0, color: Colors.transparent),
@@ -297,4 +262,18 @@ class _OrganizerProfileState extends State<OrganizerProfile> {
       ],
     );
   }
+  String imageUrl() {
+    String url = "";
+    if (SessionManagement
+        .getValue(SessionManagement.IMAGE_URL_KEY)
+        .isNotEmpty) {
+      url = SessionManagement.getValue(SessionManagement.IMAGE_URL_KEY);
+    } else {
+      if (widget.successState.profilePage?.photo != null) {
+        url = widget.successState.profilePage!.photo!;
+      }
+    }
+    return url;
+  }
+
 }
