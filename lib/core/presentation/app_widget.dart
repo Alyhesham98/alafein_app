@@ -1,4 +1,5 @@
 import 'package:alafein/core/presentation/routes/app_router.dart';
+import 'package:alafein/core/presentation/routes/app_router.gr.dart';
 import 'package:alafein/core/utility/strings.dart';
 import 'package:alafein/core/utility/theme.dart';
 import 'package:auto_route/auto_route.dart';
@@ -25,12 +26,12 @@ class AppWidget extends StatelessWidget {
         theme: themeData,
         routerConfig: AppRouterSingleton().appRouter.config(deepLinkBuilder: (deepLink){
           if(deepLink.path.startsWith('/event_details')){
-          // continue with the platform link
-          return deepLink;
+            AutoRouter.of(context).popAndPush( EventDeatilsPage(index:int.parse(deepLink.path.split(":").last)??-1));
+            print("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+            return deepLink;
           }else{
           return DeepLink.defaultPath;
-          // or DeepLink.path('/')
-          // or DeepLink([HomeRoute()])
+
           }
           }),
       );

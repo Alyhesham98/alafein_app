@@ -119,32 +119,19 @@ class _HomePageState extends State<HomePage> {
                                       itemBuilder: (context, index) => InkWell(
                                             onTap: (SessionManagement.getUserRole() != "") ?
                                             (){
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      EventDeatils(
-                                                    index: state
-                                                            .homeResponse
-                                                            .spotlight?[index]
-                                                            .id ??
-                                                        -1,
-                                                  ),
-                                                ));} : ()async{
-                                                Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      EventDeatils(
-                                                    index: state
-                                                            .homeResponse
-                                                            .spotlight?[index]
-                                                            .id ??
-                                                        -1,
-                                                  ),
-                                                ));
-                                                await Future.delayed(const Duration(seconds: 2));
-                                                AutoRouter.of(context).popAndPush(const LoginRoute());
+                                              routeToEventDetails(context,state
+                                                  .homeResponse
+                                                  .spotlight?[index]
+                                                  .id ??
+                                                  -1,);
+                                              } : ()async{
+                                              routeToEventDetails(context,state
+                                                  .homeResponse
+                                                  .spotlight?[index]
+                                                  .id ??
+                                                  -1,);
+                                              await Future.delayed(const Duration(seconds: 2));
+                                              AutoRouter.of(context).popAndPush(const LoginRoute());
                                                 },
                                              child: HomeEventItem(
                                               name: state.homeResponse
@@ -201,35 +188,6 @@ class _HomePageState extends State<HomePage> {
                                     onTap:(SessionManagement.getUserRole() != "")? widget.onCatTapped: (){
                                       AutoRouter.of(context).popAndPush(const LoginRoute());
                                     },
-                                    // onTap:  (SessionManagement.getUserRole() != "") ?
-                                    //   (){
-                                    //     Navigator.push(
-                                    //       context,
-                                    //       MaterialPageRoute(
-                                    //         builder: (context) =>
-                                    //             EventDeatils(
-                                    //           index: state
-                                    //                   .homeResponse
-                                    //                   .spotlight?[index]
-                                    //                   .id ??
-                                    //               -1,
-                                    //         ),
-                                    //       ));} : ()async{
-                                    //       Navigator.push(
-                                    //       context,
-                                    //       MaterialPageRoute(
-                                    //         builder: (context) =>
-                                    //             EventDeatils(
-                                    //           index: state
-                                    //                   .homeResponse
-                                    //                   .spotlight?[index]
-                                    //                   .id ??
-                                    //               -1,
-                                    //         ),
-                                    //       ));
-                                    //       await Future.delayed(const Duration(seconds: 2));
-                                    //       AutoRouter.of(context).popAndPush(const SignupRoute());
-                                    //       },
                                     child: SizedBox(
                                       child: Column(
                                         children: [
@@ -302,26 +260,13 @@ class _HomePageState extends State<HomePage> {
                                       itemBuilder: (context, index) => InkWell(
                                             onTap: (SessionManagement.getUserRole() != "") ?
                                             (){
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        EventDeatils(
-                                                      index: state.homeResponse
-                                                              .today?[index].id ??
-                                                          -1,
-                                                    ),
-                                                  ));} : ()async{
-                                                  Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        EventDeatils(
-                                                      index: state.homeResponse
-                                                              .today?[index].id ??
-                                                          -1,
-                                                    ),
-                                                  ));
+                                              routeToEventDetails(context, state.homeResponse
+                                                  .today?[index].id ??
+                                                  -1);
+                                            } : ()async{
+                                                routeToEventDetails(context, state.homeResponse
+                                                    .today?[index].id ??
+                                                    -1);
                                                 await Future.delayed(const Duration(seconds: 2));
                                                 AutoRouter.of(context).popAndPush(const LoginRoute());
                                                 },
@@ -366,5 +311,9 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  void routeToEventDetails(BuildContext context, int index) {
+    AutoRouter.of(context).popAndPush( EventDeatilsPage(index:index));
   }
 }
