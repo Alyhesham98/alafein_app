@@ -293,7 +293,7 @@ Future<void> _refresh()async{
     return showModalBottomSheet(
         isScrollControlled: false,
         backgroundColor: Colors.white,
-        scrollControlDisabledMaxHeightRatio: 0.50,
+        scrollControlDisabledMaxHeightRatio: 0.75,
         context: co,
         builder: (context) {
           return StatefulBuilder(

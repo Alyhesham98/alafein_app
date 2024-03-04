@@ -110,10 +110,15 @@ class _EventbodyState extends State<Eventbody> {
                   Expanded(
                     child: InkWell(
                       onTap: () {
-                        Navigator.push(
+                        if (SessionManagement.getUserRole() != "")
+                          {
+                            Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const EventSearch()));
+                          } else {
+
+                          }
                       },
                       child: Container(
                         padding: const EdgeInsets.all(12),
@@ -140,16 +145,25 @@ class _EventbodyState extends State<Eventbody> {
                   const Gap(16),
                   InkWell(
                     onTap: () async {
+                      if (SessionManagement.getUserRole() != "")
+                          {
+                            Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const EventSearch()));
+                          } else {
+
+                          }
 /*
                       _showFilterPopUp(
                         context,
                         _timeAndDateFromContoller,
                         _timeAndDateToContoller
                       );*/
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => EventSearch()));
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => EventSearch()));
                     },
                     child: Container(
                       padding: const EdgeInsets.all(12),
