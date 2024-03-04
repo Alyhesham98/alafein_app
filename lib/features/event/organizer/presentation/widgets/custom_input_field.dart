@@ -52,8 +52,12 @@ class CustomInputTextFieldWidget extends StatelessWidget {
             AssetsData.search,
             color: const Color(0xFF7C7C7C),
           ),
+          suffixIcon: controller != null ? IconButton(
+            onPressed: controller.clear,
+            icon: const Icon(Icons.clear),)
+             : SizedBox(),
+          ),
         ),
-      ),
-    );
+      );
   }
 }

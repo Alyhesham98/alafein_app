@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:alafein/core/local_data/session_management.dart';
 import 'package:alafein/features/profile_page/presentation/model/Profile.dart';
 import 'package:alafein/features/profile_page/presentation/model/profile_model.dart';
 import 'package:alafein/features/profile_page/presentation/model/profile_page_ui_model.dart';
@@ -36,8 +37,8 @@ class ProfilePageBloc extends Bloc<ProfilePageEvent, ProfilePageState> {
       print("=====================================================================.");
       
       // ProfilePageDataUiModel? profilePage = await ProfilePageRepo.fetchProfile();
-      Profile? profilePage = await ProfilePageRepo.fetchProfile();
-
+       Profile? profilePage = await ProfilePageRepo.fetchProfile();
+        SessionManagement.saveUserImage(profilePage?.photo??'');
         emit(ProfilePageFetchingSuccessfulState(profilePage :profilePage));
 
       }

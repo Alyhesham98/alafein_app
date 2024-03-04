@@ -14,21 +14,21 @@ class CommentItems extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:  EdgeInsets.symmetric(vertical: 10),
+      padding:  const EdgeInsets.symmetric(vertical: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
            Row(
             children: [
 
-              Container(
+              SizedBox(
                 width: 14.sw,
                 height: 6.sh,
                 child: CustomEventImage(
                   imageurl: "${APICallerConfiguration.baseImageUrl}${comments.Photo}",
                 ),
               ),
-              Gap(5),
+              const Gap(5),
               Text(
                 "${comments.FirstName} ${comments.LastName}",
                 style: homeLabel3Style,

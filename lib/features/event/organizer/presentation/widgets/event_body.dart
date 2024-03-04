@@ -34,6 +34,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:svg_flutter/svg.dart';
 
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+
 class Eventbody extends StatefulWidget {
   const Eventbody({
     super.key,
@@ -49,7 +51,7 @@ class Eventbody extends StatefulWidget {
 class _EventbodyState extends State<Eventbody> {
   RangeValues values = const RangeValues(1.0, 10.0);
 
-  int selectedIndex=0;
+  int selectedIndex = 0;
   final EventCategoryBloc eventCategoryBloc = EventCategoryBloc();
 
   late ListEventBloc listEventBloc = ListEventBloc();
@@ -71,6 +73,16 @@ class _EventbodyState extends State<Eventbody> {
     _timeAndDateFromContoller.dispose();
     _timeAndDateToContoller.dispose();
     super.dispose();
+  }
+    Future<void> _refresh()async{
+      EasyLoading.show(status: 'Loading...');
+    setState(() {
+    });
+    await Future.delayed(Duration(seconds : 1),(){
+      EasyLoading.dismiss();
+    });
+    return Future.delayed(const Duration(microseconds: 1),
+    );
   }
 
   @override
@@ -98,10 +110,15 @@ class _EventbodyState extends State<Eventbody> {
                   Expanded(
                     child: InkWell(
                       onTap: () {
-                        Navigator.push(
+                        if (SessionManagement.getUserRole() != "")
+                          {
+                            Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => EventSearch()));
+                                builder: (context) => const EventSearch()));
+                          } else {
+
+                          }
                       },
                       child: Container(
                         padding: const EdgeInsets.all(12),
@@ -128,16 +145,25 @@ class _EventbodyState extends State<Eventbody> {
                   const Gap(16),
                   InkWell(
                     onTap: () async {
+                      if (SessionManagement.getUserRole() != "")
+                          {
+                            Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const EventSearch()));
+                          } else {
+
+                          }
 /*
                       _showFilterPopUp(
                         context,
                         _timeAndDateFromContoller,
                         _timeAndDateToContoller
                       );*/
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => EventSearch()));
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => EventSearch()));
                     },
                     child: Container(
                       padding: const EdgeInsets.all(12),
@@ -154,12 +180,6 @@ class _EventbodyState extends State<Eventbody> {
                 ],
               ),
             ),
-            //  SearchItems(
-            //   onTap: (){
-            //     var commentValue;
-            //     return  _showCommentPopUp(context, commentValue, id);
-            //   }
-            //   ),
             Image.asset(
               AssetsData.bottomBanner,
             ),
@@ -194,27 +214,26 @@ class _EventbodyState extends State<Eventbody> {
                           itemBuilder: (context, index) => SizedBox(
                             child: InkWell(
                               onTap: () {
-
-                                selectedIndex=index;
-
-                                  setState(() {
-                                    listEventBloc.add(
-                                        ListEventInitialFetchEvent(
-                                            isCategory:selectedIndex==0?false: true,
-                                            categoryId: successState
-                                                .eventCatigories
-                                                .elementAt(index)
-                                                .id));
-                                  });
-
+                                selectedIndex = index;
+                                setState(() {
+                                  listEventBloc.add(ListEventInitialFetchEvent(
+                                      isCategory:
+                                          selectedIndex == 0 ? false : true,
+                                      categoryId: successState.eventCatigories
+                                          .elementAt(index)
+                                          .id));
+                                });
                               },
                               borderRadius: BorderRadius.circular(17),
                               child: Container(
                                 decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(color:
-                                selectedIndex==index?Color(0xFFEDEDED):Colors.white, width:3),
-                              ),
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(
+                                      color: selectedIndex == index
+                                          ? Color(0xFFEDEDED)
+                                          : Colors.white,
+                                      width: 3),
+                                ),
                                 child: Column(
                                   children: [
                                     ClipRRect(
@@ -247,7 +266,7 @@ class _EventbodyState extends State<Eventbody> {
                       default:
                         return Container();
                     }
-                    EasyLoading.showError("Error");
+                    // EasyLoading.showError("Error");
                     return Container();
                   },
                 ),
@@ -274,54 +293,59 @@ class _EventbodyState extends State<Eventbody> {
                     EasyLoading.dismiss();
                     final successState =
                         state as ListEventFetchingSuccessfulState;
-                    return ListView.separated(
-                      physics: const BouncingScrollPhysics(),
-                      padding: EdgeInsets.zero,
-                      itemCount: successState.listEvent.length,
-                      separatorBuilder: (context, index) => Container(
-                        width: double.infinity,
-                        height: 1,
-                        color: const Color(0xffECECEC),
-                      ),
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => EventDeatils(
-                                    index: successState
-                                        .listEvent[index].id, //bloc.event!.id!,
+                    return LiquidPullToRefresh(
+                      showChildOpacityTransition: false,
+                      color: Colors.transparent,
+                      onRefresh: _refresh,
+                      child: ListView.separated(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        padding: EdgeInsets.zero,
+                        itemCount: successState.listEvent.length,
+                        separatorBuilder: (context, index) => Container(
+                          width: double.infinity,
+                          height: 1,
+                          color: const Color(0xffECECEC),
+                        ),
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => EventDeatils(
+                                      index: successState
+                                          .listEvent[index].id, //bloc.event!.id!,
+                                    ),
+                                  ));
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 10,
+                                horizontal: 24,
+                              ),
+                              child: SizedBox(
+                                height: 100,
+                                child: Row(children: [
+                                  CustomEventImage(
+                                    imageurl:
+                                        "${APICallerConfiguration.baseImageUrl}${successState.listEvent[index].poster}",
                                   ),
-                                ));
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 24,
+                                  SizedBox(
+                                    width:
+                                        MediaQuery.sizeOf(context).width * 0.05,
+                                  ),
+                                  InformationEvent(
+                                    name: "${successState.listEvent[index].name}",
+                                    date: "${successState.listEvent[index].date}",
+                                    venue:
+                                        "${successState.listEvent[index].venue.name}",
+                                  ),
+                                ]),
+                              ),
                             ),
-                            child: SizedBox(
-                              height: 100,
-                              child: Row(children: [
-                                CustomEventImage(
-                                  imageurl:
-                                      "${APICallerConfiguration.baseImageUrl}${successState.listEvent[index].poster}",
-                                ),
-                                SizedBox(
-                                  width:
-                                      MediaQuery.sizeOf(context).width * 0.05,
-                                ),
-                                InformationEvent(
-                                  name: "${successState.listEvent[index].name}",
-                                  date: "${successState.listEvent[index].date}",
-                                  venue:
-                                      "${successState.listEvent[index].venue.name}",
-                                ),
-                              ]),
-                            ),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
                     );
                 }
                 return Text("");

@@ -2,6 +2,7 @@ import 'package:alafein/core/local_data/session_management.dart';
 import 'package:alafein/core/utility/assets_data.dart';
 import 'package:alafein/core/utility/colors_data.dart';
 import 'package:alafein/core/utility/strings.dart';
+import 'package:alafein/features/create_event/organizer/presentation/create_event_page.dart';
 import 'package:alafein/features/event/organizer/presentation/views/event_page.dart';
 import 'package:alafein/features/favourite/presentation/views/favoritepage.dart';
 import 'package:alafein/features/home/presentation/home_page.dart';
@@ -40,8 +41,9 @@ class _MainScreenState extends State<MainScreen> {
               _currentIndex =1;
             })
           ),
-          if (SessionManagement.getUserRole() != "")
           const Eventpage(),
+           if (SessionManagement.getUserRole() == "Host Venue")
+           CreateEventPage(),
           if (SessionManagement.getUserRole() == "Audience")
             const FavoritePage(),
           const Profilepage(),
@@ -83,7 +85,7 @@ class _MainScreenState extends State<MainScreen> {
               height: 24,
             ),
           ),
-          if (SessionManagement.getUserRole() != "")
+          // if (SessionManagement.getUserRole() != "")
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               AssetsData.svgIcEventsDisabled,
@@ -97,6 +99,18 @@ class _MainScreenState extends State<MainScreen> {
               height: 24,
             ),
           ),
+          if (SessionManagement.getUserRole() == "Host Venue")
+            const BottomNavigationBarItem(
+              icon: Icon(
+                Icons.add,
+                size: 28,
+              ),
+              label: 'Add Event',
+              activeIcon: Icon(
+                Icons.add,
+                size: 28,
+              ),
+            ),
           if (SessionManagement.getUserRole() == "Audience")
             BottomNavigationBarItem(
               icon: SvgPicture.asset(

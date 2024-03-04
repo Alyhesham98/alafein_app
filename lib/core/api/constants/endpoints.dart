@@ -5,6 +5,7 @@ abstract class Endpoints {
   static String get createEvent => "Submission/Add";
   static String get getEventDropdowns => "Submission/Dropdown";
   static String get uploadEventPoster => "Submission/UploadPosterImage";
+  static String get uploadProfilePic => "User/UploadUserImage";
   static String get getPagination => "Event/GetPagination";
   static String get getPaginationFilter => "Event/GetFilterPagination";
   static String get eventDetails => "Event/Details";

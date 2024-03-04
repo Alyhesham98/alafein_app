@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:alafein/core/api/constants/endpoints.dart';
 import 'package:alafein/core/api/constants/methods.dart';
 import 'package:alafein/core/local_data/session_management.dart';
@@ -10,6 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import '../../../../core/api/api_caller.dart';
+import '../../../../core/debugging/log.dart';
 
 class GetEventCubit extends Cubit<GetEventState> {
   GetEventCubit() : super(GetEventStateInital());
@@ -138,12 +141,15 @@ class GetEventCubit extends Cubit<GetEventState> {
       (response) {
         if (response.succeeded == true) {
           for (var element in response.data) {
+            log("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO${element}");
             comments.add(Comments.fromJson({
               "Comment":element['Comment'],
               "FirstName": element['User']['FirstName'],
             "LastName": element['User']['LastName'],
             "Photo": element['User']['Photo'],
             }));
+
+
             emit(ScafullGetEventState());
           }
 

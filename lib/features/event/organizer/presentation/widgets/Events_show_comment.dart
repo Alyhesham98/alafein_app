@@ -133,7 +133,7 @@ class EventsShowCommentBody extends StatelessWidget {
                   style: homeLabelStyle,
                 ),
               ),
-              ListCommetItems(comments!),
+              SizedBox(height:200,child: ListCommetItems(comments!)),
               if (getDeatils.attendanceOption?.name == "Registration")
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -195,6 +195,7 @@ class EventsShowCommentBody extends StatelessWidget {
   Future<void> _showCommentPopUp(BuildContext context, commentValue, id) async {
     return showModalBottomSheet(
         context: context,
+        backgroundColor:Colors.white,
         builder: (context) {
           return Column(
             children: [
@@ -261,7 +262,7 @@ class EventsShowCommentBody extends StatelessWidget {
                   data: "ADD COMMENT",
                   onTap: () async {
                     await GetEventCubit()
-                      ..addComments(id: id, comment: commentValue);
+                      .addComments(id: id, comment: commentValue);
                     Navigator.pop(context);
                     //  _showCommentPopUp(context);
                   },

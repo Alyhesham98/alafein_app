@@ -10,19 +10,19 @@ import 'package:http/http.dart' as http;
 class ListEventRepo {
   static Future<List<ListEventModel>> fetchEvent(isCategory,categoryId) async {
     var client = http.Client();
+    print("UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU $categoryId");
 
     List<ListEventModel> events = [];
     try {
       //?PageNumber=1&PageSize=500
       var response;
       if (isCategory) {
-
         response = await client.post(
           Uri.parse(
               'https://alafein.azurewebsites.net/api/v1/Event/GetFilterPagination'),
           body: jsonEncode({
-            "pageNumber": SessionManagement.pageNumber.toString(),
-            "pageSize": SessionManagement.pageSize.toString(),
+            "pageNumber":1,
+            "pageSize": 500,
             "categoryId": categoryId.toString()
 
           }),

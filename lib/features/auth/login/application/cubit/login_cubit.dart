@@ -45,8 +45,7 @@ class LoginCubit extends Cubit<LoginState> {
       (response) {
         if (response.succeeded == true) {
           LoginModel loginModel = LoginModel.fromMap(response.data);
-          SessionManagement.createSession(
-              token: loginModel.jwtToken ?? "", role: loginModel.role ?? "");
+          SessionManagement.createSession(token: loginModel.jwtToken ?? "", role: loginModel.role ?? "");
           EasyLoading.dismiss();
           emit(LoginStateLoaded());
         } else {

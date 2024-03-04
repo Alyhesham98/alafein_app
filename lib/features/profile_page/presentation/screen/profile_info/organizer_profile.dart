@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
+import '../../../../../core/local_data/session_management.dart';
 import '../../../../../core/utility/colors_data.dart';
 import '../../../../../core/utility/theme.dart';
 import '../../bloc/profile_page_bloc.dart';
@@ -27,20 +28,34 @@ class OrganizerProfile extends StatefulWidget {
 class _OrganizerProfileState extends State<OrganizerProfile> {
   final TextEditingController _fNameController= TextEditingController() ;
   final TextEditingController  _lastNameController = TextEditingController();
-  final TextEditingController  _photoController = TextEditingController();
   final TextEditingController  _phoneController = TextEditingController();
   final TextEditingController  _emailController = TextEditingController();
+  final TextEditingController _maplinkController= TextEditingController() ;
+  final TextEditingController  _adressController = TextEditingController();
+  final TextEditingController  _instgramController = TextEditingController();
+  final TextEditingController  _facebookController = TextEditingController();
+  final TextEditingController  _websiteController = TextEditingController();
+  final TextEditingController  _otherController = TextEditingController();
+  final TextEditingController  _descriptionController = TextEditingController();
+  final TextEditingController  _catNameController = TextEditingController();
 
   bool checker = false;
   
   
   @override
   void initState() {
-     _fNameController.text = widget.successState.profilePage?.firstName??"NoData";
-    _lastNameController.text = widget.successState.profilePage?.lastName??"NoData";
-    _photoController.text = widget.successState.profilePage?.photo??"NoPhoto";
-    _phoneController.text = widget.successState.profilePage?.phone??"NoPhone";
-    _emailController.text = widget.successState.profilePage?.email??"NoData";
+     _fNameController.text = widget.successState.profilePage?.firstName??"----";
+    _lastNameController.text = widget.successState.profilePage?.lastName??"----";
+    _phoneController.text = widget.successState.profilePage?.phone??"----";
+    _emailController.text = widget.successState.profilePage?.email??"----";
+    _maplinkController.text = widget.successState.profilePage?.organizer?.mapLink??"----";
+    _adressController.text = widget.successState.profilePage?.organizer?.address??"----";
+    _instgramController.text = widget.successState.profilePage?.organizer?.instagram??"----";
+    _facebookController.text = widget.successState.profilePage?.organizer?.facebook??"----";
+    _websiteController.text = widget.successState.profilePage?.organizer?.websiteURL??"----";
+    _otherController.text = widget.successState.profilePage?.organizer?.other??"----";
+    _descriptionController.text = widget.successState.profilePage?.organizer?.description??"----";
+    _catNameController.text = widget.successState.profilePage?.organizer?.category?.name??"----";
     super.initState();
   }
   
@@ -48,17 +63,21 @@ class _OrganizerProfileState extends State<OrganizerProfile> {
   void dispose() {
     _fNameController.dispose();
     _lastNameController.dispose();
-    _photoController.dispose();
     _phoneController.dispose();
     _emailController.dispose();
+    _maplinkController.dispose();
+    _adressController.dispose();
+    _instgramController.dispose();
+    _facebookController.dispose();
+    _websiteController.dispose();
+    _otherController.dispose();
+    _descriptionController.dispose();
+    _catNameController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-
-    
-      
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: [  SliverToBoxAdapter(
@@ -70,40 +89,13 @@ class _OrganizerProfileState extends State<OrganizerProfile> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Gap(16),
-                    Row(
+                    const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const Text(
+                        Text(
                           'ORGANIZER PERSONAL INFORMATION',
                           style: homeLabeProfileStyle,
-                        ),
-                        InkWell(
-                          onTap: () async{
-                            //Call  the update user info function in the bloc
-                            // get the event ProfilePageEditEvent ()                      
-                            // if (checker) {
-                            //   final ProfilePageBloc profilePageBlocEdit = ProfilePageBloc(
-                            //     _fNameController.text, 
-                            //     _lastNameController.text, 
-                            //     _photoController.text, 
-                            //     _phoneController.text
-                            //     ) ;
-                            // await Future.delayed(const Duration(milliseconds: 100));
-                            // profilePageBlocEdit.add(ProfilePageEditEvent());
-                            //   setState(() {
-                            //   checker=!checker;
-                            // });
-                            // } else {
-                            //   setState(() {
-                            //   checker=!checker;
-                            // });
-                            // }
-                          },
-                          child: Text(
-                            checker?  'Save' : 'Edit profile',
-                            style: personalInfoLabelPrimary,
-                          ),
                         ),
                       ],
                     ),
@@ -113,8 +105,7 @@ class _OrganizerProfileState extends State<OrganizerProfile> {
                       style: homeLabel4Style,
                     ),
                     checker ?
-                      const  ProfilePicture()
-                      :
+                      const  ProfilePicture() :
                       Container(    
                         width: 27.sw,
                         height: 27.sw,
@@ -122,10 +113,7 @@ class _OrganizerProfileState extends State<OrganizerProfile> {
                             image: DecorationImage(
                                 fit: BoxFit.cover,
                                 image: NetworkImage(
-                                    widget.successState.profilePage?.photo != null
-                                        ? widget.successState.profilePage
-                                        ?.photo ?? "photo"
-                                        : "")),
+                                    "${APICallerConfiguration.baseImageUrl}${imageUrl()}")),
                             shape: BoxShape.circle,
                             border:
                             Border.all(width: 0, color: Colors.transparent),
@@ -159,67 +147,98 @@ class _OrganizerProfileState extends State<OrganizerProfile> {
                           "phone", 
                           controller: _phoneController,
                           enabled: checker,),
-                    
+                      CustomInput(
+                      title: widget.successState.profilePage?.organizer?.mapLink??"no maplink", 
+                          controller: _maplinkController,
+                          enabled: checker,),
+                      CustomInput(
+                      title: widget.successState.profilePage?.organizer?.address??"No adress", 
+                          controller: _adressController,
+                          enabled: checker,),
+                      CustomInput(
+                      title:widget.successState.profilePage?.organizer?.instagram??"No instgrame", 
+                          controller: _instgramController,
+                          enabled: checker,),
+                      CustomInput(
+                      title:widget.successState.profilePage?.organizer?.facebook??"no Facebook", 
+                          controller: _facebookController,
+                          enabled: checker,),
+                      CustomInput(
+                      title:widget.successState.profilePage?.organizer?.websiteURL??"No website", 
+                          controller: _websiteController,
+                          enabled: checker,),
+                      CustomInput(
+                      title: widget.successState.profilePage?.organizer?.other??"No others", 
+                          controller: _otherController,
+                          enabled: checker,),
+                      CustomInput(
+                      title: widget.successState.profilePage?.organizer?.description??"No discription", 
+                          controller: _descriptionController,
+                          enabled: checker,),
+                      CustomInput(
+                      title:  widget.successState.profilePage?.organizer?.description??"no catigory name", 
+                          controller: _catNameController,
+                          enabled: checker,),
+                    // // TempWidget(
+                    // //   input: "ID : "+ (widget.successState.profilePage?.organizer?.id.toString() ?? ""),
+                    // // ),
+                    // // const Gap(16),
                     // TempWidget(
-                    //   input: "ID : "+ (widget.successState.profilePage?.organizer?.id.toString() ?? ""),
+                    //   input: "maplink : ${widget.successState.profilePage?.organizer?.mapLink?? ""}",
+                    // ),
+                    // TempWidget(
+                    //   input: "address : ${widget.successState.profilePage?.organizer?.address ??  ""}",
                     // ),
                     // const Gap(16),
-                    TempWidget(
-                      input: "maplink : ${widget.successState.profilePage?.organizer?.mapLink?? ""}",
-                    ),
-                    TempWidget(
-                      input: "address : ${widget.successState.profilePage?.organizer?.address ??  ""}",
-                    ),
-                    const Gap(16),
-                    TempWidget(
-                      input: "instgram : ${widget.successState.profilePage?.organizer?.instagram ?? ""}",
-                    ),
-                    const Gap(16),
-                    TempWidget(
-                      input: "Facebook : ${widget.successState.profilePage?.organizer?.facebook  ?? ""}",
-                    ),
-                    const Gap(16),
-                    TempWidget(
-                      input: "website : ${widget.successState.profilePage?.organizer?.websiteURL ?? ""}",
-                    ),
-                    const Gap(16),
-                    TempWidget(
-                      input: "other : ${widget.successState.profilePage?.organizer?.other ?? ""}",
-                    ),
-                    const Gap(16),
-                    Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: kDividerColor, width: 1.5),
-                      ),
-                      child: Text(
-                        "Description : ${widget.successState.profilePage?.organizer?. description ?? ""}",
-                        style: secondaryTextStyle,
-                        maxLines: 5,
-                      ),
-                    ),
-                    // const Gap(16),TempWidget(
-                    //   input: "Category ID : "+ (widget.successState.profilePage?.organizer?.category?.id.toString() ?? ""),
+                    // TempWidget(
+                    //   input: "instgram : ${widget.successState.profilePage?.organizer?.instagram ?? ""}",
                     // ),
-                    const Gap(16),
-                    TempWidget(
-                      input: "Category name : ${widget.successState.profilePage?.organizer?.category?.name?? ""}",
-                    ),
-                    const Gap(16),
-                     Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: kDividerColor, width: 1.5),
-                      ),
-                      child: Text(
-                        //'${APICallerConfiguration.baseImageUrl}${uiState?.venueImage}' ??""
-                        "Category image : "+ (widget.successState.profilePage?.organizer?.category?.image ?? ""),
-                        style: secondaryTextStyle,
-                        maxLines: 5,
-                      ),
-                    ),
+                    // const Gap(16),
+                    // TempWidget(
+                    //   input: "Facebook : ${widget.successState.profilePage?.organizer?.facebook  ?? ""}",
+                    // ),
+                    // const Gap(16),
+                    // TempWidget(
+                    //   input: "website : ${widget.successState.profilePage?.organizer?.websiteURL ?? ""}",
+                    // ),
+                    // const Gap(16),
+                    // TempWidget(
+                    //   input: "other : ${widget.successState.profilePage?.organizer?.other ?? ""}",
+                    // ),
+                    // const Gap(16),
+                    // Container(
+                    //   padding: const EdgeInsets.all(12),
+                    //   decoration: BoxDecoration(
+                    //     borderRadius: BorderRadius.circular(10),
+                    //     border: Border.all(color: kDividerColor, width: 1.5),
+                    //   ),
+                    //   child: Text(
+                    //     "Description : ${widget.successState.profilePage?.organizer?. description ?? ""}",
+                    //     style: secondaryTextStyle,
+                    //     maxLines: 5,
+                    //   ),
+                    // ),
+                    // // const Gap(16),TempWidget(
+                    // //   input: "Category ID : "+ (widget.successState.profilePage?.organizer?.category?.id.toString() ?? ""),
+                    // // ),
+                    // const Gap(16),
+                    // TempWidget(
+                    //   input: "Category name : ${widget.successState.profilePage?.organizer?.category?.name?? ""}",
+                    // ),
+                    // const Gap(16),
+                    // //  Container(
+                    // //   padding: const EdgeInsets.all(12),
+                    // //   decoration: BoxDecoration(
+                    // //     borderRadius: BorderRadius.circular(10),
+                    // //     border: Border.all(color: kDividerColor, width: 1.5),
+                    // //   ),
+                    // //   child: Text(
+                    // //     //'${APICallerConfiguration.baseImageUrl}${uiState?.venueImage}' ??""
+                    // //     "Category image : "+ (widget.successState.profilePage?.organizer?.category?.image ?? ""),
+                    // //     style: secondaryTextStyle,
+                    // //     maxLines: 5,
+                    // //   ),
+                    // ),
                     SizedBox(
                           width: 100,
                           height: 100,
@@ -243,4 +262,18 @@ class _OrganizerProfileState extends State<OrganizerProfile> {
       ],
     );
   }
+  String imageUrl() {
+    String url = "";
+    if (SessionManagement
+        .getValue(SessionManagement.IMAGE_URL_KEY)
+        .isNotEmpty) {
+      url = SessionManagement.getValue(SessionManagement.IMAGE_URL_KEY);
+    } else {
+      if (widget.successState.profilePage?.photo != null) {
+        url = widget.successState.profilePage!.photo!;
+      }
+    }
+    return url;
+  }
+
 }

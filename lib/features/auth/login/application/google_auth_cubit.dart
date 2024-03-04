@@ -1,23 +1,27 @@
-import 'dart:convert';
 import 'dart:developer';
-import 'package:alafein/core/local_data/session_management.dart';
-import 'package:http/http.dart' as http;
 
+import 'package:alafein/core/local_data/session_management.dart';
 import 'package:alafein/features/auth/login/application/Bloc/google_login_state.dart';
 import 'package:alafein/features/auth/login/application/google_auth_state.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
+import '../../../../core/presentation/routes/app_router.gr.dart';
+import 'Bloc_GSSO/gsso_bloc.dart';
 
 class GoogleAuthCubit extends Cubit<GoogleAuthState> {
   GoogleAuthCubit() : super(GoogleAuthInitialState());
 
   final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final GSSOBloc gssoBloc = GSSOBloc();
 
   // final _auth = FirebaseAuth.instance;
   final _auth = FirebaseAuth.instance;
 
-  void login() async {
+  void login(BuildContext context) async {
     print("u in login by google function");
     print(
         "================================================================================");
@@ -44,32 +48,38 @@ class GoogleAuthCubit extends Cubit<GoogleAuthState> {
       );
       print(
           "================================================================================");
-      print(
-          "create OauthCredentials from auth object:accessToken:${googleAuth.accessToken}");
-      log("create OauthCredentials from auth object:idToken:${googleAuth.idToken}");
+      log("create OauthCredentials from auth object:\naccessToken:${googleAuth
+          .accessToken}");
+      log("idToken:${googleAuth.idToken}");
+      if (googleAuth.idToken!.isNotEmpty && googleAuth.idToken != null) {
+        SessionManagement.googleIdToken(googleAuth.idToken!);
+      }
       print(
           "================================================================================");
-      var client = http.Client();
 
-      var response = await client.post(
-          Uri.parse('https://alafein.azurewebsites.net/api/v1/User/GoogleAuth'),
-          headers: {
-            "Authorization": "Bearer ${SessionManagement.getUserToken()}",
-            'Content-Type': 'application/json-patch+json; charset=UTF-8',
-          },
-          body: jsonEncode({
-            "accessToken": googleAuth.idToken,
-            "device": {"notificationToken": SessionManagement.getNotificationToken()}
-          }));
       //login to firebase using the Credential
-      final userCredential = await _auth.signInWithCredential(credential);
+      final userCredential = await _auth.signInWithCredential(credential)
+          .whenComplete(() =>
+          gssoBloc.add(GSSOInitialEvent(
+              accessToken:
+              SessionManagement.getGoogleIdToken() ??
+                  '',
+              notificationToken: SessionManagement
+                  .getNotificationToken() ??
+                  ''))
+
+      );
+      AutoRouter.of(context).replace(
+        OnboardingRoute(route: MainRoute()),
+      );
       print(
           "================================================================================");
       print("logining to firebase using the Credential");
       print(
           "================================================================================");
 
-      emit(GoogleAuthSuccessState(userCredential.user! as GoogleLoginStatus));
+      emit(
+          GoogleAuthSuccessState(/*userCredential.user! as GoogleLoginState*/));
       print(
           "================================================================================");
       print("Success Credential");
@@ -77,7 +87,7 @@ class GoogleAuthCubit extends Cubit<GoogleAuthState> {
           "================================================================================");
     } catch (e) {
       emit(GoogleAuthFaildState(e.toString()));
-      print("Eroor:" + e.toString());
+      print("Error:$e");
     }
   }
 }

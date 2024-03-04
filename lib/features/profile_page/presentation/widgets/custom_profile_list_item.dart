@@ -4,8 +4,12 @@ import 'package:alafein/features/about_us/presentation/screen/about_us_screen.da
 import 'package:alafein/features/profile_page/presentation/screen/profile_info/profile_info.dart';
 import 'package:alafein/features/profile_page/presentation/widgets/profile_item_text.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:gap/gap.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 // import 'package:google_fonts/google_fonts.dart';
@@ -31,6 +35,8 @@ class CustomProfileAppBarEvent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    GoogleSignIn _googleSignIn = GoogleSignIn();
+
     return Card(
       elevation: 0,
       color: Colors.white,
@@ -55,7 +61,7 @@ class CustomProfileAppBarEvent extends StatelessWidget {
             onTap == null ? null : SvgPicture.asset(AssetsData.arrowRight),
         onTap: onTap == null
             ? null
-            : () {
+            : () async {
                 switch (onTap) {
                   case 1:
                     {
@@ -77,12 +83,23 @@ class CustomProfileAppBarEvent extends StatelessWidget {
                   case 4:
                     {
                       if (SessionManagement.getUserRole() != "") {
+                        EasyLoading.show();
                         SessionManagement.signOut();
-                        AutoRouter.of(context).replaceAll([const LoginRoute()]);
+                        if (await _googleSignIn.isSignedIn()) {
+                          await _googleSignIn.signOut().whenComplete(() {
+                            AutoRouter.of(context)
+                                .replaceAll([const LoginRoute()]);
+                          });
+                        } else {
+                          AutoRouter.of(context)
+                              .replaceAll([const LoginRoute()]);
+                        }
                       } else {
                         AutoRouter.of(context)
-                            .replaceAll([const SignupRoute()]);
+                            .replaceAll([const LoginRoute()]);
                       }
+                      await _deleteCacheDir();
+                      EasyLoading.dismiss();
                     }
                     break;
                   default:
@@ -93,6 +110,14 @@ class CustomProfileAppBarEvent extends StatelessWidget {
     );
   }
 
+  Future<void> _deleteCacheDir() async {
+    final cacheDir = await getTemporaryDirectory();
+
+    if (cacheDir.existsSync()) {
+      cacheDir.deleteSync(recursive: true);
+    }
+  }
+
   Future<void> _showPopUp(BuildContext context) async {
     return showModalBottomSheet(
         backgroundColor: Colors.white,
@@ -101,7 +126,6 @@ class CustomProfileAppBarEvent extends StatelessWidget {
           return SizedBox(
             height: 200,
             child: Padding(
-
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Column(
                 children: [
@@ -111,8 +135,8 @@ class CustomProfileAppBarEvent extends StatelessWidget {
                   //   child: Container(),
                   // ),
                   InkWell(
-                    borderRadius:BorderRadius.circular(17.0) ,
-                    onTap: (){},
+                    borderRadius: BorderRadius.circular(17.0),
+                    onTap: () {},
                     child: Card(
                       elevation: 0,
                       color: Colors.white,
@@ -132,8 +156,8 @@ class CustomProfileAppBarEvent extends StatelessWidget {
                     ),
                   ),
                   InkWell(
-                    borderRadius:BorderRadius.circular(17.0) ,
-                    onTap: (){},
+                    borderRadius: BorderRadius.circular(17.0),
+                    onTap: () {},
                     child: Card(
                       elevation: 0,
                       color: Colors.white,

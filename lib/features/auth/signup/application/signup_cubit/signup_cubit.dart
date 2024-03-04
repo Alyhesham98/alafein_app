@@ -2,6 +2,7 @@ import 'package:alafein/core/api/api_caller.dart';
 import 'package:alafein/core/api/constants/endpoints.dart';
 import 'package:alafein/core/api/constants/methods.dart';
 import 'package:alafein/core/debugging/log.dart';
+import 'package:alafein/core/local_data/session_management.dart';
 import 'package:alafein/features/auth/signup/model/lookup_model.dart';
 import 'package:alafein/features/auth/signup/model/registration_organizer_model.dart';
 import 'package:alafein/features/auth/signup/model/registration_user_model.dart';
@@ -223,7 +224,7 @@ class SignupCubit extends Cubit<SignupState> {
       email: email,
       password: password,
       profilePicture:
-          "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MXw3NjA4Mjc3NHx8ZW58MHx8fHx8",
+          SessionManagement.getValue(SessionManagement.IMAGE_URL_KEY)??"",
       roleId: "roleId",
     );
     _organizerModel = RegistrationOrganizerModel(

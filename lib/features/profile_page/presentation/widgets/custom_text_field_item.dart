@@ -42,6 +42,7 @@ class CustomInput extends StatelessWidget {
           style: personalInfoTextStyle,
           enabled: enabled,
           cursorColor: kPrimaryColor,
+          maxLines: null,
           decoration: InputDecoration(
             focusedBorder:  OutlineInputBorder(
                 borderSide: const BorderSide(color: kPrimaryColor, width: 1.0),

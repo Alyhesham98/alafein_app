@@ -102,11 +102,12 @@ void configLoading() {
     ..displayDuration = const Duration(milliseconds: 1400)
     ..radius = 10.0
     ..progressColor = kPrimaryColor
-    ..backgroundColor = Colors.white
+    ..backgroundColor = Colors.transparent
     ..textColor = Colors.black
-    ..maskColor = kPrimaryColor
-    ..maskType = EasyLoadingMaskType.clear
+    ..maskType = EasyLoadingMaskType.black
     ..userInteractions = false
     ..animationDuration = const Duration(milliseconds: 350)
-    ..dismissOnTap = false;
+    ..dismissOnTap = false
+    ..animationStyle = EasyLoadingAnimationStyle.scale
+    ..boxShadow = <BoxShadow>[];
 }
