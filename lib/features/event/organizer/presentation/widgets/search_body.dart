@@ -196,7 +196,8 @@ Future<void> _refresh()async{
               case FilterSuccessfulState:
                 EasyLoading.dismiss();
                 final successState = state as FilterSuccessfulState;
-              return ListView.separated(
+                return successState.filterList.isEmpty? const Center(child: Text("No Data found",style: homeLabelStyle,)) :
+               ListView.separated(
                 physics: const BouncingScrollPhysics(),
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,

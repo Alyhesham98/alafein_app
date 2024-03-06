@@ -70,6 +70,7 @@ class EventsShowCommentBody extends StatelessWidget {
                   onTap: () {},
                   id: id,
                   isFavorite: getDeatils.isFavorite ?? true,
+                  eventName: getDeatils.name ?? "",
                 ),
               ),
               Description(
@@ -81,6 +82,7 @@ class EventsShowCommentBody extends StatelessWidget {
                 postion: getDeatils.address ?? "",
                 price: getDeatils.paymentFee ?? 0.0,
                 location: getDeatils.mapLink ?? '',
+                isFree: getDeatils.attendanceOption?.name == "Free",
               ),
               if (getDeatils.eventOrganizer != null)
                 const Padding(

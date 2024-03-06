@@ -37,7 +37,6 @@ class _EventOrganizerMapState extends State<EventOrganizerMap> {
   @override
   Widget build(BuildContext context) {
     final signupCubit = BlocProvider.of<SignupCubit>(context);
-
     return Container(
       height: 80,
       padding: EdgeInsets.only(bottom: 1.sw),
@@ -53,7 +52,7 @@ class _EventOrganizerMapState extends State<EventOrganizerMap> {
           signupCubit.map = value!;
         },
         validator: (value) {
-          if (value == null || value.isEmpty) {
+          if (!signupCubit.isEventOrganiser && (value == null || value.isEmpty)) {
             return 'Please enter a valid Map';
           }
           return null;
@@ -63,11 +62,7 @@ class _EventOrganizerMapState extends State<EventOrganizerMap> {
         textAlign: TextAlign.left,
         textAlignVertical: TextAlignVertical.bottom,
         decoration: InputDecoration(
-            constraints: BoxConstraints(
-                maxHeight: 14.sw,
-                minHeight: 14.sw,
-                maxWidth: double.infinity,
-                minWidth: double.infinity),
+            constraints: BoxConstraints(maxHeight: 14.sw, minHeight: 14.sw, maxWidth: double.infinity, minWidth: double.infinity),
             contentPadding: EdgeInsets.all(4.sw),
             border: textFormFieldBorderStyle,
             enabledBorder: textFormFieldBorderStyle,
@@ -78,13 +73,10 @@ class _EventOrganizerMapState extends State<EventOrganizerMap> {
             ),
             disabledBorder: textFormFieldBorderStyle,
             floatingLabelBehavior: FloatingLabelBehavior.never,
-            label: const Text(
-              'Event Organizer Map',
+            label: Text(
+              signupCubit.isVenue ? 'Venue Map' : 'Event Organizer Map',
             ),
-            labelStyle: const TextStyle(
-                color: kHintColor,
-                fontFamily: StringConst.formulaFont,
-                fontWeight: FontWeight.w300),
+            labelStyle: const TextStyle(color: kHintColor, fontFamily: StringConst.formulaFont, fontWeight: FontWeight.w300),
             filled: true,
             fillColor: Colors.white),
         textInputAction: TextInputAction.next,

@@ -53,8 +53,14 @@ class _EventOrganizerInstagramState extends State<EventOrganizerInstagram> {
         onSaved: (value) {
           signupCubit.instagram = value!;
         },
+        onChanged: (value) {
+          signupCubit.instagram = value;
+        },
         validator: (value) {
-          if (value == null || value.isEmpty) {
+          if ((signupCubit.other == null || signupCubit.other.isEmpty) &&
+              (signupCubit.instagram == null || signupCubit.instagram.isEmpty) &&
+              (signupCubit.facebook == null || signupCubit.facebook.isEmpty) &&
+              (signupCubit.website == null || signupCubit.website.isEmpty)) {
             return 'Please enter a valid Instagram';
           }
           return null;

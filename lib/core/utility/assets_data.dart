@@ -44,4 +44,5 @@ class AssetsData {
   static const String wattsApp = "${(src)}/WattsApp.svg";
   static const String youtupe = "${(src)}/youtupe.svg";
   static const String instagram = "${(src)}/InstgramEvent.svg";
+  static const String youAreAllSetVideo = "${(src)}/you're_all_set.mp4";
 }

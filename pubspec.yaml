@@ -32,7 +32,7 @@ dependencies:
   fluttertoast: ^8.2.4
   gap: ^3.0.1
   get_it: ^7.6.4
-  google_fonts: ^6.1.0
+  google_fonts: 6.1.0
   google_sign_in: ^6.2.1
   hive: ^2.2.3
   http: ^1.2.0
@@ -48,6 +48,7 @@ dependencies:
   smooth_page_indicator: ^1.1.0
   svg_flutter: ^0.0.1
   url_launcher: ^6.2.4
+  video_player: ^2.2.18
 
 flutter_launcher_icons:
   android: "launcher_icon"

@@ -5,14 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Eventpage extends StatelessWidget {
-  const Eventpage({super.key});
+  const Eventpage(this.catId, {super.key});
+
+  final int catId;
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return BlocProvider(
       create: (context) => GetEventCubit()..getEventPagination(),
-      child: Eventbody(size: size),
+      child: Eventbody(size: size,catId: catId,),
     );
   }
 }

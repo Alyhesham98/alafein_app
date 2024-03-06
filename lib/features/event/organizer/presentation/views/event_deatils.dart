@@ -1,9 +1,10 @@
 import 'package:alafein/features/event/organizer/cubit/get_event_cubit.dart';
 import 'package:alafein/features/event/organizer/cubit/get_event_state.dart';
-import 'package:alafein/features/event/organizer/presentation/widgets/events_show_comment.dart';
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../widgets/Events_show_comment.dart';
 
 @RoutePage(name: "EventDeatilsPage")
 class EventDeatils extends StatelessWidget {

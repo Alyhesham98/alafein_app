@@ -222,7 +222,7 @@ class EventOrganiserRoute extends _i15.PageRouteInfo<void> {
 class HomeRoute extends _i15.PageRouteInfo<HomeRouteArgs> {
   HomeRoute({
     _i16.Key? key,
-    required void Function() onCatTapped,
+    required void Function(int) onCatTapped,
     List<_i15.PageRouteInfo>? children,
   }) : super(
           HomeRoute.name,
@@ -247,7 +247,7 @@ class HomeRouteArgs {
 
   final _i16.Key? key;
 
-  final void Function() onCatTapped;
+  final void Function(int) onCatTapped;
 
   @override
   String toString() {

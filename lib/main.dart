@@ -103,7 +103,7 @@ void configLoading() {
     ..radius = 10.0
     ..progressColor = kPrimaryColor
     ..backgroundColor = Colors.transparent
-    ..textColor = Colors.black
+    ..textColor = Colors.white
     ..maskType = EasyLoadingMaskType.black
     ..userInteractions = false
     ..animationDuration = const Duration(milliseconds: 350)

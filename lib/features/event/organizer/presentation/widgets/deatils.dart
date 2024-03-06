@@ -7,16 +7,13 @@ import 'package:svg_flutter/svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Deatils extends StatelessWidget {
-  const Deatils({
-    super.key,
-    required this.date,
-    required this.price,
-    required this.postion, required this.location,
-  });
+  const Deatils({super.key, required this.date, required this.price, required this.postion, required this.location, required this.isFree});
+
   final String date;
   final num price;
   final String postion;
   final String location;
+  final bool isFree;
 
   @override
   Widget build(BuildContext context) {
@@ -37,16 +34,19 @@ class Deatils extends StatelessWidget {
                   Icons.calendar_month,
                   color: Color(0xFF7C7C7C),
                 ),
-                text: date, location: '',
+                text: date,
+                location: '',
               ),
               const Gap(42),
-              DeatilsItems(
-                icon: SvgPicture.asset(
-                  AssetsData.svgIcFavorite,
-                  color: const Color(0xFF7C7C7C),
+              if (!isFree)
+                DeatilsItems(
+                  icon: const Icon(
+                    Icons.attach_money_outlined,
+                    color: Color(0xFF7C7C7C),
+                  ),
+                  text: price.toString(),
+                  location: '',
                 ),
-                text: price.toString(), location: '',
-              ),
             ],
           ),
           const Gap(16),
@@ -57,10 +57,11 @@ class Deatils extends StatelessWidget {
                   Icons.location_on,
                   color: Color(0xFF7C7C7C),
                 ),
-                text: postion, location:location ,
+                text: postion,
+                location: location,
               ),
               InkWell(
-                onTap: (){
+                onTap: () {
                   launchUrl(Uri.parse(location));
                 },
                 child: const Icon(

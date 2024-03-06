@@ -22,6 +22,7 @@ class EventName extends StatefulWidget {
     required this.onTap,
     required this.id,
     required this.isFavorite,
+    required this.eventName
   });
 
   final Size size;
@@ -31,6 +32,7 @@ class EventName extends StatefulWidget {
   final Function onTap;
   final int id;
   final bool  isFavorite;
+  final String eventName;
 
 
   @override
@@ -72,7 +74,7 @@ class _EventNameState extends State<EventName> {
             SizedBox(
               width: MediaQuery.of(context).size.width * .25,
               child: Text(
-                widget.name,
+                widget.eventName,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: homeLabelStyle,
@@ -80,7 +82,7 @@ class _EventNameState extends State<EventName> {
             ),
             const Gap(2),
             Text(
-              "Event organizer",
+              widget.name,
               style: secondaryTextStyle,
             ),
           ],
