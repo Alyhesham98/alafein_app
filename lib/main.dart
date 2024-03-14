@@ -13,20 +13,25 @@ import 'core/local_data/session_management.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: const FirebaseOptions(
-      apiKey: "AIzaSyBTDvNMfPQS4cQIUytdrcAKcUeO9OQlcXc",
-      appId: "1:92581426653:android:e07557aa0771512396f234",
-      messagingSenderId: "messaging id",
-      projectId: "alafein-4be65",
-    ),
-    // options: DefaultFirebaseOptions.currentPlatform,
-  );
-  await SessionManagement.init();
-  configLoading();
-  Bloc.observer = MyBlocObserver();
-  initLocator();
+  try{
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp(
+      options: const FirebaseOptions(
+        apiKey: "AIzaSyBTDvNMfPQS4cQIUytdrcAKcUeO9OQlcXc",
+        appId: "1:92581426653:android:e07557aa0771512396f234",
+        messagingSenderId: "messaging id",
+        projectId: "alafein-4be65",
+      ),
+      // options: DefaultFirebaseOptions.currentPlatform,
+    );
+    await SessionManagement.init();
+    configLoading();
+    Bloc.observer = MyBlocObserver();
+    initLocator();
+  }
+  catch(e){
+    print("aaaa$e");
+  }
   runApp(MultiBlocProvider(
     providers: [
       //////////
