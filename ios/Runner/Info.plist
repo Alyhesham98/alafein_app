@@ -4,6 +4,17 @@
 <dict>
 <key>FLTEnableImpeller</key>
 <false />
+<key>GIDClientID</key>
+<string>587761639039-7tc1823ips55gt7afa13i4b1r3r2ng11.apps.googleusercontent.com</string>
+<key>CFBundleURLTypes</key>
+<array>
+  <dict>
+    <key>CFBundleURLSchemes</key>
+    <array>
+      <string>com.googleusercontent.apps.587761639039-7tc1823ips55gt7afa13i4b1r3r2ng11</string>
+    </array>
+  </dict>
+</array>
 	<key>com.apple.security.network.client</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
