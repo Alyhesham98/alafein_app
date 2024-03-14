@@ -20,7 +20,6 @@ import 'core/utility/CustomLoader.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  try{
     await Firebase.initializeApp(
       options:   const FirebaseOptions(
           apiKey: "AIzaSyDWtGpWFRGcb7EQM_T7nNrlM2ad-dTj1kQ",
@@ -28,10 +27,7 @@ Future<void> main() async {
           messagingSenderId: "587761639039",
           projectId: "alafein",
       ),
-    ); }
-  catch(e){
-    print("aaaa$e");
-  }
+    );
     callFirebase();
     await SessionManagement.init();
     configLoading();
