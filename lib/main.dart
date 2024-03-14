@@ -19,21 +19,26 @@ import 'core/utility/CustomLoader.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: const FirebaseOptions(
-      apiKey: "AIzaSyDWtGpWFRGcb7EQM_T7nNrlM2ad-dTj1kQ",
-      appId: "1:587761639039:android:230c35dde1a21f7629a94a",
-      messagingSenderId: "messaging id",
-      projectId: "alafein",
-      androidClientId: "587761639039-nme8uh34kc0h86eklfmpa7rpaerofkkv.apps.googleusercontent.com"
-    ),
-  );
-  callFirebase();
-  await SessionManagement.init();
-  configLoading();
-  Bloc.observer = MyBlocObserver();
 
-  initLocator();
+  try{
+    await Firebase.initializeApp(
+      options:   const FirebaseOptions(
+          apiKey: "AIzaSyDWtGpWFRGcb7EQM_T7nNrlM2ad-dTj1kQ",
+          appId: "1:587761639039:ios:c84d2a9c017ca35029a94a",
+          messagingSenderId: "587761639039",
+          projectId: "alafein",
+      ),
+    ); }
+  catch(e){
+    print("aaaa$e");
+  }
+    callFirebase();
+    await SessionManagement.init();
+    configLoading();
+    Bloc.observer = MyBlocObserver();
+
+    initLocator();
+
   runApp(MultiBlocProvider(
     providers: [
       //////////
