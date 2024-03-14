@@ -41,6 +41,16 @@ final termsTextStyle = TextStyle(
     color: kGreyFontColor,
     fontSize: 3.sw,
     fontWeight: FontWeight.w300);
+const descTextStyle = TextStyle(
+    fontFamily: StringConst.formulaFont,
+    color: Colors.black,
+    fontSize:16,
+    fontWeight: FontWeight.w300);
+const descTextGrayStyle = TextStyle(
+    fontFamily: StringConst.formulaFont,
+    color: kIconGrayColor,
+    fontSize:16,
+    fontWeight: FontWeight.w300);
 
 final secondaryTextStyle = TextStyle(
     fontFamily: StringConst.formulaFont,
@@ -96,12 +106,27 @@ const homeLabel4Style = TextStyle(
   fontFamily: StringConst.formulaFont,
   fontWeight: FontWeight.bold,
 );
+const branchStyle = TextStyle(
+  color: kGreyFontColor,
+  fontSize: 16,
+  fontFamily: StringConst.formulaFont,
+  fontWeight: FontWeight.w300,
+);
+const branchSelectedStyle = TextStyle(
+  color: Colors.black,
+  fontSize: 16,
+  fontFamily: StringConst.formulaFont,
+  fontWeight: FontWeight.w700,
+);
 const personalInfoTextStyle = TextStyle(
   color: kSemiBlack,
   fontSize: 18,
   fontFamily: StringConst.formulaFont,
   fontWeight: FontWeight.bold,
 );
+ TextStyle venueProfileTextStyle =GoogleFonts.anton(
+    fontWeight: FontWeight.w400, color: Colors.black, fontSize: 20
+ ,);
 
 const eventcomment = TextStyle(
   color: kSemiBlack,

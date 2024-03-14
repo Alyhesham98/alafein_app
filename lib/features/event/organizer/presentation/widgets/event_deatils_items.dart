@@ -3,6 +3,7 @@ import 'package:alafein/core/utility/theme.dart';
 import 'package:alafein/features/event/organizer/presentation/widgets/custom_event_image.dart';
 import 'package:flutter/material.dart';
 import 'package:svg_flutter/svg.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class EventDeatilsItem extends StatelessWidget {
   const EventDeatilsItem({
@@ -12,6 +13,7 @@ class EventDeatilsItem extends StatelessWidget {
     required this.instagram,
     required this.facebook,
     required this.websiteURL,
+    required this.whatsapp,
     required this.other,
     required this.address,
     required this.mapLink,
@@ -23,6 +25,7 @@ class EventDeatilsItem extends StatelessWidget {
   final String instagram;
   final String facebook;
   final String websiteURL;
+  final String whatsapp;
   final String other;
   final String address;
   final String mapLink;
@@ -59,37 +62,55 @@ class EventDeatilsItem extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    "Location",
+                    address,
                     style: secondaryTextStyle,
                   ),
-                  const Icon(
-                    Icons.link,
-                    size: 15,
+                  InkWell(
+                    onTap: (){
+
+                      launchUrl(Uri.parse(mapLink));
+                    },
+                    child: const Icon(
+                      Icons.link,
+                      size: 15,
+                    ),
                   ),
                 ],
               ),
               Row(
                 children: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                    launchUrl(Uri.parse(facebook));
+                    },
                     icon: SvgPicture.asset(
                       AssetsData.fasbookevent,
                     ),
                   ),
+                  // IconButton(
+                  //   onPressed: () {},
+                  //   icon: SvgPicture.asset(
+                  //     AssetsData.youtupe,
+                  //   ),
+                  // ),
                   IconButton(
-                    onPressed: () {},
-                    icon: SvgPicture.asset(
-                      AssetsData.youtupe,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      String url='';
+                      if (TargetPlatform.iOS==Theme.of(context).platform) {
+                        url= "whatsapp://wa.me/$whatsapp/?text= ";
+                      } else {
+                        url= "https://api.whatsapp.com/send?phone=$whatsapp&text= ";
+                      }
+                      launchUrl(Uri.parse(url));
+                    },
                     icon: SvgPicture.asset(
                       AssetsData.wattsApp,
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      launchUrl(Uri.parse(websiteURL));
+                    },
                     icon: SvgPicture.asset(
                       AssetsData.net,
                       color: Colors.black,

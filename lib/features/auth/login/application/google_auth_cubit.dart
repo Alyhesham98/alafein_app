@@ -1,57 +1,93 @@
+import 'dart:developer';
 
+import 'package:alafein/core/local_data/session_management.dart';
 import 'package:alafein/features/auth/login/application/Bloc/google_login_state.dart';
 import 'package:alafein/features/auth/login/application/google_auth_state.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class GoogleAuthCubit extends Cubit<GoogleAuthState>{
+import '../../../../core/presentation/routes/app_router.gr.dart';
+import 'Bloc_GSSO/gsso_bloc.dart';
+
+class GoogleAuthCubit extends Cubit<GoogleAuthState> {
   GoogleAuthCubit() : super(GoogleAuthInitialState());
 
   final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final GSSOBloc gssoBloc = GSSOBloc();
+
   // final _auth = FirebaseAuth.instance;
   final _auth = FirebaseAuth.instance;
 
-  void login() async {
+  void login(BuildContext context) async {
     print("u in login by google function");
-    print("================================================================================");
+    print(
+        "================================================================================");
     emit(GoogleAuthLoadingState());
-    try{ 
+    try {
       // select google account
       final userAccont = await _googleSignIn.signIn();
-      
-      // user dismissed the account dilog
-      if(userAccont == null) return;
 
-      //get authemdiration object from account
-      final GoogleSignInAuthentication googleAuth = await userAccont.authentication;
-      print("================================================================================");
-      print("get authemdiration object from account");
-      print("================================================================================");
+      // user dismissed the account dilog
+      if (userAccont == null) return;
+
+      //get authentication object from account
+      final GoogleSignInAuthentication googleAuth =
+      await userAccont.authentication;
+      print(
+          "================================================================================");
+      print("get authentication object from account");
+      print(
+          "================================================================================");
       //create OauthCredentials from auth object
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-      print("================================================================================");
-      print("create OauthCredentials from auth object");
-      print("================================================================================");
+      print(
+          "================================================================================");
+      log("create OauthCredentials from auth object:\naccessToken:${googleAuth
+          .accessToken}");
+      log("idToken:${googleAuth.idToken}");
+      if (googleAuth.idToken!.isNotEmpty && googleAuth.idToken != null) {
+        SessionManagement.googleIdToken(googleAuth.idToken!);
+      }
+      print(
+          "================================================================================");
 
       //login to firebase using the Credential
-      final userCredential = await _auth.signInWithCredential(credential);
-      print("================================================================================");
+      final userCredential = await _auth.signInWithCredential(credential)
+          .whenComplete(() =>
+          gssoBloc.add(GSSOInitialEvent(
+              accessToken:
+              SessionManagement.getGoogleIdToken() ??
+                  '',
+              notificationToken: SessionManagement
+                  .getNotificationToken() ??
+                  ''))
+
+      );
+      AutoRouter.of(context).replace(
+        OnboardingRoute(route: MainRoute()),
+      );
+      print(
+          "================================================================================");
       print("logining to firebase using the Credential");
-      print("================================================================================");
+      print(
+          "================================================================================");
 
-
-      emit(GoogleAuthSuccessState(userCredential.user! as GoogleLoginStatus));
-      print("================================================================================");
+      emit(
+          GoogleAuthSuccessState(/*userCredential.user! as GoogleLoginState*/));
+      print(
+          "================================================================================");
       print("Success Credential");
-      print("================================================================================");
-      
-    }catch(e){
+      print(
+          "================================================================================");
+    } catch (e) {
       emit(GoogleAuthFaildState(e.toString()));
+      print("Error:$e");
     }
   }
-
 }

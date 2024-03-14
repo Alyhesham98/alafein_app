@@ -1,16 +1,9 @@
-import 'dart:developer';
 
 import 'package:alafein/core/local_data/session_management.dart';
-import 'package:alafein/core/presentation/routes/app_router.gr.dart';
-import 'package:alafein/core/utility/assets_data.dart';
-import 'package:alafein/core/utility/colors_data.dart';
 import 'package:alafein/features/profile_page/presentation/widgets/custom_profile_list_item.dart';
-import 'package:auto_route/auto_route.dart';
 
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:svg_flutter/svg.dart';
-
 import '../../../../core/utility/theme.dart';
 import '../widgets/profile_three_items.dart';
 
@@ -19,8 +12,7 @@ class Profilepage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-    return  CustomScrollView(
+    return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: [
         SliverToBoxAdapter(
@@ -33,10 +25,12 @@ class Profilepage extends StatelessWidget {
                 'PROFILES',
                 style: homeLabeProfileStyle,
               ),
-              const CustomProfileAppBarEvent(
-                title: "PERSONAL INFORMATION",
-                onTap:1,
-              ),
+              SessionManagement.getUserRole() != ""
+                  ? const CustomProfileAppBarEvent(
+                      title: "PERSONAL INFORMATION",
+                      onTap: 1,
+                    )
+                  : const Gap(0),
               const Gap(16),
               const CustomProfileAppBarEvent(
                 title: "CHANGE LANGUAGE",
@@ -48,22 +42,21 @@ class Profilepage extends StatelessWidget {
                 onTap: 3,
               ),
               const Gap(16),
-                  ThreeItems(
-                c:context
-              ),
+              ThreeItems(c: context),
               const Gap(16),
-                  if(SessionManagement.getUserRole()!="")
+              if (SessionManagement.getUserRole() != "")
                 const CustomProfileAppBarEvent(
                   title: "LOGOUT",
                   onTap: 4,
                   color: Colors.redAccent,
-                ) else
-                    const CustomProfileAppBarEvent(
-                      title: "REGISTER",
-                      onTap: 4,
-                      color: Colors.redAccent,
-                    )
-                ]),
+                )
+              else
+                const CustomProfileAppBarEvent(
+                  title: "REGISTER",
+                  onTap: 4,
+                  color: Colors.redAccent,
+                )
+            ]),
           ),
         ),
       ],
@@ -71,18 +64,6 @@ class Profilepage extends StatelessWidget {
       ///buttons
     );
 
-    //  Center(
-    //         child: InkWell(
-    //             onTap: () {
-    //               SessionManagement.signOut();
-    //               AutoRouter.of(context).replaceAll([const LoginRoute()]);
-    //             },
-    //             child: const Text("Log ouuuut")),
-    //       );
-
-    //  BlocProvider(
-    //   create: (context) => GetEventCubit()..getEventPagination(),
-    //   child: Eventbody(size: size),
-    // );
   }
+
 }

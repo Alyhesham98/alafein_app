@@ -53,7 +53,7 @@ class _EventOrganizerAddressState extends State<EventOrganizerAddress> {
           signupCubit.address = value!;
         },
         validator: (value) {
-          if (value == null || value.isEmpty) {
+          if (!signupCubit.isEventOrganiser && (value == null || value.isEmpty)) {
             return 'Please enter a valid address';
           }
           return null;
@@ -63,11 +63,7 @@ class _EventOrganizerAddressState extends State<EventOrganizerAddress> {
         textAlign: TextAlign.left,
         textAlignVertical: TextAlignVertical.bottom,
         decoration: InputDecoration(
-            constraints: BoxConstraints(
-                maxHeight: 14.sw,
-                minHeight: 14.sw,
-                maxWidth: double.infinity,
-                minWidth: double.infinity),
+            constraints: BoxConstraints(maxHeight: 14.sw, minHeight: 14.sw, maxWidth: double.infinity, minWidth: double.infinity),
             contentPadding: EdgeInsets.all(4.sw),
             border: textFormFieldBorderStyle,
             enabledBorder: textFormFieldBorderStyle,
@@ -78,13 +74,10 @@ class _EventOrganizerAddressState extends State<EventOrganizerAddress> {
             ),
             disabledBorder: textFormFieldBorderStyle,
             floatingLabelBehavior: FloatingLabelBehavior.never,
-            label: const Text(
-              'Event Organizer Address',
+            label: Text(
+              signupCubit.isEventOrganiser ? 'Event Organizer Address' : 'Venue Address',
             ),
-            labelStyle: const TextStyle(
-                color: kHintColor,
-                fontFamily: StringConst.formulaFont,
-                fontWeight: FontWeight.w300),
+            labelStyle: const TextStyle(color: kHintColor, fontFamily: StringConst.formulaFont, fontWeight: FontWeight.w300),
             filled: true,
             fillColor: Colors.white),
         textInputAction: TextInputAction.next,

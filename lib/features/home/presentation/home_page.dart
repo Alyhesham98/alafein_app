@@ -1,24 +1,50 @@
 import 'package:alafein/core/api/constants/api_caller_config.dart';
+import 'package:alafein/core/local_data/session_management.dart';
+import 'package:alafein/core/presentation/routes/app_router.gr.dart';
 import 'package:alafein/core/utility/assets_data.dart';
 import 'package:alafein/core/utility/colors_data.dart';
 import 'package:alafein/core/utility/theme.dart';
 import 'package:alafein/features/event/organizer/presentation/views/event_deatils.dart';
+import 'package:alafein/features/event/organizer/presentation/views/event_search.dart';
 import 'package:alafein/features/home/cubit/home_cubit.dart';
 import 'package:alafein/features/home/presentation/widgets/home_event_item.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gap/gap.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:svg_flutter/svg.dart';
 
+import '../../event/organizer/presentation/views/event_page.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+
+
 @RoutePage()
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  final void Function(int) onCatTapped;
+
+  HomePage({super.key, required this.onCatTapped});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   final PageController _scrollController = PageController();
 
-  HomePage({super.key});
+  Future<void> _refresh()async{
+      EasyLoading.show(status: 'Loading...');
+    setState(() {
+    });
+    await Future.delayed(Duration(seconds : 1),(){
+      EasyLoading.dismiss();
+    });
+    return Future.delayed(const Duration(microseconds: 1),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,14 +66,23 @@ class HomePage extends StatelessWidget {
             ),
           ),
           actions: [
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 12),
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(6),
-                  border: Border.all(color: Colors.white, width: 1.5)),
-              child: SvgPicture.asset(
-                AssetsData.search,
+            InkWell(
+              onTap: (){
+                Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const EventSearch()
+                ));
+              },
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 12),
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6),
+                    border: Border.all(color: Colors.white, width: 1.5)),
+                child: SvgPicture.asset(
+                  AssetsData.search,
+                ),
               ),
             ),
           ],
@@ -57,179 +92,230 @@ class HomePage extends StatelessWidget {
             if (state is HomeLoaded) {
               return Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: SingleChildScrollView(
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        if (state.homeResponse.spotlight != null)
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                'EVENTS SPOTLIGHT',
-                                style: homeLabelStyle,
-                              ),
-                              SizedBox(
-                                height: 180,
-                                child: ListView.builder(
-                                    itemCount:
-                                        state.homeResponse.spotlight?.length ??
-                                            0,
-                                    scrollDirection: Axis.horizontal,
-                                    itemBuilder: (context, index) => InkWell(
-                                          onTap: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      EventDeatils(
-                                                    index: state
-                                                            .homeResponse
-                                                            .spotlight?[index]
-                                                            .id ??
-                                                        -1,
-                                                  ),
-                                                ));
-                                          },
-                                          child: HomeEventItem(
-                                            name: state.homeResponse
-                                                    .spotlight?[index].name ??
-                                                "",
-                                            image: state.homeResponse
-                                                    .spotlight?[index].poster ??
-                                                "",
-                                            date: state.homeResponse
-                                                    .spotlight?[index].date ??
-                                                "",
-                                          ),
-                                        )),
-                              ),
-                            ],
-                          ),
-                        if (state.homeResponse.category != null)
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                margin:
-                                    const EdgeInsets.symmetric(vertical: 16),
-                                child: Text(
-                                  'categories'.toUpperCase(),
+                child: LiquidPullToRefresh(
+                  color: Colors.transparent,
+                  onRefresh: _refresh,
+                  showChildOpacityTransition: false,
+                  child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (state.homeResponse.spotlight != null)
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'EVENTS SPOTLIGHT',
                                   style: homeLabelStyle,
                                 ),
-                              ),
-                              GridView.builder(
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 4,
-                                  childAspectRatio: 0.75,
-                                  crossAxisSpacing: 3.sw,
-                                  mainAxisSpacing: 3.sw,
+                                SizedBox(
+                                  height: 180,
+                                  child: ListView.builder(
+                                      itemCount:
+                                          state.homeResponse.spotlight?.length ??
+                                              0,
+                                      scrollDirection: Axis.horizontal,
+                                      itemBuilder: (context, index) => InkWell(
+                                            onTap: (SessionManagement.getUserRole() != "") ?
+                                            (){
+                                              routeToEventDetails(context,state
+                                                  .homeResponse
+                                                  .spotlight?[index]
+                                                  .id ??
+                                                  -1,);
+                                              } : ()async{
+                                              routeToEventDetails(context,state
+                                                  .homeResponse
+                                                  .spotlight?[index]
+                                                  .id ??
+                                                  -1,);
+                                              await Future.delayed(const Duration(seconds: 2));
+                                              AutoRouter.of(context).popAndPush(const LoginRoute());
+                                                },
+                                             child: HomeEventItem(
+                                              name: state.homeResponse
+                                                      .spotlight?[index].name ??
+                                                  "",
+                                              image: state
+                                                          .homeResponse
+                                                          .spotlight?[index]
+                                                          .poster !=
+                                                      null
+                                                  ? "${APICallerConfiguration.baseImageUrl}${state.homeResponse.spotlight?[index].poster}"
+                                                  : "",
+                                              catImage: state
+                                                          .homeResponse
+                                                          .spotlight?[index]
+                                                          .catPoster !=
+                                                      null
+                                                  ? "${APICallerConfiguration.baseImageUrl}${state.homeResponse.spotlight?[index].catPoster}"
+                                                  : "",
+                                              date: state.homeResponse
+                                                      .spotlight?[index].date ??
+                                                  "",
+                                            ),
+                                          )),
                                 ),
-                                physics: const NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemCount:
-                                    state.homeResponse.category?.length ?? 0,
-                                itemBuilder: (context, index) => SizedBox(
-                                  child: Column(
-                                    children: [
-                                      SvgPicture.network(
-                                        "${APICallerConfiguration.baseImageUrl}${state.homeResponse.category?[index].image}",
-                                        placeholderBuilder: (context) =>
-                                            Image.asset(AssetsData.music),
-                                      ),
-                                      const Gap(4),
-                                      Text(
-                                          state.homeResponse.category?[index]
-                                                  .name ??
-                                              "Event",
-                                          textAlign: TextAlign.center,
-                                          style: homeLabel3Style)
-                                    ],
+                              ],
+                            ),
+                          if (state.homeResponse.category != null)
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 16),
+                                  child: Text(
+                                    'categories'.toUpperCase(),
+                                    style: homeLabelStyle,
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                          ),
-                          child: Center(
-                            child: SmoothPageIndicator(
-                              controller: _scrollController,
-                              count:
-                                  (state.homeResponse.category?.length ?? 0) > 8
-                                      ? 2
-                                      : 1,
-                              effect: const ScrollingDotsEffect(
-                                dotWidth: 8,
-                                dotHeight: 8,
-                                spacing: 5.0,
-                                dotColor: Colors.grey,
-                                activeDotColor: Color(0xFFFF73C6),
+                                SizedBox(
+                                  height: 150,
+                                  child: ListView.separated(
+                                  itemCount: state.homeResponse.category!.length,
+                                    scrollDirection: Axis.horizontal,
+                                    separatorBuilder: (context, index) => const SizedBox(
+                                      width: 20,
+                                    ),
+                                    itemBuilder: (context, index) => SizedBox(
+                                      child: InkWell(
+                                        onTap:(SessionManagement.getUserRole() != "")? (){widget.onCatTapped(index);}: (){
+                                          AutoRouter.of(context).popAndPush(const LoginRoute());
+                                        },
+                                        borderRadius: BorderRadius.circular(17),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10),
+                                            border: Border.all(
+                                                color: Colors.white,
+                                                width: 3),
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              ClipRRect(
+                                                borderRadius: BorderRadius.circular(17),
+                                                child: CachedNetworkImage(
+                                                  width: 70,
+                                                  imageUrl:
+                                                  "${APICallerConfiguration.baseImageUrl}${state.homeResponse.category![index].image}",
+                                                  fit: BoxFit.fitWidth,
+                                                  errorWidget: (context, url, error) =>
+                                                      Image.asset(
+                                                        AssetsData.eventImg,
+                                                        fit: BoxFit.contain,
+                                                      ),
+                                                ),
+                                              ),
+                                              const Gap(4),
+                                              Text(
+                                                state.homeResponse.category![index].name??"",
+                                                textAlign: TextAlign.center,
+                                                style: homeLabel3Style,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                            ),
+                            child: Center(
+                              child: SmoothPageIndicator(
+                                controller: _scrollController,
+                                count:
+                                    (state.homeResponse.category?.length ?? 0) > 8
+                                        ? 2
+                                        : 1,
+                                effect: const ScrollingDotsEffect(
+                                  dotWidth: 8,
+                                  dotHeight: 8,
+                                  spacing: 5.0,
+                                  dotColor: Colors.grey,
+                                  activeDotColor: Color(0xFFFF73C6),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        if (state.homeResponse.today != null)
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Gap(16),
-                              const Text(
-                                'Happening today',
-                                style: homeLabelStyle,
-                              ),
-                              SizedBox(
-                                height: 180,
-                                child: ListView.builder(
-                                    itemCount:
-                                        state.homeResponse.today?.length ?? 0,
-                                    scrollDirection: Axis.horizontal,
-                                    itemBuilder: (context, index) => InkWell(
-                                          onTap: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      EventDeatils(
-                                                    index: state.homeResponse
-                                                            .today?[index].id ??
-                                                        -1,
-                                                  ),
-                                                ));
-                                          },
-                                          child: HomeEventItem(
-                                            name: state.homeResponse
-                                                    .today?[index].name ??
-                                                "",
-                                            image: state.homeResponse
-                                                    .today?[index].poster ??
-                                                "",
-                                            date: state.homeResponse
-                                                    .today?[index].date ??
-                                                "",
-                                          ),
-                                        )),
-                              ),
-                            ],
+                          if (state.homeResponse.today != null)
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Gap(16),
+                                const Text(
+                                  'Happening today',
+                                  style: homeLabelStyle,
+                                ),
+                                SizedBox(
+                                  height: 180,
+                                  child: ListView.builder(
+                                      itemCount:
+                                          state.homeResponse.today?.length ?? 0,
+                                      scrollDirection: Axis.horizontal,
+                                      itemBuilder: (context, index) => InkWell(
+                                            onTap: (SessionManagement.getUserRole() != "") ?
+                                            (){
+                                              routeToEventDetails(context, state.homeResponse
+                                                  .today?[index].id ??
+                                                  -1);
+                                            } : ()async{
+                                                routeToEventDetails(context, state.homeResponse
+                                                    .today?[index].id ??
+                                                    -1);
+                                                await Future.delayed(const Duration(seconds: 2));
+                                                AutoRouter.of(context).popAndPush(const LoginRoute());
+                                                },
+                                            child: HomeEventItem(
+                                              name: state.homeResponse
+                                                      .today?[index].name ??
+                                                  "",
+                                              image: state.homeResponse
+                                                          .today?[index].poster !=
+                                                      null
+                                                  ? "${APICallerConfiguration.baseImageUrl}${state.homeResponse.today?[index].poster}"
+                                                  : "",
+                                              catImage: state
+                                                          .homeResponse
+                                                          .today?[index]
+                                                          .catPoster !=
+                                                      null
+                                                  ? "${APICallerConfiguration.baseImageUrl}${state.homeResponse.today?[index].catPoster}"
+                                                  : "",
+                                              date: state.homeResponse
+                                                      .today?[index].date ??
+                                                  "",
+                                            ),
+                                          )),
+                                ),
+                              ],
+                            ),
+                          const Gap(16),
+                          Image.asset(
+                            AssetsData.bottomBanner,
                           ),
-                        const Gap(16),
-                        Image.asset(
-                          AssetsData.bottomBanner,
-                        )
-                      ]),
+                          const Gap(16),
+                          // SizedBox(height: MediaQuery.of(context).size.height*0.1,)
+                        ]),
+                  ),
                 ),
               );
             } else {
-              return const SpinKitThreeBounce(
-                color: kPrimaryColor,
-              );
+              return Container();
             }
           },
         ),
       ),
     );
+  }
+
+  void routeToEventDetails(BuildContext context, int index) {
+    AutoRouter.of(context).popAndPush( EventDeatilsPage(index:index));
   }
 }

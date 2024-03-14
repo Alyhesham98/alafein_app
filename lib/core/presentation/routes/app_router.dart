@@ -14,7 +14,7 @@ class AppRouter extends $AppRouter {
         AutoRoute(
             page: SignupEventHostVenueRoute.page,
             path: '/sign-up-event-host-venue'),
-        AutoRoute(page: EventOrganiserRoute.page, path: '/event-organiser'),
+        AutoRoute(page: EventOrganiserRoute.page, path: '/event-organiser',),
         AutoRoute(page: SignupAudienceRoute.page, path: '/sign-up-audience'),
         AutoRoute(page: YouAreAllSetRoute.page, path: '/you-are-all-set'),
         AutoRoute(page: HomeRoute.page, path: '/home'),
@@ -22,7 +22,9 @@ class AppRouter extends $AppRouter {
         AutoRoute(
             page: SignupVenueBranchRoute.page, path: '/signup-venue-branch'),
         AutoRoute(page: CreateEventRoute.page, path: '/create_event_route'),
+        AutoRoute(page: EventDeatilsPage.page, path: '/event_details_route/:id'),
       ];
+
 }
 
 class AppRouterSingleton {
@@ -32,7 +34,6 @@ class AppRouterSingleton {
   factory AppRouterSingleton() {
     return _instance;
   }
-
   AppRouterSingleton._internal() {
     appRouter = AppRouter();
   }

@@ -2,9 +2,12 @@ class AssetsData {
   static const String src = 'assets/images';
   static const String onboardIcon = '${(src)}/splash_icon.svg';
   static const String animatedLogo = '${(src)}/logo_animation.gif';
+  static const String animatedLoading = '${(src)}/loading.gif';
   static const String logo = '${(src)}/logo.svg';
   static const String map = '${(src)}/map.png';
   static const String mapMark = '${(src)}/map_mark.png';
+  static const String location = '${(src)}/location.png';
+  static const String externalLink = '${(src)}/external.png';
   static const String blueLogo = '${(src)}/blue_logo.svg';
   static const String forward = '${(src)}/forward.svg';
   static const String apple = '${(src)}/apple.svg';
@@ -41,4 +44,5 @@ class AssetsData {
   static const String wattsApp = "${(src)}/WattsApp.svg";
   static const String youtupe = "${(src)}/youtupe.svg";
   static const String instagram = "${(src)}/InstgramEvent.svg";
+  static const String youAreAllSetVideo = "${(src)}/you're_all_set.mp4";
 }

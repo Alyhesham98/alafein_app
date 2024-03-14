@@ -5,6 +5,7 @@ const kSecondaryColor = Color(0xFFff73c6);
 const kGreyFontColor = Color(0xFF464646);
 const kSecondaryFontColor = Color(0xFF727272);
 const kHintColor = Color(0xFFBDBDBD);
+const kIconGrayColor = Color(0xFF333333);
 const kPersonGreyColor = Color(0xFF5f5f5f);
 const kDividerColor = Color(0xFFECECEC);
 const kSemiBlack = Color(0xFF292929);

@@ -14,15 +14,12 @@ class CustomEventImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(17),
-      child: AspectRatio(
-        aspectRatio: 4 / 4,
-        child: CachedNetworkImage(
-          imageUrl: imageurl,
+      child: CachedNetworkImage(
+        imageUrl: imageurl,
+        fit: BoxFit.cover,
+        errorWidget: (context, url, error) => Image.asset(
+          AssetsData.eventImg,
           fit: BoxFit.cover,
-          errorWidget: (context, url, error) => Image.asset(
-            AssetsData.eventImg,
-            fit: BoxFit.cover,
-          ),
         ),
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:alafein/core/presentation/routes/app_router.gr.dart';
 import 'package:alafein/core/presentation/widgets/main_custom_button.dart';
 import 'package:alafein/features/auth/signup/application/signup_cubit/signup_cubit.dart';
+import 'package:alafein/features/auth/signup/complete_registration/complete_registration.dart';
 import 'package:alafein/features/auth/signup/presentation/signup_type_selector_body.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class SignupTypeSelectorPage extends StatelessWidget {
     return BlocConsumer<SignupCubit, SignupState>(
       listener: (context, state) {
         if (state is SignupStateLoaded) {
-          AutoRouter.of(context).push(const SignupAudienceRoute());
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => CompleteRegistration()));
         }
       },
       builder: (context, state) {
@@ -38,7 +39,7 @@ class SignupTypeSelectorPage extends StatelessWidget {
                         buttonName: 'Next',
                         onPressed: signupCubit.isAuduence
                             ? () async {
-                                await signupCubit.signup();
+                                await signupCubit.signup(context, isAudience: true);
                               }
                             : signupCubit.isEventHost &&
                                     signupCubit.isVenue &&

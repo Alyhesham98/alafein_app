@@ -52,8 +52,14 @@ class _EventOrganizerOtherState extends State<EventOrganizerOther> {
         onSaved: (value) {
           signupCubit.other = value!;
         },
+        onChanged: (value) {
+          signupCubit.other = value;
+        },
         validator: (value) {
-          if (value == null || value.isEmpty) {
+          if ((signupCubit.other == null || signupCubit.other.isEmpty) &&
+              (signupCubit.instagram == null || signupCubit.instagram.isEmpty) &&
+              (signupCubit.facebook == null || signupCubit.facebook.isEmpty) &&
+              (signupCubit.website == null || signupCubit.website.isEmpty)) {
             return 'Please enter a valid Other';
           }
           return null;
@@ -63,11 +69,7 @@ class _EventOrganizerOtherState extends State<EventOrganizerOther> {
         textAlign: TextAlign.left,
         textAlignVertical: TextAlignVertical.bottom,
         decoration: InputDecoration(
-            constraints: BoxConstraints(
-                maxHeight: 14.sw,
-                minHeight: 14.sw,
-                maxWidth: double.infinity,
-                minWidth: double.infinity),
+            constraints: BoxConstraints(maxHeight: 14.sw, minHeight: 14.sw, maxWidth: double.infinity, minWidth: double.infinity),
             contentPadding: EdgeInsets.all(4.sw),
             border: textFormFieldBorderStyle,
             enabledBorder: textFormFieldBorderStyle,
@@ -81,10 +83,7 @@ class _EventOrganizerOtherState extends State<EventOrganizerOther> {
             label: const Text(
               'Other',
             ),
-            labelStyle: const TextStyle(
-                color: kHintColor,
-                fontFamily: StringConst.formulaFont,
-                fontWeight: FontWeight.w300),
+            labelStyle: const TextStyle(color: kHintColor, fontFamily: StringConst.formulaFont, fontWeight: FontWeight.w300),
             filled: true,
             fillColor: Colors.white),
         textInputAction: TextInputAction.next,
