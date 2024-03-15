@@ -14,6 +14,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'core/local_data/session_management.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 import 'core/utility/CustomLoader.dart';
 
@@ -21,12 +22,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
     await Firebase.initializeApp(
-      options:   const FirebaseOptions(
-          apiKey: "AIzaSyDWtGpWFRGcb7EQM_T7nNrlM2ad-dTj1kQ",
-          appId: "1:587761639039:ios:c84d2a9c017ca35029a94a",
-          messagingSenderId: "587761639039",
-          projectId: "alafein",
-      ),
+      options: DefaultFirebaseOptions.currentPlatform,
     );
     callFirebase();
     await SessionManagement.init();
