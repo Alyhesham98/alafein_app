@@ -35,6 +35,23 @@ class EventsShowCommentBody extends StatelessWidget {
     return BlocBuilder<GetEventCubit, GetEventState>(
       builder: (context, state) {
         final getDeatils = context.read<GetEventCubit>().eventDetails;
+
+        print('ID: ${getDeatils?.id}');
+        print('Poster: ${getDeatils?.poster}');
+        print('Category: ${getDeatils?.category}');
+        print('Is Favorite: ${getDeatils?.isFavorite}');
+        print('Name: ${getDeatils?.name}');
+        print('Organizer: ${getDeatils?.organizer}');
+        print('Description: ${getDeatils?.description}');
+        print('Date: ${getDeatils?.date}');
+        print('Attendance Option: ${getDeatils?.attendanceOption}');
+        print('URL: ${getDeatils?.url}');
+        print('Payment Fee: ${getDeatils?.paymentFee}');
+        print('Address: ${getDeatils?.address}');
+        print('Map Link: ${getDeatils?.mapLink}');
+        print('Event Organizer: ${getDeatils?.eventOrganizer}');
+        print('Venue: ${getDeatils?.venue}');
+
         final comments = context.read<GetEventCubit>().comments;
 
 /*                child: BlocConsumer<ToggleFavCubit, ToggleFavState>(
@@ -71,6 +88,8 @@ class EventsShowCommentBody extends StatelessWidget {
                   id: id,
                   isFavorite: getDeatils.isFavorite ?? true,
                   eventName: getDeatils.name ?? "",
+                  date: getDeatils.date ?? "",
+                  location: getDeatils.mapLink ?? '',
                 ),
               ),
               Description(
@@ -83,6 +102,8 @@ class EventsShowCommentBody extends StatelessWidget {
                 price: getDeatils.paymentFee ?? 0.0,
                 location: getDeatils.mapLink ?? '',
                 isFree: getDeatils.attendanceOption?.name == "Free",
+                name: getDeatils.category?.name ?? "",
+                eventName: getDeatils.name ?? "",
               ),
               if (getDeatils.eventOrganizer != null)
                 const Padding(
@@ -121,7 +142,7 @@ class EventsShowCommentBody extends StatelessWidget {
                 mapLink: getDeatils.venue?.mapLink ?? "",
                 other: getDeatils.venue?.other ?? "",
                 photo: getDeatils.venue?.photo ?? "",
-                websiteURL: getDeatils.venue!.websiteUrl!,
+                websiteURL: getDeatils.venue!.websiteUrl ?? "",
                 name: getDeatils.venue?.name ?? "",
                 whatsapp: '',
                 size: size,
@@ -135,7 +156,7 @@ class EventsShowCommentBody extends StatelessWidget {
                   style: homeLabelStyle,
                 ),
               ),
-              SizedBox(height:200,child: ListCommetItems(comments!)),
+              SizedBox(height:200,child: ListCommetItems(comments)),
               if (getDeatils.attendanceOption?.name == "Registration")
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),

@@ -7,11 +7,13 @@ import 'package:svg_flutter/svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Deatils extends StatelessWidget {
-  const Deatils({super.key, required this.date, required this.price, required this.postion, required this.location, required this.isFree});
+  const Deatils({super.key, required this.date, required this.price, required this.postion, required this.location, required this.isFree, required this.eventName, required this.name});
 
   final String date;
   final num price;
   final String postion;
+  final String eventName;
+  final String name;
   final String location;
   final bool isFree;
 
@@ -35,7 +37,9 @@ class Deatils extends StatelessWidget {
                   color: Color(0xFF7C7C7C),
                 ),
                 text: date,
-                location: '',
+                location: location,
+                eventName: eventName,
+                name: name
               ),
               const Gap(42),
               if (!isFree)
@@ -46,6 +50,8 @@ class Deatils extends StatelessWidget {
                   ),
                   text: price.toString(),
                   location: '',
+                  eventName: eventName,
+                  name: name
                 ),
             ],
           ),
@@ -59,6 +65,8 @@ class Deatils extends StatelessWidget {
                 ),
                 text: postion,
                 location: location,
+                eventName: eventName,
+                name: name
               ),
               InkWell(
                 onTap: () {

@@ -7,23 +7,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:gap/gap.dart';
+import 'package:alafein/features/event/organizer/repos/add_to_calender.dart';
+import 'package:add_2_calendar/add_2_calendar.dart';
 
 import '../../../../create_event/organizer/cubit/toggle_fav_cubit.dart';
 import '../../cubit/get_event_cubit.dart';
 import '../../cubit/get_event_state.dart';
 
 class EventName extends StatefulWidget {
-  const EventName({
-    super.key,
-    required this.size,
-    required this.imageurl,
-    required this.name,
-    required this.index,
-    required this.onTap,
-    required this.id,
-    required this.isFavorite,
-    required this.eventName
-  });
+  const EventName(
+      {super.key,
+      required this.size,
+      required this.imageurl,
+      required this.name,
+      required this.index,
+      required this.onTap,
+      required this.id,
+      required this.isFavorite,
+      required this.eventName,
+      required this.location,
+      required this.date});
 
   final Size size;
   final int index;
@@ -31,9 +34,10 @@ class EventName extends StatefulWidget {
   final String name;
   final Function onTap;
   final int id;
-  final bool  isFavorite;
+  final bool isFavorite;
   final String eventName;
-
+  final String location;
+  final String date;
 
   @override
   State<EventName> createState() => _EventNameState();
@@ -56,50 +60,65 @@ class _EventNameState extends State<EventName> {
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
-  // bool toggle = widget.isFavorite;
+    // bool toggle = widget.isFavorite;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
       child: Row(children: [
-        CustomEventImage(
-          imageurl: widget.imageurl,
+        Expanded(
+          flex: 1,
+          child: CustomEventImage(
+            imageurl: widget.imageurl,
+          ),
         ),
         SizedBox(
-          width: widget.size.width * 0.05,
+          width: widget.size.width * 0.04,
         ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              width: MediaQuery.of(context).size.width * .25,
-              child: Text(
-                widget.eventName,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: homeLabelStyle,
+        Expanded(
+          flex: 1,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: MediaQuery.of(context).size.width * .25,
+                child: Text(
+                  widget.eventName,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: homeLabelStyle,
+                ),
               ),
-            ),
-            const Gap(2),
-            Text(
-              widget.name,
-              style: secondaryTextStyle,
-            ),
-          ],
+              const Gap(2),
+              Text(
+                widget.name,
+                style: secondaryTextStyle,
+              ),
+            ],
+          ),
         ),
         const Gap(25),
         Expanded(
+          flex: 1,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Gap(25),/*
+              Gap(25),
               CustomIcon(
                 icon: const Icon(
                   Icons.calendar_month,
                   color: Color(0xFF7C7C7C),
                 ),
-                onTap: () {},
-              ),*/
+                onTap: () {
+                  print("object add to calender");
+                  Add2Calendar.addEvent2Cal(
+                    buildEvent(widget.date, widget.location, widget.eventName,
+                        widget.name),
+                  );
+                },
+              ),
+              const Gap(5),
               // CustomIcon(
               //   icon: const Icon(
               //     Icons.favorite_border_outlined,
@@ -109,31 +128,31 @@ class _EventNameState extends State<EventName> {
               //     print("object");
               //   },
               // ),
-            BlocProvider(
-              create: (context)=>ToggleFavoriteBloc(
-                widget.id
-              ),
-              child: BlocListener<ToggleFavoriteBloc,ToggleFavoriteState>(
-                  listener: (context,state)async{
-                    if(state is ToggleFavoriteSuccessfulState){
+              BlocProvider(
+                create: (context) => ToggleFavoriteBloc(widget.id),
+                child: BlocListener<ToggleFavoriteBloc, ToggleFavoriteState>(
+                  listener: (context, state) async {
+                    if (state is ToggleFavoriteSuccessfulState) {
                       //change color
                       EasyLoading.show();
                     }
                   },
-                  child:BlocBuilder<ToggleFavoriteBloc,ToggleFavoriteState>(
-                    builder: (context,state){
+                  child: BlocBuilder<ToggleFavoriteBloc, ToggleFavoriteState>(
+                    builder: (context, state) {
                       if (state is ToggleFavoriteLoadingState) {
-                          return const Center(
+                        return const Center(
                             child: CircularProgressIndicator(
                           color: kPrimaryColor,
-                        ));} else if( state is ToggleFavoriteErrorState){
-                          return const Text("error");
-                        }
-                        // bool x = widget.isFavorite;
+                        ));
+                      } else if (state is ToggleFavoriteErrorState) {
+                        return const Text("error");
+                      }
+                      // bool x = widget.isFavorite;
 
-                        // final ToggleFavoriteBloc toggleFavoriteBloc = ToggleFavoriteBloc(widget.id);
-                        return 
-                         widget.isFavorite ? toggleEvent(widget.id) : toggleEvent(widget.id);                                    
+                      // final ToggleFavoriteBloc toggleFavoriteBloc = ToggleFavoriteBloc(widget.id);
+                      return widget.isFavorite
+                          ? toggleEvent(widget.id)
+                          : toggleEvent(widget.id);
                     },
                   ),
                 ),
@@ -145,27 +164,24 @@ class _EventNameState extends State<EventName> {
     );
   }
 
-
-
-  Widget toggleEvent (int id){
+  Widget toggleEvent(int id) {
     final ToggleFavoriteBloc toggleFavoriteBloc = ToggleFavoriteBloc(id);
     return CustomIcon(
-          onTap: (){
-           setState(() {
-            toggle = !toggle;
-            toggleFavoriteBloc.add(ToggleFavoriteInitialFetchEvent());
-           });
-          },
-        icon: toggle ? 
-         const Icon(
-        Icons.favorite_outline,
-        color:Colors.redAccent,
-        ) 
-        : 
-        const Icon(
-        Icons.favorite_outline,
-        color: Color(0xFF7C7C7C),
-        ),
-      );
+      onTap: () {
+        setState(() {
+          toggle = !toggle;
+          toggleFavoriteBloc.add(ToggleFavoriteInitialFetchEvent());
+        });
+      },
+      icon: toggle
+          ? const Icon(
+              Icons.favorite_outline,
+              color: Colors.redAccent,
+            )
+          : const Icon(
+              Icons.favorite_outline,
+              color: Color(0xFF7C7C7C),
+            ),
+    );
   }
 }

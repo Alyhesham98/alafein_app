@@ -22,6 +22,8 @@
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>NSCalendarsUsageDescription</key>
+    <string>We need access to your calendar to schedule events and reminders.</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
