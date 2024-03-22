@@ -52,8 +52,14 @@ class _EventOrganizerWebsiteState extends State<EventOrganizerWebsite> {
         onSaved: (value) {
           signupCubit.website = value!;
         },
+        onChanged: (value) {
+          signupCubit.website = value;
+        },
         validator: (value) {
-          if (value == null || value.isEmpty) {
+          if ((signupCubit.other == null || signupCubit.other.isEmpty) &&
+              (signupCubit.instagram == null || signupCubit.instagram.isEmpty) &&
+              (signupCubit.facebook == null || signupCubit.facebook.isEmpty) &&
+              (signupCubit.website == null || signupCubit.website.isEmpty)) {
             return 'Please enter a valid Website';
           }
           return null;

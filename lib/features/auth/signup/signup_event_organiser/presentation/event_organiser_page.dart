@@ -9,6 +9,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
+import '../../complete_registration/complete_registration.dart';
+
 @RoutePage()
 class EventOrganiserPage extends StatelessWidget {
   const EventOrganiserPage({super.key});
@@ -20,8 +22,7 @@ class EventOrganiserPage extends StatelessWidget {
     return BlocListener<SignupCubit, SignupState>(
       listener: (context, state) {
         if (state is SignupStateLoaded) {
-          AutoRouter.of(context)
-              .push(YouAreAllSetRoute(route: const LoginRoute()));
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => CompleteRegistration()));
         }
       },
       child: Scaffold(
@@ -47,7 +48,7 @@ class EventOrganiserPage extends StatelessWidget {
                             if (signupCubit.selectedCategory == null) {
                               EasyLoading.showError("Select Event Type");
                             }
-                            await signupCubit.signup();
+                            await signupCubit.signup(context);
                             Log.debug("validate");
                           }
                         },

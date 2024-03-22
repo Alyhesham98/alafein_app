@@ -16,6 +16,8 @@ class MainScreen extends StatefulWidget {
   const MainScreen({super.key, this.index = 0});
 
   final int? index;
+  static int catId = 0;
+  static bool isClicked = false;
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -23,6 +25,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
+  int _catId = 0;
 
   @override
   void initState() {
@@ -36,12 +39,15 @@ class _MainScreenState extends State<MainScreen> {
       body: IndexedStack(
         index: _currentIndex,
         children: [
-          HomePage(onCatTapped: () =>
+          HomePage(onCatTapped: (catId) =>
             setState(() {
               _currentIndex =1;
+              _catId = catId;
+              MainScreen.catId = catId + 1;
+              MainScreen.isClicked = true;
             })
           ),
-          const Eventpage(),
+          Eventpage(_catId),
            if (SessionManagement.getUserRole() == "Host Venue")
            CreateEventPage(),
           if (SessionManagement.getUserRole() == "Audience")

@@ -24,7 +24,7 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 @RoutePage()
 class HomePage extends StatefulWidget {
-  final VoidCallback onCatTapped;
+  final void Function(int) onCatTapped;
 
   HomePage({super.key, required this.onCatTapped});
 
@@ -171,54 +171,56 @@ class _HomePageState extends State<HomePage> {
                                     style: homeLabelStyle,
                                   ),
                                 ),
-                                GridView.builder(
-                                  gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 5,
-                                    childAspectRatio: 0.75,
-                                    crossAxisSpacing: 3.sw,
-                                    mainAxisSpacing: 3.sw,
-                                  ),
-                                  // physics: const NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemCount:
-                                      state.homeResponse.category?.length ?? 0,
-                                  itemBuilder: (context, index) => InkWell(
-                                    borderRadius: BorderRadius.circular(17),
-                                    onTap:(SessionManagement.getUserRole() != "")? widget.onCatTapped: (){
-                                      AutoRouter.of(context).popAndPush(const LoginRoute());
-                                    },
-                                    child: SizedBox(
-                                      child: Column(
-                                        children: [
-                                          ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(17),
-                                            child: CachedNetworkImage(
-                                              width: double.infinity,
-                                              imageUrl:
-                                                  "${APICallerConfiguration.baseImageUrl}${state.homeResponse.category?[index].image}",
-                                              fit: BoxFit.fitWidth,
-                                              errorWidget:
-                                                  (context, url, error) =>
-                                                      Image.asset(
-                                                AssetsData.music,
-                                                fit: BoxFit.contain,
-                                              ),
-                                            ),
+                                SizedBox(
+                                  height: 150,
+                                  child: ListView.separated(
+                                  itemCount: state.homeResponse.category!.length,
+                                    scrollDirection: Axis.horizontal,
+                                    separatorBuilder: (context, index) => const SizedBox(
+                                      width: 20,
+                                    ),
+                                    itemBuilder: (context, index) => SizedBox(
+                                      child: InkWell(
+                                        onTap:(SessionManagement.getUserRole() != "")? (){widget.onCatTapped(index);}: (){
+                                          AutoRouter.of(context).popAndPush(const LoginRoute());
+                                        },
+                                        borderRadius: BorderRadius.circular(17),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10),
+                                            border: Border.all(
+                                                color: Colors.white,
+                                                width: 3),
                                           ),
-                                          const Gap(4),
-                                          Text(
-                                              state.homeResponse.category?[index]
-                                                      .name ??
-                                                  "Event",
-                                              textAlign: TextAlign.center,
-                                              style: homeLabel3Style)
-                                        ],
+                                          child: Column(
+                                            children: [
+                                              ClipRRect(
+                                                borderRadius: BorderRadius.circular(17),
+                                                child: CachedNetworkImage(
+                                                  width: 70,
+                                                  imageUrl:
+                                                  "${APICallerConfiguration.baseImageUrl}${state.homeResponse.category![index].image}",
+                                                  fit: BoxFit.fitWidth,
+                                                  errorWidget: (context, url, error) =>
+                                                      Image.asset(
+                                                        AssetsData.eventImg,
+                                                        fit: BoxFit.contain,
+                                                      ),
+                                                ),
+                                              ),
+                                              const Gap(4),
+                                              Text(
+                                                state.homeResponse.category![index].name??"",
+                                                textAlign: TextAlign.center,
+                                                style: homeLabel3Style,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
+                                )
                               ],
                             ),
                           Padding(

@@ -3,6 +3,7 @@ import 'package:alafein/core/api/constants/endpoints.dart';
 import 'package:alafein/core/api/constants/methods.dart';
 import 'package:alafein/core/debugging/log.dart';
 import 'package:alafein/core/local_data/session_management.dart';
+import 'package:alafein/features/auth/signup/complete_registration/complete_registration.dart';
 import 'package:alafein/features/auth/signup/model/lookup_model.dart';
 import 'package:alafein/features/auth/signup/model/registration_organizer_model.dart';
 import 'package:alafein/features/auth/signup/model/registration_user_model.dart';
@@ -310,7 +311,7 @@ class SignupCubit extends Cubit<SignupState> {
     );
   }
 
-  Future<void> signup() async {
+  Future<void> signup(BuildContext context, {bool isAudience = false}) async {
     EasyLoading.show();
     _setUserRole();
 
@@ -330,6 +331,8 @@ class SignupCubit extends Cubit<SignupState> {
           EasyLoading.dismiss();
 
           emit(SignupStateLoaded());
+          if (!isAudience){
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => const CompleteRegistration()));}
         } else {
           EasyLoading.showError(response.message ?? "Error !");
           emit(SignupStateError(message: response.message ?? "Error !"));

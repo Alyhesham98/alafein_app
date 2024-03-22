@@ -22,6 +22,7 @@ import 'package:alafein/features/event/organizer/presentation/widgets/informatio
 
 // import 'package:alafein/features/event/organizer/presentation/widgets/list_view_event.dart';
 import 'package:alafein/features/event/organizer/presentation/widgets/search_items.dart';
+import 'package:alafein/features/main/main_screen.dart';
 import 'package:alafein/features/profile_page/presentation/widgets/custom_text_field_item.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -36,13 +37,17 @@ import 'package:svg_flutter/svg.dart';
 
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
+import '../model/event_data_ui_model.dart';
+
 class Eventbody extends StatefulWidget {
   const Eventbody({
     super.key,
     required this.size,
+    required this.catId
   });
 
   final Size size;
+  final int catId;
 
   @override
   State<Eventbody> createState() => _EventbodyState();
@@ -56,12 +61,16 @@ class _EventbodyState extends State<Eventbody> {
 
   late ListEventBloc listEventBloc = ListEventBloc();
 
+  List<EventDataUiModel> eventCategories = List.empty(growable: true);
+
   final TextEditingController _timeAndDateFromContoller =
       TextEditingController();
   final TextEditingController _timeAndDateToContoller = TextEditingController();
 
   @override
   void initState() {
+    selectedIndex = widget.catId;
+    print("I'M HERE $selectedIndex");
     eventCategoryBloc.add(EventCategoryInitialFetchEvent());
     listEventBloc
         .add(ListEventInitialFetchEvent(isCategory: false, categoryId: 0));
@@ -87,6 +96,14 @@ class _EventbodyState extends State<Eventbody> {
 
   @override
   Widget build(BuildContext context) {
+    if (MainScreen.isClicked && eventCategories.isNotEmpty){
+      selectedIndex = MainScreen.catId;
+      listEventBloc.add(ListEventInitialFetchEvent(
+          isCategory:
+          selectedIndex == 0 ? false : true,
+          categoryId: eventCategories.elementAt(selectedIndex).id));
+      MainScreen.isClicked = false;
+    }
     return CustomScrollView(
       physics: const NeverScrollableScrollPhysics(),
       slivers: [
@@ -205,6 +222,7 @@ class _EventbodyState extends State<Eventbody> {
                         EasyLoading.dismiss();
                         final successState =
                             state as EventCategoryFetchingSuccessfulState;
+                        eventCategories = successState.eventCatigories;
                         return ListView.separated(
                           itemCount: successState.eventCatigories.length,
                           scrollDirection: Axis.horizontal,
@@ -297,7 +315,8 @@ class _EventbodyState extends State<Eventbody> {
                       showChildOpacityTransition: false,
                       color: Colors.transparent,
                       onRefresh: _refresh,
-                      child: ListView.separated(
+                      child:  successState.listEvent.isEmpty? const Center(child: Text("No Data found",style: homeLabelStyle,)) :
+                      ListView.separated(
                         physics: const AlwaysScrollableScrollPhysics(),
                         padding: EdgeInsets.zero,
                         itemCount: successState.listEvent.length,

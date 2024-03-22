@@ -89,7 +89,7 @@ class _SignupVenueBranchPageState extends State<SignupVenueBranchPage> {
                                 curve: Curves.linear);
                             signupCubit.updateState();
                           } else {
-                            await signupCubit.signup();
+                            await signupCubit.signup(context);
                           }
                         }
                       },

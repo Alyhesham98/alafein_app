@@ -14,26 +14,23 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'core/local_data/session_management.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 import 'core/utility/CustomLoader.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: const FirebaseOptions(
-      apiKey: "AIzaSyDWtGpWFRGcb7EQM_T7nNrlM2ad-dTj1kQ",
-      appId: "1:587761639039:android:230c35dde1a21f7629a94a",
-      messagingSenderId: "messaging id",
-      projectId: "alafein",
-      androidClientId: "587761639039-nme8uh34kc0h86eklfmpa7rpaerofkkv.apps.googleusercontent.com"
-    ),
-  );
-  callFirebase();
-  await SessionManagement.init();
-  configLoading();
-  Bloc.observer = MyBlocObserver();
 
-  initLocator();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    callFirebase();
+    await SessionManagement.init();
+    configLoading();
+    Bloc.observer = MyBlocObserver();
+
+    initLocator();
+
   runApp(MultiBlocProvider(
     providers: [
       //////////
@@ -103,7 +100,7 @@ void configLoading() {
     ..radius = 10.0
     ..progressColor = kPrimaryColor
     ..backgroundColor = Colors.transparent
-    ..textColor = Colors.black
+    ..textColor = Colors.white
     ..maskType = EasyLoadingMaskType.black
     ..userInteractions = false
     ..animationDuration = const Duration(milliseconds: 350)

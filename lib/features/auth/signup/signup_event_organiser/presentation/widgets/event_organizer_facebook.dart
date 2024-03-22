@@ -52,8 +52,14 @@ class _EventOrganizerFacebookState extends State<EventOrganizerFacebook> {
         onSaved: (value) {
           signupCubit.facebook = value!;
         },
+        onChanged: (value) {
+          signupCubit.facebook = value;
+        },
         validator: (value) {
-          if (value == null || value.isEmpty) {
+          if ((signupCubit.other == null || signupCubit.other.isEmpty) &&
+              (signupCubit.instagram == null || signupCubit.instagram.isEmpty) &&
+              (signupCubit.facebook == null || signupCubit.facebook.isEmpty) &&
+              (signupCubit.website == null || signupCubit.website.isEmpty)) {
             return 'Please enter a valid Facebook';
           }
           return null;
