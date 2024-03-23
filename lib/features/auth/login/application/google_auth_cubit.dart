@@ -15,7 +15,9 @@ import 'Bloc_GSSO/gsso_bloc.dart';
 class GoogleAuthCubit extends Cubit<GoogleAuthState> {
   GoogleAuthCubit() : super(GoogleAuthInitialState());
 
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+
+  );
   final GSSOBloc gssoBloc = GSSOBloc();
 
   // final _auth = FirebaseAuth.instance;
@@ -28,7 +30,14 @@ class GoogleAuthCubit extends Cubit<GoogleAuthState> {
     emit(GoogleAuthLoadingState());
     try {
       // select google account
-      final userAccont = await _googleSignIn.signIn();
+     late final userAccont;
+      try{
+
+          userAccont = await _googleSignIn.signIn();
+      }
+      catch(e){
+        print("amr$e");
+      }
 
       // user dismissed the account dilog
       if (userAccont == null) return;
