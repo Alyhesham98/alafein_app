@@ -2,6 +2,19 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+
+
+<key>LSApplicationQueriesSchemes</key>
+<array>
+  <string>fbapi</string>
+  <string>fb-messenger-share-api</string>
+</array>
+<key>FacebookAppID</key>
+<string>7679920488724988</string>
+<key>FacebookClientToken</key>
+<string>036b397dfb744a5b009c89ea36097406</string>
+<key>FacebookDisplayName</key>
+<string>Ala fein</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
@@ -26,13 +39,24 @@
     <string>We need access to your calendar to schedule events and reminders.</string>
 	<key>CFBundleURLTypes</key>
 	<array>
+	<dict>
+                           <key>CFBundleURLSchemes</key>
+                           <array>
+                               <string>fb7679920488724988</string>
+                           </array>
+                       </dict>
+
 		<dict>
+		 <key>CFBundleTypeRole</key>
+                        <string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>com.googleusercontent.apps.587761639039-7tc1823ips55gt7afa13i4b1r3r2ng11</string>
 			</array>
 		</dict>
 	</array>
+
+
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>FLTEnableImpeller</key>

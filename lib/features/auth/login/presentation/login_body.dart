@@ -233,14 +233,20 @@ class _LoginBodyState extends State<LoginBody>
                     Gap(4.sw),
                     PlatformCustomButton(
                       onPressed: () {
-                        FacebookAuth.instance.login(
-                          permissions: ["public_profile","email"]
-                        ).then((value) => {
-                          FacebookAuth.instance.getUserData().then((value) => {
-                            print(value)
-                          })
 
-                        });
+                        try{
+                          FacebookAuth.instance.login(
+                              permissions: ["public_profile","email"]
+                          ).then((value) => {
+                            FacebookAuth.instance.getUserData().then((value) => {
+                              print(value)
+                            })
+
+                          });
+                        }
+                        catch(e){
+                          print(e);
+                        }
                       },
                       platform: 'Facebook',
                       image: AssetsData.facebook,
