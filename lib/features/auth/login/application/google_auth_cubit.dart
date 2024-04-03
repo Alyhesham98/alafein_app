@@ -15,9 +15,7 @@ import 'Bloc_GSSO/gsso_bloc.dart';
 class GoogleAuthCubit extends Cubit<GoogleAuthState> {
   GoogleAuthCubit() : super(GoogleAuthInitialState());
 
-  final GoogleSignIn _googleSignIn = GoogleSignIn(
-
-  );
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
   final GSSOBloc gssoBloc = GSSOBloc();
 
   // final _auth = FirebaseAuth.instance;
