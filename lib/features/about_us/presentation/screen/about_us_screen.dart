@@ -1,6 +1,5 @@
 import 'package:alafein/core/utility/colors_data.dart';
 import 'package:alafein/core/utility/strings.dart';
-import 'package:alafein/core/utility/theme.dart';
 import 'package:flutter/material.dart';
 
 class AboutUS extends StatelessWidget {

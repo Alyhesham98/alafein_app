@@ -1,11 +1,8 @@
 import 'package:alafein/core/local_data/session_management.dart';
 import 'package:alafein/core/api/constants/api_caller_config.dart';
-import 'package:alafein/core/presentation/widgets/main_custom_button.dart';
 import 'package:alafein/core/utility/assets_data.dart';
 import 'package:alafein/core/utility/colors_data.dart';
-import 'package:alafein/core/utility/strings.dart';
 import 'package:alafein/core/utility/theme.dart';
-import 'package:alafein/features/event/organizer/cubit/get_event_cubit.dart';
 
 // import 'package:alafein/features/event/organizer/cubit/get_event_cubit.dart';
 // import 'package:alafein/features/event/organizer/cubit/get_event_state.dart';
@@ -15,15 +12,11 @@ import 'package:alafein/features/event/organizer/presentation/views/event_deatil
 import 'package:alafein/features/event/organizer/presentation/views/event_search.dart';
 
 import 'package:alafein/features/event/organizer/presentation/widgets/custom_appbar.dart';
-import 'package:alafein/features/event/organizer/presentation/widgets/custom_button_comment.dart';
 import 'package:alafein/features/event/organizer/presentation/widgets/custom_event_image.dart';
-import 'package:alafein/features/event/organizer/presentation/widgets/custom_icon.dart';
 import 'package:alafein/features/event/organizer/presentation/widgets/information_event.dart';
 
 // import 'package:alafein/features/event/organizer/presentation/widgets/list_view_event.dart';
-import 'package:alafein/features/event/organizer/presentation/widgets/search_items.dart';
 import 'package:alafein/features/main/main_screen.dart';
-import 'package:alafein/features/profile_page/presentation/widgets/custom_text_field_item.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,8 +24,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 // import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:gap/gap.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 import 'package:svg_flutter/svg.dart';
 
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
@@ -87,7 +78,7 @@ class _EventbodyState extends State<Eventbody> {
       EasyLoading.show(status: 'Loading...');
     setState(() {
     });
-    await Future.delayed(Duration(seconds : 1),(){
+    await Future.delayed(const Duration(seconds : 1),(){
       EasyLoading.dismiss();
     });
     return Future.delayed(const Duration(microseconds: 1),
@@ -248,7 +239,7 @@ class _EventbodyState extends State<Eventbody> {
                                   borderRadius: BorderRadius.circular(10),
                                   border: Border.all(
                                       color: selectedIndex == index
-                                          ? Color(0xFFEDEDED)
+                                          ? const Color(0xFFEDEDED)
                                           : Colors.white,
                                       width: 3),
                                 ),
@@ -354,10 +345,10 @@ class _EventbodyState extends State<Eventbody> {
                                         MediaQuery.sizeOf(context).width * 0.05,
                                   ),
                                   InformationEvent(
-                                    name: "${successState.listEvent[index].name}",
-                                    date: "${successState.listEvent[index].date}",
+                                    name: successState.listEvent[index].name,
+                                    date: successState.listEvent[index].date,
                                     venue:
-                                        "${successState.listEvent[index].venue.name}",
+                                        successState.listEvent[index].venue.name,
                                   ),
                                 ]),
                               ),
@@ -367,7 +358,7 @@ class _EventbodyState extends State<Eventbody> {
                       ),
                     );
                 }
-                return Text("");
+                return const Text("");
               }),
         ),
       ],

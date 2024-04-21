@@ -2,7 +2,6 @@
 
 import 'dart:async';
 
-import 'package:alafein/features/favourite/presentation/model/toggle_favorite_ui_model.dart';
 import 'package:alafein/features/favourite/repos/toggle_favorite_repo.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

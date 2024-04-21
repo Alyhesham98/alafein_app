@@ -28,13 +28,13 @@ class ListEventCategoryItems extends StatelessWidget {
         child: Column(
           children: [
             SvgPicture.network(
-                "${APICallerConfiguration.baseImageUrl}${imageUrl}",
+                "${APICallerConfiguration.baseImageUrl}$imageUrl",
                 placeholderBuilder: (context) =>
                     Image.asset(AssetsData.music),
               ),
              const Gap(4),
              Text(
-              "${name}",
+              name,
               textAlign: TextAlign.center,
               style: homeLabel3Style,
             ),

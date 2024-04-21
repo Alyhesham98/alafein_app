@@ -1,13 +1,5 @@
-import 'package:alafein/core/presentation/routes/app_router.gr.dart';
-import 'package:alafein/core/utility/theme.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:svg_flutter/svg.dart';
 
-import '../../../../core/local_data/session_management.dart';
-import '../../../../core/utility/assets_data.dart';
-import '../../../../core/utility/colors_data.dart';
 import '../../../../core/utility/strings.dart';
 
 class ProfileItemText extends StatelessWidget {

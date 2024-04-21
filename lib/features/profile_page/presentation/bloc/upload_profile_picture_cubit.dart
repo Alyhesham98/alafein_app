@@ -27,7 +27,7 @@ class UploadProfilePictureCubit extends Cubit<UploadProfilePictureState> {
     if (posterPhoto != null) {
       emit(UploadProfilePictureLoading());
       EasyLoading.show();
-      Log.info(posterPhoto!.path);
+      Log.info(posterPhoto.path);
       final call = await _apiCaller.call(
           endpoint: Endpoints.uploadProfilePic,
           options: Options(headers: {
@@ -45,7 +45,7 @@ class UploadProfilePictureCubit extends Cubit<UploadProfilePictureState> {
           if (r.succeeded == true) {
             SessionManagement.saveUserImage(r.data??'');
             Log.info(r.data);
-            EasyLoading.showInfo(r!.message.toString());
+            EasyLoading.showInfo(r.message.toString());
             emit(UploadProfilePictureLoaded());
             EasyLoading.dismiss();
             return r.data;
@@ -56,6 +56,7 @@ class UploadProfilePictureCubit extends Cubit<UploadProfilePictureState> {
         },
       );
     }
+    return null;
   }
 
 

@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:alafein/core/local_data/session_management.dart';
-import 'package:alafein/features/auth/login/application/Bloc/google_login_state.dart';
 import 'package:alafein/features/auth/login/application/google_auth_state.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
@@ -28,7 +27,7 @@ class GoogleAuthCubit extends Cubit<GoogleAuthState> {
     emit(GoogleAuthLoadingState());
     try {
       // select google account
-     late final userAccont;
+     late final GoogleSignInAccount? userAccont;
       try{
 
           userAccont = await _googleSignIn.signIn();

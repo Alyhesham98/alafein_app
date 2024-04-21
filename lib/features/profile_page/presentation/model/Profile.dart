@@ -6,6 +6,7 @@
 /// Phone : "string"
 /// Venue : {"Id":0,"Instagram":"string","Facebook":"string","WebsiteURL":"string","Other":"string","PhoneNumber":"string","VenueName":"string","VenueImage":"string","VenueDescription":"string","Category":{"Id":0,"Name":"string","Image":"string"},"Schedule":{"Id":0,"Name":"string","Poster":"string","Date":["string"],"CategoryPoster":"string"},"Photos":["string"],"Facilities":[{"Id":0,"ImagePath":"string","ImageName":"string"}],"Branches":[{"Id":0,"Name":"string","Address":"string","MapLink":"string","WorkDay":[{"Id":0,"Day":{"Id":0,"Name":"string"},"From":"string","To":"string"}]}]}
 /// Organizer : {"Id":0,"MapLink":"string","Address":"string","Instagram":"string","Facebook":"string","WebsiteURL":"string","Other":"string","Description":"string","Category":{"Id":0,"Name":"string","Image":"string"}}
+library;
 
 class Profile {
   Profile({

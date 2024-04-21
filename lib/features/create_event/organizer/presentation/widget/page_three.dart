@@ -5,7 +5,6 @@ import 'package:alafein/features/create_event/organizer/presentation/widget/cust
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 import 'custom_text_form_field.dart';

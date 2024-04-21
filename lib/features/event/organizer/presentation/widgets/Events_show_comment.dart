@@ -84,7 +84,7 @@ class EventsShowCommentBody extends StatelessWidget {
                       : "",
                   name: getDeatils.category?.name ?? "",
                   size: size,
-                  index: getDeatils!.id ?? 0,
+                  index: getDeatils.id ?? 0,
                   onTap: () {},
                   id: id,
                   isFavorite: getDeatils.isFavorite ?? true,
@@ -172,7 +172,7 @@ class EventsShowCommentBody extends StatelessWidget {
               const Gap(10),
               if (getDeatils.attendanceOption?.name != "Registration")
                 Padding(
-                  padding: EdgeInsets.symmetric(
+                  padding: const EdgeInsets.symmetric(
                     horizontal: 24,
                   ),
                   child: CustomButtonComment(
@@ -187,7 +187,7 @@ class EventsShowCommentBody extends StatelessWidget {
                 ),
               const Gap(10),
               Padding(
-                padding: EdgeInsets.symmetric(
+                padding: const EdgeInsets.symmetric(
                   horizontal: 24,
                 ),
                 child: CustomButtonComment(
@@ -223,7 +223,7 @@ class EventsShowCommentBody extends StatelessWidget {
         builder: (context) {
           return Column(
             children: [
-              Gap(20),
+              const Gap(20),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10.sw),
                 child: TextFormField(
@@ -239,7 +239,9 @@ class EventsShowCommentBody extends StatelessWidget {
                   onChanged: (val) {
                     commentValue = val;
                   },
-                  validator: (value) {},
+                  validator: (value) {
+                    return null;
+                  },
                   maxLines: 3,
                   cursorColor: Colors.black,
                   textAlign: TextAlign.left,
@@ -277,9 +279,9 @@ class EventsShowCommentBody extends StatelessWidget {
                   autocorrect: false,
                 ),
               ),
-              Gap(10),
+              const Gap(10),
               Padding(
-                padding: EdgeInsets.symmetric(
+                padding: const EdgeInsets.symmetric(
                   horizontal: 24,
                 ),
                 child: CustomButtonComment(

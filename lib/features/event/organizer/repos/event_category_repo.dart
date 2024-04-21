@@ -22,7 +22,7 @@ class EventCategoryRepo{
         print("////${result['Data']}\\\\");
 
         List eventsData = result['Data'];
-        print("//${eventsData}\\");
+        print("//$eventsData\\");
 
 
         for (int i = 0 ; i < eventsData.length ; i++ ){
@@ -44,7 +44,7 @@ class EventCategoryRepo{
           event = EventDataUiModel.fromJson(eventsData[i]);// as Map<String, dynamic>
           events.add(event);
         }
-          print(" events : ${events}");
+          print(" events : $events");
         return events;
       }
       catch (e){

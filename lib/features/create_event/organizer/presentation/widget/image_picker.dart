@@ -11,8 +11,8 @@ import '../../cubit/images_selection_cubit.dart';
 
 class ImagesPicker extends StatelessWidget {
   const ImagesPicker({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

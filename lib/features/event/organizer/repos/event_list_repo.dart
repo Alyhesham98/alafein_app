@@ -15,7 +15,7 @@ class ListEventRepo {
     List<ListEventModel> events = [];
     try {
       //?PageNumber=1&PageSize=500
-      var response;
+      http.Response response;
       if (isCategory) {
         response = await client.post(
           Uri.parse(
@@ -49,7 +49,7 @@ class ListEventRepo {
         Map<String, dynamic> result = jsonDecode(response.body);
 
         List eventsData = result['Data'];
-        print("//${eventsData}\\");
+        print("//$eventsData\\");
 
         for (int i = 0; i < eventsData.length; i++) {
           print("amrr${eventsData[i]}");

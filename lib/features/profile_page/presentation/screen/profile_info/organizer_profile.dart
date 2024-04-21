@@ -2,7 +2,6 @@
 import 'package:alafein/core/api/constants/api_caller_config.dart';
 import 'package:alafein/core/utility/assets_data.dart';
 import 'package:alafein/features/auth/signup/presentation/widgets/profile_picture.dart';
-import 'package:alafein/features/profile_page/presentation/widgets/organizer_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';

@@ -1,5 +1,4 @@
 import 'package:alafein/features/auth/signup/application/signup_cubit/signup_cubit.dart';
-import 'package:alafein/features/auth/signup/presentation/widgets/branch_name_field.dart';
 import 'package:alafein/features/auth/signup/presentation/widgets/email_field.dart';
 import 'package:alafein/features/auth/signup/presentation/widgets/first_name_field.dart';
 import 'package:alafein/features/auth/signup/presentation/widgets/last_name_field.dart';

@@ -14,7 +14,6 @@ import 'package:alafein/features/create_event/model/dropdown_response/venue.dart
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -33,7 +32,7 @@ class CreateEventCubit extends Cubit<CreateEventState> {
     GlobalKey<FormState>(),
   ];
 
-  CreateEventRequest _createEventRequest = CreateEventRequest(
+  final CreateEventRequest _createEventRequest = CreateEventRequest(
     eventNameEn: "eventNameEn",
     eventNameAr: "eventNameAr",
     eventDescriptionEn: "eventDescriptionEn",
@@ -164,6 +163,7 @@ class CreateEventCubit extends Cubit<CreateEventState> {
         },
       );
     }
+    return null;
   }
 
   Future<void> getDropdowns() async {

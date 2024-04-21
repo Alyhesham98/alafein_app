@@ -1,5 +1,4 @@
 import 'package:alafein/features/event/organizer/cubit/get_event_cubit.dart';
-import 'package:alafein/features/event/organizer/presentation/widgets/event_body.dart';
 import 'package:alafein/features/event/organizer/presentation/widgets/search_body.dart';
 
 import 'package:flutter/material.dart';

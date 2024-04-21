@@ -49,7 +49,7 @@ class _MainScreenState extends State<MainScreen> {
           ),
           Eventpage(_catId),
            if (SessionManagement.getUserRole() == "Host Venue")
-           CreateEventPage(),
+           const CreateEventPage(),
           if (SessionManagement.getUserRole() == "Audience")
             const FavoritePage(),
           const Profilepage(),

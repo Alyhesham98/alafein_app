@@ -1,16 +1,13 @@
 import 'package:alafein/core/presentation/routes/app_router.gr.dart';
 import 'package:alafein/core/utility/theme.dart';
-import 'package:alafein/features/about_us/presentation/screen/about_us_screen.dart';
 import 'package:alafein/features/profile_page/presentation/screen/profile_info/profile_info.dart';
 import 'package:alafein/features/profile_page/presentation/widgets/profile_item_text.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:gap/gap.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 
 // import 'package:google_fonts/google_fonts.dart';
 import 'package:svg_flutter/svg.dart';
@@ -35,7 +32,7 @@ class CustomProfileAppBarEvent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    GoogleSignIn _googleSignIn = GoogleSignIn();
+    GoogleSignIn googleSignIn = GoogleSignIn();
 
     return Card(
       elevation: 0,
@@ -85,8 +82,8 @@ class CustomProfileAppBarEvent extends StatelessWidget {
                       if (SessionManagement.getUserRole() != "") {
                         EasyLoading.show();
                         SessionManagement.signOut();
-                        if (await _googleSignIn.isSignedIn()) {
-                          await _googleSignIn.signOut().whenComplete(() {
+                        if (await googleSignIn.isSignedIn()) {
+                          await googleSignIn.signOut().whenComplete(() {
                             AutoRouter.of(context)
                                 .replaceAll([const LoginRoute()]);
                           });

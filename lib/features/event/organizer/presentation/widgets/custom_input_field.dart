@@ -2,12 +2,11 @@
 import 'package:alafein/core/utility/assets_data.dart';
 import 'package:alafein/core/utility/strings.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:svg_flutter/svg.dart';
 
 class CustomInputTextFieldWidget extends StatelessWidget {
   const CustomInputTextFieldWidget({
-    Key? key,
+    super.key,
     required this.hintText,
     required this.secure,
     required this.controller,
@@ -15,7 +14,7 @@ class CustomInputTextFieldWidget extends StatelessWidget {
     this.labelText,
     this.icon,
     this.fillColor,
-  }) : super(key: key);
+  });
   final String hintText;
   final String? labelText;
   final bool secure;
@@ -55,7 +54,7 @@ class CustomInputTextFieldWidget extends StatelessWidget {
           suffixIcon: controller != null ? IconButton(
             onPressed: controller.clear,
             icon: const Icon(Icons.clear),)
-             : SizedBox(),
+             : const SizedBox(),
           ),
         ),
       );

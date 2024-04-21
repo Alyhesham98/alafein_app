@@ -4,7 +4,6 @@ import 'dart:developer';
 
 import 'package:alafein/core/local_data/session_management.dart';
 import 'package:alafein/features/profile_page/presentation/model/Profile.dart';
-import 'package:alafein/features/profile_page/presentation/model/profile_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:http/http.dart' as http;

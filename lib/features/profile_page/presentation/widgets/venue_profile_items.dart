@@ -1,10 +1,7 @@
 import 'package:alafein/core/utility/assets_data.dart';
 import 'package:alafein/core/utility/theme.dart';
-import 'package:alafein/features/event/organizer/presentation/widgets/custom_event_image.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 import 'package:svg_flutter/svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 

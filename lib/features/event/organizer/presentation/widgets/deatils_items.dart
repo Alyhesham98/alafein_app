@@ -1,6 +1,5 @@
 import 'package:alafein/core/utility/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:alafein/features/event/organizer/repos/add_to_calender.dart';
 

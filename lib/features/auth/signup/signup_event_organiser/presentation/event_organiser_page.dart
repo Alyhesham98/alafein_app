@@ -1,5 +1,4 @@
 import 'package:alafein/core/debugging/log.dart';
-import 'package:alafein/core/presentation/routes/app_router.gr.dart';
 import 'package:alafein/core/presentation/widgets/main_custom_button.dart';
 import 'package:alafein/features/auth/signup/application/signup_cubit/signup_cubit.dart';
 import 'package:alafein/features/auth/signup/signup_event_organiser/presentation/event_organiser_body.dart';
@@ -22,7 +21,7 @@ class EventOrganiserPage extends StatelessWidget {
     return BlocListener<SignupCubit, SignupState>(
       listener: (context, state) {
         if (state is SignupStateLoaded) {
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => CompleteRegistration()));
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => const CompleteRegistration()));
         }
       },
       child: Scaffold(

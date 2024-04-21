@@ -35,11 +35,11 @@ DateTime _parseDateTime(String dateTimeText) {
 Event buildEvent(String date, String location, String eventName, String name, {Recurrence? recurrence}) {
   DateTime startDate = _parseDateTime(date);
   DateTime endDate = startDate.add(const Duration(hours: 2)); // Should be edited
-  print('Start Date is: ${startDate}');
+  print('Start Date is: $startDate');
 
   return Event(
     title: eventName,
-    description: '${eventName} | ${name} | AlaFein Event',
+    description: '$eventName | $name | AlaFein Event',
     location: location,
     startDate: startDate,
     endDate: endDate,

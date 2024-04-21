@@ -40,7 +40,7 @@ class FavoriteListRepo{
         Map<String, dynamic> result = jsonDecode(response.body);
 
         List favourateData = result['Data'];
-        debugPrint("//${favourateData}\\");
+        debugPrint("//$favourateData\\");
 
 
         for (int i = 0 ; i < favourateData.length ; i++ ){

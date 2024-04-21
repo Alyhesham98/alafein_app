@@ -19,7 +19,7 @@ class SignupTypeSelectorPage extends StatelessWidget {
     return BlocConsumer<SignupCubit, SignupState>(
       listener: (context, state) {
         if (state is SignupStateLoaded) {
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => CompleteRegistration()));
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => const CompleteRegistration()));
         }
       },
       builder: (context, state) {
