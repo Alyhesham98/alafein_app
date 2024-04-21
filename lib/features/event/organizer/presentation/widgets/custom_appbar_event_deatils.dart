@@ -1,3 +1,4 @@
+import 'package:share_plus/share_plus.dart';
 import 'package:alafein/core/utility/assets_data.dart';
 import 'package:alafein/features/event/organizer/presentation/widgets/custom_event_image.dart';
 import 'package:alafein/features/event/organizer/presentation/widgets/header_event_image.dart';
@@ -5,10 +6,11 @@ import 'package:flutter/material.dart';
 
 class CustomAppBarEventDeatils extends StatelessWidget {
   const CustomAppBarEventDeatils({
-    super.key, required this.headerImgUrl,
+    super.key, required this.headerImgUrl, required this.eventId
   });
 
   final String headerImgUrl;
+  final int eventId;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -42,13 +44,18 @@ class CustomAppBarEventDeatils extends StatelessWidget {
         Positioned(
           top: 30,
           right: 8,
-          child: Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(50),
-                border: Border.all(color: Colors.white, width: 1.5)),
-            child: const Icon(Icons.share),
+          child: GestureDetector(
+            onTap: () {
+              Share.share('Check out this event! \nI would like if you joined me there. \nhttps://alafein.app/event/?id=${eventId}');
+            },
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(50),
+                  border: Border.all(color: Colors.white, width: 1.5)),
+              child: const Icon(Icons.share),
+            ),
           ),
         ),
       ],

@@ -74,6 +74,7 @@ class EventsShowCommentBody extends StatelessWidget {
                 headerImgUrl: getDeatils.poster != null
                     ? "${APICallerConfiguration.baseImageUrl}${getDeatils.poster}"
                     : "",
+                eventId: getDeatils.id ?? 0,
               ),
               SizedBox(
                 height: 120,
