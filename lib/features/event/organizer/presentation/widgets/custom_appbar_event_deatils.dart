@@ -44,7 +44,7 @@ class CustomAppBarEventDeatils extends StatelessWidget {
           right: 8,
           child: GestureDetector(
             onTap: () {
-              Share.share('Check out this event! \nI would like if you joined me there. \nhttps://alafein.app/event/?id=$eventId');
+              Share.share('Check out this event! \nI would like if you joined me there. \nhttps://alafeinapp.z19.web.core.windows.net/event_details_route/$eventId');
             },
             child: Container(
               padding: const EdgeInsets.all(8),
