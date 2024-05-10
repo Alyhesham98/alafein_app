@@ -1,16 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:path/path.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:svg_flutter/svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../core/api/constants/api_caller_config.dart';
 import '../../../../../core/utility/assets_data.dart';
-import '../../../../../core/utility/colors_data.dart';
 import '../../../../../core/utility/theme.dart';
 import '../../../../event/organizer/presentation/widgets/information_event.dart';
 import '../../bloc/profile_page_bloc.dart';
@@ -38,7 +34,7 @@ class BranchPage extends StatelessWidget {
         venue: uiState.venueName ?? "",
       ));
     });
-    return Container(
+    return SizedBox(
       height: double.infinity,
       child: SingleChildScrollView(
         child: Column(

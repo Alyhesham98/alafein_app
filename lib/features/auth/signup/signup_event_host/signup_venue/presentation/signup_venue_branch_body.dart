@@ -28,7 +28,7 @@ class _SignupVenueBranchBodyState extends State<SignupVenueBranchBody> {
   @override
   Widget build(BuildContext context) {
     final signupCubit = context.read<SignupCubit>();
-    final daysWidget = const DaysPerWeekChips();
+    const daysWidget = DaysPerWeekChips();
     return SingleChildScrollView(
       child: Form(
         key: signupCubit.keys[signupCubit.branchIndex],
@@ -69,7 +69,7 @@ class _SignupVenueBranchBodyState extends State<SignupVenueBranchBody> {
                           .toList() ??
                       [],
                   scroll: false,
-                  initialValue: [],
+                  initialValue: const [],
                   title: const Text(
                     "Facilities",
                     style: TextStyle(

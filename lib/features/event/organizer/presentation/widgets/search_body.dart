@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:alafein/core/api/constants/api_caller_config.dart';
-import 'package:alafein/core/api/constants/status_codes.dart';
 import 'package:alafein/core/local_data/session_management.dart';
 import 'package:alafein/core/presentation/widgets/main_custom_button.dart';
 import 'package:alafein/core/utility/assets_data.dart';
@@ -332,7 +331,7 @@ Future<void> _refresh()async{
                     max: SessionManagement.maxCost + 0.1,
                     divisions: 10,
                     labels: labels,
-                    activeColor: Color(0xFFFF73C6),
+                    activeColor: const Color(0xFFFF73C6),
                     onChanged: (value) {
                       setState(() {
                         values = value;
@@ -340,7 +339,7 @@ Future<void> _refresh()async{
                           value.start.round().toString(),
                           value.end.round().toString(),
                         );
-                        print("${this.values}");
+                        print("$values");
                       });
                     },
                   ),
@@ -386,7 +385,7 @@ Future<void> _refresh()async{
                       buttonName: "APPLY",
                       onPressed: () async{
                         Navigator.of(context).pop();
-                        print("\n${_searchController.text}\n${_dateTimeRange}\n${values} ");
+                        print("\n${_searchController.text}\n$_dateTimeRange\n$values ");
                         filterBloc.add(FilterInitialEvent(
                             pageNumber: 1,
                             pageSize: 500,
@@ -421,7 +420,7 @@ Future<void> _refresh()async{
         print("=========================================================");
         Map<String, dynamic> result = jsonDecode(response.body);
         if  (response.statusCode == 200){
-          debugPrint("${result['Data'].toString()}");
+          debugPrint(result['Data'].toString());
           CostModel? cost = CostModel.fromJson(result['Data']);
           setState(() {
             SessionManagement.minCost = cost.min;

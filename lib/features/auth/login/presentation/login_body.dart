@@ -1,6 +1,4 @@
-import 'dart:math';
 
-import 'package:alafein/core/local_data/session_management.dart';
 import 'package:alafein/core/presentation/routes/app_router.gr.dart';
 import 'package:alafein/core/presentation/widgets/main_custom_button.dart';
 import 'package:alafein/core/presentation/widgets/secondary_custom_button.dart';
@@ -14,7 +12,6 @@ import 'package:alafein/features/auth/login/presentation/widgets/custom_login_ma
 import 'package:alafein/features/auth/login/presentation/widgets/email_field.dart';
 import 'package:alafein/features/auth/login/presentation/widgets/password_field.dart';
 import 'package:alafein/features/auth/login/presentation/widgets/platform_login_button.dart';
-import 'package:alafein/features/main/main_screen.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

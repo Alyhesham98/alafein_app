@@ -1,13 +1,7 @@
 import 'package:alafein/core/presentation/routes/app_router.gr.dart';
-import 'package:alafein/core/presentation/widgets/main_custom_button.dart';
 import 'package:alafein/core/utility/assets_data.dart';
-import 'package:alafein/core/utility/colors_data.dart';
-import 'package:alafein/core/utility/theme.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:responsive_builder/responsive_builder.dart';
-import 'package:svg_flutter/svg.dart';
 
 @RoutePage()
 class SignupAudiencePage extends StatelessWidget {

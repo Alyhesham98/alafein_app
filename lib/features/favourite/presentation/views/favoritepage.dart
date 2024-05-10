@@ -37,7 +37,7 @@ class _FavoritePageState extends State<FavoritePage> {
     EasyLoading.show(status: 'Loading...');
     favoriteListBloc.add(FavoriteListInitialEvent());
     setState(() {});
-    await Future.delayed(Duration(seconds: 1), () {
+    await Future.delayed(const Duration(seconds: 1), () {
       EasyLoading.dismiss();
     });
     return Future.delayed(
@@ -199,7 +199,7 @@ class _FavoritePageState extends State<FavoritePage> {
                                                             .favoriteList[index]
                                                             .isFavourite
                                                         ? Colors.redAccent
-                                                        : Color(0xFF7C7C7C),
+                                                        : const Color(0xFF7C7C7C),
                                                   ),
                                                 );
                                               },

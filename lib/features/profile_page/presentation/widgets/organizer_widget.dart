@@ -1,7 +1,6 @@
 import 'package:alafein/core/utility/colors_data.dart';
 import 'package:alafein/core/utility/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 
 class TempWidget extends StatelessWidget {
   const TempWidget({super.key, this.input});

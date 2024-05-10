@@ -1,5 +1,3 @@
-import 'package:alafein/core/presentation/routes/app_router.gr.dart';
-import 'package:alafein/core/presentation/widgets/main_custom_button.dart';
 import 'package:alafein/features/auth/signup/presentation/signup_body.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';

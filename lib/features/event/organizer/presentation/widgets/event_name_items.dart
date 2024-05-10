@@ -10,9 +10,6 @@ import 'package:gap/gap.dart';
 import 'package:alafein/features/event/organizer/repos/add_to_calender.dart';
 import 'package:add_2_calendar/add_2_calendar.dart';
 
-import '../../../../create_event/organizer/cubit/toggle_fav_cubit.dart';
-import '../../cubit/get_event_cubit.dart';
-import '../../cubit/get_event_state.dart';
 
 class EventName extends StatefulWidget {
   const EventName(
@@ -104,7 +101,7 @@ class _EventNameState extends State<EventName> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Gap(25),
+              const Gap(25),
               CustomIcon(
                 icon: const Icon(
                   Icons.calendar_month,

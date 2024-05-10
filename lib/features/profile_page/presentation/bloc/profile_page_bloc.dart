@@ -2,8 +2,6 @@ import 'dart:async';
 
 import 'package:alafein/core/local_data/session_management.dart';
 import 'package:alafein/features/profile_page/presentation/model/Profile.dart';
-import 'package:alafein/features/profile_page/presentation/model/profile_model.dart';
-import 'package:alafein/features/profile_page/presentation/model/profile_page_ui_model.dart';
 import 'package:alafein/features/profile_page/repos/profile_repo.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
@@ -51,7 +49,7 @@ class ProfilePageBloc extends Bloc<ProfilePageEvent, ProfilePageState> {
       photo ,
       phone ,
     );
-    print("Profile paged Edited !! : ${success}");
+    print("Profile paged Edited !! : $success");
 
     if(success){
       emit(ProfilePageEdittingSuccessfulState());

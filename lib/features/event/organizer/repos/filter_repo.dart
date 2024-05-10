@@ -37,7 +37,7 @@ class FilterRepo{
       }
     );
     try { 
-      print("pageNumber:${pageNumber}\n pageSize :${pageSize}\n name: ${categoryName}\n from:${dateFrom}\n to: ${dateTo}\n Min cost :${minFeeCost}\n max cost:${maxFeeCost}\n");
+      print("pageNumber:$pageNumber\n pageSize :$pageSize\n name: $categoryName\n from:$dateFrom\n to: $dateTo\n Min cost :$minFeeCost\n max cost:$maxFeeCost\n");
       var response = await client.post(
         Uri.parse('https://alafein.azurewebsites.net/api/v1/Event/GetFilterPagination'),
         headers: {
@@ -54,7 +54,7 @@ class FilterRepo{
         Map<String, dynamic> result = jsonDecode(response.body);
         debugPrint(result.toString());
         List filterData = result['Data'];
-        debugPrint("//${filterData}\\");
+        debugPrint("//$filterData\\");
 
 
         for (int i = 0 ; i < filterData.length ; i++ ){

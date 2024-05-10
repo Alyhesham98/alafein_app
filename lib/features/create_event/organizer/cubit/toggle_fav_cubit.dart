@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:alafein/core/api/api_caller.dart';
 import 'package:alafein/core/api/constants/endpoints.dart';

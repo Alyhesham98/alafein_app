@@ -4,7 +4,6 @@ import 'package:alafein/core/presentation/routes/app_router.gr.dart';
 import 'package:alafein/core/utility/assets_data.dart';
 import 'package:alafein/core/utility/colors_data.dart';
 import 'package:alafein/core/utility/theme.dart';
-import 'package:alafein/features/event/organizer/presentation/views/event_deatils.dart';
 import 'package:alafein/features/event/organizer/presentation/views/event_search.dart';
 import 'package:alafein/features/home/cubit/home_cubit.dart';
 import 'package:alafein/features/home/presentation/widgets/home_event_item.dart';
@@ -13,11 +12,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:svg_flutter/svg.dart';
 
-import '../../event/organizer/presentation/views/event_page.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
@@ -26,7 +23,7 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 class HomePage extends StatefulWidget {
   final void Function(int) onCatTapped;
 
-  HomePage({super.key, required this.onCatTapped});
+  const HomePage({super.key, required this.onCatTapped});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -39,7 +36,7 @@ class _HomePageState extends State<HomePage> {
       EasyLoading.show(status: 'Loading...');
     setState(() {
     });
-    await Future.delayed(Duration(seconds : 1),(){
+    await Future.delayed(const Duration(seconds : 1),(){
       EasyLoading.dismiss();
     });
     return Future.delayed(const Duration(microseconds: 1),

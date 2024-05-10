@@ -16,7 +16,7 @@ class AppWidget extends StatelessWidget {
       return MaterialApp.router(
         // routerDelegate: AutoRouterDelegate(AppRouterSingleton().appRouter),
         // routeInformationParser: AppRouterSingleton().appRouter.defaultRouteParser(),
-        builder:  EasyLoading.init(
+        builder: EasyLoading.init(
           builder: (context, child) {
             return child!;
           },
@@ -25,15 +25,16 @@ class AppWidget extends StatelessWidget {
         title: StringConst.appName,
         theme: themeData,
         routerConfig: AppRouterSingleton().appRouter.config(deepLinkBuilder: (deepLink){
-          if(deepLink.path.startsWith('/event_details')){
-            AutoRouter.of(context).popAndPush( EventDeatilsPage(index:int.parse(deepLink.path.split(":").last)??-1));
+          print('deepLink: $deepLink');
+          if(deepLink.path.startsWith('/event_details_route')){
+            AutoRouter.of(context).popAndPush( EventDeatilsPage(index:int.parse(deepLink.path.split(":").last)));
             print("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
             return deepLink;
-          }else{
-          return DeepLink.defaultPath;
-
-          }
-          }),
+            } else {
+              return DeepLink.defaultPath;
+            }
+          },
+        ),
       );
     });
   }
