@@ -9,12 +9,12 @@ List<ListEventModel> listEventModelFromJson(String str) => List<ListEventModel>.
 String listEventModelToJson(List<ListEventModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class ListEventModel {
-    int id;
-    String poster;
-    String name;
-    Venue venue;
-    String date;
-    bool isFavourite;
+    int? id;
+    String? poster;
+    String? name;
+    Venue? venue;
+    String? date;
+    bool? isFavourite;
 
     ListEventModel({
         required this.id,
@@ -38,7 +38,7 @@ class ListEventModel {
         "Id": id,
         "Poster": poster,
         "Name": name,
-        "Venue": venue.toJson(),
+        "Venue": venue!.toJson(),
         "Date": date,
         "IsFavourite": isFavourite,
     };

@@ -324,7 +324,7 @@ class _EventbodyState extends State<Eventbody> {
                                   MaterialPageRoute(
                                     builder: (context) => EventDeatils(
                                       index: successState
-                                          .listEvent[index].id, //bloc.event!.id!,
+                                          .listEvent[index].id??0, //bloc.event!.id!,
                                     ),
                                   ));
                             },
@@ -345,10 +345,10 @@ class _EventbodyState extends State<Eventbody> {
                                         MediaQuery.sizeOf(context).width * 0.05,
                                   ),
                                   InformationEvent(
-                                    name: successState.listEvent[index].name,
-                                    date: successState.listEvent[index].date,
+                                    name: successState.listEvent[index].name??"",
+                                    date: successState.listEvent[index].date??"",
                                     venue:
-                                        successState.listEvent[index].venue.name,
+                                        successState.listEvent[index].venue!.name??"",
                                   ),
                                 ]),
                               ),

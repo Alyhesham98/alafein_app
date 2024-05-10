@@ -46,6 +46,7 @@ class ListEventRepo {
           EasyLoading.dismiss();
         });
 
+        print("Aaa${response.body}");
         Map<String, dynamic> result = jsonDecode(response.body);
 
         List eventsData = result['Data'];
@@ -65,7 +66,7 @@ class ListEventRepo {
 
       return events;
     } catch (e) {
-      log(e.toString());
+      log("ee${e.toString()}");
       return [];
     }
   }
