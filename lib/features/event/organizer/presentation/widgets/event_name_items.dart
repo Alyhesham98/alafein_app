@@ -65,7 +65,7 @@ class _EventNameState extends State<EventName> {
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
       child: Row(children: [
         Expanded(
-          flex: 1,
+          flex: 2,
           child: CustomEventImage(
             imageurl: widget.imageurl,
           ),
@@ -74,7 +74,7 @@ class _EventNameState extends State<EventName> {
           width: widget.size.width * 0.04,
         ),
         Expanded(
-          flex: 1,
+          flex: 2,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -97,11 +97,10 @@ class _EventNameState extends State<EventName> {
         ),
         const Gap(25),
         Expanded(
-          flex: 1,
+          flex: 2,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Gap(25),
               CustomIcon(
                 icon: const Icon(
                   Icons.calendar_month,

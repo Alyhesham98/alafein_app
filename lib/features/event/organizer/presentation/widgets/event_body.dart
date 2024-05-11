@@ -48,6 +48,7 @@ class _EventbodyState extends State<Eventbody> {
   RangeValues values = const RangeValues(1.0, 10.0);
 
   int selectedIndex = 0;
+
   final EventCategoryBloc eventCategoryBloc = EventCategoryBloc();
 
   late ListEventBloc listEventBloc = ListEventBloc();
@@ -55,7 +56,7 @@ class _EventbodyState extends State<Eventbody> {
   List<EventDataUiModel> eventCategories = List.empty(growable: true);
 
   final TextEditingController _timeAndDateFromContoller =
-      TextEditingController();
+  TextEditingController();
   final TextEditingController _timeAndDateToContoller = TextEditingController();
 
   @override
@@ -74,15 +75,16 @@ class _EventbodyState extends State<Eventbody> {
     _timeAndDateToContoller.dispose();
     super.dispose();
   }
-    Future<void> _refresh()async{
-      EasyLoading.show(status: 'Loading...');
-    setState(() {
-    });
-    await Future.delayed(const Duration(seconds : 1),(){
-      EasyLoading.dismiss();
-    });
-    return Future.delayed(const Duration(microseconds: 1),
-    );
+  Future<void> _refresh() async {
+    EasyLoading.show(status: 'Loading...');
+    listEventBloc.add(ListEventInitialFetchEvent(
+      isCategory: selectedIndex == 0 ? false : true,
+      categoryId: eventCategories.elementAt(selectedIndex).id,
+    ));
+
+    await Future.delayed(const Duration(seconds: 1));
+    EasyLoading.dismiss();
+    return Future.delayed(const Duration(milliseconds: 10));
   }
 
   @override
@@ -100,7 +102,7 @@ class _EventbodyState extends State<Eventbody> {
       slivers: [
         SliverToBoxAdapter(
           child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             const Gap(16),
             CustomAppBarEvent(
               title1: "EVENTS",
@@ -119,14 +121,14 @@ class _EventbodyState extends State<Eventbody> {
                     child: InkWell(
                       onTap: () {
                         if (SessionManagement.getUserRole() != "")
-                          {
-                            Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const EventSearch()));
-                          } else {
+                        {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const EventSearch()));
+                        } else {
 
-                          }
+                        }
                       },
                       child: Container(
                         padding: const EdgeInsets.all(12),
@@ -154,14 +156,14 @@ class _EventbodyState extends State<Eventbody> {
                   InkWell(
                     onTap: () async {
                       if (SessionManagement.getUserRole() != "")
-                          {
-                            Navigator.push(
+                      {
+                        Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const EventSearch()));
-                          } else {
+                      } else {
 
-                          }
+                      }
 /*
                       _showFilterPopUp(
                         context,
@@ -199,9 +201,9 @@ class _EventbodyState extends State<Eventbody> {
                 child: BlocConsumer<EventCategoryBloc, EventCategoryState>(
                   bloc: eventCategoryBloc,
                   listenWhen: (previous, current) =>
-                      current is EventCategoryActionState,
+                  current is EventCategoryActionState,
                   buildWhen: (previous, current) =>
-                      current is! EventCategoryActionState,
+                  current is! EventCategoryActionState,
                   listener: (context, state) {},
                   builder: (context, state) {
                     switch (state.runtimeType) {
@@ -212,7 +214,7 @@ class _EventbodyState extends State<Eventbody> {
                       case EventCategoryFetchingSuccessfulState:
                         EasyLoading.dismiss();
                         final successState =
-                            state as EventCategoryFetchingSuccessfulState;
+                        state as EventCategoryFetchingSuccessfulState;
                         eventCategories = successState.eventCatigories;
                         return ListView.separated(
                           itemCount: successState.eventCatigories.length,
@@ -226,11 +228,9 @@ class _EventbodyState extends State<Eventbody> {
                                 selectedIndex = index;
                                 setState(() {
                                   listEventBloc.add(ListEventInitialFetchEvent(
-                                      isCategory:
-                                          selectedIndex == 0 ? false : true,
-                                      categoryId: successState.eventCatigories
-                                          .elementAt(index)
-                                          .id));
+                                    isCategory: selectedIndex == 0 ? false : true,
+                                    categoryId:  successState.eventCatigories.elementAt(index).id,
+                                  ));
                                 });
                               },
                               borderRadius: BorderRadius.circular(17),
@@ -250,13 +250,13 @@ class _EventbodyState extends State<Eventbody> {
                                       child: CachedNetworkImage(
                                         width: 70,
                                         imageUrl:
-                                            "${APICallerConfiguration.baseImageUrl}${successState.eventCatigories[index].image}",
+                                        "${APICallerConfiguration.baseImageUrl}${successState.eventCatigories[index].image}",
                                         fit: BoxFit.fitWidth,
                                         errorWidget: (context, url, error) =>
                                             Image.asset(
-                                          AssetsData.eventImg,
-                                          fit: BoxFit.contain,
-                                        ),
+                                              AssetsData.eventImg,
+                                              fit: BoxFit.contain,
+                                            ),
                                       ),
                                     ),
                                     const Gap(4),
@@ -288,9 +288,9 @@ class _EventbodyState extends State<Eventbody> {
           child: BlocConsumer<ListEventBloc, ListEventState>(
               bloc: listEventBloc,
               listenWhen: (previous, current) =>
-                  current is ListEventActionState,
+              current is ListEventActionState,
               buildWhen: (previous, current) =>
-                  current is! ListEventActionState,
+              current is! ListEventActionState,
               listener: (context, state) {},
               builder: (context, state) {
                 switch (state.runtimeType) {
@@ -301,7 +301,7 @@ class _EventbodyState extends State<Eventbody> {
                   case ListEventFetchingSuccessfulState:
                     EasyLoading.dismiss();
                     final successState =
-                        state as ListEventFetchingSuccessfulState;
+                    state as ListEventFetchingSuccessfulState;
                     return LiquidPullToRefresh(
                       showChildOpacityTransition: false,
                       color: Colors.transparent,
@@ -338,17 +338,17 @@ class _EventbodyState extends State<Eventbody> {
                                 child: Row(children: [
                                   CustomEventImage(
                                     imageurl:
-                                        "${APICallerConfiguration.baseImageUrl}${successState.listEvent[index].poster}",
+                                    "${APICallerConfiguration.baseImageUrl}${successState.listEvent[index].poster}",
                                   ),
                                   SizedBox(
                                     width:
-                                        MediaQuery.sizeOf(context).width * 0.05,
+                                    MediaQuery.sizeOf(context).width * 0.05,
                                   ),
                                   InformationEvent(
                                     name: successState.listEvent[index].name??"",
                                     date: successState.listEvent[index].date??"",
                                     venue:
-                                        successState.listEvent[index].venue!.name??"",
+                                    successState.listEvent[index].venue!.name??"",
                                   ),
                                 ]),
                               ),

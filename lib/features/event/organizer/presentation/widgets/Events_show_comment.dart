@@ -136,6 +136,7 @@ class EventsShowCommentBody extends StatelessWidget {
                   style: homeLabelStyle,
                 ),
               ),
+
               EventDeatilsItem(
                 address: getDeatils.venue?.address ?? "",
                 facebook: getDeatils.venue?.facebook ?? "",

@@ -5,6 +5,7 @@ import 'package:alafein/core/api/constants/methods.dart';
 import 'package:alafein/core/local_data/session_management.dart';
 import 'package:alafein/features/event/data/model/comments/comments.dart';
 import 'package:alafein/features/event/data/model/event_datils/event_deatils_model/event_deatils_model.dart';
+import 'package:alafein/features/event/data/model/event_datils/event_deatils_model/venue.dart';
 import 'package:alafein/features/event/data/model/events/events.dart';
 import 'package:alafein/features/event/organizer/cubit/get_event_state.dart';
 import 'package:dio/dio.dart';
@@ -19,6 +20,34 @@ class GetEventCubit extends Cubit<GetEventState> {
   final APICaller _apiCaller = APICaller.instance;
   Events? event;
   List<Events> events = [];
+  Venue? venueDetails;
+
+
+  Future<void> getVenueDetails({required int id}) async {
+    EasyLoading.show();
+    final call = await _apiCaller.call(
+        endpoint: "${Endpoints.venueDetails}/$id",
+        method: APIMethods.get,
+        options: Options(headers: {
+          "Authorization": "Bearer ${SessionManagement.getUserToken()}"
+        }));
+    call.fold(
+          (failure) {
+        EasyLoading.showError(failure.toString());
+      },
+          (response) {
+        if (response.succeeded == true) {
+          venueDetails = Venue.fromJson(response.data);
+          EasyLoading.dismiss();
+          emit(ScafullGetEventDEatilsState());
+        } else {
+          EasyLoading.showError(response.message ?? "Error !");
+          emit(ErrorGetEventDEatilsState(response.message ?? "Error !"));
+        }
+      },
+    );
+    getComments(id:id);
+  }
 
   Future<void> getEventPagination() async {
     EasyLoading.show();
@@ -190,4 +219,6 @@ class GetEventCubit extends Cubit<GetEventState> {
       },
     );
   }
+
+
 }

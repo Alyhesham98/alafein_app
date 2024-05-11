@@ -2,10 +2,9 @@ import 'package:alafein/core/utility/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:alafein/features/event/organizer/repos/add_to_calender.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-class DeatilsItems extends StatelessWidget {
-  const DeatilsItems({
+class CalenderDetails extends StatelessWidget {
+  const CalenderDetails({
     super.key,
     required this.icon,
     required this.text,
@@ -26,18 +25,20 @@ class DeatilsItems extends StatelessWidget {
       children: [
         IconButton(
           onPressed: () {
-            launchUrl(Uri.parse(location));
+            // launchUrl(Uri.parse(location));
+            print(text);
+            Add2Calendar.addEvent2Cal(
+              buildEvent(text, location, eventName, name),
+            );
           },
           icon: icon,
         ),
-        FittedBox(
-          fit: BoxFit.scaleDown,
-          child: Text(
-            text,
-            style: text.length > 50
-                ? secondaryTextStyle.copyWith(fontSize: 10)
-                : (text.length > 35 ? secondaryTextStyle.copyWith(fontSize: 13) : secondaryTextStyle),
-          ),
+        const SizedBox(
+          width: 8,
+        ),
+        Text(
+          text,
+          style: secondaryTextStyle,
         ),
       ],
     );

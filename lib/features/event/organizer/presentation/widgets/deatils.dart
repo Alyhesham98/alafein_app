@@ -1,8 +1,11 @@
 import 'package:alafein/core/utility/theme.dart';
 import 'package:alafein/features/event/organizer/presentation/widgets/deatils_items.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'calender_details.dart';
 
 class Deatils extends StatelessWidget {
   const Deatils({super.key, required this.date, required this.price, required this.postion, required this.location, required this.isFree, required this.eventName, required this.name});
@@ -18,7 +21,7 @@ class Deatils extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 24),
+      padding: const EdgeInsets.only(left: 24, right: 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -29,7 +32,7 @@ class Deatils extends StatelessWidget {
           const Gap(16),
           Row(
             children: [
-              DeatilsItems(
+              CalenderDetails(
                 icon: const Icon(
                   Icons.calendar_month,
                   color: Color(0xFF7C7C7C),
@@ -57,14 +60,14 @@ class Deatils extends StatelessWidget {
           Row(
             children: [
               DeatilsItems(
-                icon: const Icon(
-                  Icons.location_on,
-                  color: Color(0xFF7C7C7C),
-                ),
-                text: postion,
-                location: location,
-                eventName: eventName,
-                name: name
+                  icon: const Icon(
+                    Icons.location_on,
+                    color: Color(0xFF7C7C7C),
+                  ),
+                  text: postion,
+                  location: location,
+                  eventName: eventName,
+                  name: name
               ),
               InkWell(
                 onTap: () {

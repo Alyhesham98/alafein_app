@@ -18,7 +18,6 @@ import 'package:svg_flutter/svg.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
-
 @RoutePage()
 class HomePage extends StatefulWidget {
   final void Function(int) onCatTapped;
@@ -32,14 +31,14 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final PageController _scrollController = PageController();
 
-  Future<void> _refresh()async{
-      EasyLoading.show(status: 'Loading...');
-    setState(() {
-    });
-    await Future.delayed(const Duration(seconds : 1),(){
+  Future<void> _refresh() async {
+    EasyLoading.show(status: 'Loading...');
+    setState(() {});
+    await Future.delayed(const Duration(seconds: 1), () {
       EasyLoading.dismiss();
     });
-    return Future.delayed(const Duration(microseconds: 1),
+    return Future.delayed(
+      const Duration(microseconds: 1),
     );
   }
 
@@ -64,12 +63,11 @@ class _HomePageState extends State<HomePage> {
           ),
           actions: [
             InkWell(
-              onTap: (){
+              onTap: () {
                 Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const EventSearch()
-                ));
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const EventSearch()));
               },
               child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 12),
@@ -109,28 +107,41 @@ class _HomePageState extends State<HomePage> {
                                 SizedBox(
                                   height: 180,
                                   child: ListView.builder(
-                                      itemCount:
-                                          state.homeResponse.spotlight?.length ??
-                                              0,
+                                      itemCount: state
+                                              .homeResponse.spotlight?.length ??
+                                          0,
                                       scrollDirection: Axis.horizontal,
                                       itemBuilder: (context, index) => InkWell(
-                                            onTap: (SessionManagement.getUserRole() != "") ?
-                                            (){
-                                              routeToEventDetails(context,state
-                                                  .homeResponse
-                                                  .spotlight?[index]
-                                                  .id ??
-                                                  -1,);
-                                              } : ()async{
-                                              routeToEventDetails(context,state
-                                                  .homeResponse
-                                                  .spotlight?[index]
-                                                  .id ??
-                                                  -1,);
-                                              await Future.delayed(const Duration(seconds: 2));
-                                              AutoRouter.of(context).popAndPush(const LoginRoute());
-                                                },
-                                             child: HomeEventItem(
+                                            onTap: (SessionManagement
+                                                        .getUserRole() !=
+                                                    "")
+                                                ? () {
+                                                    routeToEventDetails(
+                                                      context,
+                                                      state
+                                                              .homeResponse
+                                                              .spotlight?[index]
+                                                              .id ??
+                                                          -1,
+                                                    );
+                                                  }
+                                                : () async {
+                                                    routeToEventDetails(
+                                                      context,
+                                                      state
+                                                              .homeResponse
+                                                              .spotlight?[index]
+                                                              .id ??
+                                                          -1,
+                                                    );
+                                                    await Future.delayed(
+                                                        const Duration(
+                                                            seconds: 2));
+                                                    AutoRouter.of(context)
+                                                        .popAndPush(
+                                                            const LoginRoute());
+                                                  },
+                                            child: HomeEventItem(
                                               name: state.homeResponse
                                                       .spotlight?[index].name ??
                                                   "",
@@ -168,79 +179,136 @@ class _HomePageState extends State<HomePage> {
                                     style: homeLabelStyle,
                                   ),
                                 ),
-                                SizedBox(
-                                  height: 150,
-                                  child: ListView.separated(
-                                  itemCount: state.homeResponse.category!.length,
-                                    scrollDirection: Axis.horizontal,
-                                    separatorBuilder: (context, index) => const SizedBox(
-                                      width: 20,
-                                    ),
-                                    itemBuilder: (context, index) => SizedBox(
-                                      child: InkWell(
-                                        onTap:(SessionManagement.getUserRole() != "")? (){widget.onCatTapped(index);}: (){
-                                          AutoRouter.of(context).popAndPush(const LoginRoute());
-                                        },
-                                        borderRadius: BorderRadius.circular(17),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(10),
-                                            border: Border.all(
-                                                color: Colors.white,
-                                                width: 3),
-                                          ),
-                                          child: Column(
-                                            children: [
-                                              ClipRRect(
-                                                borderRadius: BorderRadius.circular(17),
-                                                child: CachedNetworkImage(
-                                                  width: 70,
-                                                  imageUrl:
-                                                  "${APICallerConfiguration.baseImageUrl}${state.homeResponse.category![index].image}",
-                                                  fit: BoxFit.fitWidth,
-                                                  errorWidget: (context, url, error) =>
-                                                      Image.asset(
-                                                        AssetsData.eventImg,
-                                                        fit: BoxFit.contain,
+                                Column(
+                                  children: [
+                                    SizedBox(
+                                      height: 150,
+                                      child: PageView.builder(
+                                        controller: _scrollController,
+                                        itemCount: (state.homeResponse.category!
+                                                    .length /
+                                                4)
+                                            .ceil(),
+                                        scrollDirection: Axis.horizontal,
+                                        itemBuilder: (context, pageIndex) {
+                                          return Row(
+                                            children: List.generate(
+                                              3,
+                                              (index) {
+                                                final categoryIndex =
+                                                    pageIndex * 4 + index;
+                                                if (categoryIndex <
+                                                    state.homeResponse.category!
+                                                        .length) {
+                                                  return Expanded(
+                                                    child: InkWell(
+                                                      onTap: (SessionManagement
+                                                                  .getUserRole() !=
+                                                              "")
+                                                          ? () {
+                                                              widget.onCatTapped(
+                                                                  categoryIndex);
+                                                            }
+                                                          : () {
+                                                              AutoRouter.of(
+                                                                      context)
+                                                                  .popAndPush(
+                                                                      const LoginRoute());
+                                                            },
+                                                      child: Container(
+                                                        margin: const EdgeInsets
+                                                            .symmetric(
+                                                            horizontal: 4),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(10),
+                                                          border: Border.all(
+                                                              color:
+                                                                  Colors.white,
+                                                              width: 3),
+                                                        ),
+                                                        child: Column(
+                                                          children: [
+                                                            ClipRRect(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          17),
+                                                              child:
+                                                                  CachedNetworkImage(
+                                                                width: 70,
+                                                                height: 70,
+                                                                imageUrl:
+                                                                    "${APICallerConfiguration.baseImageUrl}${state.homeResponse.category![categoryIndex].image}",
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                                errorWidget: (context,
+                                                                        url,
+                                                                        error) =>
+                                                                    Image.asset(
+                                                                  AssetsData
+                                                                      .eventImg,
+                                                                  fit: BoxFit
+                                                                      .contain,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            const SizedBox(
+                                                                height: 4),
+                                                            Text(
+                                                              state
+                                                                      .homeResponse
+                                                                      .category![
+                                                                          categoryIndex]
+                                                                      .name ??
+                                                                  "",
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              style:
+                                                                  homeLabel3Style,
+                                                            ),
+                                                          ],
+                                                        ),
                                                       ),
-                                                ),
-                                              ),
-                                              const Gap(4),
-                                              Text(
-                                                state.homeResponse.category![index].name??"",
-                                                textAlign: TextAlign.center,
-                                                style: homeLabel3Style,
-                                              ),
-                                            ],
-                                          ),
+                                                    ),
+                                                  );
+                                                } else {
+                                                  return Expanded(
+                                                    child:
+                                                        Container(), // Placeholder for empty space
+                                                  );
+                                                }
+                                              },
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8),
+                                      child: SmoothPageIndicator(
+                                        controller: _scrollController,
+                                        count: (state.homeResponse.category!
+                                                    .length /
+                                                4)
+                                            .ceil(),
+                                        effect: const ScrollingDotsEffect(
+                                          dotWidth: 8,
+                                          dotHeight: 8,
+                                          spacing: 5.0,
+                                          dotColor: Colors.grey,
+                                          activeDotColor: Color(0xFFFF73C6),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                )
+                                  ],
+                                ),
                               ],
                             ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                            ),
-                            child: Center(
-                              child: SmoothPageIndicator(
-                                controller: _scrollController,
-                                count:
-                                    (state.homeResponse.category?.length ?? 0) > 8
-                                        ? 2
-                                        : 1,
-                                effect: const ScrollingDotsEffect(
-                                  dotWidth: 8,
-                                  dotHeight: 8,
-                                  spacing: 5.0,
-                                  dotColor: Colors.grey,
-                                  activeDotColor: Color(0xFFFF73C6),
-                                ),
-                              ),
-                            ),
-                          ),
                           if (state.homeResponse.today != null)
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -257,24 +325,41 @@ class _HomePageState extends State<HomePage> {
                                           state.homeResponse.today?.length ?? 0,
                                       scrollDirection: Axis.horizontal,
                                       itemBuilder: (context, index) => InkWell(
-                                            onTap: (SessionManagement.getUserRole() != "") ?
-                                            (){
-                                              routeToEventDetails(context, state.homeResponse
-                                                  .today?[index].id ??
-                                                  -1);
-                                            } : ()async{
-                                                routeToEventDetails(context, state.homeResponse
-                                                    .today?[index].id ??
-                                                    -1);
-                                                await Future.delayed(const Duration(seconds: 2));
-                                                AutoRouter.of(context).popAndPush(const LoginRoute());
-                                                },
+                                            onTap: (SessionManagement
+                                                        .getUserRole() !=
+                                                    "")
+                                                ? () {
+                                                    routeToEventDetails(
+                                                        context,
+                                                        state
+                                                                .homeResponse
+                                                                .today?[index]
+                                                                .id ??
+                                                            -1);
+                                                  }
+                                                : () async {
+                                                    routeToEventDetails(
+                                                        context,
+                                                        state
+                                                                .homeResponse
+                                                                .today?[index]
+                                                                .id ??
+                                                            -1);
+                                                    await Future.delayed(
+                                                        const Duration(
+                                                            seconds: 2));
+                                                    AutoRouter.of(context)
+                                                        .popAndPush(
+                                                            const LoginRoute());
+                                                  },
                                             child: HomeEventItem(
                                               name: state.homeResponse
                                                       .today?[index].name ??
                                                   "",
-                                              image: state.homeResponse
-                                                          .today?[index].poster !=
+                                              image: state
+                                                          .homeResponse
+                                                          .today?[index]
+                                                          .poster !=
                                                       null
                                                   ? "${APICallerConfiguration.baseImageUrl}${state.homeResponse.today?[index].poster}"
                                                   : "",
@@ -313,6 +398,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   void routeToEventDetails(BuildContext context, int index) {
-    AutoRouter.of(context).popAndPush( EventDeatilsPage(index:index));
+    AutoRouter.of(context).popAndPush(EventDeatilsPage(index: index));
   }
 }

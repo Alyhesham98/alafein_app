@@ -4,10 +4,9 @@ import 'package:alafein/features/event/organizer/presentation/widgets/custom_eve
 import 'package:flutter/material.dart';
 import 'package:svg_flutter/svg.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 class EventDeatilsItem extends StatelessWidget {
   const EventDeatilsItem({
-    super.key,
+    Key? key,
     required this.size,
     required this.name,
     required this.instagram,
@@ -18,7 +17,7 @@ class EventDeatilsItem extends StatelessWidget {
     required this.address,
     required this.mapLink,
     required this.photo,
-  });
+  }) : super(key: key);
 
   final Size size;
   final String name;
@@ -38,89 +37,88 @@ class EventDeatilsItem extends StatelessWidget {
         vertical: 11,
         horizontal: 24,
       ),
-      child: SizedBox(
-        height: 111,
-        child: Row(children: [
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+
           CustomEventImage(
             imageurl: photo,
           ),
           SizedBox(
-            width: size.width * 0.04,
+            width: size.width * 0.03,
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: MediaQuery.of(context).size.width * .5,
-                child: Text(
-                  name,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: homeLabelStyle,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * .4,
+                  child: Text(
+                    name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: homeLabelStyle,
+                  ),
                 ),
-              ),
-              Row(
-                children: [
-                  Text(
-                    address,
-                    style: secondaryTextStyle,
-                  ),
-                  InkWell(
-                    onTap: (){
-
-                      launchUrl(Uri.parse(mapLink));
-                    },
-                    child: const Icon(
-                      Icons.link,
-                      size: 15,
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        address,
+                        maxLines: 1,
+                        style: secondaryTextStyle.copyWith(fontSize: 12),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  IconButton(
-                    onPressed: () {
-                    launchUrl(Uri.parse(facebook));
-                    },
-                    icon: SvgPicture.asset(
-                      AssetsData.fasbookevent,
+                    InkWell(
+                      onTap: () {
+                        launchUrl(Uri.parse(mapLink));
+                      },
+                      child: const Icon(
+                        Icons.link,
+                        size: 20,
+                      ),
                     ),
-                  ),
-                  // IconButton(
-                  //   onPressed: () {},
-                  //   icon: SvgPicture.asset(
-                  //     AssetsData.youtupe,
-                  //   ),
-                  // ),
-                  IconButton(
-                    onPressed: () {
-                      String url='';
-                      if (TargetPlatform.iOS==Theme.of(context).platform) {
-                        url= "whatsapp://wa.me/$whatsapp/?text= ";
-                      } else {
-                        url= "https://api.whatsapp.com/send?phone=$whatsapp&text= ";
-                      }
-                      launchUrl(Uri.parse(url));
-                    },
-                    icon: SvgPicture.asset(
-                      AssetsData.wattsApp,
+                  ],
+                ),
+                Row(
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        launchUrl(Uri.parse(facebook));
+                      },
+                      icon: SvgPicture.asset(
+                        AssetsData.fasbookevent,
+                      ),
                     ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      launchUrl(Uri.parse(websiteURL));
-                    },
-                    icon: SvgPicture.asset(
-                      AssetsData.net,
-                      color: Colors.black,
+                    IconButton(
+                      onPressed: () {
+                        String url = '';
+                        if (Theme.of(context).platform == TargetPlatform.iOS) {
+                          url = "whatsapp://wa.me/$whatsapp/?text= ";
+                        } else {
+                          url = "https://api.whatsapp.com/send?phone=$whatsapp&text= ";
+                        }
+                        launchUrl(Uri.parse(url));
+                      },
+                      icon: SvgPicture.asset(
+                        AssetsData.wattsApp,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                    IconButton(
+                      onPressed: () {
+                        launchUrl(Uri.parse(websiteURL));
+                      },
+                      icon: SvgPicture.asset(
+                        AssetsData.net,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
-        ]),
+        ],
       ),
     );
   }
