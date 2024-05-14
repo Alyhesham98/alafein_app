@@ -33,10 +33,9 @@ class DeatilsItems extends StatelessWidget {
         FittedBox(
           fit: BoxFit.scaleDown,
           child: Text(
-            text,
-            style: text.length > 50
-                ? secondaryTextStyle.copyWith(fontSize: 10)
-                : (text.length > 35 ? secondaryTextStyle.copyWith(fontSize: 13) : secondaryTextStyle),
+            text.length > 35
+                ? '${text.substring(0, 35)}...'
+                : text,
           ),
         ),
       ],
