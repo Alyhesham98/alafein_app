@@ -13,8 +13,11 @@ import '../../bloc/profile_page_bloc.dart';
 import '../../model/Profile.dart';
 
 class BranchPage extends StatelessWidget {
-  const BranchPage(
-      {super.key, required this.branch, required this.successState});
+  const BranchPage({
+    super.key,
+    required this.branch,
+    required this.successState,
+  });
 
   final Branches branch;
   final ProfilePageFetchingSuccessfulState successState;
@@ -23,17 +26,7 @@ class BranchPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var uiState = successState.profilePage?.venue;
-    List<Widget> pages = [];
 
-    uiState?.schedule?.forEach((element) {
-      pages.add(ScheduleListItem(
-        size: size,
-        image: element.poster ?? '',
-        name: element.name ?? '',
-        date: element.date?.join(" , ") ?? '',
-        venue: uiState.venueName ?? "",
-      ));
-    });
     return SizedBox(
       height: double.infinity,
       child: SingleChildScrollView(
@@ -72,15 +65,17 @@ class BranchPage extends StatelessWidget {
                   textAlign: TextAlign.start,
                 ),
                 InkWell(
-                    child: IconButton(
-                        onPressed: () {
-                          launchUrl(Uri.parse(branch.mapLink!));
-                        },
-                        icon: Image.asset(
-                          AssetsData.externalLink,
-                          width: 16,
-                          height: 16,
-                        ))),
+                  child: IconButton(
+                    onPressed: () {
+                      launchUrl(Uri.parse(branch.mapLink!));
+                    },
+                    icon: Image.asset(
+                      AssetsData.externalLink,
+                      width: 16,
+                      height: 16,
+                    ),
+                  ),
+                ),
               ],
             ),
             Gap(2.sw),
@@ -107,7 +102,7 @@ class BranchPage extends StatelessWidget {
               textAlign: TextAlign.start,
             ),
             Column(
-              children: pages,
+              children: _buildScheduleList(size, uiState?.schedule, uiState),
             ),
             Gap(4.sw),
             Visibility(
@@ -123,32 +118,32 @@ class BranchPage extends StatelessWidget {
                   SizedBox(
                     height: 56,
                     child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (c, i) {
-                          return SizedBox(
-                            width: 56,
-                            height: 56,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(17),
-                              child: CachedNetworkImage(
-                                imageUrl:
-                                    "${APICallerConfiguration.baseImageUrl}${uiState.photos?[i]}",
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (c, i) {
+                        return SizedBox(
+                          width: 56,
+                          height: 56,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(17),
+                            child: CachedNetworkImage(
+                              imageUrl:
+                                  "${APICallerConfiguration.baseImageUrl}${uiState.photos?[i]}",
+                              fit: BoxFit.cover,
+                              errorWidget: (context, url, error) => Image.asset(
+                                AssetsData.eventImg,
                                 fit: BoxFit.cover,
-                                errorWidget: (context, url, error) =>
-                                    Image.asset(
-                                  AssetsData.eventImg,
-                                  fit: BoxFit.cover,
-                                ),
                               ),
                             ),
-                          );
-                        },
-                        separatorBuilder: (c, i) {
-                          return const SizedBox(
-                            width: 16,
-                          );
-                        },
-                        itemCount: uiState.photos?.length ?? 0),
+                          ),
+                        );
+                      },
+                      separatorBuilder: (c, i) {
+                        return const SizedBox(
+                          width: 16,
+                        );
+                      },
+                      itemCount: uiState.photos?.length ?? 0,
+                    ),
                   ),
                 ],
               ),
@@ -168,19 +163,24 @@ class BranchPage extends StatelessWidget {
                   SizedBox(
                     height: 48,
                     child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (c, i) {
-                          return ClipRRect(
-                            borderRadius: BorderRadius.circular(17),
-                            child: SvgPicture.network("${APICallerConfiguration.baseImageUrl}${uiState.facilities?[i].imagePath}",width: 107,height: 48,),
-                          );
-                        },
-                        separatorBuilder: (c, i) {
-                          return const SizedBox(
-                            width: 16,
-                          );
-                        },
-                        itemCount: uiState.facilities?.length ?? 0),
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (c, i) {
+                        return ClipRRect(
+                          borderRadius: BorderRadius.circular(17),
+                          child: SvgPicture.network(
+                            "${APICallerConfiguration.baseImageUrl}${uiState.facilities?[i].imagePath}",
+                            width: 107,
+                            height: 48,
+                          ),
+                        );
+                      },
+                      separatorBuilder: (c, i) {
+                        return const SizedBox(
+                          width: 16,
+                        );
+                      },
+                      itemCount: uiState.facilities?.length ?? 0,
+                    ),
                   ),
                 ],
               ),
@@ -192,6 +192,55 @@ class BranchPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  List<Widget> _buildScheduleList(
+      Size size, List<Schedule>? schedule, Venue? uiState) {
+    return schedule?.map((element) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 10,
+              horizontal: 20,
+            ),
+            child: SizedBox(
+              height: 100,
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 100,
+                    height: 100,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(17),
+                      child: CachedNetworkImage(
+                        imageUrl: element.poster ?? '',
+                        fit: BoxFit.cover,
+                        errorWidget: (context, url, error) => Image.asset(
+                          AssetsData.eventImg,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: size.width * 0.05,
+                  ),
+                  Expanded(
+                    child: Row(
+                      children: [
+                        InformationEvent(
+                          name: element.name ?? '',
+                          date: element.date?.join(" , ") ?? '',
+                          venue: uiState?.venueName ?? '',
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        })?.toList() ??
+        [];
   }
 }
 
@@ -220,37 +269,39 @@ class ScheduleListItem extends StatelessWidget {
       ),
       child: SizedBox(
         height: 100,
-        child: Row(children: [
-          SizedBox(
-            width: 100,
-            height: 100,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(17),
-              child: CachedNetworkImage(
-                imageUrl: image,
-                fit: BoxFit.cover,
-                errorWidget: (context, url, error) => Image.asset(
-                  AssetsData.eventImg,
+        child: Row(
+          children: [
+            SizedBox(
+              width: 100,
+              height: 100,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(17),
+                child: CachedNetworkImage(
+                  imageUrl: image,
                   fit: BoxFit.cover,
+                  errorWidget: (context, url, error) => Image.asset(
+                    AssetsData.eventImg,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
-          ),
-          SizedBox(
-            width: size.width * 0.05,
-          ),
-          Expanded(
-            child: Row(
-              children: [
-                InformationEvent(
-                  name: name,
-                  date: date,
-                  venue: venue,
-                ),
-              ],
+            SizedBox(
+              width: size.width * 0.05,
             ),
-          ),
-        ]),
+            Expanded(
+              child: Row(
+                children: [
+                  InformationEvent(
+                    name: name,
+                    date: date,
+                    venue: venue,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

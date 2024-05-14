@@ -2,8 +2,13 @@ import 'package:alafein/core/utility/assets_data.dart';
 import 'package:alafein/core/utility/theme.dart';
 import 'package:alafein/features/event/organizer/presentation/widgets/custom_event_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:svg_flutter/svg.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:alafein/features/event/data/model/event_datils/event_deatils_model/venue.dart';
+
+// import '../../../../create_event/model/dropdown_response/venue.dart';
+import '../../../../profile_page/presentation/screen/profile_info/venue_info.dart';
 class EventDeatilsItem extends StatelessWidget {
   const EventDeatilsItem({
     Key? key,
@@ -17,6 +22,7 @@ class EventDeatilsItem extends StatelessWidget {
     required this.address,
     required this.mapLink,
     required this.photo,
+    required this.venueID
   }) : super(key: key);
 
   final Size size;
@@ -29,6 +35,7 @@ class EventDeatilsItem extends StatelessWidget {
   final String address;
   final String mapLink;
   final String photo;
+  final int venueID;
 
   @override
   Widget build(BuildContext context) {
@@ -41,9 +48,22 @@ class EventDeatilsItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
 
-          CustomEventImage(
-            imageurl: photo,
+          // CustomEventImage(
+          //   imageurl: photo,
+          // ),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (c) => VenueInfoPage(venueID: venueID),
+                  ));
+            },
+            child: CustomEventImage(
+              imageurl: photo,
+            ),
           ),
+
           SizedBox(
             width: size.width * 0.03,
           ),

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gap/gap.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import '../../model/Profile.dart';
 
 import '../../../../../core/api/constants/api_caller_config.dart';
 import '../../../../../core/utility/colors_data.dart';
@@ -72,29 +73,12 @@ class _VenueProfileState extends State<VenueProfile>
               height: 35,
               child: ListView.separated(
                   scrollDirection: Axis.horizontal,
-                  itemBuilder: (c, i) {
-                    return AnimatedContainer(
-                      duration: 1.seconds,
-                      width: 80.screenWidth / 3,
-                      child: Column(
-                        children: [
-                          Text(
-                            uiState!.branches?[i].name ?? '',
-                            style: i != tabController
-                                ? branchStyle
-                                : branchSelectedStyle,
-                          ),
-                          Gap(2.sw),
-                          Container(
-                            height: 5,
-                            color:
-                                i == tabController ? kPrimaryColor : kHintColor,
-                          )
-                        ],
-                      ),
-                    ).animate().shimmer(duration: 2.seconds);
+                  itemBuilder: (context, index) {
+                    final branch = uiState!.branches?[index];
+                    final isSelected = index == tabController;
+                    return _buildBranchWidget(branch, isSelected);
                   },
-                  separatorBuilder: (c, i) {
+                  separatorBuilder: (context, index) {
                     return Container(
                       color: kHintColor,
                     );
@@ -120,4 +104,29 @@ class _VenueProfileState extends State<VenueProfile>
       ),
     );
   }
+}
+Widget _buildBranchWidget(Branches? branch, bool isSelected) {
+  const maxNameLength = 10; // Define the maximum length for branch names
+  final branchName = branch?.name ?? '';
+  final truncatedName = branchName.length > maxNameLength
+      ? '${branchName.substring(0, maxNameLength)}...' // Truncate long names
+      : branchName;
+
+  return AnimatedContainer(
+    duration: const Duration(seconds: 1),
+    width: 150.screenWidth / 2,
+    child: Column(
+      children: [
+        Text(
+          truncatedName,
+          style: isSelected ? branchSelectedStyle : branchStyle,
+        ),
+        Gap(2.sw),
+        Container(
+          height: 5,
+          color: isSelected ? kPrimaryColor : kHintColor,
+        )
+      ],
+    ),
+  ).animate().shimmer(duration: Duration(seconds: 2));
 }

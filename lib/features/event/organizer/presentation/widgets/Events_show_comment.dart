@@ -35,7 +35,6 @@ class EventsShowCommentBody extends StatelessWidget {
     return BlocBuilder<GetEventCubit, GetEventState>(
       builder: (context, state) {
         final getDeatils = context.read<GetEventCubit>().eventDetails;
-
         print('ID: ${getDeatils?.id}');
         print('Poster: ${getDeatils?.poster}');
         print('Category: ${getDeatils?.category}');
@@ -51,6 +50,7 @@ class EventsShowCommentBody extends StatelessWidget {
         print('Map Link: ${getDeatils?.mapLink}');
         print('Event Organizer: ${getDeatils?.eventOrganizer}');
         print('Venue: ${getDeatils?.venue}');
+        print('Venue: ${getDeatils?.venue?.id}');
 
         final comments = context.read<GetEventCubit>().comments;
 
@@ -126,6 +126,7 @@ class EventsShowCommentBody extends StatelessWidget {
                   name: getDeatils.venue?.name ?? "",
                   whatsapp: '',
                   size: size,
+                  venueID: getDeatils.venue?.id ?? 0,
                 ),
               const Padding(
                 padding: EdgeInsets.only(
@@ -136,7 +137,6 @@ class EventsShowCommentBody extends StatelessWidget {
                   style: homeLabelStyle,
                 ),
               ),
-
               EventDeatilsItem(
                 address: getDeatils.venue?.address ?? "",
                 facebook: getDeatils.venue?.facebook ?? "",
@@ -148,6 +148,7 @@ class EventsShowCommentBody extends StatelessWidget {
                 name: getDeatils.venue?.name ?? "",
                 whatsapp: '',
                 size: size,
+                venueID: getDeatils.venue?.id ?? 0,
               ),
               const Padding(
                 padding: EdgeInsets.only(
@@ -158,7 +159,7 @@ class EventsShowCommentBody extends StatelessWidget {
                   style: homeLabelStyle,
                 ),
               ),
-              SizedBox(height:200,child: ListCommetItems(comments)),
+              SizedBox(height: 200, child: ListCommetItems(comments)),
               if (getDeatils.attendanceOption?.name == "Registration")
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -220,7 +221,7 @@ class EventsShowCommentBody extends StatelessWidget {
   Future<void> _showCommentPopUp(BuildContext context, commentValue, id) async {
     return showModalBottomSheet(
         context: context,
-        backgroundColor:Colors.white,
+        backgroundColor: Colors.white,
         builder: (context) {
           return Column(
             children: [
@@ -289,7 +290,7 @@ class EventsShowCommentBody extends StatelessWidget {
                   data: "ADD COMMENT",
                   onTap: () async {
                     await GetEventCubit()
-                      .addComments(id: id, comment: commentValue);
+                        .addComments(id: id, comment: commentValue);
                     Navigator.pop(context);
                     //  _showCommentPopUp(context);
                   },
