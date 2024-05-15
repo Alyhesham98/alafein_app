@@ -14,10 +14,11 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import '../../../../create_event/model/dropdown_response/venue.dart';
 import '../../bloc/venue_data_bloc.dart';
+import 'organizer_data_page.dart';
 import 'venue_profile.dart';
 
 class OrganizerInfoPage extends StatefulWidget {
-  final String? organizerID;
+  final int? organizerID;
 
   const OrganizerInfoPage({Key? key, this.organizerID}) : super(key: key);
 
@@ -48,11 +49,11 @@ class _OrganizerInfoPageState extends State<OrganizerInfoPage> {
             EasyLoading.show(status: 'Loading...');
           } else if (state is OrganizerDataFetchingSuccessfulState) {
             EasyLoading.dismiss();
-            return Container();
-            //   OrganizerDataProfile(
-            //   successState: state,
-            //   venueDataBloc: organizerDataBloc,
-            // );
+            return
+              OrganizerDataProfile(
+              successState: state,
+              organizerPageBloc: organizerDataBloc,
+            );
           }
           return Container();
         },

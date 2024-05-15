@@ -14,7 +14,7 @@ import '../presentation/model/venue.dart';
 class OrganizerPageRepo{
   // GET
   //Fetch Venue
-  static Future<Organizer?> fetchOrganizer(String? id) async{
+  static Future<Organizer?> fetchOrganizer(int? id) async{
     var client = http.Client();
     print('REPO TESTING organizer DATA WITH VENUE ID $id');
     try {
@@ -28,7 +28,7 @@ class OrganizerPageRepo{
       print('Response code: ${response.statusCode}');
 
       Organizer? organizerData = Organizer.fromJson(result['Data']);// as Map<String, dynamic>
-      debugPrint("2 :${result['Facilities'].toString()}");
+      // debugPrint("2 :${result['Facilities'].toString()}");
 
       if (result.containsKey('Data') && result['Data'] != null) {
         organizerData = Organizer.fromJson(result['Data']);

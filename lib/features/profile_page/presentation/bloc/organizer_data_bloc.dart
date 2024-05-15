@@ -11,7 +11,7 @@ part 'organizer_data_state.dart';
 
 
 class OrganizerDataBloc extends Bloc<OrganizerDataEvent, OrganizerDataState> {
-  final String? id;
+  final int? id;
 
   OrganizerDataBloc(
       this.id,
@@ -25,10 +25,10 @@ class OrganizerDataBloc extends Bloc<OrganizerDataEvent, OrganizerDataState> {
     emit(OrganizerDataLoadingState());
     print(
         "=====================================================================.");
-    print("u are in VenueDataInitialFetchEvent");
-    print("It is a method in venue data page bloc class");
+    print("u are in OrganizerDataInitialFetchEvent");
+    print("It is a method in Organizer data page bloc class");
     print(
-        "Used to fetch venue data from server and save it into local storage.");
+        "Used to fetch Organizer data from server and save it into local storage.");
     print(
         "=====================================================================.");
 

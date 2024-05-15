@@ -37,7 +37,7 @@ class EventDeatilsItem extends StatelessWidget {
   final String mapLink;
   final String photo;
   final int? venueID;
-  final String? organizerID;
+  final int? organizerID;
 
   @override
   Widget build(BuildContext context) {

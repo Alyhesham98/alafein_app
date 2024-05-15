@@ -1,238 +1,120 @@
-//
-// import 'package:alafein/core/api/constants/api_caller_config.dart';
-// import 'package:alafein/core/utility/assets_data.dart';
-// import 'package:alafein/features/auth/signup/presentation/widgets/profile_picture.dart';
-// import 'package:cached_network_image/cached_network_image.dart';
-// import 'package:flutter/material.dart';
-// import 'package:gap/gap.dart';
-// import 'package:responsive_builder/responsive_builder.dart';
-//
-// import '../../../../../core/local_data/session_management.dart';
-// import '../../../../../core/utility/colors_data.dart';
-// import '../../../../../core/utility/theme.dart';
-// import '../../bloc/organizer_data_bloc.dart';
-// import '../../bloc/profile_page_bloc.dart';
-// import '../../widgets/custom_text_field_item.dart';
-//
-// class OrganizerDataProfile extends StatefulWidget {
-//   const OrganizerDataProfile(
-//       {super.key, required this.successState, required this.organizerPageBloc});
-//
-//   final OrganizerDataFetchingSuccessfulState successState;
-//   final ProfilePageBloc organizerPageBloc;
-//
-//   @override
-//   State<OrganizerDataProfile> createState() => _OrganizerDataProfileState();
-// }
-//
-// class _OrganizerDataProfileState extends State<OrganizerDataProfile> {
-//
-//   bool checker = false;
-//
-//
-//   @override
-//   void initState() {
-//     super.initState();
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return CustomScrollView(
-//       physics: const BouncingScrollPhysics(),
-//       slivers: [  SliverToBoxAdapter(
-//         child: Container(
-//           color: Colors.white,
-//           child: Padding(
-//             padding: const EdgeInsets.fromLTRB(24, 50, 24, 8),
-//             child: Column(
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: [
-//                   const Gap(16),
-//                   const Row(
-//                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                     crossAxisAlignment: CrossAxisAlignment.center,
-//                     children: [
-//                       Text(
-//                         'ORGANIZER PERSONAL INFORMATION',
-//                         style: homeLabeProfileStyle,
-//                       ),
-//                     ],
-//                   ),
-//                   const Gap(40),
-//                   const Text(
-//                     'PROFILE PICTURE',
-//                     style: homeLabel4Style,
-//                   ),
-//                   checker ?
-//                   const  ProfilePicture() :
-//                   Container(
-//                     width: 27.sw,
-//                     height: 27.sw,
-//                     decoration: BoxDecoration(
-//                         image: DecorationImage(
-//                             fit: BoxFit.cover,
-//                             image: NetworkImage(
-//                                 "${APICallerConfiguration.baseImageUrl}${imageUrl()}")),
-//                         shape: BoxShape.circle,
-//                         border:
-//                         Border.all(width: 0, color: Colors.transparent),
-//                         color: kProfilePicBackgroundColor),
-//                     child: null,
-//                   ),
-//
-//                   const Gap(24),
-//                   const Text(
-//                     'PERSONAL INFORMATION',
-//                     style: homeLabel4Style,
-//                   ),
-//                   const Gap(16),
-//                   CustomInput(
-//                     title: "First Name:${widget.successState.firstName ??
-//                         "first name"}",
-//                     controller: _fNameController,
-//                     enabled: checker,),
-//                   CustomInput(
-//                     title: "last Name:${widget.successState.profilePage?.lastName??
-//                         "last name"}",
-//                     controller: _lastNameController,
-//                     enabled: checker,),
-//                   CustomInput(
-//                     title: "Email email:${widget.successState.profilePage?.email ??
-//                         "email"}",
-//                     controller: _emailController,
-//                     enabled: checker,),
-//                   CustomInput(
-//                     title: widget.successState.profilePage?.phone ??
-//                         "phone",
-//                     controller: _phoneController,
-//                     enabled: checker,),
-//                   CustomInput(
-//                     title: widget.successState.profilePage?.organizer?.mapLink??"no maplink",
-//                     controller: _maplinkController,
-//                     enabled: checker,),
-//                   CustomInput(
-//                     title: widget.successState.profilePage?.organizer?.address??"No adress",
-//                     controller: _adressController,
-//                     enabled: checker,),
-//                   CustomInput(
-//                     title:widget.successState.profilePage?.organizer?.instagram??"No instgrame",
-//                     controller: _instgramController,
-//                     enabled: checker,),
-//                   CustomInput(
-//                     title:widget.successState.profilePage?.organizer?.facebook??"no Facebook",
-//                     controller: _facebookController,
-//                     enabled: checker,),
-//                   CustomInput(
-//                     title:widget.successState.profilePage?.organizer?.websiteURL??"No website",
-//                     controller: _websiteController,
-//                     enabled: checker,),
-//                   CustomInput(
-//                     title: widget.successState.profilePage?.organizer?.other??"No others",
-//                     controller: _otherController,
-//                     enabled: checker,),
-//                   CustomInput(
-//                     title: widget.successState.profilePage?.organizer?.description??"No discription",
-//                     controller: _descriptionController,
-//                     enabled: checker,),
-//                   CustomInput(
-//                     title:  widget.successState.profilePage?.organizer?.description??"no catigory name",
-//                     controller: _catNameController,
-//                     enabled: checker,),
-//                   // // TempWidget(
-//                   // //   input: "ID : "+ (widget.successState.profilePage?.organizer?.id.toString() ?? ""),
-//                   // // ),
-//                   // // const Gap(16),
-//                   // TempWidget(
-//                   //   input: "maplink : ${widget.successState.profilePage?.organizer?.mapLink?? ""}",
-//                   // ),
-//                   // TempWidget(
-//                   //   input: "address : ${widget.successState.profilePage?.organizer?.address ??  ""}",
-//                   // ),
-//                   // const Gap(16),
-//                   // TempWidget(
-//                   //   input: "instgram : ${widget.successState.profilePage?.organizer?.instagram ?? ""}",
-//                   // ),
-//                   // const Gap(16),
-//                   // TempWidget(
-//                   //   input: "Facebook : ${widget.successState.profilePage?.organizer?.facebook  ?? ""}",
-//                   // ),
-//                   // const Gap(16),
-//                   // TempWidget(
-//                   //   input: "website : ${widget.successState.profilePage?.organizer?.websiteURL ?? ""}",
-//                   // ),
-//                   // const Gap(16),
-//                   // TempWidget(
-//                   //   input: "other : ${widget.successState.profilePage?.organizer?.other ?? ""}",
-//                   // ),
-//                   // const Gap(16),
-//                   // Container(
-//                   //   padding: const EdgeInsets.all(12),
-//                   //   decoration: BoxDecoration(
-//                   //     borderRadius: BorderRadius.circular(10),
-//                   //     border: Border.all(color: kDividerColor, width: 1.5),
-//                   //   ),
-//                   //   child: Text(
-//                   //     "Description : ${widget.successState.profilePage?.organizer?. description ?? ""}",
-//                   //     style: secondaryTextStyle,
-//                   //     maxLines: 5,
-//                   //   ),
-//                   // ),
-//                   // // const Gap(16),TempWidget(
-//                   // //   input: "Category ID : "+ (widget.successState.profilePage?.organizer?.category?.id.toString() ?? ""),
-//                   // // ),
-//                   // const Gap(16),
-//                   // TempWidget(
-//                   //   input: "Category name : ${widget.successState.profilePage?.organizer?.category?.name?? ""}",
-//                   // ),
-//                   // const Gap(16),
-//                   // //  Container(
-//                   // //   padding: const EdgeInsets.all(12),
-//                   // //   decoration: BoxDecoration(
-//                   // //     borderRadius: BorderRadius.circular(10),
-//                   // //     border: Border.all(color: kDividerColor, width: 1.5),
-//                   // //   ),
-//                   // //   child: Text(
-//                   // //     //'${APICallerConfiguration.baseImageUrl}${uiState?.venueImage}' ??""
-//                   // //     "Category image : "+ (widget.successState.profilePage?.organizer?.category?.image ?? ""),
-//                   // //     style: secondaryTextStyle,
-//                   // //     maxLines: 5,
-//                   // //   ),
-//                   // ),
-//                   SizedBox(
-//                     width: 100,
-//                     height: 100,
-//                     child: ClipRRect(
-//                       borderRadius: BorderRadius.circular(17),
-//                       child: CachedNetworkImage(
-//                         imageUrl: '${APICallerConfiguration.baseImageUrl}${widget.successState.profilePage?.organizer?.category?.image}' ??"",
-//                         fit: BoxFit.cover,
-//                         errorWidget: (context, url, error) => Image.asset(
-//                           AssetsData.eventImg,
-//                           fit: BoxFit.cover,
-//                         ),
-//                       ),
-//                     ),
-//                   ),
-//                   const Gap(24),
-//                 ]),
-//           ),
-//         ),
-//       ),
-//       ],
-//     );
-//   }
-//   String imageUrl() {
-//     String url = "";
-//     if (SessionManagement
-//         .getValue(SessionManagement.IMAGE_URL_KEY)
-//         .isNotEmpty) {
-//       url = SessionManagement.getValue(SessionManagement.IMAGE_URL_KEY);
-//     } else {
-//       if (widget.successState.profilePage?.photo != null) {
-//         url = widget.successState.profilePage!.photo!;
-//       }
-//     }
-//     return url;
-//   }
-//
-// }
+import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:gap/gap.dart';
+import 'package:responsive_builder/responsive_builder.dart';
+
+import '../../../../../core/api/constants/api_caller_config.dart';
+import '../../../../../core/utility/assets_data.dart';
+import '../../../../../core/utility/colors_data.dart';
+import '../../../../../core/utility/theme.dart';
+import '../../bloc/organizer_data_bloc.dart';
+
+class OrganizerDataProfile extends StatefulWidget {
+  const OrganizerDataProfile({
+    Key? key,
+    required this.successState,
+    required this.organizerPageBloc,
+  }) : super(key: key);
+
+  final OrganizerDataFetchingSuccessfulState successState;
+  final OrganizerDataBloc organizerPageBloc;
+
+  @override
+  State<OrganizerDataProfile> createState() => _OrganizerDataProfileState();
+}
+
+class _OrganizerDataProfileState extends State<OrganizerDataProfile> {
+  @override
+  Widget build(BuildContext context) {
+    final organizerData = widget.successState.organizerData;
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Organizer Profile',
+          style: venueProfileTextStyle,
+        ),
+        centerTitle: true,
+      ),
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 6.sw),
+        child: ListView(
+          children: [
+            Gap(4.sw),
+            ListTile(
+              title: Text(
+                'PERSONAL INFORMATION',
+                style: homeLabel4Style,
+              ),
+            ),
+            ListTile(
+              title: Text(
+                'Map Link: ${organizerData?.mapLink ?? "No map link"}',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+            ListTile(
+              title: Text(
+                'Address: ${organizerData?.address ?? "No address"}',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+            ListTile(
+              title: Text(
+                'Instagram: ${organizerData?.instagram ?? "No Instagram"}',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+            ListTile(
+              title: Text(
+                'Facebook: ${organizerData?.facebook ?? "No Facebook"}',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+            ListTile(
+              title: Text(
+                'Website URL: ${organizerData?.websiteURL ?? "No website"}',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+            ListTile(
+              title: Text(
+                'Other: ${organizerData?.other ?? "No others"}',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+            ListTile(
+              title: Text(
+                'Description: ${organizerData?.description ?? "No description"}',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+            ListTile(
+              title: Text(
+                'Category Name: ${organizerData?.category?.name ?? "No category name"}',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+            Gap(24),
+            SizedBox(
+              width: 100,
+              height: 100,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(17),
+                child: CachedNetworkImage(
+                  imageUrl:
+                      '${APICallerConfiguration.baseImageUrl}${organizerData?.category?.image ?? ""}',
+                  fit: BoxFit.contain,
+                  errorWidget: (context, url, error) => Image.asset(
+                    AssetsData.eventImg,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ),
+            Gap(24),
+          ],
+        ),
+      ),
+    );
+  }
+}

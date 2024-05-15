@@ -51,7 +51,9 @@ class EventsShowCommentBody extends StatelessWidget {
         print('Event Organizer: ${getDeatils?.eventOrganizer}');
         print('Venue: ${getDeatils?.venue}');
         print('Venue: ${getDeatils?.venue?.id}');
-        print('Organizer: ${getDeatils?.organizer?.id}');
+        print('Organizer ID: ${getDeatils?.eventOrganizer?['id']}');
+        print('Event Organizer ID: ${getDeatils?.eventOrganizer?['Id']}');
+
 
         final comments = context.read<GetEventCubit>().comments;
 
@@ -127,7 +129,7 @@ class EventsShowCommentBody extends StatelessWidget {
                   name: getDeatils.venue?.name ?? "",
                   whatsapp: '',
                   size: size,
-                  organizerID: getDeatils.organizer!.id,
+                  organizerID: getDeatils.eventOrganizer?['Id'] ?? 0,
                 ),
               const Padding(
                 padding: EdgeInsets.only(
