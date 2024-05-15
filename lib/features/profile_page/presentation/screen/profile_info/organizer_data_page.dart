@@ -11,10 +11,10 @@ import '../../bloc/organizer_data_bloc.dart';
 
 class OrganizerDataProfile extends StatefulWidget {
   const OrganizerDataProfile({
-    Key? key,
+    super.key,
     required this.successState,
     required this.organizerPageBloc,
-  }) : super(key: key);
+  });
 
   final OrganizerDataFetchingSuccessfulState successState;
   final OrganizerDataBloc organizerPageBloc;
@@ -57,7 +57,7 @@ class _OrganizerDataProfileState extends State<OrganizerDataProfile> {
                 'Address: ${organizerData?.address ?? "No address"}',
                 style: TextStyle(color: Colors.black),
               ),
-            ),
+            ),git
             ListTile(
               title: Text(
                 'Instagram: ${organizerData?.instagram ?? "No Instagram"}',
