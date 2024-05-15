@@ -11,7 +11,7 @@ part 'venue_data_state.dart';
 
 
 class VenueDataBloc extends Bloc<VenueDataEvent, VenueDataState> {
-  final int id;
+  final int? id;
 
   VenueDataBloc(
       this.id,
