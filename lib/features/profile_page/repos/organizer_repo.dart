@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'dart:developer';
 
@@ -10,35 +9,42 @@ import 'package:http/http.dart' as http;
 import 'package:alafein/features/profile_page/presentation/model/Profile.dart';
 import '../presentation/model/venue.dart';
 
-
-class OrganizerPageRepo{
+class OrganizerPageRepo {
   // GET
   //Fetch Venue
-  static Future<Organizer?> fetchOrganizer(int? id) async{
+  static Future<Map<String, dynamic>?> fetchOrganizer(int? id) async {
     var client = http.Client();
     print('REPO TESTING organizer DATA WITH VENUE ID $id');
     try {
-
       var response = await client.get(
-        Uri.parse('https://alafein.azurewebsites.net/api/v1/Organizer/Detail/$id'),
-        headers: {"Authorization": "Bearer ${SessionManagement.getUserToken()}"},
+        Uri.parse(
+            'https://alafein.azurewebsites.net/api/v1/Organizer/Detail/$id'),
+        headers: {
+          "Authorization": "Bearer ${SessionManagement.getUserToken()}"
+        },
       );
       Map<String, dynamic> result = jsonDecode(response.body);
-      print('result of fetching data: $result');
+      print('result of fetching data for Organizer: $result');
       print('Response code: ${response.statusCode}');
 
-      Organizer? organizerData = Organizer.fromJson(result['Data']);// as Map<String, dynamic>
-      // debugPrint("2 :${result['Facilities'].toString()}");
-
       if (result.containsKey('Data') && result['Data'] != null) {
-        organizerData = Organizer.fromJson(result['Data']);
-        // print("3 :${organizerData.instagram}");
+        final organizerJson = result['Data'];
+        final organizerData = Organizer.fromJson(organizerJson);
+        print('result of fetching data for Organizer: ${organizerJson['User']}');
+        final userData = organizerJson['User'];
+        final userDataParsed = ProfileOrg.fromJson(userData);
+
+        EasyLoading.dismiss();
+        return {
+          'organizerData': organizerData,
+          'userData': userDataParsed,
+        };
       } else {
         print("Data is null or not available");
       }
       EasyLoading.dismiss();
-      return organizerData;
-    } catch (e){
+      return null;
+    } catch (e) {
       log('error$e');
       EasyLoading.dismiss();
       return null;

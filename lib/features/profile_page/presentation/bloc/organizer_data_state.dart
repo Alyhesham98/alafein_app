@@ -16,7 +16,13 @@ class OrganizerDataErrorState extends OrganizerDataState {}
 
 class OrganizerDataFetchingSuccessfulState extends OrganizerDataState {
   final Organizer? organizerData;
+  final ProfileOrg? userData;
+
   OrganizerDataFetchingSuccessfulState({
     required this.organizerData,
-  });
+    required this.userData,
+  }) : super();
+
+  @override
+  List<Object?> get props => [organizerData, userData];
 }

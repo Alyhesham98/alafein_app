@@ -5,37 +5,30 @@ import 'package:flutter/material.dart';
 import 'package:svg_flutter/svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../../core/api/constants/api_caller_config.dart';
-
-class VenueProfileItem extends StatelessWidget {
-  const VenueProfileItem({
+class OrganizerProfileItem extends StatelessWidget {
+  const OrganizerProfileItem({
     super.key,
     required this.size,
-    required this.name,
     required this.instagram,
     required this.facebook,
     required this.websiteURL,
     required this.youtube,
-    required this.whatsapp,
     required this.other,
     required this.address,
     required this.photo,
   });
 
   final Size size;
-  final String name;
   final String? instagram;
   final String? facebook;
   final String? websiteURL;
   final String? youtube;
-  final String? whatsapp;
   final String? other;
   final String? address;
   final String photo;
 
   @override
   Widget build(BuildContext context) {
-    print('venue photo is: $photo}');
     return Padding(
       padding: const EdgeInsets.symmetric(
         vertical: 11,
@@ -50,7 +43,7 @@ class VenueProfileItem extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(17),
               child: CachedNetworkImage(
-                imageUrl: '${APICallerConfiguration.baseImageUrl}$photo',
+                imageUrl: photo,
                 fit: BoxFit.cover,
                 errorWidget: (context, url, error) => Image.asset(
                   AssetsData.eventImg,
@@ -67,12 +60,12 @@ class VenueProfileItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  name,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: homeLabelStyle,
-                ),
+                // Text(
+                //   name,
+                //   maxLines: 1,
+                //   overflow: TextOverflow.ellipsis,
+                //   style: homeLabelStyle,
+                // ),
                 SizedBox(
                   height: 50,
                   child: ListView(scrollDirection: Axis.horizontal, children: [
@@ -90,7 +83,7 @@ class VenueProfileItem extends StatelessWidget {
                       visible: instagram != '' && instagram != null,
                       child: IconButton(
                         onPressed: () {
-                           launchUrl(Uri.parse(instagram!));
+                          launchUrl(Uri.parse(instagram!));
 
                         },
                         icon: SvgPicture.asset(
@@ -107,24 +100,24 @@ class VenueProfileItem extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Visibility(
-                      visible: whatsapp != '' && whatsapp != null,
-                      child: IconButton(
-                        onPressed: () {
-                          // whatsapp ?? _launchInBrowser("whatsapp://send?phone=+2$whatsapp&text= ");
-                          String url='';
-                          if (TargetPlatform.iOS==Theme.of(context).platform) {
-                            url= "whatsapp://wa.me/$whatsapp/?text= ";
-                          } else {
-                            url= "https://api.whatsapp.com/send?phone=$whatsapp&text= ";
-                          }
-                           launchUrl(Uri.parse(url));
-                        },
-                        icon: SvgPicture.asset(
-                          AssetsData.wattsApp,
-                        ),
-                      ),
-                    ),
+                    // Visibility(
+                    //   visible: whatsapp != '' && whatsapp != null,
+                    //   child: IconButton(
+                    //     onPressed: () {
+                    //       // whatsapp ?? _launchInBrowser("whatsapp://send?phone=+2$whatsapp&text= ");
+                    //       String url='';
+                    //       if (TargetPlatform.iOS==Theme.of(context).platform) {
+                    //         url= "whatsapp://wa.me/$whatsapp/?text= ";
+                    //       } else {
+                    //         url= "https://api.whatsapp.com/send?phone=$whatsapp&text= ";
+                    //       }
+                    //       launchUrl(Uri.parse(url));
+                    //     },
+                    //     icon: SvgPicture.asset(
+                    //       AssetsData.wattsApp,
+                    //     ),
+                    //   ),
+                    // ),
                     Visibility(
                       visible: websiteURL != '' && websiteURL != null,
                       child: IconButton(

@@ -90,7 +90,9 @@ class _EventNameState extends State<EventName> {
               const Gap(2),
               Text(
                 widget.name,
-                style: secondaryTextStyle,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: secondaryTextStyle.copyWith(fontSize: 14),
               ),
             ],
           ),

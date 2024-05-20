@@ -101,17 +101,53 @@ Profile copyWith({  String? id,
 /// Description : "string"
 /// Category : {"Id":0,"Name":"string","Image":"string"}
 
+class ProfileOrg {
+  ProfileOrg({
+    this.id,
+    this.firstName,
+    this.lastName,
+    this.email,
+    this.profilePicture,
+  });
+
+  factory ProfileOrg.fromJson(Map<String, dynamic> json) {
+    return ProfileOrg(
+      id: json['Id'],
+      firstName: json['FirstName'],
+      lastName: json['LastName'],
+      email: json['Email'],
+      profilePicture: json['ProfilePicture'],
+    );
+  }
+
+
+  String? id;
+  String? firstName;
+  String? lastName;
+  String? email;
+  String? profilePicture;
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    return map;
+  }
+}
+
+
+
 class Organizer {
   Organizer({
-      num? id, 
-      String? mapLink, 
-      String? address, 
-      String? instagram, 
-      String? facebook, 
-      String? websiteURL, 
-      String? other, 
-      String? description, 
-      Category? category,}){
+      num? id,
+      String? mapLink,
+      String? address,
+      String? instagram,
+      String? facebook,
+      String? websiteURL,
+      String? other,
+      String? description,
+      Category? category,
+      ProfileOrg? user,
+  }){
     _id = id;
     _mapLink = mapLink;
     _address = address;
@@ -121,7 +157,8 @@ class Organizer {
     _other = other;
     _description = description;
     _category = category;
-}
+    _user = user;
+  }
 
   Organizer.fromJson(dynamic json) {
     _id = json['Id'];
@@ -133,7 +170,9 @@ class Organizer {
     _other = json['Other'];
     _description = json['Description'];
     _category = json['Category'] != null ? Category.fromJson(json['Category']) : null;
+    _user = json['user'] != null ? ProfileOrg.fromJson(json['user']) : null;
   }
+
   num? _id;
   String? _mapLink;
   String? _address;
@@ -143,25 +182,33 @@ class Organizer {
   String? _other;
   String? _description;
   Category? _category;
-Organizer copyWith({  num? id,
-  String? mapLink,
-  String? address,
-  String? instagram,
-  String? facebook,
-  String? websiteURL,
-  String? other,
-  String? description,
-  Category? category,
-}) => Organizer(  id: id ?? _id,
-  mapLink: mapLink ?? _mapLink,
-  address: address ?? _address,
-  instagram: instagram ?? _instagram,
-  facebook: facebook ?? _facebook,
-  websiteURL: websiteURL ?? _websiteURL,
-  other: other ?? _other,
-  description: description ?? _description,
-  category: category ?? _category,
-);
+  ProfileOrg? _user;
+
+  Organizer copyWith({
+    num? id,
+    String? mapLink,
+    String? address,
+    String? instagram,
+    String? facebook,
+    String? websiteURL,
+    String? other,
+    String? description,
+    Category? category,
+    ProfileOrg? user,
+  }) =>
+      Organizer(
+        id: id ?? _id,
+        mapLink: mapLink ?? _mapLink,
+        address: address ?? _address,
+        instagram: instagram ?? _instagram,
+        facebook: facebook ?? _facebook,
+        websiteURL: websiteURL ?? _websiteURL,
+        other: other ?? _other,
+        description: description ?? _description,
+        category: category ?? _category,
+        user: user ?? _user,
+      );
+
   num? get id => _id;
   String? get mapLink => _mapLink;
   String? get address => _address;
@@ -171,6 +218,7 @@ Organizer copyWith({  num? id,
   String? get other => _other;
   String? get description => _description;
   Category? get category => _category;
+  ProfileOrg? get user => _user;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -185,9 +233,11 @@ Organizer copyWith({  num? id,
     if (_category != null) {
       map['Category'] = _category?.toJson();
     }
+    if (_user != null) {
+      map['user'] = _user?.toJson();
+    }
     return map;
   }
-
 }
 
 /// Id : 0

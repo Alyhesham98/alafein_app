@@ -7,12 +7,56 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:587761639039:android:527e3b86c88a13b929a94a",
+        "android_client_info": {
+          "package_name": "com.codebook.simple_chat_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "587761639039-9j8u9grfd98cajlb0i4p9i0c2aa91s48.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWtGpWFRGcb7EQM_T7nNrlM2ad-dTj1kQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "587761639039-77bms7tgqabsj7klnrjual88br0aek58.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "587761639039-4krq5i2calsuhmqpmev8it5i0qqnefpq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.codebook.simpleChatFlutter"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:587761639039:android:230c35dde1a21f7629a94a",
         "android_client_info": {
           "package_name": "com.example.alafein"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "587761639039-fvtpgo04oh2b90sqkqac3bhsjcmu0403.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.alafein",
+            "certificate_hash": "6c43295741cbf2d9efde0f8400f8c8396d0859bf"
+          }
+        },
         {
           "client_id": "587761639039-i47pejrbteths10n3ad3qbnatfucpm91.apps.googleusercontent.com",
           "client_type": 1,
@@ -43,14 +87,14 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "587761639039-9j8u9grfd98cajlb0i4p9i0c2aa91s48.apps.googleusercontent.com",
+              "client_id": "587761639039-77bms7tgqabsj7klnrjual88br0aek58.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "587761639039-7tc1823ips55gt7afa13i4b1r3r2ng11.apps.googleusercontent.com",
+              "client_id": "587761639039-4krq5i2calsuhmqpmev8it5i0qqnefpq.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.alafein"
+                "bundle_id": "com.codebook.simpleChatFlutter"
               }
             }
           ]

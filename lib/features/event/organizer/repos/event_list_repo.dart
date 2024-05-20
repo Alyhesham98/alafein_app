@@ -24,7 +24,6 @@ class ListEventRepo {
             "pageNumber":1,
             "pageSize": 500,
             "categoryId": categoryId.toString()
-
           }),
           headers: {"Content-Type": "application/json",
             "Authorization": "Bearer ${SessionManagement.getUserToken()}"

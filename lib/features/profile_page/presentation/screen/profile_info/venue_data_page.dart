@@ -12,8 +12,9 @@ import '../../widgets/venue_profile_items.dart';
 import 'branch_data_page.dart';
 
 class VenueDataProfile extends StatefulWidget {
+  final String? photo;
   const VenueDataProfile(
-      {super.key, required this.successState, required this.venueDataBloc});
+      {super.key, required this.successState, required this.venueDataBloc, this.photo});
 
   final VenueDataFetchingSuccessfulState successState;
   final VenueDataBloc venueDataBloc;
@@ -63,7 +64,7 @@ class _VenueDataProfileState extends State<VenueDataProfile>
               instagram: uiState?.instagram ?? "",
               other: uiState?.other ?? "",
               photo:
-                  '${APICallerConfiguration.baseImageUrl}${uiState?.venueImage}' ??
+                  widget.photo ??
                       "",
               websiteURL: uiState?.websiteURL ?? "",
               name: uiState?.venueName ?? "",

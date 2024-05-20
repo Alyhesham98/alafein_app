@@ -42,7 +42,7 @@ class Deatils extends StatelessWidget {
                 eventName: eventName,
                 name: name
               ),
-              const Gap(42),
+              const Gap(22),
               if (!isFree)
                 DeatilsItems(
                   icon: const Icon(

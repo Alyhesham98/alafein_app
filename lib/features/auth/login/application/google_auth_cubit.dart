@@ -29,19 +29,19 @@ class GoogleAuthCubit extends Cubit<GoogleAuthState> {
       // select google account
      late final GoogleSignInAccount? userAccont;
       try{
-
-          userAccont = await _googleSignIn.signIn();
+        print("try await signIn");
+        userAccont = await _googleSignIn.signIn();
       }
       catch(e){
-        print("amr$e");
+        print("Error amr $e");
       }
 
       // user dismissed the account dilog
       if (userAccont == null) return;
 
       //get authentication object from account
-      final GoogleSignInAuthentication googleAuth =
-      await userAccont.authentication;
+     print("test before auth");
+     final GoogleSignInAuthentication googleAuth = await userAccont.authentication;
       print(
           "================================================================================");
       print("get authentication object from account");

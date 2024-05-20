@@ -31,16 +31,16 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final PageController _scrollController = PageController();
 
-  Future<void> _refresh() async {
-    EasyLoading.show(status: 'Loading...');
-    setState(() {});
-    await Future.delayed(const Duration(seconds: 1), () {
-      EasyLoading.dismiss();
-    });
-    return Future.delayed(
-      const Duration(microseconds: 1),
-    );
-  }
+  // Future<void> _refresh() async {
+  //   EasyLoading.show(status: 'Loading...');
+  //   setState(() {});
+  //   await Future.delayed(const Duration(seconds: 1), () {
+  //     EasyLoading.dismiss();
+  //   });
+  //   return Future.delayed(
+  //     const Duration(microseconds: 1),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -87,305 +87,294 @@ class _HomePageState extends State<HomePage> {
             if (state is HomeLoaded) {
               return Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: LiquidPullToRefresh(
-                  color: Colors.transparent,
-                  onRefresh: _refresh,
-                  showChildOpacityTransition: false,
-                  child: SingleChildScrollView(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          if (state.homeResponse.spotlight != null)
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  'EVENTS SPOTLIGHT',
-                                  style: homeLabelStyle,
-                                ),
-                                SizedBox(
-                                  height: 180,
-                                  child: ListView.builder(
-                                      itemCount: state
-                                              .homeResponse.spotlight?.length ??
-                                          0,
-                                      scrollDirection: Axis.horizontal,
-                                      itemBuilder: (context, index) => InkWell(
-                                            onTap: (SessionManagement
-                                                        .getUserRole() !=
-                                                    "")
-                                                ? () {
-                                                    routeToEventDetails(
-                                                      context,
-                                                      state
-                                                              .homeResponse
-                                                              .spotlight?[index]
-                                                              .id ??
-                                                          -1,
-                                                    );
-                                                  }
-                                                : () async {
-                                                    routeToEventDetails(
-                                                      context,
-                                                      state
-                                                              .homeResponse
-                                                              .spotlight?[index]
-                                                              .id ??
-                                                          -1,
-                                                    );
-                                                    await Future.delayed(
-                                                        const Duration(
-                                                            seconds: 2));
-                                                    AutoRouter.of(context)
-                                                        .popAndPush(
-                                                            const LoginRoute());
-                                                  },
-                                            child: HomeEventItem(
-                                              name: state.homeResponse
-                                                      .spotlight?[index].name ??
-                                                  "",
-                                              image: state
-                                                          .homeResponse
-                                                          .spotlight?[index]
-                                                          .poster !=
-                                                      null
-                                                  ? "${APICallerConfiguration.baseImageUrl}${state.homeResponse.spotlight?[index].poster}"
-                                                  : "",
-                                              catImage: state
-                                                          .homeResponse
-                                                          .spotlight?[index]
-                                                          .catPoster !=
-                                                      null
-                                                  ? "${APICallerConfiguration.baseImageUrl}${state.homeResponse.spotlight?[index].catPoster}"
-                                                  : "",
-                                              date: state.homeResponse
-                                                      .spotlight?[index].date ??
-                                                  "",
-                                            ),
-                                          )),
-                                ),
-                              ],
-                            ),
-                          if (state.homeResponse.category != null)
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  margin:
-                                      const EdgeInsets.symmetric(vertical: 16),
-                                  child: Text(
-                                    'categories'.toUpperCase(),
-                                    style: homeLabelStyle,
-                                  ),
-                                ),
-                                Column(
-                                  children: [
-                                    SizedBox(
-                                      height: 150,
-                                      child: PageView.builder(
-                                        controller: _scrollController,
-                                        itemCount: (state.homeResponse.category!
-                                                    .length /
-                                                4)
-                                            .ceil(),
-                                        scrollDirection: Axis.horizontal,
-                                        itemBuilder: (context, pageIndex) {
-                                          return Row(
-                                            children: List.generate(
-                                              3,
-                                              (index) {
-                                                final categoryIndex =
-                                                    pageIndex * 4 + index;
-                                                if (categoryIndex <
-                                                    state.homeResponse.category!
-                                                        .length) {
-                                                  return Expanded(
-                                                    child: InkWell(
-                                                      onTap: (SessionManagement
-                                                                  .getUserRole() !=
-                                                              "")
-                                                          ? () {
-                                                              widget.onCatTapped(
-                                                                  categoryIndex);
-                                                            }
-                                                          : () {
-                                                              AutoRouter.of(
-                                                                      context)
-                                                                  .popAndPush(
-                                                                      const LoginRoute());
-                                                            },
-                                                      child: Container(
-                                                        margin: const EdgeInsets
-                                                            .symmetric(
-                                                            horizontal: 4),
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(10),
-                                                          border: Border.all(
-                                                              color:
-                                                                  Colors.white,
-                                                              width: 3),
-                                                        ),
-                                                        child: Column(
-                                                          children: [
-                                                            ClipRRect(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          17),
-                                                              child:
-                                                                  CachedNetworkImage(
-                                                                width: 70,
-                                                                height: 70,
-                                                                imageUrl:
-                                                                    "${APICallerConfiguration.baseImageUrl}${state.homeResponse.category![categoryIndex].image}",
-                                                                fit: BoxFit
-                                                                    .cover,
-                                                                errorWidget: (context,
-                                                                        url,
-                                                                        error) =>
-                                                                    Image.asset(
-                                                                  AssetsData
-                                                                      .eventImg,
-                                                                  fit: BoxFit
-                                                                      .contain,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            const SizedBox(
-                                                                height: 4),
-                                                            Text(
-                                                              state
-                                                                      .homeResponse
-                                                                      .category![
-                                                                          categoryIndex]
-                                                                      .name ??
-                                                                  "",
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .center,
-                                                              style:
-                                                                  homeLabel3Style,
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  );
-                                                } else {
-                                                  return Expanded(
-                                                    child:
-                                                        Container(), // Placeholder for empty space
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (state.homeResponse.spotlight != null)
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'EVENTS SPOTLIGHT',
+                                style: homeLabelStyle,
+                              ),
+                              SizedBox(
+                                height: 180,
+                                child: ListView.builder(
+                                    itemCount:
+                                        state.homeResponse.spotlight?.length ??
+                                            0,
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder: (context, index) => InkWell(
+                                          onTap: (SessionManagement
+                                                      .getUserRole() !=
+                                                  "")
+                                              ? () {
+                                                  routeToEventDetails(
+                                                    context,
+                                                    state
+                                                            .homeResponse
+                                                            .spotlight?[index]
+                                                            .id ??
+                                                        -1,
                                                   );
                                                 }
-                                              },
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 8),
-                                      child: SmoothPageIndicator(
-                                        controller: _scrollController,
-                                        count: (state.homeResponse.category!
-                                                    .length /
-                                                4)
-                                            .ceil(),
-                                        effect: const ScrollingDotsEffect(
-                                          dotWidth: 8,
-                                          dotHeight: 8,
-                                          spacing: 5.0,
-                                          dotColor: Colors.grey,
-                                          activeDotColor: Color(0xFFFF73C6),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          if (state.homeResponse.today != null)
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Gap(16),
-                                const Text(
-                                  'Happening today',
+                                              : () async {
+                                                  routeToEventDetails(
+                                                    context,
+                                                    state
+                                                            .homeResponse
+                                                            .spotlight?[index]
+                                                            .id ??
+                                                        -1,
+                                                  );
+                                                  await Future.delayed(
+                                                      const Duration(
+                                                          seconds: 2));
+                                                  AutoRouter.of(context)
+                                                      .popAndPush(
+                                                          const LoginRoute());
+                                                },
+                                          child: HomeEventItem(
+                                            name: state.homeResponse
+                                                    .spotlight?[index].name ??
+                                                "",
+                                            image: state
+                                                        .homeResponse
+                                                        .spotlight?[index]
+                                                        .poster !=
+                                                    null
+                                                ? "${APICallerConfiguration.baseImageUrl}${state.homeResponse.spotlight?[index].poster}"
+                                                : "",
+                                            catImage: state
+                                                        .homeResponse
+                                                        .spotlight?[index]
+                                                        .catPoster !=
+                                                    null
+                                                ? "${APICallerConfiguration.baseImageUrl}${state.homeResponse.spotlight?[index].catPoster}"
+                                                : "",
+                                            date: state.homeResponse
+                                                    .spotlight?[index].date ??
+                                                "",
+                                          ),
+                                        )),
+                              ),
+                            ],
+                          ),
+                        if (state.homeResponse.category != null)
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 16),
+                                child: Text(
+                                  'categories'.toUpperCase(),
                                   style: homeLabelStyle,
                                 ),
-                                SizedBox(
-                                  height: 180,
-                                  child: ListView.builder(
+                              ),
+                              Column(
+                                children: [
+                                  SizedBox(
+                                    height: 150,
+                                    child: PageView.builder(
+                                      controller: _scrollController,
                                       itemCount:
-                                          state.homeResponse.today?.length ?? 0,
+                                          (state.homeResponse.category!.length /
+                                                  4)
+                                              .ceil(),
                                       scrollDirection: Axis.horizontal,
-                                      itemBuilder: (context, index) => InkWell(
-                                            onTap: (SessionManagement
-                                                        .getUserRole() !=
-                                                    "")
-                                                ? () {
-                                                    routeToEventDetails(
-                                                        context,
-                                                        state
-                                                                .homeResponse
-                                                                .today?[index]
-                                                                .id ??
-                                                            -1);
-                                                  }
-                                                : () async {
-                                                    routeToEventDetails(
-                                                        context,
-                                                        state
-                                                                .homeResponse
-                                                                .today?[index]
-                                                                .id ??
-                                                            -1);
-                                                    await Future.delayed(
-                                                        const Duration(
-                                                            seconds: 2));
-                                                    AutoRouter.of(context)
-                                                        .popAndPush(
-                                                            const LoginRoute());
-                                                  },
-                                            child: HomeEventItem(
-                                              name: state.homeResponse
-                                                      .today?[index].name ??
-                                                  "",
-                                              image: state
-                                                          .homeResponse
-                                                          .today?[index]
-                                                          .poster !=
-                                                      null
-                                                  ? "${APICallerConfiguration.baseImageUrl}${state.homeResponse.today?[index].poster}"
-                                                  : "",
-                                              catImage: state
-                                                          .homeResponse
-                                                          .today?[index]
-                                                          .catPoster !=
-                                                      null
-                                                  ? "${APICallerConfiguration.baseImageUrl}${state.homeResponse.today?[index].catPoster}"
-                                                  : "",
-                                              date: state.homeResponse
-                                                      .today?[index].date ??
-                                                  "",
-                                            ),
-                                          )),
-                                ),
-                              ],
-                            ),
-                          const Gap(16),
-                          Image.asset(
-                            AssetsData.bottomBanner,
+                                      itemBuilder: (context, pageIndex) {
+                                        return Row(
+                                          children: List.generate(
+                                            3,
+                                            (index) {
+                                              final categoryIndex =
+                                                  pageIndex * 4 + index;
+                                              if (categoryIndex <
+                                                  state.homeResponse.category!
+                                                      .length) {
+                                                return Expanded(
+                                                  child: InkWell(
+                                                    onTap: (SessionManagement
+                                                                .getUserRole() !=
+                                                            "")
+                                                        ? () {
+                                                            widget.onCatTapped(
+                                                                categoryIndex);
+                                                          }
+                                                        : () {
+                                                            AutoRouter.of(
+                                                                    context)
+                                                                .popAndPush(
+                                                                    const LoginRoute());
+                                                          },
+                                                    child: Container(
+                                                      margin: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 4),
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        border: Border.all(
+                                                            color: Colors.white,
+                                                            width: 3),
+                                                      ),
+                                                      child: Column(
+                                                        children: [
+                                                          ClipRRect(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        17),
+                                                            child:
+                                                                CachedNetworkImage(
+                                                              width: 70,
+                                                              height: 70,
+                                                              imageUrl:
+                                                                  "${APICallerConfiguration.baseImageUrl}${state.homeResponse.category![categoryIndex].image}",
+                                                              fit: BoxFit.cover,
+                                                              errorWidget: (context,
+                                                                      url,
+                                                                      error) =>
+                                                                  Image.asset(
+                                                                AssetsData
+                                                                    .eventImg,
+                                                                fit: BoxFit
+                                                                    .contain,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          const SizedBox(
+                                                              height: 4),
+                                                          Text(
+                                                            state
+                                                                    .homeResponse
+                                                                    .category![
+                                                                        categoryIndex]
+                                                                    .name ??
+                                                                "",
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style:
+                                                                homeLabel3Style,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                );
+                                              } else {
+                                                return Expanded(
+                                                  child:
+                                                      Container(), // Placeholder for empty space
+                                                );
+                                              }
+                                            },
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8),
+                                    child: SmoothPageIndicator(
+                                      controller: _scrollController,
+                                      count:
+                                          (state.homeResponse.category!.length /
+                                                  4)
+                                              .ceil(),
+                                      effect: const ScrollingDotsEffect(
+                                        dotWidth: 8,
+                                        dotHeight: 8,
+                                        spacing: 5.0,
+                                        dotColor: Colors.grey,
+                                        activeDotColor: Color(0xFFFF73C6),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
-                          const Gap(16),
-                          // SizedBox(height: MediaQuery.of(context).size.height*0.1,)
-                        ]),
-                  ),
+                        if (state.homeResponse.today != null)
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Gap(16),
+                              const Text(
+                                'Happening today',
+                                style: homeLabelStyle,
+                              ),
+                              SizedBox(
+                                height: 180,
+                                child: ListView.builder(
+                                    itemCount:
+                                        state.homeResponse.today?.length ?? 0,
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder: (context, index) => InkWell(
+                                          onTap: (SessionManagement
+                                                      .getUserRole() !=
+                                                  "")
+                                              ? () {
+                                                  routeToEventDetails(
+                                                      context,
+                                                      state
+                                                              .homeResponse
+                                                              .today?[index]
+                                                              .id ??
+                                                          -1);
+                                                }
+                                              : () async {
+                                                  routeToEventDetails(
+                                                      context,
+                                                      state
+                                                              .homeResponse
+                                                              .today?[index]
+                                                              .id ??
+                                                          -1);
+                                                  await Future.delayed(
+                                                      const Duration(
+                                                          seconds: 2));
+                                                  AutoRouter.of(context)
+                                                      .popAndPush(
+                                                          const LoginRoute());
+                                                },
+                                          child: HomeEventItem(
+                                            name: state.homeResponse
+                                                    .today?[index].name ??
+                                                "",
+                                            image: state.homeResponse
+                                                        .today?[index].poster !=
+                                                    null
+                                                ? "${APICallerConfiguration.baseImageUrl}${state.homeResponse.today?[index].poster}"
+                                                : "",
+                                            catImage: state
+                                                        .homeResponse
+                                                        .today?[index]
+                                                        .catPoster !=
+                                                    null
+                                                ? "${APICallerConfiguration.baseImageUrl}${state.homeResponse.today?[index].catPoster}"
+                                                : "",
+                                            date: state.homeResponse
+                                                    .today?[index].date ??
+                                                "",
+                                          ),
+                                        )),
+                              ),
+                            ],
+                          ),
+                        const Gap(16),
+                        Image.asset(
+                          AssetsData.bottomBanner,
+                        ),
+                        const Gap(16),
+                        // SizedBox(height: MediaQuery.of(context).size.height*0.1,)
+                      ]),
                 ),
               );
             } else {

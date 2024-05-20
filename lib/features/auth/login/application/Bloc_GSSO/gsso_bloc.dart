@@ -28,6 +28,7 @@ class GSSOBloc extends Bloc<GSSOEvent, GSSOState> {
       );
     emit(GSSOSuccessState(gSSOResponse:response));
     if(response?.succeeded==false){
+      print("GSSO Fail");
       emit(GSSOErrorState(error: response?.errors.toString()));
     }
   }

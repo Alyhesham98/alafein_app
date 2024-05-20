@@ -220,7 +220,7 @@ class _LoginBodyState extends State<LoginBody>
                             print("u contiue with google button");
                             // state is GoogleAuthLoadingState ? null : () => context.read<GoogleAuthCubit>().login();
                             context.read<GoogleAuthCubit>().login(context);
-                            print("${state is GoogleAuthLoadingState}");
+                            print("State of Google: ${state is GoogleAuthLoadingState}");
                           },
                           platform: 'Google',
                           image: AssetsData.google,

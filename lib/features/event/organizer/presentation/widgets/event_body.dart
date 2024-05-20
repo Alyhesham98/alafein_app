@@ -98,7 +98,7 @@ class _EventbodyState extends State<Eventbody> {
       MainScreen.isClicked = false;
     }
     return CustomScrollView(
-      physics: const NeverScrollableScrollPhysics(),
+      // physics: const NeverScrollableScrollPhysics(),
       slivers: [
         SliverToBoxAdapter(
           child:
@@ -247,16 +247,20 @@ class _EventbodyState extends State<Eventbody> {
                                   children: [
                                     ClipRRect(
                                       borderRadius: BorderRadius.circular(17),
-                                      child: CachedNetworkImage(
+                                      child: successState.eventCatigories[index].id == 0
+                                          ? Image.asset(
+                                        'assets/images/AlaFeinLogo.png',
                                         width: 70,
-                                        imageUrl:
-                                        "${APICallerConfiguration.baseImageUrl}${successState.eventCatigories[index].image}",
                                         fit: BoxFit.fitWidth,
-                                        errorWidget: (context, url, error) =>
-                                            Image.asset(
-                                              AssetsData.eventImg,
-                                              fit: BoxFit.contain,
-                                            ),
+                                      )
+                                          : CachedNetworkImage(
+                                        width: 70,
+                                        imageUrl: "${APICallerConfiguration.baseImageUrl}${successState.eventCatigories[index].image}",
+                                        fit: BoxFit.fitWidth,
+                                        errorWidget: (context, url, error) => Image.asset(
+                                          AssetsData.eventImg,
+                                          fit: BoxFit.contain,
+                                        ),
                                       ),
                                     ),
                                     const Gap(4),

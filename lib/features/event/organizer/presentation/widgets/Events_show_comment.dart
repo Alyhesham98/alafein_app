@@ -11,7 +11,9 @@ import 'package:alafein/features/event/organizer/presentation/widgets/descriptio
 import 'package:alafein/features/event/organizer/presentation/widgets/event_deatils_items.dart';
 import 'package:alafein/features/event/organizer/presentation/widgets/event_name_items.dart';
 import 'package:alafein/features/event/organizer/presentation/widgets/list_comment_items.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -119,14 +121,14 @@ class EventsShowCommentBody extends StatelessWidget {
                 ),
               if (getDeatils.eventOrganizer != null)
                 EventDeatilsItem(
-                  address: getDeatils.venue?.address ?? "",
-                  facebook: getDeatils.venue?.facebook ?? "",
-                  instagram: getDeatils.venue?.instagram ?? "",
-                  mapLink: getDeatils.venue?.mapLink ?? "",
-                  other: getDeatils.venue?.other ?? "",
-                  photo: getDeatils.venue?.photo ?? "",
-                  websiteURL: getDeatils.venue?.websiteUrl ?? "",
-                  name: getDeatils.venue?.name ?? "",
+                  address: getDeatils.eventOrganizer?['Address'] ?? "",
+                  facebook: getDeatils.eventOrganizer?['Facebook'] ?? "",
+                  instagram: getDeatils.eventOrganizer?['Instagram'] ?? "",
+                  mapLink: getDeatils.eventOrganizer?['MapLink'] ?? "",
+                  other: getDeatils.eventOrganizer?['Other'] ?? "",
+                  photo: getDeatils.eventOrganizer?['Photo'] ?? "",
+                  websiteURL: getDeatils.eventOrganizer?['WebsiteURL'] ?? "",
+                  name: getDeatils.eventOrganizer?['Name'] ?? "",
                   whatsapp: '',
                   size: size,
                   organizerID: getDeatils.eventOrganizer?['Id'] ?? 0,
@@ -134,6 +136,7 @@ class EventsShowCommentBody extends StatelessWidget {
               const Padding(
                 padding: EdgeInsets.only(
                   left: 24,
+                  top: 20,
                 ),
                 child: Text(
                   "VENUE",
@@ -162,7 +165,10 @@ class EventsShowCommentBody extends StatelessWidget {
                   style: homeLabelStyle,
                 ),
               ),
-              SizedBox(height: 200, child: ListCommetItems(comments)),
+              if (comments.isNotEmpty) SizedBox(
+                height: 200,
+                child: ListCommetItems(comments),
+              ),
               if (getDeatils.attendanceOption?.name == "Registration")
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),

@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>587761639039-7tc1823ips55gt7afa13i4b1r3r2ng11.apps.googleusercontent.com</string>
+	<string>587761639039-g2l2j3h8ndrcpe4jq5jrse4h31t8k0vp.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.587761639039-7tc1823ips55gt7afa13i4b1r3r2ng11</string>
+	<string>com.googleusercontent.apps.587761639039-g2l2j3h8ndrcpe4jq5jrse4h31t8k0vp</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>587761639039-nme8uh34kc0h86eklfmpa7rpaerofkkv.apps.googleusercontent.com</string>
+	<string>587761639039-fvtpgo04oh2b90sqkqac3bhsjcmu0403.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyD0cK_IGcj5nTxdag3j8Z8jB5fcu4yka0E</string>
 	<key>GCM_SENDER_ID</key>
@@ -15,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.alafein</string>
+	<string>com.alafeinteam.alafein</string>
 	<key>PROJECT_ID</key>
 	<string>alafein</string>
 	<key>STORAGE_BUCKET</key>
@@ -31,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:587761639039:ios:c84d2a9c017ca35029a94a</string>
+	<string>1:587761639039:ios:91b6e0a954c9e01229a94a</string>
 </dict>
 </plist>

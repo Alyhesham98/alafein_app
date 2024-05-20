@@ -34,7 +34,7 @@ class DeatilsItems extends StatelessWidget {
           fit: BoxFit.scaleDown,
           child: Text(
             text.length > 35
-                ? '${text.substring(0, 35)}...'
+                ? '${text.substring(0, 30)}...'
                 : text,
           ),
         ),

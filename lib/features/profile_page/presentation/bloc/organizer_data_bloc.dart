@@ -32,7 +32,14 @@ class OrganizerDataBloc extends Bloc<OrganizerDataEvent, OrganizerDataState> {
     print(
         "=====================================================================.");
 
-    Organizer? organizerData = await OrganizerPageRepo.fetchOrganizer(id); // Pass id here
-    emit(OrganizerDataFetchingSuccessfulState(organizerData: organizerData));
+    // Fetch both organizer and user data from the repository
+    Map<String, dynamic>? organizerData = await OrganizerPageRepo.fetchOrganizer(id); // Pass id here
+
+// Extract organizer and user data from the map
+    Organizer? organizer = organizerData?['organizerData'];
+    ProfileOrg? userData = organizerData?['userData'];
+
+    // Organizer? organizerData = await OrganizerPageRepo.fetchOrganizer(id); // Pass id here
+    emit(OrganizerDataFetchingSuccessfulState(organizerData: organizer, userData: userData));
   }
 }

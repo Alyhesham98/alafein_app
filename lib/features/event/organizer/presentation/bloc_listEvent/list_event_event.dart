@@ -8,3 +8,4 @@ class ListEventInitialFetchEvent extends ListEventEvent {
 
   ListEventInitialFetchEvent({required this.isCategory, required this.categoryId});
 }
+

@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -66,10 +67,15 @@ class BranchDataPage extends StatelessWidget {
                   width: 24,
                   height: 24,
                 ),
+                // Text(
+                //   branch.address ?? '',
+                //   style: descTextGrayStyle,
+                //   textAlign: TextAlign.start,
+                // ),
                 Text(
-                  branch.address ?? '',
-                  style: descTextGrayStyle,
-                  textAlign: TextAlign.start,
+                  branch.address!.length > 35
+                      ? '${branch.address?.substring(0, 30)}...'
+                      : branch.address ?? '',
                 ),
                 InkWell(
                     child: IconButton(
@@ -101,17 +107,20 @@ class BranchDataPage extends StatelessWidget {
               ),
             ),
             Gap(4.sw),
-            Text(
-              "Schedule",
-              style: venueProfileTextStyle,
-              textAlign: TextAlign.start,
+            Visibility(
+              visible: uiState.schedule != null && uiState.schedule!.isNotEmpty,
+              child: Text(
+                "Schedule",
+                style: venueProfileTextStyle,
+                textAlign: TextAlign.start,
+              ),
             ),
             Column(
               children: pages,
             ),
             Gap(4.sw),
             Visibility(
-              visible: uiState.photos!.isEmpty,
+              visible: uiState.photos != null && uiState.photos!.isNotEmpty,
               child: Column(
                 children: [
                   Text(
@@ -154,7 +163,7 @@ class BranchDataPage extends StatelessWidget {
               ),
             ),
             Visibility(
-              visible: uiState.facilities!.isNotEmpty,
+              visible: uiState.facilities != null && uiState.facilities!.isNotEmpty,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -172,15 +181,26 @@ class BranchDataPage extends StatelessWidget {
                         itemBuilder: (c, i) {
                           return ClipRRect(
                             borderRadius: BorderRadius.circular(17),
-                            child: SvgPicture.network("${APICallerConfiguration.baseImageUrl}${uiState.facilities?[i].imagePath}",width: 107,height: 48,),
+                            child: Image.network(
+                              "${APICallerConfiguration.baseImageUrl}${uiState.facilities?[i].imagePath}",
+                              width: 107,
+                              height: 48,
+                              fit: BoxFit.contain,
+                              loadingBuilder: (context, child, loadingProgress) {
+                                if (loadingProgress == null) return child;
+                                return Center(child: CircularProgressIndicator());
+                              },
+                              errorBuilder: (context, error, stackTrace) => Icon(Icons.error),
+                            ),
                           );
                         },
-                        separatorBuilder: (c, i) {
-                          return const SizedBox(
-                            width: 16,
-                          );
-                        },
-                        itemCount: uiState.facilities?.length ?? 0),
+                      separatorBuilder: (context, index) {
+                        return const SizedBox(
+                          width: 16,
+                        );
+                      },
+                      itemCount: uiState.facilities?.length ?? 0,
+                    ),
                   ),
                 ],
               ),

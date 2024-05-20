@@ -14,7 +14,10 @@ class Eventpage extends StatelessWidget {
     var size = MediaQuery.of(context).size;
     return BlocProvider(
       create: (context) => GetEventCubit()..getEventPagination(),
-      child: Eventbody(size: size,catId: catId,),
+      child: Eventbody(
+        size: size,
+        catId: catId,
+      ),
     );
   }
 }

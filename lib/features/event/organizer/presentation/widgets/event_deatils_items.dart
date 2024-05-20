@@ -7,6 +7,7 @@ import 'package:svg_flutter/svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:alafein/features/event/data/model/event_datils/event_deatils_model/venue.dart';
 
+import '../../../../../core/api/constants/api_caller_config.dart';
 import '../../../../profile_page/presentation/screen/profile_info/organizer_info.dart';
 import '../../../../profile_page/presentation/screen/profile_info/venue_info.dart';
 class EventDeatilsItem extends StatelessWidget {
@@ -59,18 +60,18 @@ class EventDeatilsItem extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (c) => VenueInfoPage(venueID: venueID),
+                      builder: (c) => VenueInfoPage(venueID: venueID, photo: photo),
                     ));
               } else{
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (c) => OrganizerInfoPage(organizerID: organizerID),
+                      builder: (c) => OrganizerInfoPage(organizerID: organizerID, ),
                     ));
               }
             },
             child: CustomEventImage(
-              imageurl: photo,
+              imageurl:  '${APICallerConfiguration.baseImageUrl}${photo}',
             ),
           ),
 

@@ -17,8 +17,9 @@ import 'venue_profile.dart';
 
 class VenueInfoPage extends StatefulWidget {
   final int? venueID;
+  final String? photo;
 
-  const VenueInfoPage({Key? key, this.venueID}) : super(key: key);
+  const VenueInfoPage({super.key, this.venueID, this.photo});
 
   @override
   _VenueInfoPageState createState() => _VenueInfoPageState();
@@ -50,6 +51,7 @@ class _VenueInfoPageState extends State<VenueInfoPage> {
             return VenueDataProfile(
               successState: state,
               venueDataBloc: venueDataBloc,
+              photo: widget.photo,
             );
           }
           return Container();

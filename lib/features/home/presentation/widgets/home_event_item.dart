@@ -63,9 +63,16 @@ class HomeEventItem extends StatelessWidget {
           const Gap(8),
           Text(
             name,
-            style: homeLabel2Style,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: homeLabel2Style.copyWith(fontSize: 16),
           ),
-          Text(date, style: secondaryTextStyle)
+          Text(
+            date,
+            maxLines: 1, // Adjust as needed
+            overflow: TextOverflow.ellipsis,
+            style: secondaryTextStyle.copyWith(fontSize: 11),
+          ),
         ],
       ),
     );
