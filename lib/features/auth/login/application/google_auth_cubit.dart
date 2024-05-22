@@ -27,24 +27,35 @@ class GoogleAuthCubit extends Cubit<GoogleAuthState> {
     emit(GoogleAuthLoadingState());
     try {
       // select google account
-     late final GoogleSignInAccount? userAccont;
-      try{
+      late final GoogleSignInAccount? userAccont;
+      try {
         print("try await signIn");
         userAccont = await _googleSignIn.signIn();
-      }
-      catch(e){
-        print("Error amr $e");
+        print("signIn completed: $userAccont");
+      } catch (e) {
+        print("Error during signIn: $e");
+        emit(GoogleAuthFaildState("Error during signIn: $e"));
+        return;
       }
 
       // user dismissed the account dilog
-      if (userAccont == null) return;
+      if (userAccont == null) {
+        print("User cancelled the Google sign-in dialog.");
+        emit(GoogleAuthFaildState("User cancelled the Google sign-in dialog."));
+        return;
+      }
 
       //get authentication object from account
-     print("test before auth");
-     final GoogleSignInAuthentication googleAuth = await userAccont.authentication;
-      print(
-          "================================================================================");
-      print("get authentication object from account");
+      print("test before auth");
+      GoogleSignInAuthentication googleAuth;
+      try {
+        googleAuth = await userAccont.authentication;
+        print("GoogleAuth obtained: $googleAuth");
+      } catch (e) {
+        print("Error obtaining GoogleAuth: $e");
+        emit(GoogleAuthFaildState("Error obtaining GoogleAuth: $e"));
+        return;
+      }
       print(
           "================================================================================");
       //create OauthCredentials from auth object
@@ -54,46 +65,59 @@ class GoogleAuthCubit extends Cubit<GoogleAuthState> {
       );
       print(
           "================================================================================");
-      log("create OauthCredentials from auth object:\naccessToken:${googleAuth
-          .accessToken}");
+      log("create OauthCredentials from auth object:\naccessToken:${googleAuth.accessToken}");
       log("idToken:${googleAuth.idToken}");
-      if (googleAuth.idToken!.isNotEmpty && googleAuth.idToken != null) {
+      // if (googleAuth.idToken!.isNotEmpty && googleAuth.idToken != null) {
+      //   SessionManagement.googleIdToken(googleAuth.idToken!);
+      // }
+      if (googleAuth.idToken != null && googleAuth.idToken!.isNotEmpty) {
         SessionManagement.googleIdToken(googleAuth.idToken!);
+      } else {
+        print("Error: idToken is null or empty.");
+        emit(GoogleAuthFaildState("Error: idToken is null or empty."));
+        return;
       }
       print(
           "================================================================================");
 
-      //login to firebase using the Credential
-      final userCredential = await _auth.signInWithCredential(credential)
-          .whenComplete(() =>
-          gssoBloc.add(GSSOInitialEvent(
-              accessToken:
-              SessionManagement.getGoogleIdToken() ??
-                  '',
-              notificationToken: SessionManagement
-                  .getNotificationToken() ??
-                  ''))
-
-      );
-      AutoRouter.of(context).replace(
-        OnboardingRoute(route: MainRoute()),
-      );
-      print(
-          "================================================================================");
       print("logining to firebase using the Credential");
-      print(
-          "================================================================================");
+      try {
+        final userCredential =
+            await _auth.signInWithCredential(credential).whenComplete(() {
+          gssoBloc.add(GSSOInitialEvent(
+            accessToken: SessionManagement.getGoogleIdToken() ?? '',
+            notificationToken: SessionManagement.getNotificationToken() ?? '',
+          ));
+        });
+        AutoRouter.of(context).replace(OnboardingRoute(route: MainRoute()));
+        print(
+            "================================================================================");
+        print("logining to firebase using the Credential");
+        print(
+            "================================================================================");
 
-      emit(
-          GoogleAuthSuccessState(/*userCredential.user! as GoogleLoginState*/));
+        print("Firebase sign-in successful: $userCredential");
+        emit(GoogleAuthSuccessState());
+      } catch (e) {
+        print("Error during Firebase sign-in: $e");
+        emit(GoogleAuthFaildState("Error during Firebase sign-in: $e"));
+        return;
+      }
+
+      // emit(
+      //     GoogleAuthSuccessState(/*userCredential.user! as GoogleLoginState*/));
       print(
           "================================================================================");
       print("Success Credential");
       print(
           "================================================================================");
+      // } catch (e) {
+      //   emit(GoogleAuthFaildState(e.toString()));
+      //   print("Error:$e");
+      // }
     } catch (e) {
-      emit(GoogleAuthFaildState(e.toString()));
-      print("Error:$e");
+      print("Unexpected error: $e");
+      emit(GoogleAuthFaildState("Unexpected error: $e"));
     }
   }
 }

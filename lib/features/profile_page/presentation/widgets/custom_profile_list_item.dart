@@ -151,13 +151,25 @@ class CustomProfileAppBarEvent extends StatelessWidget {
     );
   }
 
+  // Future<void> _deleteCacheDir() async {
+  //   final cacheDir = await getTemporaryDirectory();
+  //
+  //   if (cacheDir.existsSync()) {
+  //     cacheDir.deleteSync(recursive: true);
+  //   }
+  // }
   Future<void> _deleteCacheDir() async {
-    final cacheDir = await getTemporaryDirectory();
+    try {
+      final cacheDir = await getTemporaryDirectory();
 
-    if (cacheDir.existsSync()) {
-      cacheDir.deleteSync(recursive: true);
+      if (await cacheDir.exists()) {
+        await cacheDir.delete(recursive: true);
+      }
+    } catch (e) {
+      print("Failed to delete cache directory: $e");
     }
   }
+
 
   Future<void> _showPopUp(BuildContext context) async {
     return showModalBottomSheet(
