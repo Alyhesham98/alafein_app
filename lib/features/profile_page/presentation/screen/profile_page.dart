@@ -1,4 +1,3 @@
-
 import 'package:alafein/core/local_data/session_management.dart';
 import 'package:alafein/features/profile_page/presentation/widgets/custom_profile_list_item.dart';
 
@@ -12,6 +11,10 @@ class Profilepage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final DateTime currentDate = DateTime.now();
+    print('date now = $currentDate');
+    final DateTime targetDate = DateTime(2024, 5, 26);
+
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: [
@@ -55,7 +58,14 @@ class Profilepage extends StatelessWidget {
                   title: "REGISTER",
                   onTap: 4,
                   color: Colors.redAccent,
-                )
+                ),
+              if (SessionManagement.getUserRole() != "" &&
+                  currentDate.isBefore(targetDate))
+                const CustomProfileAppBarEvent(
+                  title: "DELETE ACCOUNT",
+                  onTap: 5,
+                  color: Colors.redAccent,
+                ),
             ]),
           ),
         ),
@@ -63,7 +73,5 @@ class Profilepage extends StatelessWidget {
 
       ///buttons
     );
-
   }
-
 }

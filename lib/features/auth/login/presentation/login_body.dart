@@ -88,7 +88,7 @@ class _LoginBodyState extends State<LoginBody>
                     ),
                     Gap(6.sw),
                     const EmailField(),
-                    Gap(6.sw),
+                    // Gap(6.sw),
                     const PasswordField(),
                     Gap(6.sw),
                     MainCustomButton(
@@ -100,13 +100,13 @@ class _LoginBodyState extends State<LoginBody>
                         }
                       },
                     ),
-                    Gap(6.sw),
-                    SecondaryCustomButton(
-                      text: 'Skip',
-                      onPressed: () async {
-                        AutoRouter.of(context).replaceAll([MainRoute()]);
-                      },
-                    ),
+                    // Gap(6.sw),
+                    // SecondaryCustomButton(
+                    //   text: 'Skip',
+                    //   onPressed: () async {
+                    //     AutoRouter.of(context).replaceAll([MainRoute()]);
+                    //   },
+                    // ),
                     Gap(4.sw),
                     // Row(
                     //   children: [
@@ -157,12 +157,12 @@ class _LoginBodyState extends State<LoginBody>
                         AutoRouter.of(context).push(const SignupRoute());
                       },
                     ),
-                    Gap(4.sw),
-                    PlatformCustomButton(
-                      onPressed: () {},
-                      platform: 'Apple',
-                      image: AssetsData.apple,
-                    ),
+                    // Gap(4.sw),
+                    // PlatformCustomButton(
+                    //   onPressed: () {},
+                    //   platform: 'Apple',
+                    //   image: AssetsData.apple,
+                    // ),
                     Gap(4.sw),
                     BlocConsumer<GoogleAuthCubit, GoogleAuthState>(
                       listener: (context, state) {
@@ -227,27 +227,27 @@ class _LoginBodyState extends State<LoginBody>
                         );
                       },
                     ),
-                    Gap(4.sw),
-                    PlatformCustomButton(
-                      onPressed: () {
-
-                        try{
-                          FacebookAuth.instance.login(
-                              permissions: ["public_profile","email"]
-                          ).then((value) => {
-                            FacebookAuth.instance.getUserData().then((value) => {
-                              print(value)
-                            })
-
-                          });
-                        }
-                        catch(e){
-                          print(e);
-                        }
-                      },
-                      platform: 'Facebook',
-                      image: AssetsData.facebook,
-                    ),
+                    // Gap(4.sw),
+                    // PlatformCustomButton(
+                    //   onPressed: () {
+                    //
+                    //     try{
+                    //       FacebookAuth.instance.login(
+                    //           permissions: ["public_profile","email"]
+                    //       ).then((value) => {
+                    //         FacebookAuth.instance.getUserData().then((value) => {
+                    //           print(value)
+                    //         })
+                    //
+                    //       });
+                    //     }
+                    //     catch(e){
+                    //       print(e);
+                    //     }
+                    //   },
+                    //   platform: 'Facebook',
+                    //   image: AssetsData.facebook,
+                    // ),
                   ],
                 ),
               );

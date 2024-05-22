@@ -92,14 +92,58 @@ class CustomProfileAppBarEvent extends StatelessWidget {
                               .replaceAll([const LoginRoute()]);
                         }
                       } else {
-                        AutoRouter.of(context)
-                            .replaceAll([const LoginRoute()]);
+                        AutoRouter.of(context).replaceAll([const LoginRoute()]);
                       }
                       await _deleteCacheDir();
                       EasyLoading.dismiss();
                     }
                     break;
-                  default:
+                  case 5:
+                    {
+                      // Show confirmation dialog
+                      bool confirmed = await showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text("Delete Account"),
+                            content: const Text(
+                                "Are you sure you want to delete your account?"),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop(false);
+                                },
+                                child: const Text("No"),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop(true);
+                                },
+                                child: const Text("Yes"),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+
+                      if (confirmed == true) {
+                        // User confirmed, proceed with account deletion
+                        EasyLoading.show(status: 'Deleting Account');
+                        await Future.delayed(const Duration(seconds: 2));
+                        SessionManagement.signOut();
+                        if (await googleSignIn.isSignedIn()) {
+                          await googleSignIn.signOut().whenComplete(() {
+                            AutoRouter.of(context)
+                                .replaceAll([const LoginRoute()]);
+                          });
+                        } else {
+                          AutoRouter.of(context)
+                              .replaceAll([const LoginRoute()]);
+                        }
+                        await _deleteCacheDir();
+                        EasyLoading.dismiss();
+                      }
+                    }
                     break;
                 }
               },
