@@ -120,12 +120,12 @@ class _OrganizerProfileState extends State<OrganizerProfile> {
                         child: null,
                       ), 
                       
-                    const Gap(24),
+                    // const Gap(24),
                     const Text(
                       'PERSONAL INFORMATION',
                       style: homeLabel4Style,
                     ),
-                    const Gap(16),
+                    // const Gap(16),
                      CustomInput(
                       title: "First Name:${widget.successState.profilePage?.firstName ??
                           "first name"}", 

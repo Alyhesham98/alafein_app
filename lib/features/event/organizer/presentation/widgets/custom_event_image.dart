@@ -12,14 +12,17 @@ class CustomEventImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CachedNetworkImage(
-      imageUrl: imageurl,
-      fit: BoxFit.contain,
-      width: 120,
-      height: 120,
-      errorWidget: (context, url, error) => Image.asset(
-        AssetsData.eventImg,
-        fit: BoxFit.cover,
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(8.0), // Adjust the radius as needed
+      child: CachedNetworkImage(
+        imageUrl: imageurl,
+        fit: BoxFit.fill,
+        width: 120,
+        height: 120,
+        errorWidget: (context, url, error) => Image.asset(
+          AssetsData.eventImg,
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }

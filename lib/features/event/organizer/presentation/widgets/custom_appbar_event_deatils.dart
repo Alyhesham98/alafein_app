@@ -39,23 +39,23 @@ class CustomAppBarEventDeatils extends StatelessWidget {
             ),
           ),
         ),
-        Positioned(
-          top: 30,
-          right: 8,
-          child: GestureDetector(
-            onTap: () {
-              Share.share('Check out this event! \nI would like if you joined me there. \nhttps://alafeinapp.z19.web.core.windows.net/event_details_route/$eventId');
-            },
-            child: Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(50),
-                  border: Border.all(color: Colors.white, width: 1.5)),
-              child: const Icon(Icons.share),
-            ),
-          ),
-        ),
+        // Positioned(
+        //   top: 30,
+        //   right: 8,
+        //   child: GestureDetector(
+        //     onTap: () {
+        //       Share.share('Check out this event! \nI would like if you joined me there. \nhttps://alafeinapp.z19.web.core.windows.net/event_details_route/$eventId');
+        //     },
+        //     child: Container(
+        //       padding: const EdgeInsets.all(8),
+        //       decoration: BoxDecoration(
+        //           color: Colors.white,
+        //           borderRadius: BorderRadius.circular(50),
+        //           border: Border.all(color: Colors.white, width: 1.5)),
+        //       child: const Icon(Icons.share),
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }

@@ -1,5 +1,6 @@
 import 'package:alafein/core/utility/theme.dart';
 import 'package:alafein/features/event/organizer/presentation/widgets/deatils_items.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -25,8 +26,8 @@ class Deatils extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            "Details",
+           Text(
+            "Details".tr(),
             style: homeLabelStyle,
           ),
           const Gap(16),
@@ -45,11 +46,12 @@ class Deatils extends StatelessWidget {
               const Gap(22),
               if (!isFree)
                 DeatilsItems(
-                  icon: const Icon(
-                    Icons.attach_money_outlined,
-                    color: Color(0xFF7C7C7C),
-                  ),
-                  text: price.toString(),
+                  icon: const Gap(0),
+                  // const Icon(
+                  //   Icons.attach_money_outlined,
+                  //   color: Color(0xFF7C7C7C),
+                  // ),
+                  text: price.toString() + ' EGP',
                   location: '',
                   eventName: eventName,
                   name: name
@@ -59,25 +61,25 @@ class Deatils extends StatelessWidget {
           const Gap(16),
           Row(
             children: [
-              DeatilsItems(
-                  icon: const Icon(
-                    Icons.location_on,
-                    color: Color(0xFF7C7C7C),
-                  ),
-                  text: postion,
-                  location: location,
-                  eventName: eventName,
-                  name: name
-              ),
               InkWell(
                 onTap: () {
                   launchUrl(Uri.parse(location));
                 },
-                child: const Icon(
-                  Icons.link,
-                  size: 15,
-                  color: Colors.grey,
+                child: DeatilsItems(
+                    icon: const Icon(
+                      Icons.location_on,
+                      color: Color(0xFF7C7C7C),
+                    ),
+                    text: postion,
+                    location: location,
+                    eventName: eventName,
+                    name: name
                 ),
+              ),
+              const Icon(
+                Icons.link,
+                size: 15,
+                color: Colors.grey,
               ),
             ],
           ),

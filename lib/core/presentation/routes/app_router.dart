@@ -23,7 +23,7 @@ class AppRouter extends $AppRouter {
             page: SignupVenueBranchRoute.page, path: '/signup-venue-branch'),
         AutoRoute(page: CreateEventRoute.page, path: '/create_event_route'),
         AutoRoute(page: EventDeatilsPage.page, path: '/event_details_route/:id'),
-      ];
+  ];
 
 }
 

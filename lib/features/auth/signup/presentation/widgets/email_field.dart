@@ -2,6 +2,7 @@ import 'package:alafein/core/utility/colors_data.dart';
 import 'package:alafein/core/utility/strings.dart';
 import 'package:alafein/core/utility/theme.dart';
 import 'package:alafein/features/auth/signup/application/signup_cubit/signup_cubit.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -81,8 +82,8 @@ class _EmailFieldState extends State<EmailField> {
           disabledBorder: textFormFieldBorderStyle,
           floatingLabelBehavior: FloatingLabelBehavior.never,
           fillColor: Colors.white,
-          label: const Text(
-            'Email',
+          label: Text(
+            'Email'.tr(),
           ),
           labelStyle: const TextStyle(
               color: kHintColor,

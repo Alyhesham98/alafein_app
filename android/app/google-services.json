@@ -7,6 +7,42 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:587761639039:android:dfd53cba0e39559829a94a",
+        "android_client_info": {
+          "package_name": "com.app.alafein"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "587761639039-9j8u9grfd98cajlb0i4p9i0c2aa91s48.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWtGpWFRGcb7EQM_T7nNrlM2ad-dTj1kQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "587761639039-77bms7tgqabsj7klnrjual88br0aek58.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "587761639039-4krq5i2calsuhmqpmev8it5i0qqnefpq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.codebook.simpleChatFlutter"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:587761639039:android:527e3b86c88a13b929a94a",
         "android_client_info": {
           "package_name": "com.codebook.simple_chat_flutter"

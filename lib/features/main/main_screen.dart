@@ -8,6 +8,7 @@ import 'package:alafein/features/favourite/presentation/views/favoritepage.dart'
 import 'package:alafein/features/home/presentation/home_page.dart';
 import 'package:alafein/features/profile_page/presentation/screen/profile_page.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:svg_flutter/svg_flutter.dart';
 
@@ -84,7 +85,7 @@ class _MainScreenState extends State<MainScreen> {
               width: 24,
               height: 24,
             ),
-            label: 'Home',
+            label: 'Home'.tr(),
             activeIcon: SvgPicture.asset(
               AssetsData.svgIcHome,
               width: 24,
@@ -98,7 +99,7 @@ class _MainScreenState extends State<MainScreen> {
               width: 24,
               height: 24,
             ),
-            label: 'Events',
+            label: 'Events'.tr(),
             activeIcon: SvgPicture.asset(
               AssetsData.svgIcEvents,
               width: 24,
@@ -124,7 +125,7 @@ class _MainScreenState extends State<MainScreen> {
                 width: 24,
                 height: 24,
               ),
-              label: 'Favourite',
+              label: 'Favourite'.tr(),
               activeIcon: SvgPicture.asset(
                 AssetsData.svgIcFavorite,
                 width: 24,
@@ -137,7 +138,7 @@ class _MainScreenState extends State<MainScreen> {
               width: 24,
               height: 24,
             ),
-            label: 'Profile',
+            label: 'Profile'.tr(),
             activeIcon: SvgPicture.asset(
               AssetsData.svgIcProfile,
               width: 24,

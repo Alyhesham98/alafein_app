@@ -17,6 +17,7 @@ class SessionManagement {
   static const String ON_Boarding_KEY = "on_boarding_key";
   static const String IS_LOGIN_KEY = "login_key";
   static const String TOKEN_KEY = "token_key";
+  static const String TOKEN_EXPIRATION_KEY = "token_expiration_key";
   static const String GIDTOKEN_KEY = "g_id_token_key";
   static const String NOTIFICATIONS_TOKEN_KEY = "notifications_key";
   static const String IMAGE_FILE_KEY = "image_key";
@@ -28,6 +29,14 @@ class SessionManagement {
 
   static late Box<dynamic> box;
 
+  static DateTime? getTokenExpiration() {
+    final expirationString = box.get(TOKEN_EXPIRATION_KEY) as String?;
+    return expirationString != null ? DateTime.parse(expirationString) : null;
+  }
+
+  static void saveTokenExpiration(DateTime expiration) {
+    box.put(TOKEN_EXPIRATION_KEY, expiration.toIso8601String());
+  }
 
   //this is called only once in main
   static Future<Box> init() async {

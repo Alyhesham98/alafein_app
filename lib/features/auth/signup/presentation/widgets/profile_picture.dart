@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:alafein/core/utility/colors_data.dart';
 import 'package:alafein/core/utility/theme.dart';
 import 'package:alafein/features/profile_page/presentation/bloc/upload_profile_picture_cubit.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -74,7 +75,7 @@ class _ProfilePictureState extends State<ProfilePicture> {
               ),
               Gap(4.sw),
               Text(
-                'Optional*',
+                'Optional'.tr(),
                 style: secondaryTextStyle.copyWith(color: kHintColor),
               ),
             ],

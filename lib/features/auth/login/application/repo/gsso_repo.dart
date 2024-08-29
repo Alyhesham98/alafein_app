@@ -52,3 +52,36 @@ class GSSORepo{
     }
   }
 }
+
+class AppleSSORepo {
+  // POST
+  // getting apple auth response
+  static Future<GSSOResponse?> fetchAppleResponse(String idToken, String authorizationCode, String platform) async {
+    var client = http.Client();
+    final msg = jsonEncode({
+      "idToken": idToken,
+      "authorizationCode": authorizationCode,
+      "platform": platform,
+    });
+
+
+
+    try {
+      var response = await client.post(
+        Uri.parse('https://alafein.azurewebsites.net/api/v1/User/GoogleAuth'),
+        headers: {
+          'Content-Type': 'application/json-patch+json; charset=UTF-8',
+        },
+        body: msg,
+      );
+      Map<String, dynamic> result = jsonDecode(response.body);
+      debugPrint(result.toString());
+      GSSOResponse gssoResponse = GSSOResponse.fromJson(result);
+      SessionManagement.createSession(token: gssoResponse.data.jwtToken, role: gssoResponse.data.role);
+      return gssoResponse;
+    } catch (e) {
+      log(e.toString());
+      return null;
+    }
+  }
+}

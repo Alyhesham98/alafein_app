@@ -1,5 +1,6 @@
 import 'package:alafein/core/utility/colors_data.dart';
 import 'package:alafein/core/utility/strings.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:svg_flutter/svg.dart';
@@ -37,7 +38,7 @@ class PlatformCustomButton extends StatelessWidget {
           SvgPicture.asset(image),
           const Spacer(),
           Text(
-            'Continue with $platform',
+            tr('Continue with', namedArgs: {'platform': tr(platform)}),
             style: TextStyle(
                 fontSize: 4.sw,
                 fontWeight: FontWeight.w300,

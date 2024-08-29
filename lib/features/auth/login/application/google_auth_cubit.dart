@@ -41,7 +41,7 @@ class GoogleAuthCubit extends Cubit<GoogleAuthState> {
       // user dismissed the account dilog
       if (userAccont == null) {
         print("User cancelled the Google sign-in dialog.");
-        emit(GoogleAuthFaildState("User cancelled the Google sign-in dialog."));
+        emit(GoogleAuthFaildState("Cancelled the Google sign-in dialog."));
         return;
       }
 
@@ -50,7 +50,7 @@ class GoogleAuthCubit extends Cubit<GoogleAuthState> {
       GoogleSignInAuthentication googleAuth;
       try {
         googleAuth = await userAccont.authentication;
-        print("GoogleAuth obtained: $googleAuth");
+        print("GoogleAuth obtained: accessToken=${googleAuth.accessToken}, idToken=${googleAuth.idToken}");
       } catch (e) {
         print("Error obtaining GoogleAuth: $e");
         emit(GoogleAuthFaildState("Error obtaining GoogleAuth: $e"));
@@ -59,6 +59,7 @@ class GoogleAuthCubit extends Cubit<GoogleAuthState> {
       print(
           "================================================================================");
       //create OauthCredentials from auth object
+      print("create OAuth credentials from auth object");
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,

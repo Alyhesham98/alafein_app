@@ -2,6 +2,7 @@ import 'package:alafein/core/utility/colors_data.dart';
 import 'package:alafein/core/utility/strings.dart';
 import 'package:alafein/core/utility/theme.dart';
 import 'package:alafein/features/auth/login/application/cubit/login_cubit.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -59,8 +60,8 @@ class EmailField extends StatelessWidget {
           focusedBorder: textFormFieldBorderStyle,
           disabledBorder: textFormFieldBorderStyle,
           floatingLabelBehavior: FloatingLabelBehavior.never,
-          label: const Text(
-            'Email',
+          label: Text(
+            'Email'.tr(),
           ),
           labelStyle: const TextStyle(
               color: kHintColor,

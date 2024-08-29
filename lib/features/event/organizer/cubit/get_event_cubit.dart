@@ -33,7 +33,8 @@ class GetEventCubit extends Cubit<GetEventState> {
         }));
     call.fold(
           (failure) {
-        EasyLoading.showError(failure.toString());
+        // EasyLoading.showError(failure.toString());
+        EasyLoading.dismiss();
       },
           (response) {
         if (response.succeeded == true) {
@@ -62,7 +63,8 @@ class GetEventCubit extends Cubit<GetEventState> {
     call.fold(
       (failure) {
         if (SessionManagement.getUserRole() != "") {
-          EasyLoading.showError(failure.toString());
+          // EasyLoading.showError(failure.toString());
+          EasyLoading.dismiss();
         }else {
         }
       },
@@ -103,7 +105,8 @@ class GetEventCubit extends Cubit<GetEventState> {
     call.fold(
       (failure) {
         if (SessionManagement.getUserRole() != "") {
-          EasyLoading.showError(failure.toString());
+          // EasyLoading.showError(failure.toString());
+          EasyLoading.dismiss();
         }else {
         }
       },
@@ -139,7 +142,8 @@ class GetEventCubit extends Cubit<GetEventState> {
         }));
     call.fold(
       (failure) {
-        EasyLoading.showError(failure.toString());
+        // EasyLoading.showError(failure.toString());
+        EasyLoading.dismiss();
       },
       (response) {
         if (response.succeeded == true) {
@@ -164,7 +168,8 @@ class GetEventCubit extends Cubit<GetEventState> {
         }));
     call.fold(
       (failure) {
-        EasyLoading.showError(failure.toString());
+        // EasyLoading.showError(failure.toString());
+        EasyLoading.dismiss();
       },
       (response) {
         if (response.succeeded == true) {
@@ -205,7 +210,8 @@ class GetEventCubit extends Cubit<GetEventState> {
 
     call.fold(
       (failure) {
-        EasyLoading.showError(failure.toString());
+        // EasyLoading.showError(failure.toString());
+        EasyLoading.dismiss();
       },
       (response) {
         if (response.succeeded == true) {

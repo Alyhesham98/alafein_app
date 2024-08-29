@@ -72,7 +72,7 @@ class _AudienceProfileState extends State<AudienceProfile> {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Gap(16),
+                      const Gap(5),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -112,7 +112,7 @@ class _AudienceProfileState extends State<AudienceProfile> {
                           ),
                         ],
                       ),
-                      const Gap(40),
+                      const Gap(30),
                       const Text(
                         'PROFILE PICTURE',
                         style: homeLabel4Style,
@@ -138,35 +138,35 @@ class _AudienceProfileState extends State<AudienceProfile> {
                         'PERSONAL INFORMATION',
                         style: homeLabel4Style,
                       ),
-                      const Gap(16),
+                      // const Gap(16),
                       CustomInput(
                         title: widget.successState.profilePage?.firstName ??
                             "first name",
                         controller: _fNameController,
                         enabled: checker,
                       ),
-                      const Gap(16),
+                      // const Gap(16),
                       CustomInput(
                         title: widget.successState.profilePage?.lastName ??
                             "last name",
                         controller: _lastNameController,
                         enabled: checker,
                       ),
-                      const Gap(16),
+                      // const Gap(16),
                       CustomInput(
                         title:
                             widget.successState.profilePage?.email ?? "Email",
                         controller: _emailController,
                         enabled: false,
                       ),
-                      const Gap(16),
+                      // const Gap(16),
                       CustomInput(
                         title:
                             widget.successState.profilePage?.phone ?? "phone",
                         controller: _phoneController,
                         enabled: checker,
                       ),
-                      const Gap(24),
+                      // const Gap(24),
                     ]),
               ),
             ),

@@ -42,6 +42,18 @@ class BranchDataPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
+              "Branch Name",
+              style: venueProfileTextStyle,
+              textAlign: TextAlign.start,
+            ),
+            Gap(2.sw),
+            Text(
+              uiState?.venueName ?? '',
+              style: descTextStyle,
+              textAlign: TextAlign.justify,
+            ),
+            Gap(2.sw),
+            Text(
               "Description",
               style: venueProfileTextStyle,
               textAlign: TextAlign.start,

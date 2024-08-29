@@ -7,6 +7,7 @@ import 'package:alafein/features/event/organizer/presentation/views/event_deatil
 import 'package:alafein/features/event/organizer/presentation/widgets/custom_appbar.dart';
 import 'package:alafein/features/favourite/presentation/favorite_list_bloc/favorite_list_bloc.dart';
 import 'package:alafein/features/favourite/presentation/toggle_bloc/toggle_favorite_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -61,9 +62,9 @@ class _FavoritePageState extends State<FavoritePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Gap(14),
-              const CustomAppBarEvent(
-                title1: "FAVOURITE EVENTS",
-                title2: "Here's what you've liked so far",
+               CustomAppBarEvent(
+                title1: "Favorite".tr().toUpperCase() + " " + "Events".tr().toUpperCase(),
+                title2: "Here's what you've liked so far".tr().toUpperCase(),
                 hasIcon: false,
               ),
               const Gap(10),

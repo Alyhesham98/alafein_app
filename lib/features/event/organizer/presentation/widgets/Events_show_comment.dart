@@ -11,6 +11,7 @@ import 'package:alafein/features/event/organizer/presentation/widgets/descriptio
 import 'package:alafein/features/event/organizer/presentation/widgets/event_deatils_items.dart';
 import 'package:alafein/features/event/organizer/presentation/widgets/event_name_items.dart';
 import 'package:alafein/features/event/organizer/presentation/widgets/list_comment_items.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -37,24 +38,24 @@ class EventsShowCommentBody extends StatelessWidget {
     return BlocBuilder<GetEventCubit, GetEventState>(
       builder: (context, state) {
         final getDeatils = context.read<GetEventCubit>().eventDetails;
-        print('ID: ${getDeatils?.id}');
-        print('Poster: ${getDeatils?.poster}');
-        print('Category: ${getDeatils?.category}');
-        print('Is Favorite: ${getDeatils?.isFavorite}');
-        print('Name: ${getDeatils?.name}');
-        print('Organizer: ${getDeatils?.organizer}');
-        print('Description: ${getDeatils?.description}');
-        print('Date: ${getDeatils?.date}');
-        print('Attendance Option: ${getDeatils?.attendanceOption}');
-        print('URL: ${getDeatils?.url}');
-        print('Payment Fee: ${getDeatils?.paymentFee}');
-        print('Address: ${getDeatils?.address}');
-        print('Map Link: ${getDeatils?.mapLink}');
-        print('Event Organizer: ${getDeatils?.eventOrganizer}');
-        print('Venue: ${getDeatils?.venue}');
-        print('Venue: ${getDeatils?.venue?.id}');
-        print('Organizer ID: ${getDeatils?.eventOrganizer?['id']}');
-        print('Event Organizer ID: ${getDeatils?.eventOrganizer?['Id']}');
+        // print('ID: ${getDeatils?.id}');
+        // print('Poster: ${getDeatils?.poster}');
+        // print('Category: ${getDeatils?.category}');
+        // print('Is Favorite: ${getDeatils?.isFavorite}');
+        // print('Name: ${getDeatils?.name}');
+        // print('Organizer: ${getDeatils?.organizer}');
+        // print('Description: ${getDeatils?.description}');
+        // print('Date: ${getDeatils?.date}');
+        // print('Attendance Option: ${getDeatils?.attendanceOption}');
+        // print('URL: ${getDeatils?.url}');
+        // print('Payment Fee: ${getDeatils?.paymentFee}');
+        // print('Address: ${getDeatils?.address}');
+        // print('Map Link: ${getDeatils?.mapLink}');
+        // print('Event Organizer: ${getDeatils?.eventOrganizer}');
+        // print('Venue: ${getDeatils?.venue}');
+        // print('Venue: ${getDeatils?.venue?.id}');
+        // print('Organizer ID: ${getDeatils?.eventOrganizer?['id']}');
+        // print('Event Organizer ID: ${getDeatils?.eventOrganizer?['Id']}');
 
 
         final comments = context.read<GetEventCubit>().comments;
@@ -82,7 +83,7 @@ class EventsShowCommentBody extends StatelessWidget {
                 eventId: getDeatils.id ?? 0,
               ),
               SizedBox(
-                height: 120,
+                // height: 120,
                 child: EventName(
                   imageurl: getDeatils.category?.image != null
                       ? "${APICallerConfiguration.baseImageUrl}${getDeatils.category?.image}"
@@ -113,7 +114,7 @@ class EventsShowCommentBody extends StatelessWidget {
               ),
               if (getDeatils.eventOrganizer != null)
                 const Padding(
-                  padding: EdgeInsets.only(left: 24, top: 24),
+                  padding: EdgeInsets.only(left: 24, top: 24, right: 24),
                   child: Text(
                     "Event organizer",
                     style: homeLabelStyle,
@@ -133,13 +134,14 @@ class EventsShowCommentBody extends StatelessWidget {
                   size: size,
                   organizerID: getDeatils.eventOrganizer?['Id'] ?? 0,
                 ),
-              const Padding(
+               Padding(
                 padding: EdgeInsets.only(
                   left: 24,
                   top: 20,
+                    right: 24
                 ),
                 child: Text(
-                  "VENUE",
+                  "Venue".tr(),
                   style: homeLabelStyle,
                 ),
               ),
@@ -156,12 +158,13 @@ class EventsShowCommentBody extends StatelessWidget {
                 size: size,
                 venueID: getDeatils.venue?.id ?? 0,
               ),
-              const Padding(
+               Padding(
                 padding: EdgeInsets.only(
                   left: 24,
+                    right: 24
                 ),
                 child: Text(
-                  "Comments",
+                  "Comments".tr(),
                   style: homeLabelStyle,
                 ),
               ),
@@ -169,11 +172,11 @@ class EventsShowCommentBody extends StatelessWidget {
                 height: 200,
                 child: ListCommetItems(comments),
               ),
-              if (getDeatils.attendanceOption?.name == "Registration")
+              if (getDeatils.attendanceOption?.name != "Free")
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: MainCustomButton(
-                    buttonName: "ReGISTER TO ATTEND",
+                    buttonName: "REGISTER/BOOK HERE".tr(),
                     onPressed: () {
                       launch(getDeatils.url ?? '');
                     },
@@ -181,7 +184,7 @@ class EventsShowCommentBody extends StatelessWidget {
                   ),
                 ),
               const Gap(10),
-              if (getDeatils.attendanceOption?.name != "Registration")
+              if (getDeatils.attendanceOption?.name != "Registration" && getDeatils.attendanceOption?.name != "Ticket")
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 24,
@@ -189,7 +192,7 @@ class EventsShowCommentBody extends StatelessWidget {
                   child: CustomButtonComment(
                     color: kSemiBlack,
                     textColor: Colors.white,
-                    data: "FREE EVENT",
+                    data: "FREE EVENT".tr(),
                     borderColor: Colors.white,
                     onTap: () {
                       //Url for paying if event not free
@@ -202,7 +205,7 @@ class EventsShowCommentBody extends StatelessWidget {
                   horizontal: 24,
                 ),
                 child: CustomButtonComment(
-                  data: "ADD COMMENT",
+                  data: "Add Comments".tr().toUpperCase(),
                   onTap: () {
                     var commentValue;
                     _showCommentPopUp(context, commentValue, getDeatils.id);
@@ -276,8 +279,8 @@ class EventsShowCommentBody extends StatelessWidget {
                       ),
                       disabledBorder: textFormFieldBorderStyle,
                       floatingLabelBehavior: FloatingLabelBehavior.never,
-                      label: const Text(
-                        'Add Comment',
+                      label: Text(
+                        'Add Comments'.tr(),
                       ),
                       labelStyle: const TextStyle(
                           color: kHintColor,
@@ -296,7 +299,7 @@ class EventsShowCommentBody extends StatelessWidget {
                   horizontal: 24,
                 ),
                 child: CustomButtonComment(
-                  data: "ADD COMMENT",
+                  data: "Add Comments".tr().toUpperCase(),
                   onTap: () async {
                     await GetEventCubit()
                         .addComments(id: id, comment: commentValue);

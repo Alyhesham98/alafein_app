@@ -1,4 +1,5 @@
 import 'package:alafein/core/utility/theme.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -15,40 +16,40 @@ class Terms extends StatelessWidget {
       child: Text.rich(
         TextSpan(
           style: termsTextStyle,
-          text: 'By selecting Agree and continue, I agree to Alafein ',
+          text: 'By selecting agree and continue, i agree with Alafein terms of service, payments terms of service and nondiscrimination policy and acknowledge the privacy policy'.tr(),
           children: [
-            TextSpan(
-              text: 'Terms of Service, Payments Terms of Service',
-              recognizer: TapGestureRecognizer()
-                ..onTap = () {
-                  //TODO: Terms of Service Link
-                },
-              style: linkStyle,
-            ),
-            TextSpan(
-              text: ' and ',
-              style: termsTextStyle,
-            ),
-            TextSpan(
-              text: 'Nondiscrimination Policy',
-              recognizer: TapGestureRecognizer()
-                ..onTap = () {
-                  //TODO: Privacy Policy Link
-                },
-              style: linkStyle,
-            ),
-            TextSpan(
-              text: ' and acknowledge the ',
-              style: termsTextStyle,
-            ),
-            TextSpan(
-              text: 'Privacy Policy',
-              recognizer: TapGestureRecognizer()
-                ..onTap = () {
-                  //TODO: Privacy Policy Link
-                },
-              style: linkStyle,
-            ),
+            // TextSpan(
+            //   text: 'Terms of Service, Payments Terms of Service',
+            //   recognizer: TapGestureRecognizer()
+            //     ..onTap = () {
+            //       //TODO: Terms of Service Link
+            //     },
+            //   style: linkStyle,
+            // ),
+            // TextSpan(
+            //   text: ' and ',
+            //   style: termsTextStyle,
+            // ),
+            // TextSpan(
+            //   text: 'Nondiscrimination Policy',
+            //   recognizer: TapGestureRecognizer()
+            //     ..onTap = () {
+            //       //TODO: Privacy Policy Link
+            //     },
+            //   style: linkStyle,
+            // ),
+            // TextSpan(
+            //   text: ' and acknowledge the ',
+            //   style: termsTextStyle,
+            // ),
+            // TextSpan(
+            //   text: 'y',
+            //   recognizer: TapGestureRecognizer()
+            //     ..onTap = () {
+            //       //TODO: Privacy Policy Link
+            //     },
+            //   style: linkStyle,
+            // ),
           ],
         ),
       ),

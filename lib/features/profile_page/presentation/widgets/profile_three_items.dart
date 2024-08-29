@@ -2,6 +2,7 @@ import 'package:alafein/features/about_us/presentation/screen/about_us_screen.da
 import 'package:alafein/features/privacy_and_policy/presentation/screen/privacy_and_policy.dart';
 import 'package:alafein/features/profile_page/presentation/widgets/profile_item_text.dart';
 import 'package:alafein/features/term_conditiom/presentation/screen/term_conditiom.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:svg_flutter/svg.dart';
 
@@ -27,8 +28,8 @@ class ThreeItems extends StatelessWidget {
           ListTile(
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
-            title: const ProfileItemText(
-              text: "About Us",
+            title: ProfileItemText(
+              text: "About Us".tr(),
             ),
             trailing: SvgPicture.asset(AssetsData.arrowRight),
             onTap: () {
@@ -48,8 +49,8 @@ class ThreeItems extends StatelessWidget {
           ListTile(
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0.0),
-                title: const ProfileItemText(
-                  text: "Privacy Policy",
+                title:  ProfileItemText(
+                  text: "Privacy Policy".tr().toUpperCase(),
                 ),
             trailing: SvgPicture.asset(AssetsData.arrowRight),
             onTap: () {
@@ -69,7 +70,7 @@ class ThreeItems extends StatelessWidget {
           ListTile(
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
-            title: const ProfileItemText(text: "Terms and Conditions",),
+            title: ProfileItemText(text: "Terms and Conditions".tr(),),
             trailing: SvgPicture.asset(AssetsData.arrowRight),
             onTap: () {
             Navigator.push(

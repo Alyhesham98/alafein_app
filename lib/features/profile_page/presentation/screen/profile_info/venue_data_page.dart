@@ -90,7 +90,7 @@ class _VenueDataProfileState extends State<VenueDataProfile>
                           // Wrapping Text widget with Flexible to prevent overflow
                           Flexible(
                             child: Text(
-                              uiState!.branches![index].name ?? '',
+                              'Branch ${index + 1}',
                               style: index != tabController ? branchStyle : branchSelectedStyle,
                               // Setting textAlign to center to keep the text centered
                               textAlign: TextAlign.center,

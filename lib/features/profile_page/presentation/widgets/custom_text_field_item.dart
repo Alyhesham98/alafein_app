@@ -25,7 +25,7 @@ class CustomInput extends StatelessWidget {
       color: Colors.transparent,
       child: ListTile(
         contentPadding:
-            const EdgeInsets.symmetric(horizontal: 0.0, vertical: 8.0),
+            const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
         title: TextFormField(
           controller: controller,
           // initialValue: title,

@@ -1,5 +1,6 @@
 import 'package:alafein/core/local_data/session_management.dart';
 import 'package:alafein/features/profile_page/presentation/widgets/custom_profile_list_item.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -12,8 +13,7 @@ class Profilepage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final DateTime currentDate = DateTime.now();
-    print('date now = $currentDate');
-    final DateTime targetDate = DateTime(2024, 5, 26);
+    final DateTime targetDate = DateTime(2024, 6, 26);
 
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
@@ -21,48 +21,46 @@ class Profilepage extends StatelessWidget {
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(24, 50, 24, 8),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               const Gap(16),
-              const Text(
-                'PROFILES',
+              Text(
+                'Profile'.tr().toUpperCase(),
                 style: homeLabeProfileStyle,
               ),
               SessionManagement.getUserRole() != ""
-                  ? const CustomProfileAppBarEvent(
-                      title: "PERSONAL INFORMATION",
-                      onTap: 1,
-                    )
+                  ? CustomProfileAppBarEvent(
+                title: "Personal Information".tr().toUpperCase(),
+                onTap: 1,
+              )
                   : const Gap(0),
               const Gap(16),
-              const CustomProfileAppBarEvent(
-                title: "CHANGE LANGUAGE",
+              CustomProfileAppBarEvent(
+                title: "Change Language".tr().toUpperCase(),
                 onTap: 2,
               ),
               const Gap(16),
-              const CustomProfileAppBarEvent(
-                title: "NOTIFICATIONS",
+              CustomProfileAppBarEvent(
+                title: "Notifications".tr().toUpperCase(),
                 onTap: 3,
               ),
               const Gap(16),
               ThreeItems(c: context),
               const Gap(16),
               if (SessionManagement.getUserRole() != "")
-                const CustomProfileAppBarEvent(
-                  title: "LOGOUT",
+                CustomProfileAppBarEvent(
+                  title: "Logout".tr().toUpperCase(),
                   onTap: 4,
                   color: Colors.redAccent,
                 )
               else
-                const CustomProfileAppBarEvent(
-                  title: "REGISTER",
+                CustomProfileAppBarEvent(
+                  title: "Register or Logout".tr().toUpperCase(),
                   onTap: 4,
                   color: Colors.redAccent,
                 ),
-              if (SessionManagement.getUserRole() != "" &&
-                  currentDate.isBefore(targetDate))
-                const CustomProfileAppBarEvent(
-                  title: "DELETE ACCOUNT",
+              if (SessionManagement.getUserRole() != "")
+                CustomProfileAppBarEvent(
+                  title: "Delete Account".tr().toUpperCase(),
                   onTap: 5,
                   color: Colors.redAccent,
                 ),
@@ -70,8 +68,6 @@ class Profilepage extends StatelessWidget {
           ),
         ),
       ],
-
-      ///buttons
     );
   }
 }

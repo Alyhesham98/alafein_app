@@ -1,4 +1,5 @@
 import 'package:alafein/core/utility/theme.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -14,46 +15,61 @@ class Description extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> arabicTextSegments = [];
-    List<String> englishTextSegments = [];
+    // List<Widget> segments = [];
 
-    for (var segment in text.split(' ')) {
-      if (_isArabic(segment)) {
-        arabicTextSegments.add(segment);
-      } else {
-        englishTextSegments.add(segment);
-      }
-    }
+    // // Split text into words
+    // List<String> words = text.split(' ');
+    // List<String> englishWords = [];
+    // List<String> remainingWords = [];
+    //
+    // // Separate English words first (including numbers)
+    // for (var word in words) {
+    //   if (!_isArabic(word)) {
+    //     englishWords.add(word);
+    //   } else {
+    //     remainingWords.add(word);
+    //   }
+    // }
+    //
+    // // Build segment for English text
+    // if (englishWords.isNotEmpty) {
+    //   segments.add(
+    //     Text(
+    //       englishWords.join(' '),
+    //       style: secondaryTextStyle,
+    //       // textDirection: TextDirection!.ltr,
+    //       textAlign: TextAlign.left,
+    //     ),
+    //   );
+    // }
+    //
+    // // If there are remaining words (potentially Arabic), build segment for Arabic text
+    // if (remainingWords.isNotEmpty) {
+    //   segments.add(
+    //     Text(
+    //       remainingWords.join(' '),
+    //       style: secondaryTextStyle.copyWith(fontFamily: GoogleFonts.abhayaLibre().fontFamily),
+    //       // textDirection: TextDirection.rtl,
+    //       textAlign: TextAlign.right,
+    //     ),
+    //   );
+    // }
 
     return Padding(
-      padding: const EdgeInsets.only(left: 24, bottom: 16),
+      padding: const EdgeInsets.only(left: 24, bottom: 16, right: 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            "Description",
+          Text(
+            "Description".tr(),
             style: homeLabelStyle,
           ),
           SizedBox(
             width: size.width * 0.8,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Arabic text segments
-                if (arabicTextSegments.isNotEmpty)
-                  Text(
-                    arabicTextSegments.join(' '),
-                    style: secondaryTextStyle.copyWith(fontFamily: GoogleFonts.abhayaLibre().fontFamily),
-                    textDirection: TextDirection.rtl,
-                  ),
-                SizedBox(height: 20),
-                if (englishTextSegments.isNotEmpty)
-                  Text(
-                    englishTextSegments.join(' '),
-                    style: secondaryTextStyle,
-                    textDirection: TextDirection.ltr,
-                  ),
-              ],
+            child: Text(
+              text,
+              style: secondaryTextStyle,
+              textAlign: TextAlign.left,
             ),
           ),
         ],
@@ -61,9 +77,9 @@ class Description extends StatelessWidget {
     );
   }
 
-  bool _isArabic(String segment) {
-    final arabicRegex = RegExp(
-        r'[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]');
-    return arabicRegex.hasMatch(segment);
-  }
+// bool _isArabic(String word) {
+//   final arabicRegex = RegExp(r'[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]');
+//   return arabicRegex.hasMatch(word);
+// }
+
 }

@@ -1,5 +1,6 @@
 import 'package:alafein/core/utility/colors_data.dart';
 import 'package:alafein/core/utility/strings.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class AboutUS extends StatelessWidget {
@@ -30,8 +31,8 @@ class AboutUS extends StatelessWidget {
                   SizedBox(
                       // height: size.height * 0.05,
                     ),
-                    const Text(
-                      "About Us:",
+                    Text(
+                      "About Us".tr() + ":",
                       style: TextStyle(
                         color: kSemiBlack,
                         fontSize: 28,
@@ -44,7 +45,7 @@ class AboutUS extends StatelessWidget {
                     ),
                     const Text(
                       "Welcome to AlaFein – your go-to guide for arts and culture in Cairo.",
-                      textDirection: TextDirection.ltr,
+                      // textDirection: TextDirection.ltr,
 
                       style: TextStyle(
                         color: Colors.black,
@@ -79,7 +80,7 @@ class AboutUS extends StatelessWidget {
                       "                       بنرحب بيك في *على فين!* دليلك للفن والثقافة في القاهرة",
                       maxLines: 1,
                       textAlign: TextAlign.start,
-                      textDirection: TextDirection.ltr,
+                      // textDirection: TextDirection.ltr,
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 22,
@@ -92,7 +93,7 @@ class AboutUS extends StatelessWidget {
                     const Text(
                       "بنحاول نقرب الناس للمشهد الفني والثقافي في بلدنا مصر، سواء كنت مهتم بالمعارض الفنية أو الفنون الأدائية أو المزيكا أو استكشاف الكنوز الخفية في مجال الفن والثقافة'*على فين' بيجمعلك كل الفعاليات في تطبيق موبايل مجاني باللغتين العربية والإنجليزية.احنا بنقدم منصتنا لكل الفنانين والمنظمين المشاهير واللي لسة بيبدأوا طريقهم لأننا بنؤمن بإن كل شخص يستحق فرصة لتقديم فنه وإبداعه وتوصيل صوته، واحنا هنا عشان نحقق ده.انضموا لينا في رحلة استكشاف ودعم وتقدير للفن والثقافة في القاهرة، عشان نخلي مجتمعنا ينور بالفن.",
                       textAlign: TextAlign.start,
-                      textDirection: TextDirection.rtl,
+                      // textDirection: TextDirection.rtl,
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 22,

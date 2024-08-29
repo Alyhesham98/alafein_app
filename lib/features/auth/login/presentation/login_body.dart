@@ -5,6 +5,7 @@ import 'package:alafein/core/presentation/widgets/secondary_custom_button.dart';
 import 'package:alafein/core/utility/assets_data.dart';
 import 'package:alafein/core/utility/colors_data.dart';
 import 'package:alafein/features/auth/login/application/Bloc_GSSO/gsso_bloc.dart';
+import 'package:alafein/features/auth/login/application/apple_sso.dart';
 import 'package:alafein/features/auth/login/application/cubit/login_cubit.dart';
 import 'package:alafein/features/auth/login/application/google_auth_cubit.dart';
 import 'package:alafein/features/auth/login/application/google_auth_state.dart';
@@ -13,6 +14,8 @@ import 'package:alafein/features/auth/login/presentation/widgets/email_field.dar
 import 'package:alafein/features/auth/login/presentation/widgets/password_field.dart';
 import 'package:alafein/features/auth/login/presentation/widgets/platform_login_button.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -92,7 +95,7 @@ class _LoginBodyState extends State<LoginBody>
                     const PasswordField(),
                     Gap(6.sw),
                     MainCustomButton(
-                      buttonName: 'CONTINUE',
+                      buttonName: 'Continue'.tr(),
                       onPressed: () async {
                         if (cubit.formKey.currentState!.validate()) {
                           cubit.formKey.currentState!.save();
@@ -100,13 +103,13 @@ class _LoginBodyState extends State<LoginBody>
                         }
                       },
                     ),
-                    // Gap(6.sw),
-                    // SecondaryCustomButton(
-                    //   text: 'Skip',
-                    //   onPressed: () async {
-                    //     AutoRouter.of(context).replaceAll([MainRoute()]);
-                    //   },
-                    // ),
+                    Gap(6.sw),
+                    SecondaryCustomButton(
+                      text: 'Skip'.tr(),
+                      onPressed: () async {
+                        AutoRouter.of(context).replaceAll([MainRoute()]);
+                      },
+                    ),
                     Gap(4.sw),
                     // Row(
                     //   children: [
@@ -143,7 +146,7 @@ class _LoginBodyState extends State<LoginBody>
                         horizontal: 2.sw,
                       ),
                       child: Text(
-                        'OR',
+                        'Or'.tr(),
                         style: GoogleFonts.ubuntu(
                             fontSize: 16,
                             color: kPrimaryColor,
@@ -152,17 +155,24 @@ class _LoginBodyState extends State<LoginBody>
                     ),
                     Gap(4.sw),
                     SecondaryCustomButton(
-                      text: "Create New Account",
+                      text: "Create New Account".tr(),
                       onPressed: () {
                         AutoRouter.of(context).push(const SignupRoute());
                       },
                     ),
-                    // Gap(4.sw),
-                    // PlatformCustomButton(
-                    //   onPressed: () {},
-                    //   platform: 'Apple',
-                    //   image: AssetsData.apple,
-                    // ),
+                    Gap(4.sw),
+                    PlatformCustomButton(
+                      onPressed: () async {
+                        await signInWithApple(context);
+                      },
+                      //     () async {
+                      //
+                      //   // final appleProvider = AppleAuthProvider();
+                      //   // return await FirebaseAuth.instance.signInWithProvider(appleProvider);
+                      // },
+                      platform: 'Apple',
+                      image: AssetsData.apple,
+                    ),
                     Gap(4.sw),
                     BlocConsumer<GoogleAuthCubit, GoogleAuthState>(
                       listener: (context, state) {

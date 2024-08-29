@@ -8,6 +8,7 @@ import 'package:alafein/features/auth/signup/presentation/widgets/terms.dart';
 import 'package:alafein/features/auth/signup/presentation/widgets/text_field_hint.dart';
 import 'package:alafein/features/auth/signup/widgets/signup_custom_text.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -28,9 +29,9 @@ class SignupBody extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SignupTopCustomText(
-              title: "PERSONAL INFORMATION",
-              subtitle: "Enter Your Personal Information To Proceed",
+             SignupTopCustomText(
+              title: "Personal Information".tr(),
+              subtitle: "Enter your personal information to proceed".tr(),
             ),
             Gap(4.sw),
             const ProfilePicture(),
@@ -39,15 +40,17 @@ class SignupBody extends StatelessWidget {
             Gap(4.sw),
             const LastNameField(),
             Gap(2.sw),
-            const TextFieldHint(
-                hint: 'Make sure it matches the name on your government ID'),
+            TextFieldHint(
+                hint: 'Make sure it matches the name on your government ID'.tr()
+            ),
             Gap(4.sw),
             const EmailField(),
             Gap(
               2.sw,
             ),
-            const TextFieldHint(
-                hint: 'We will email you trip confirmations and receipts'),
+            TextFieldHint(
+                hint: 'We will email you trip confirmations and receipts'.tr()
+            ),
             Gap(4.sw),
             const PasswordField(),
             Gap(6.sw),
@@ -58,7 +61,7 @@ class SignupBody extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.only(bottom: 4.sw),
                 child: MainCustomButton(
-                  buttonName: 'Next',
+                  buttonName: 'Next'.tr(),
                   onPressed: () {
                     if (signupCubit.formKey.currentState!.validate()) {
                       signupCubit.formKey.currentState!.save();

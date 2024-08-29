@@ -1,3 +1,8 @@
+import 'dart:convert';
+import 'dart:developer';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:http/http.dart' as http;
+
 import 'package:alafein/core/presentation/routes/app_router.gr.dart';
 import 'package:alafein/core/utility/theme.dart';
 import 'package:alafein/features/profile_page/presentation/screen/profile_info/profile_info.dart';
@@ -15,9 +20,18 @@ import 'package:svg_flutter/svg.dart';
 import '../../../../core/local_data/session_management.dart';
 import '../../../../core/utility/assets_data.dart';
 import '../../../../core/utility/colors_data.dart';
+import '../../../auth/signup/complete_registration/complete_registration.dart';
+import '../../../main/main_screen.dart';
+import '../model/Profile.dart';
+import '../screen/notifications_page.dart';
+import '../screen/profile_page.dart';
 
 // import '../../../../core/utility/strings.dart';
 // import '../../../main/main_screen.dart';
+
+
+
+
 
 class CustomProfileAppBarEvent extends StatelessWidget {
   const CustomProfileAppBarEvent(
@@ -47,7 +61,7 @@ class CustomProfileAppBarEvent extends StatelessWidget {
             const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         title: onTap == null
             ? Text(
-                title,
+                title.tr(),
                 style: personalInfoTextStyle,
               )
             : ProfileItemText(
@@ -75,7 +89,14 @@ class CustomProfileAppBarEvent extends StatelessWidget {
                     }
                     break;
                   case 3:
-                    {}
+                    {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => NotificationsPage(),
+                        ),
+                      );
+                    }
                     break;
                   case 4:
                     {
@@ -105,9 +126,8 @@ class CustomProfileAppBarEvent extends StatelessWidget {
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: const Text("Delete Account"),
-                            content: const Text(
-                                "Are you sure you want to delete your account?"),
+                            title: Text("Delete Account").tr(),
+                            content: const Text("Are you sure you want to delete your account?"),
                             actions: <Widget>[
                               TextButton(
                                 onPressed: () {
@@ -128,20 +148,33 @@ class CustomProfileAppBarEvent extends StatelessWidget {
 
                       if (confirmed == true) {
                         // User confirmed, proceed with account deletion
-                        EasyLoading.show(status: 'Deleting Account');
-                        await Future.delayed(const Duration(seconds: 2));
-                        SessionManagement.signOut();
-                        if (await googleSignIn.isSignedIn()) {
-                          await googleSignIn.signOut().whenComplete(() {
-                            AutoRouter.of(context)
-                                .replaceAll([const LoginRoute()]);
-                          });
+                        EasyLoading.show(status: 'Fetching Profile');
+
+                        // Fetch the user profile to get the user ID
+                        Profile? profile = await fetchProfile();
+
+                        if (profile != null && profile.id != null) {
+                          EasyLoading.show(status: 'Deleting Account');
+                          bool isDeleted = await deleteProfile(userId: profile.id);
+
+                          if (isDeleted) {
+                            // Successfully deleted the profile
+                            SessionManagement.signOut();
+                            if (await googleSignIn.isSignedIn()) {
+                              await googleSignIn.signOut().whenComplete(() {
+                                AutoRouter.of(context).replaceAll([const LoginRoute()]);
+                              });
+                            } else {
+                              AutoRouter.of(context).replaceAll([const LoginRoute()]);
+                            }
+                            await _deleteCacheDir();
+                          } else {
+                            // Handle the case where deletion failed
+                            EasyLoading.showError('Failed to delete account');
+                          }
                         } else {
-                          AutoRouter.of(context)
-                              .replaceAll([const LoginRoute()]);
+                          EasyLoading.showError('Failed to fetch user profile');
                         }
-                        await _deleteCacheDir();
-                        EasyLoading.dismiss();
                       }
                     }
                     break;
@@ -158,6 +191,80 @@ class CustomProfileAppBarEvent extends StatelessWidget {
   //     cacheDir.deleteSync(recursive: true);
   //   }
   // }
+
+  static Future<Profile?> fetchProfile() async {
+    var client = http.Client();
+
+    try {
+      var response = await client.get(
+        Uri.parse('https://alafein.azurewebsites.net/api/v1/User/Profile'),
+        headers: {"Authorization": "Bearer ${SessionManagement.getUserToken()}"},
+      );
+
+      debugPrint("Response status: ${response.statusCode}");
+      debugPrint("Response body: ${response.body}");
+
+      if (response.statusCode == 200) {
+        Map<String, dynamic> result = jsonDecode(response.body);
+
+        if (result.containsKey('Data') && result['Data'] != null) {
+          Profile profilePage = Profile.fromJson(result['Data']);
+          debugPrint("Profile fetched: ${profilePage.email}");
+          return profilePage;
+        } else {
+          debugPrint("Failed to fetch profile: No data found");
+          return null;
+        }
+      } else {
+        debugPrint("Failed to fetch profile: HTTP ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      log('Error fetching profile: $e');
+      return null;
+    } finally {
+      EasyLoading.dismiss();
+    }
+  }
+
+
+  Future<bool> deleteProfile({required String? userId}) async {
+    var client = http.Client();
+
+    try {
+      var response = await client.delete(
+        Uri.parse('https://alafein.azurewebsites.net/api/v1/User/Delete/$userId'),
+        headers: {"Authorization": "Bearer ${SessionManagement.getUserToken()}"},
+      );
+
+      // Log the raw response for debugging
+      debugPrint("Delete Response status: ${response.statusCode}");
+      debugPrint("Delete Response body: ${response.body}");
+
+      if (response.statusCode == 200) {
+        Map<String, dynamic> result = jsonDecode(response.body);
+
+        // Ensure the result contains the expected keys
+        if (result.containsKey('Succeeded') && result['Succeeded'] == true) {
+          debugPrint("User deleted successfully");
+          return true;
+        } else {
+          debugPrint("Failed to delete user: ${result['Message'] ?? 'No message'}");
+          return false;
+        }
+      } else {
+        debugPrint("Failed to delete user: HTTP ${response.statusCode}");
+        return false;
+      }
+    } catch (e) {
+      log('Error: $e');
+      return false;
+    } finally {
+      EasyLoading.dismiss();
+    }
+  }
+
+
   Future<void> _deleteCacheDir() async {
     try {
       final cacheDir = await getTemporaryDirectory();
@@ -189,7 +296,7 @@ class CustomProfileAppBarEvent extends StatelessWidget {
                   // ),
                   InkWell(
                     borderRadius: BorderRadius.circular(17.0),
-                    onTap: () {},
+                    onTap: () => changeLanguage(context),
                     child: Card(
                       elevation: 0,
                       color: Colors.white,
@@ -210,7 +317,7 @@ class CustomProfileAppBarEvent extends StatelessWidget {
                   ),
                   InkWell(
                     borderRadius: BorderRadius.circular(17.0),
-                    onTap: () {},
+                    onTap: () => changeLanguage(context),
                     child: Card(
                       elevation: 0,
                       color: Colors.white,
@@ -236,3 +343,19 @@ class CustomProfileAppBarEvent extends StatelessWidget {
         });
   }
 }
+void changeLanguage(BuildContext context) {
+  Locale? currentLocale = EasyLocalization.of(context)!.currentLocale;
+  Locale newLocale = currentLocale == const Locale('en', 'US')
+      ? const Locale('ar', 'EG')
+      : const Locale('en', 'US');
+
+  EasyLocalization.of(context)!.setLocale(newLocale).then((_) {
+    Navigator.pop(context);
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const MainScreen()));
+
+
+  });
+
+}
+
+

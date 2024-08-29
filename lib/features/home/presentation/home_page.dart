@@ -9,6 +9,7 @@ import 'package:alafein/features/home/cubit/home_cubit.dart';
 import 'package:alafein/features/home/presentation/widgets/home_event_item.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -96,18 +97,28 @@ class _HomePageState extends State<HomePage> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
-                                'EVENTS SPOTLIGHT',
+                              Text(
+                                'Event Spotlight'.tr().toUpperCase(),
                                 style: homeLabelStyle,
                               ),
                               SizedBox(
                                 height: 180,
-                                child: ListView.builder(
-                                    itemCount:
-                                        state.homeResponse.spotlight?.length ??
+                                child: state.homeResponse.spotlight?.isEmpty ??
+                                        true
+                                    ?  Center(
+                                        child: const Text(
+                                          "There are no spotlights today",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w900),
+                                        ).tr(),
+                                      )
+                                    : ListView.builder(
+                                        itemCount: state.homeResponse.spotlight
+                                                ?.length ??
                                             0,
-                                    scrollDirection: Axis.horizontal,
-                                    itemBuilder: (context, index) => InkWell(
+                                        scrollDirection: Axis.horizontal,
+                                        itemBuilder: (context, index) =>
+                                            InkWell(
                                           onTap: (SessionManagement
                                                       .getUserRole() !=
                                                   "")
@@ -159,7 +170,8 @@ class _HomePageState extends State<HomePage> {
                                                     .spotlight?[index].date ??
                                                 "",
                                           ),
-                                        )),
+                                        ),
+                                      ),
                               ),
                             ],
                           ),
@@ -171,7 +183,7 @@ class _HomePageState extends State<HomePage> {
                                 margin:
                                     const EdgeInsets.symmetric(vertical: 16),
                                 child: Text(
-                                  'categories'.toUpperCase(),
+                                  'Categories'.tr().toUpperCase(),
                                   style: homeLabelStyle,
                                 ),
                               ),
@@ -183,7 +195,7 @@ class _HomePageState extends State<HomePage> {
                                       controller: _scrollController,
                                       itemCount:
                                           (state.homeResponse.category!.length /
-                                                  4)
+                                                  3)
                                               .ceil(),
                                       scrollDirection: Axis.horizontal,
                                       itemBuilder: (context, pageIndex) {
@@ -192,15 +204,18 @@ class _HomePageState extends State<HomePage> {
                                             3,
                                             (index) {
                                               final categoryIndex =
-                                                  pageIndex * 4 + index;
+                                                  pageIndex * 3 + index;
                                               if (categoryIndex <
                                                   state.homeResponse.category!
                                                       .length) {
                                                 return Expanded(
                                                   child: InkWell(
                                                     onTap: (SessionManagement
-                                                                .getUserRole() !=
-                                                            "")
+                                                                    .getUserRole() !=
+                                                                "" ||
+                                                            SessionManagement
+                                                                    .getUserRole() ==
+                                                                "")
                                                         ? () {
                                                             widget.onCatTapped(
                                                                 categoryIndex);
@@ -255,7 +270,8 @@ class _HomePageState extends State<HomePage> {
                                                                     .homeResponse
                                                                     .category![
                                                                         categoryIndex]
-                                                                    .name ??
+                                                                    .name
+                                                                    ?.tr() ??
                                                                 "",
                                                             textAlign: TextAlign
                                                                 .center,
@@ -306,65 +322,49 @@ class _HomePageState extends State<HomePage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const Gap(16),
-                              const Text(
-                                'Happening today',
+                              Text(
+                                'Happening Today'.tr().toUpperCase(),
                                 style: homeLabelStyle,
                               ),
                               SizedBox(
                                 height: 180,
-                                child: ListView.builder(
-                                    itemCount:
-                                        state.homeResponse.today?.length ?? 0,
-                                    scrollDirection: Axis.horizontal,
-                                    itemBuilder: (context, index) => InkWell(
-                                          onTap: (SessionManagement
-                                                      .getUserRole() !=
-                                                  "")
-                                              ? () {
-                                                  routeToEventDetails(
-                                                      context,
-                                                      state
-                                                              .homeResponse
-                                                              .today?[index]
-                                                              .id ??
-                                                          -1);
-                                                }
-                                              : () async {
-                                                  routeToEventDetails(
-                                                      context,
-                                                      state
-                                                              .homeResponse
-                                                              .today?[index]
-                                                              .id ??
-                                                          -1);
-                                                  await Future.delayed(
-                                                      const Duration(
-                                                          seconds: 2));
-                                                  AutoRouter.of(context)
-                                                      .popAndPush(
-                                                          const LoginRoute());
-                                                },
-                                          child: HomeEventItem(
-                                            name: state.homeResponse
-                                                    .today?[index].name ??
-                                                "",
-                                            image: state.homeResponse
-                                                        .today?[index].poster !=
-                                                    null
-                                                ? "${APICallerConfiguration.baseImageUrl}${state.homeResponse.today?[index].poster}"
-                                                : "",
-                                            catImage: state
-                                                        .homeResponse
-                                                        .today?[index]
-                                                        .catPoster !=
-                                                    null
-                                                ? "${APICallerConfiguration.baseImageUrl}${state.homeResponse.today?[index].catPoster}"
-                                                : "",
-                                            date: state.homeResponse
-                                                    .today?[index].date ??
-                                                "",
-                                          ),
-                                        )),
+                                child: state.homeResponse.today?.isEmpty ?? true
+                                    ?  Center(
+                                  child: const Text(
+                                    "There are no events happening today",
+                                    style: TextStyle(fontWeight: FontWeight.w900),
+                                  ).tr(),
+                                )
+                                    : ListView.builder(
+                                  itemCount: state.homeResponse.today?.length ?? 0,
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, index) => InkWell(
+                                    onTap: (SessionManagement.getUserRole() != "" ||
+                                        SessionManagement.getUserRole() == "")
+                                        ? () {
+                                      routeToEventDetails(
+                                          context,
+                                          state.homeResponse.today?[index].id ?? -1);
+                                    }
+                                        : () async {
+                                      routeToEventDetails(
+                                          context,
+                                          state.homeResponse.today?[index].id ?? -1);
+                                      await Future.delayed(const Duration(seconds: 2));
+                                      AutoRouter.of(context).popAndPush(const LoginRoute());
+                                    },
+                                    child: HomeEventItem(
+                                      name: state.homeResponse.today?[index].name ?? "",
+                                      image: state.homeResponse.today?[index].poster != null
+                                          ? "${APICallerConfiguration.baseImageUrl}${state.homeResponse.today?[index].poster}"
+                                          : "",
+                                      catImage: state.homeResponse.today?[index].catPoster != null
+                                          ? "${APICallerConfiguration.baseImageUrl}${state.homeResponse.today?[index].catPoster}"
+                                          : "",
+                                      date: state.homeResponse.today?[index].date ?? "",
+                                    ),
+                                  ),
+                                ),
                               ),
                             ],
                           ),
