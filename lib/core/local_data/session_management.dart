@@ -31,11 +31,17 @@ class SessionManagement {
 
   static DateTime? getTokenExpiration() {
     final expirationString = box.get(TOKEN_EXPIRATION_KEY) as String?;
-    return expirationString != null ? DateTime.parse(expirationString) : null;
+    print(
+        'Retrieved token expiration string: $expirationString'); // Debugging line
+    return expirationString != null
+        ? DateTime.tryParse(expirationString)
+        : null;
   }
 
   static void saveTokenExpiration(DateTime expiration) {
-    box.put(TOKEN_EXPIRATION_KEY, expiration.toIso8601String());
+    final expirationString = expiration.toIso8601String();
+    print('Saving token expiration: $expirationString'); // Debugging line
+    box.put(TOKEN_EXPIRATION_KEY, expirationString);
   }
 
   //this is called only once in main
@@ -52,7 +58,6 @@ class SessionManagement {
     await box.put(LANG_KEY, lang);
   }
 
-
   static void removeAllCart() {
     box.put(CART_ITEMS_KEY, 0);
   }
@@ -68,7 +73,8 @@ class SessionManagement {
 
   static String? getUserToken() => box.get(TOKEN_KEY) ?? "";
   static String? getUserRole() => box.get(ROLE_KEY) ?? "";
-  static String? getNotificationToken() => box.get(NOTIFICATIONS_TOKEN_KEY) ?? "";
+  static String? getNotificationToken() =>
+      box.get(NOTIFICATIONS_TOKEN_KEY) ?? "";
   static String? getGoogleIdToken() => box.get(GIDTOKEN_KEY) ?? "";
 
   static int getCountryId() => box.get(COUNTRY_ID_KEY);
@@ -86,13 +92,18 @@ class SessionManagement {
       // required String email,
       // required String name,
       // required String phone,
-      required String token, required String role}) {
+      required String token,
+      required String role,
+      required DateTime? tokenExpiration}) {
     // box.put(EMAIL_KEY, email);
     // box.put(NAME_KEY, name);
     box.put(TOKEN_KEY, token);
     // box.put(PHONE_KEY, phone);
     box.put(IS_LOGIN_KEY, true);
     box.put(ROLE_KEY, role);
+    if (tokenExpiration != null) {
+      saveTokenExpiration(tokenExpiration);
+    }
   }
 
   static void setLanguage(String lang) {
@@ -122,9 +133,11 @@ class SessionManagement {
   static void saveSentDeviceToken() {
     box.put(DEVICE_TOKEN_SENT_KEY, true);
   }
+
   static void notificationToken(String token) {
     box.put(NOTIFICATIONS_TOKEN_KEY, token);
   }
+
   static void googleIdToken(String token) {
     box.put(GIDTOKEN_KEY, token);
   }

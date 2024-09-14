@@ -27,7 +27,7 @@ class AssetsData {
   static const String eventImg = "${(src)}/placeholders/event_img.png";
   static const String headerImage = "${(src)}/placeholders/header_image.png";
   static const String music = "${(src)}/placeholders/music.png";
-  static const String bottomBanner = "${(src)}/placeholders/bottom_banner.png";
+  static const String bottomBanner = "${(src)}/placeholders/alafein-app-gif.gif";
   static const String svgIcHomeDisabled = "${(src)}/ic_home_disabled.svg";
   static const String svgIcHome = "${(src)}/ic_home.svg";
   static const String svgIcEventsDisabled = "${(src)}/ic_events_disabled.svg";

@@ -371,6 +371,8 @@ class _HomePageState extends State<HomePage> {
                         const Gap(16),
                         Image.asset(
                           AssetsData.bottomBanner,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
                         ),
                         const Gap(16),
                         // SizedBox(height: MediaQuery.of(context).size.height*0.1,)

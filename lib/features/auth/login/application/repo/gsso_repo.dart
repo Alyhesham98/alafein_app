@@ -43,7 +43,7 @@ class GSSORepo{
       Map<String, dynamic> result = jsonDecode(response.body);
       debugPrint(result.toString());
       GSSOResponse gssoResponse = GSSOResponse.fromJson(result);
-      SessionManagement.createSession(token: gssoResponse.data.jwtToken, role: gssoResponse.data.role);
+      SessionManagement.createSession(token: gssoResponse.data.jwtToken, role: gssoResponse.data.role, tokenExpiration: gssoResponse.data.tokenExpiration);
       return gssoResponse;
     }
     catch (e){
@@ -77,7 +77,7 @@ class AppleSSORepo {
       Map<String, dynamic> result = jsonDecode(response.body);
       debugPrint(result.toString());
       GSSOResponse gssoResponse = GSSOResponse.fromJson(result);
-      SessionManagement.createSession(token: gssoResponse.data.jwtToken, role: gssoResponse.data.role);
+      SessionManagement.createSession(token: gssoResponse.data.jwtToken, role: gssoResponse.data.role, tokenExpiration: gssoResponse.data.tokenExpiration);
       return gssoResponse;
     } catch (e) {
       log(e.toString());

@@ -3,12 +3,13 @@ import 'dart:developer';
 
 import 'package:alafein/core/local_data/session_management.dart';
 import 'package:alafein/features/event/organizer/presentation/model/list_event_model.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'package:http/http.dart' as http;
 
 class ListEventRepo {
-  static Future<List<ListEventModel>> fetchEvent(isCategory,categoryId) async {
+  static Future<List<ListEventModel>> fetchEvent(isCategory, categoryId) async {
     var client = http.Client();
     print("UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU $categoryId");
 
@@ -21,11 +22,12 @@ class ListEventRepo {
           Uri.parse(
               'https://alafein.azurewebsites.net/api/v1/Event/GetFilterPagination'),
           body: jsonEncode({
-            "pageNumber":1,
+            "pageNumber": 1,
             "pageSize": 500,
             "categoryId": categoryId.toString()
           }),
-          headers: {"Content-Type": "application/json",
+          headers: {
+            "Content-Type": "application/json",
             "Authorization": "Bearer ${SessionManagement.getUserToken()}"
           },
         );

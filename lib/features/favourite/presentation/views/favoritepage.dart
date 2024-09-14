@@ -25,25 +25,27 @@ class FavoritePage extends StatefulWidget {
 }
 
 class _FavoritePageState extends State<FavoritePage> {
-  final FavoriteListBloc favoriteListBloc = FavoriteListBloc(1, 500, true);
+  late final FavoriteListBloc favoriteListBloc;
 
   @override
   void initState() {
-    favoriteListBloc.add(FavoriteListInitialEvent());
     super.initState();
+    favoriteListBloc = FavoriteListBloc(1, 500, true);
+    _loadFavorites();
   }
 
-  Future<void> _refresh() async {
-    // initState();
+  Future<void> _loadFavorites() async {
     EasyLoading.show(status: 'Loading...');
     favoriteListBloc.add(FavoriteListInitialEvent());
-    setState(() {});
+  }
+
+
+  Future<void> _refresh() async {
+    EasyLoading.show(status: 'Loading...');
+    favoriteListBloc.add(FavoriteListInitialEvent());
     await Future.delayed(const Duration(seconds: 1), () {
       EasyLoading.dismiss();
     });
-    return Future.delayed(
-      const Duration(microseconds: 1),
-    );
   }
 
   @override
@@ -224,6 +226,8 @@ class _FavoritePageState extends State<FavoritePage> {
                 onTap: () {},
                 child: Image.asset(
                   AssetsData.bottomBanner,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
                 ),
               ),
               // const  Gap(10),

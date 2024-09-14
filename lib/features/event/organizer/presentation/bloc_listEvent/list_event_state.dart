@@ -9,7 +9,12 @@ class ListEventInitial extends ListEventState {}
 
 class ListEventLoadingState extends ListEventState {}
 
-class ListEventErrorState extends ListEventState {}
+class ListEventErrorState extends ListEventState {
+  final List<ListEventModel> listEvent;
+  ListEventErrorState({
+    required this.listEvent,
+  });
+}
 
 class ListEventFetchingSuccessfulState extends ListEventState {
   final List<ListEventModel> listEvent;

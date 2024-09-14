@@ -17,6 +17,7 @@ import 'package:alafein/features/event/organizer/presentation/widgets/informatio
 
 // import 'package:alafein/features/event/organizer/presentation/widgets/list_view_event.dart';
 import 'package:alafein/features/main/main_screen.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -29,14 +30,11 @@ import 'package:svg_flutter/svg.dart';
 
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
+import '../../../../../core/presentation/routes/app_router.gr.dart';
 import '../model/event_data_ui_model.dart';
 
 class Eventbody extends StatefulWidget {
-  const Eventbody({
-    super.key,
-    required this.size,
-    required this.catId
-  });
+  const Eventbody({super.key, required this.size, required this.catId});
 
   final Size size;
   final int catId;
@@ -57,7 +55,7 @@ class _EventbodyState extends State<Eventbody> {
   List<EventDataUiModel> eventCategories = List.empty(growable: true);
 
   final TextEditingController _timeAndDateFromContoller =
-  TextEditingController();
+      TextEditingController();
   final TextEditingController _timeAndDateToContoller = TextEditingController();
 
   @override
@@ -76,6 +74,7 @@ class _EventbodyState extends State<Eventbody> {
     _timeAndDateToContoller.dispose();
     super.dispose();
   }
+
   Future<void> _refresh() async {
     EasyLoading.show(status: 'Loading...');
     listEventBloc.add(ListEventInitialFetchEvent(
@@ -90,11 +89,10 @@ class _EventbodyState extends State<Eventbody> {
 
   @override
   Widget build(BuildContext context) {
-    if (MainScreen.isClicked && eventCategories.isNotEmpty){
+    if (MainScreen.isClicked && eventCategories.isNotEmpty) {
       selectedIndex = MainScreen.catId;
       listEventBloc.add(ListEventInitialFetchEvent(
-          isCategory:
-          selectedIndex == 0 ? false : true,
+          isCategory: selectedIndex == 0 ? false : true,
           categoryId: eventCategories.elementAt(selectedIndex).id));
       MainScreen.isClicked = false;
     }
@@ -107,7 +105,7 @@ class _EventbodyState extends State<Eventbody> {
         slivers: [
           SliverToBoxAdapter(
             child:
-            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               const Gap(16),
               CustomAppBarEvent(
                 title1: "Events".tr().toUpperCase(),
@@ -125,21 +123,19 @@ class _EventbodyState extends State<Eventbody> {
                     Expanded(
                       child: InkWell(
                         onTap: () {
-                          if (SessionManagement.getUserRole() != "")
-                          {
+                          if (SessionManagement.getUserRole() != "") {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => const EventSearch()));
-                          } else {
-
-                          }
+                          } else {}
                         },
                         child: Container(
                           padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: kDividerColor, width: 1.5),
+                            border:
+                                Border.all(color: kDividerColor, width: 1.5),
                           ),
                           child: Row(
                             children: [
@@ -160,16 +156,13 @@ class _EventbodyState extends State<Eventbody> {
                     const Gap(16),
                     InkWell(
                       onTap: () async {
-                        if (SessionManagement.getUserRole() != "")
-                        {
+                        if (SessionManagement.getUserRole() != "") {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => const EventSearch()));
-                        } else {
-
-                        }
-      /*
+                        } else {}
+                        /*
                         _showFilterPopUp(
                           context,
                           _timeAndDateFromContoller,
@@ -197,6 +190,8 @@ class _EventbodyState extends State<Eventbody> {
               ),
               Image.asset(
                 AssetsData.bottomBanner,
+                width: double.infinity,
+                fit: BoxFit.cover,
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 24, top: 15),
@@ -206,9 +201,9 @@ class _EventbodyState extends State<Eventbody> {
                   child: BlocConsumer<EventCategoryBloc, EventCategoryState>(
                     bloc: eventCategoryBloc,
                     listenWhen: (previous, current) =>
-                    current is EventCategoryActionState,
+                        current is EventCategoryActionState,
                     buildWhen: (previous, current) =>
-                    current is! EventCategoryActionState,
+                        current is! EventCategoryActionState,
                     listener: (context, state) {},
                     builder: (context, state) {
                       switch (state.runtimeType) {
@@ -219,12 +214,13 @@ class _EventbodyState extends State<Eventbody> {
                         case EventCategoryFetchingSuccessfulState:
                           EasyLoading.dismiss();
                           final successState =
-                          state as EventCategoryFetchingSuccessfulState;
+                              state as EventCategoryFetchingSuccessfulState;
                           eventCategories = successState.eventCatigories;
                           return ListView.separated(
                             itemCount: successState.eventCatigories.length,
                             scrollDirection: Axis.horizontal,
-                            separatorBuilder: (context, index) => const SizedBox(
+                            separatorBuilder: (context, index) =>
+                                const SizedBox(
                               width: 15,
                             ),
                             itemBuilder: (context, index) => SizedBox(
@@ -232,9 +228,13 @@ class _EventbodyState extends State<Eventbody> {
                                 onTap: () {
                                   selectedIndex = index;
                                   setState(() {
-                                    listEventBloc.add(ListEventInitialFetchEvent(
-                                      isCategory: selectedIndex == 0 ? false : true,
-                                      categoryId:  successState.eventCatigories.elementAt(index).id,
+                                    listEventBloc
+                                        .add(ListEventInitialFetchEvent(
+                                      isCategory:
+                                          selectedIndex == 0 ? false : true,
+                                      categoryId: successState.eventCatigories
+                                          .elementAt(index)
+                                          .id,
                                     ));
                                   });
                                 },
@@ -252,25 +252,32 @@ class _EventbodyState extends State<Eventbody> {
                                     children: [
                                       ClipRRect(
                                         borderRadius: BorderRadius.circular(17),
-                                        child: successState.eventCatigories[index].id == 0
+                                        child: successState
+                                                    .eventCatigories[index]
+                                                    .id ==
+                                                0
                                             ? Image.asset(
-                                          'assets/images/all-icon.jpg',
-                                          width: 70,
-                                          fit: BoxFit.fitWidth,
-                                        )
+                                                'assets/images/all-icon.jpg',
+                                                width: 70,
+                                                fit: BoxFit.fitWidth,
+                                              )
                                             : CachedNetworkImage(
-                                          width: 70,
-                                          imageUrl: "${APICallerConfiguration.baseImageUrl}${successState.eventCatigories[index].image}",
-                                          fit: BoxFit.fitWidth,
-                                          errorWidget: (context, url, error) => Image.asset(
-                                            AssetsData.eventImg,
-                                            fit: BoxFit.contain,
-                                          ),
-                                        ),
+                                                width: 70,
+                                                imageUrl:
+                                                    "${APICallerConfiguration.baseImageUrl}${successState.eventCatigories[index].image}",
+                                                fit: BoxFit.fitWidth,
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        Image.asset(
+                                                  AssetsData.eventImg,
+                                                  fit: BoxFit.contain,
+                                                ),
+                                              ),
                                       ),
                                       const Gap(8),
                                       Text(
-                                        successState.eventCatigories[index].name.tr(),
+                                        successState.eventCatigories[index].name
+                                            .tr(),
                                         textAlign: TextAlign.center,
                                         style: homeLabel3Style,
                                       ),
@@ -297,71 +304,125 @@ class _EventbodyState extends State<Eventbody> {
             child: BlocConsumer<ListEventBloc, ListEventState>(
                 bloc: listEventBloc,
                 listenWhen: (previous, current) =>
-                current is ListEventActionState,
+                    current is ListEventActionState,
                 buildWhen: (previous, current) =>
-                current is! ListEventActionState,
-                listener: (context, state) {},
+                    current is! ListEventActionState,
+                listener: (context, state) {
+                  if (state is ListEventErrorState) {
+                    // Handle error state
+                    print('Error State: ${state.listEvent}');
+                    EasyLoading.showError("An error has occurred");
+                  }
+                },
                 builder: (context, state) {
+                  // Debugging current state
+                  print('Current State: $state');
+
                   switch (state.runtimeType) {
                     case ListEventLoadingState:
                       EasyLoading.show();
+                      return Center(child: CircularProgressIndicator());
+
                     case ListEventErrorState:
-                      EasyLoading.showError("An error has been ouccer");
+                      EasyLoading.showError("An error has occurred");
+                      return Center(child: Text('Failed to fetch events.'));
+
                     case ListEventFetchingSuccessfulState:
                       EasyLoading.dismiss();
                       final successState =
-                      state as ListEventFetchingSuccessfulState;
-                      return successState.listEvent.isEmpty? const Center(child: Text("No Data found",style: homeLabelStyle,)) :
-                      ListView.separated(
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        padding: EdgeInsets.zero,
-                        itemCount: successState.listEvent.length,
-                        separatorBuilder: (context, index) => Container(
-                          width: double.infinity,
-                          height: 1,
-                          color: const Color(0xffECECEC),
-                        ),
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => EventDeatils(
-                                      index: successState
-                                          .listEvent[index].id??0, //bloc.event!.id!,
-                                    ),
-                                  ));
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 10,
-                                horizontal: 24,
+                          state as ListEventFetchingSuccessfulState;
+
+                      // Print listEvent for debugging
+                      print('Fetched Events: ${successState.listEvent}');
+
+                      if (successState.listEvent.isNotEmpty) {
+                        final firstEvent = successState.listEvent.first;
+
+                        // Debug firstEvent to check its properties
+                        print('First Event: $firstEvent');
+
+                        if (firstEvent.id == null &&
+                            firstEvent.poster == null &&
+                            firstEvent.name == null &&
+                            firstEvent.venue == null &&
+                            firstEvent.date == null &&
+                            firstEvent.isFavourite == null) {
+                          print('Error: Invalid token or event data');
+                          SessionManagement.signOut();
+                          AutoRouter.of(context)
+                              .replaceAll([const LoginRoute()]);
+                        }
+                      }
+
+
+                      return successState.listEvent.isEmpty
+                          ? const Center(
+                              child: Text(
+                              "No Data found",
+                              style: homeLabelStyle,
+                            ))
+                          : ListView.separated(
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              padding: EdgeInsets.zero,
+                              itemCount: successState.listEvent.length,
+                              separatorBuilder: (context, index) => Container(
+                                width: double.infinity,
+                                height: 1,
+                                color: const Color(0xffECECEC),
                               ),
-                              child: SizedBox(
-                                height: 100,
-                                child: Row(
-                                  children: [
-                                    CustomEventImage(
-                                      imageurl: "${APICallerConfiguration.baseImageUrl}${successState.listEvent[index].poster}",
+                              itemBuilder: (context, index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => EventDeatils(
+                                            index: successState
+                                                    .listEvent[index].id ??
+                                                0, //bloc.event!.id!,
+                                          ),
+                                        ));
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 10,
+                                      horizontal: 24,
                                     ),
-                                    SizedBox(
-                                      width: MediaQuery.sizeOf(context).width * 0.05,
-                                    ),
-                                    Expanded(
-                                      child: InformationEvent(
-                                        name: successState.listEvent[index].name ?? "",
-                                        date: successState.listEvent[index].date ?? "",
-                                        venue: successState.listEvent[index].venue?.name ?? "",
+                                    child: SizedBox(
+                                      height: 100,
+                                      child: Row(
+                                        children: [
+                                          CustomEventImage(
+                                            imageurl:
+                                                "${APICallerConfiguration.baseImageUrl}${successState.listEvent[index].poster}",
+                                          ),
+                                          SizedBox(
+                                            width: MediaQuery.sizeOf(context)
+                                                    .width *
+                                                0.05,
+                                          ),
+                                          Expanded(
+                                            child: InformationEvent(
+                                              name: successState
+                                                      .listEvent[index].name ??
+                                                  "",
+                                              date: successState
+                                                      .listEvent[index].date ??
+                                                  "",
+                                              venue: successState
+                                                      .listEvent[index]
+                                                      .venue
+                                                      ?.name ??
+                                                  "",
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      );
+                                  ),
+                                );
+                              },
+                            );
                   }
                   return const Text("");
                 }),

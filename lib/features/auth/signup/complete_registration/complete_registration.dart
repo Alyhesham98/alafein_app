@@ -17,7 +17,7 @@ class _CompleteRegistrationState extends State<CompleteRegistration> {
   void initState() {
     super.initState();
 
-    Future.delayed(const Duration(seconds: 73), () {
+    Future.delayed(const Duration(seconds: 7), () {
       setState(() {
         _showGif = false;
       });

@@ -131,6 +131,110 @@ void configLoading() {
     ..animationStyle = EasyLoadingAnimationStyle.scale
     ..boxShadow = <BoxShadow>[];
 }
+
+//
+// Future<void> _checkAndRefreshToken() async {
+//   print('_checkAndRefreshToken token');
+//   final tokenExpiration = SessionManagement.getTokenExpiration();
+//   final currToken = SessionManagement.getUserToken();
+//   print('The current user token is: $currToken');
+//   print('The current token expiration is: $tokenExpiration');
+//
+//   final now = DateTime.now();
+//
+//   if (tokenExpiration == null || now.isAfter(tokenExpiration)) {
+//     // Token has expired or no expiration time set, attempt to refresh
+//     final success = await _refreshToken();
+//     if (success) {
+//       print('Refreshed Token Successfully');
+//     } else {
+//       print('ERROR: Refreshed Token FAILED');
+//       _handleSessionExpired(); // Handle session expiration
+//     }
+//   } else {
+//     final difference = tokenExpiration.difference(now);
+//     // Check if the token expires in less than 3 days
+//     if (difference.inDays < 3) {
+//       final success = await _refreshToken();
+//       if (success) {
+//         print('Refreshed Token Successfully');
+//       } else {
+//         print('ERROR: Refreshed Token FAILED');
+//         _handleSessionExpired(); // Handle session expiration
+//       }
+//     } else {
+//       print('No need to refresh token');
+//     }
+//   }
+// }
+//
+// Future<bool> _refreshToken() async {
+//   final currentToken = SessionManagement.getUserToken();
+//   if (currentToken == null || currentToken.isEmpty) {
+//     print('ERROR: No current token available for refresh');
+//     return false;
+//   }
+//
+//   final url =
+//   Uri.parse('https://alafein.azurewebsites.net/api/v1/User/RefreshToken');
+//
+//   try {
+//     final response = await http.post(
+//       url,
+//       headers: {
+//         "Content-Type": "application/json-patch+json",
+//         "Authorization": "Bearer $currentToken"
+//       },
+//       body: jsonEncode({"token": currentToken}),
+//     );
+//
+//     if (response.statusCode == 200) {
+//       final data = jsonDecode(response.body)['data'];
+//       if (data != null) {
+//         final newToken = data['jwtToken'] ?? '';
+//         final role = data['role'] ?? '';
+//         final newTokenExpiration = data['tokenExpiration'] ?? '';
+//
+//         if (newToken.isNotEmpty && newTokenExpiration.isNotEmpty) {
+//           SessionManagement.createSession(
+//             token: newToken,
+//             role: role,
+//             tokenExpiration: newTokenExpiration,
+//           );
+//           SessionManagement.saveTokenExpiration(
+//               DateTime.parse(newTokenExpiration));
+//           return true;
+//         } else {
+//           print('ERROR: Invalid data received from token refresh response');
+//           return false;
+//         }
+//       } else {
+//         print('ERROR: No data found in response');
+//         return false;
+//       }
+//     } else {
+//       print(
+//           'ERROR: Failed to refresh token, status code ${response.statusCode}');
+//       return false;
+//     }
+//   } catch (e) {
+//     print('ERROR: Exception occurred during token refresh: $e');
+//     return false;
+//   }
+// }
+
+// Function to handle session expiration
+// void _handleSessionExpired() {
+//   // Clear the session and token
+//   SessionManagement.signOut();
+//
+//   // Redirect to the login page
+//   AutoRouter.of(context).replaceAll([const LoginRoute()]);
+// }
+//
+
+
+
 Future<void> _checkAndRefreshToken() async {
   print('_checkAndRefreshToken token');
   final tokenExpiration = SessionManagement.getTokenExpiration();
@@ -141,7 +245,7 @@ Future<void> _checkAndRefreshToken() async {
   final now = DateTime.now();
 
   if (tokenExpiration == null || now.isAfter(tokenExpiration)) {
-    // If no expiration time is set or the token has expired, refresh the token
+    // Token has expired or no expiration time set, attempt to refresh
     final success = await _refreshToken();
     if (success) {
       print('Refreshed Token Successfully');
@@ -167,11 +271,12 @@ Future<void> _checkAndRefreshToken() async {
 Future<bool> _refreshToken() async {
   final currentToken = SessionManagement.getUserToken();
   if (currentToken == null || currentToken.isEmpty) {
+    print('ERROR: No current token available for refresh');
     return false;
   }
 
   final url =
-  Uri.parse('https://alafein.azurewebsites.net/api/v1/User/RefreshToken');
+      Uri.parse('https://alafein.azurewebsites.net/api/v1/User/RefreshToken');
 
   try {
     final response = await http.post(
@@ -186,19 +291,30 @@ Future<bool> _refreshToken() async {
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body)['data'];
       if (data != null) {
-        SessionManagement.createSession(
-          token: data['jwtToken'] ?? '',
-          role: data['role'] ?? '',
-        );
-        SessionManagement.saveTokenExpiration(
-            DateTime.parse(data['tokenExpiration'] ?? ''));
-        return true;
+        final newToken = data['jwtToken'] ?? '';
+        final role = data['role'] ?? '';
+        final newTokenExpiration = data['tokenExpiration'] ?? '';
+
+        if (newToken.isNotEmpty && newTokenExpiration.isNotEmpty) {
+          SessionManagement.createSession(
+            token: newToken,
+            role: role,
+            tokenExpiration: newTokenExpiration,
+          );
+          SessionManagement.saveTokenExpiration(
+              DateTime.parse(newTokenExpiration));
+          return true;
+        } else {
+          print('ERROR: Invalid data received from token refresh response');
+          return false;
+        }
       } else {
         print('ERROR: No data found in response');
         return false;
       }
     } else {
-      print('ERROR: Failed to refresh token, status code ${response.statusCode}');
+      print(
+          'ERROR: Failed to refresh token, status code ${response.statusCode}');
       return false;
     }
   } catch (e) {

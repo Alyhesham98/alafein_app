@@ -218,7 +218,11 @@ class BranchDataPage extends StatelessWidget {
               ),
             ),
             Gap(4.sw),
-            Image.asset(AssetsData.bottomBanner),
+            Image.asset(
+              AssetsData.bottomBanner,
+              width: double.infinity,
+              fit: BoxFit.cover,
+            ),
             Gap(8.sw),
           ],
         ),
