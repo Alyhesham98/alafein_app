@@ -26,7 +26,8 @@ class ListEventBloc extends Bloc<ListEventEvent, ListEventState> {
       final errorEvent = ListEventModel(
           id: null,
           poster: null,
-          name: null,
+          nameEn: null,
+          nameAr: null,
           venue: null,
           date: null,
           isFavourite: null,

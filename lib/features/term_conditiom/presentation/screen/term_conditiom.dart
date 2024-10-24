@@ -1,5 +1,6 @@
 import 'package:alafein/core/utility/colors_data.dart';
 import 'package:alafein/core/utility/strings.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class TermCondition extends StatelessWidget {
@@ -8,12 +9,12 @@ class TermCondition extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-
     return Scaffold(
     appBar: AppBar(
       leading: IconButton(
-        icon: const Icon(Icons.arrow_back),
-        onPressed: () {
+        icon: Icon(Icons.arrow_back),
+
+      onPressed: () {
           Navigator.of(context).pop();
         },
       ),
@@ -94,7 +95,7 @@ class TermCondition extends StatelessWidget {
                       "*!الشروط والأحكام ل *على فين*",
                       maxLines: 1,
                       textAlign: TextAlign.start,
-                      textDirection: TextDirection.ltr,
+                      // textDirection: TextDirection.ltr,
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 22,
@@ -107,7 +108,7 @@ class TermCondition extends StatelessWidget {
                     const Text(
                       "نرحب بكم في دليلكم الرقمي المجاني باللغتين العربية والإنجليزية، باستخدامك تطبيقنا فإنك توافق على الشروط والأحكام التالية:",
                       textAlign: TextAlign.start,
-                      textDirection: TextDirection.rtl,
+                      // textDirection: TextDirection.rtl,
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 22,
@@ -123,7 +124,7 @@ class TermCondition extends StatelessWidget {
                       child: Text(
                         "-  مسؤولية المستخدم: أنت مسؤول عن استخدامك لتطبيقنا وأي محتوى أو معلومات تقوم بتحميلها أو نشرها عليه.\n-  الملكية الفكرية: التطبيق مملوك لنا ومحمي بموجب قوانين الملكية الفكرية.\n-  محتوى المستخدم: باستخدامك تطبيقنا، فإنك تمنحنا ترخيصًا لاستخدام المحتوى الخاص بك لغرض توفير وتحسين خدماتنا عبر التطبيق.\n-  دقة المعلومات: نسعى جاهدين لتوفير معلومات دقيقة ومحدثة يوم بيوم حول الأحداث الفنية والثقافية في مصر. نقوم بجمع بياناتنا مباشرة من الأماكن والمنظمين والفنانين لضمان دقتها. ومع ذلك ، فإننا لا نضمن مئة بالمئة دقة أو اكتمال أو توقيت أي معلومات على تطبيقنا لما قد يحدث من تغييرات مفاجئة غير معلنة من المصدر.\n-  التغييرات في الشروط والأحكام: نحتفظ بالحق في تغيير هذه الشروط والأحكام في أي وقت.\n-  تواصل معنا: إذا كانت لديك أي أسئلة أو مخاوف بشأن هذه الشروط والأحكام ، فيرجى الاتصال بنا باستخدام معلومات الاتصال الواردة في تطبيقنا.",
                         textAlign: TextAlign.start,
-                        textDirection: TextDirection.rtl,
+                        // textDirection: TextDirection.rtl,
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 22,
@@ -137,7 +138,7 @@ class TermCondition extends StatelessWidget {
                       child: Text(
                         "باستخدامك تطبيقنا المجاني ثنائي اللغة ، فإنك تقر بأنك قد قرأت وفهمت ووافقت على هذه الشروط والأحكام.",
                           textAlign: TextAlign.start,
-                          textDirection: TextDirection.rtl,
+                          // textDirection: TextDirection.rtl,
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 22,

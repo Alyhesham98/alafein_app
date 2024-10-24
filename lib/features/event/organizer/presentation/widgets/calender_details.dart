@@ -15,7 +15,7 @@ class CalenderDetails extends StatelessWidget {
   final Widget icon;
   final String text;
   final String location;
-  final String eventName;
+  final String? eventName;
   final String name;
 
   @override
@@ -28,7 +28,7 @@ class CalenderDetails extends StatelessWidget {
             // launchUrl(Uri.parse(location));
             print(text);
             Add2Calendar.addEvent2Cal(
-              buildEvent(text, location, eventName, name),
+              buildEvent(text, location, eventName!, name),
             );
           },
           icon: icon,

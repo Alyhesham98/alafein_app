@@ -29,10 +29,6 @@ import '../screen/profile_page.dart';
 // import '../../../../core/utility/strings.dart';
 // import '../../../main/main_screen.dart';
 
-
-
-
-
 class CustomProfileAppBarEvent extends StatelessWidget {
   const CustomProfileAppBarEvent(
       {super.key,
@@ -69,7 +65,10 @@ class CustomProfileAppBarEvent extends StatelessWidget {
                 textColor: color,
               ),
         trailing:
-            onTap == null ? null : SvgPicture.asset(AssetsData.arrowRight),
+            // onTap == null ? null : SvgPicture.asset(AssetsData.arrowRight),
+        onTap == null ? null : const Icon(Icons.arrow_forward_ios, size: 10, weight: 900,),
+
+
         onTap: onTap == null
             ? null
             : () async {
@@ -127,7 +126,8 @@ class CustomProfileAppBarEvent extends StatelessWidget {
                         builder: (BuildContext context) {
                           return AlertDialog(
                             title: Text("Delete Account").tr(),
-                            content: const Text("Are you sure you want to delete your account?"),
+                            content: const Text(
+                                "Are you sure you want to delete your account?"),
                             actions: <Widget>[
                               TextButton(
                                 onPressed: () {
@@ -155,17 +155,20 @@ class CustomProfileAppBarEvent extends StatelessWidget {
 
                         if (profile != null && profile.id != null) {
                           EasyLoading.show(status: 'Deleting Account');
-                          bool isDeleted = await deleteProfile(userId: profile.id);
+                          bool isDeleted =
+                              await deleteProfile(userId: profile.id);
 
                           if (isDeleted) {
                             // Successfully deleted the profile
                             SessionManagement.signOut();
                             if (await googleSignIn.isSignedIn()) {
                               await googleSignIn.signOut().whenComplete(() {
-                                AutoRouter.of(context).replaceAll([const LoginRoute()]);
+                                AutoRouter.of(context)
+                                    .replaceAll([const LoginRoute()]);
                               });
                             } else {
-                              AutoRouter.of(context).replaceAll([const LoginRoute()]);
+                              AutoRouter.of(context)
+                                  .replaceAll([const LoginRoute()]);
                             }
                             await _deleteCacheDir();
                           } else {
@@ -198,7 +201,9 @@ class CustomProfileAppBarEvent extends StatelessWidget {
     try {
       var response = await client.get(
         Uri.parse('https://alafein.azurewebsites.net/api/v1/User/Profile'),
-        headers: {"Authorization": "Bearer ${SessionManagement.getUserToken()}"},
+        headers: {
+          "Authorization": "Bearer ${SessionManagement.getUserToken()}"
+        },
       );
 
       debugPrint("Response status: ${response.statusCode}");
@@ -227,14 +232,16 @@ class CustomProfileAppBarEvent extends StatelessWidget {
     }
   }
 
-
   Future<bool> deleteProfile({required String? userId}) async {
     var client = http.Client();
 
     try {
       var response = await client.delete(
-        Uri.parse('https://alafein.azurewebsites.net/api/v1/User/Delete/$userId'),
-        headers: {"Authorization": "Bearer ${SessionManagement.getUserToken()}"},
+        Uri.parse(
+            'https://alafein.azurewebsites.net/api/v1/User/Delete/$userId'),
+        headers: {
+          "Authorization": "Bearer ${SessionManagement.getUserToken()}"
+        },
       );
 
       // Log the raw response for debugging
@@ -249,7 +256,8 @@ class CustomProfileAppBarEvent extends StatelessWidget {
           debugPrint("User deleted successfully");
           return true;
         } else {
-          debugPrint("Failed to delete user: ${result['Message'] ?? 'No message'}");
+          debugPrint(
+              "Failed to delete user: ${result['Message'] ?? 'No message'}");
           return false;
         }
       } else {
@@ -264,7 +272,6 @@ class CustomProfileAppBarEvent extends StatelessWidget {
     }
   }
 
-
   Future<void> _deleteCacheDir() async {
     try {
       final cacheDir = await getTemporaryDirectory();
@@ -276,7 +283,6 @@ class CustomProfileAppBarEvent extends StatelessWidget {
       print("Failed to delete cache directory: $e");
     }
   }
-
 
   Future<void> _showPopUp(BuildContext context) async {
     return showModalBottomSheet(
@@ -343,6 +349,7 @@ class CustomProfileAppBarEvent extends StatelessWidget {
         });
   }
 }
+
 void changeLanguage(BuildContext context) {
   Locale? currentLocale = EasyLocalization.of(context)!.currentLocale;
   Locale newLocale = currentLocale == const Locale('en', 'US')
@@ -351,11 +358,8 @@ void changeLanguage(BuildContext context) {
 
   EasyLocalization.of(context)!.setLocale(newLocale).then((_) {
     Navigator.pop(context);
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const MainScreen()));
-
-
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => const MainScreen()),
+        (route) => false);
   });
-
 }
-
-

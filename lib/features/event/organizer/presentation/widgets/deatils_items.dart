@@ -16,7 +16,7 @@ class DeatilsItems extends StatelessWidget {
   final Widget icon;
   final String text;
   final String location;
-  final String eventName;
+  final String? eventName;
   final String name;
 
   @override

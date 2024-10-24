@@ -1,5 +1,6 @@
 import 'package:alafein/core/local_data/session_management.dart';
 import 'package:alafein/features/auth/signup/presentation/widgets/profile_picture.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -51,15 +52,17 @@ class _AudienceProfileState extends State<AudienceProfile> {
 
   @override
   Widget build(BuildContext context) {
+    Locale currentLocale = EasyLocalization.of(context)!.currentLocale!;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: currentLocale.languageCode == 'en'
+              ? Icon(Icons.arrow_back)
+              : Icon(Icons.arrow_forward),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
-
       ),
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),

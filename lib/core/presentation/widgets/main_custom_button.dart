@@ -1,5 +1,6 @@
 import 'package:alafein/core/utility/assets_data.dart';
 import 'package:alafein/core/utility/colors_data.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -17,6 +18,7 @@ class MainCustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return MaterialButton(
       elevation: 0,
       hoverElevation: 0,
@@ -41,7 +43,8 @@ class MainCustomButton extends StatelessWidget {
                 fontSize: 16, fontWeight: FontWeight.w700),
           ),
           const Spacer(),
-          SvgPicture.asset(AssetsData.forward),
+          // SvgPicture.asset(AssetsData.forward),
+          const Icon(Icons.arrow_forward),
         ],
       ),
     );

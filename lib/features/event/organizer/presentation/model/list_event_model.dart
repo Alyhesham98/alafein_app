@@ -11,7 +11,9 @@ String listEventModelToJson(List<ListEventModel> data) => json.encode(List<dynam
 class ListEventModel {
     int? id;
     String? poster;
-    String? name;
+    // String? name;
+    String? nameEn;
+    String? nameAr;
     Venue? venue;
     String? date;
     bool? isFavourite;
@@ -19,7 +21,9 @@ class ListEventModel {
     ListEventModel({
         required this.id,
         required this.poster,
-        required this.name,
+        // required this.name,
+        required this.nameEn,
+        required this.nameAr,
         required this.venue,
         required this.date,
         required this.isFavourite,
@@ -28,7 +32,9 @@ class ListEventModel {
     factory ListEventModel.fromJson(Map<String, dynamic> json) => ListEventModel(
         id: json["Id"],
         poster: json["Poster"],
-        name: json["Name"],
+        // name: json["Name"],
+        nameEn: json["NameEn"],
+        nameAr: json["NameAr"],
         venue: Venue.fromJson(json["Venue"]),
         date: json["Date"],
         isFavourite: json["IsFavourite"],
@@ -37,7 +43,9 @@ class ListEventModel {
     Map<String, dynamic> toJson() => {
         "Id": id,
         "Poster": poster,
-        "Name": name,
+        // "Name": name,
+        "NameEn": nameEn,
+        "NameAr": nameAr,
         "Venue": venue!.toJson(),
         "Date": date,
         "IsFavourite": isFavourite,

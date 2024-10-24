@@ -14,7 +14,7 @@ class Deatils extends StatelessWidget {
   final String date;
   final num price;
   final String postion;
-  final String eventName;
+  final String? eventName;
   final String name;
   final String location;
   final bool isFree;

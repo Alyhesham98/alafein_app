@@ -35,6 +35,7 @@ class EventsShowCommentBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String? currentLocale = EasyLocalization.of(context)!.currentLocale?.languageCode;
     return BlocBuilder<GetEventCubit, GetEventState>(
       builder: (context, state) {
         final getDeatils = context.read<GetEventCubit>().eventDetails;
@@ -56,7 +57,6 @@ class EventsShowCommentBody extends StatelessWidget {
         // print('Venue: ${getDeatils?.venue?.id}');
         // print('Organizer ID: ${getDeatils?.eventOrganizer?['id']}');
         // print('Event Organizer ID: ${getDeatils?.eventOrganizer?['Id']}');
-
 
         final comments = context.read<GetEventCubit>().comments;
 
@@ -94,7 +94,17 @@ class EventsShowCommentBody extends StatelessWidget {
                   onTap: () {},
                   id: id,
                   isFavorite: getDeatils.isFavorite ?? true,
-                  eventName: getDeatils.name ?? "",
+                  // eventName: getDeatils.name ?? "",
+                  eventName: currentLocale == 'en'
+                      ? (getDeatils.NameEn != null &&
+                              getDeatils.NameEn?.toLowerCase() != "none"
+                          ? getDeatils.NameEn
+                          : (getDeatils.NameAr ?? ""))
+                      : (getDeatils.NameAr != null &&
+                              getDeatils.NameAr?.toLowerCase() != "none"
+                          ? getDeatils.NameAr
+                          : (getDeatils.NameEn ?? "")),
+
                   date: getDeatils.date ?? "",
                   location: getDeatils.mapLink ?? '',
                 ),
@@ -110,7 +120,15 @@ class EventsShowCommentBody extends StatelessWidget {
                 location: getDeatils.mapLink ?? '',
                 isFree: getDeatils.attendanceOption?.name == "Free",
                 name: getDeatils.category?.name ?? "",
-                eventName: getDeatils.name ?? "",
+                eventName: currentLocale == 'en'
+                    ? (getDeatils.NameEn != null &&
+                            getDeatils.NameEn?.toLowerCase() != "none"
+                        ? getDeatils.NameEn
+                        : (getDeatils.NameAr ?? ""))
+                    : (getDeatils.NameAr != null &&
+                            getDeatils.NameAr?.toLowerCase() != "none"
+                        ? getDeatils.NameAr
+                        : (getDeatils.NameEn ?? "")),
               ),
               if (getDeatils.eventOrganizer != null)
                 const Padding(
@@ -134,12 +152,8 @@ class EventsShowCommentBody extends StatelessWidget {
                   size: size,
                   organizerID: getDeatils.eventOrganizer?['Id'] ?? 0,
                 ),
-               Padding(
-                padding: EdgeInsets.only(
-                  left: 24,
-                  top: 20,
-                    right: 24
-                ),
+              Padding(
+                padding: EdgeInsets.only(left: 24, top: 20, right: 24),
                 child: Text(
                   "Venue".tr(),
                   style: homeLabelStyle,
@@ -158,20 +172,18 @@ class EventsShowCommentBody extends StatelessWidget {
                 size: size,
                 venueID: getDeatils.venue?.id ?? 0,
               ),
-               Padding(
-                padding: EdgeInsets.only(
-                  left: 24,
-                    right: 24
-                ),
+              Padding(
+                padding: EdgeInsets.only(left: 24, right: 24),
                 child: Text(
                   "Comments".tr(),
                   style: homeLabelStyle,
                 ),
               ),
-              if (comments.isNotEmpty) SizedBox(
-                height: 200,
-                child: ListCommetItems(comments),
-              ),
+              if (comments.isNotEmpty)
+                SizedBox(
+                  height: 200,
+                  child: ListCommetItems(comments),
+                ),
               if (getDeatils.attendanceOption?.name != "Free")
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -184,7 +196,8 @@ class EventsShowCommentBody extends StatelessWidget {
                   ),
                 ),
               const Gap(10),
-              if (getDeatils.attendanceOption?.name != "Registration" && getDeatils.attendanceOption?.name != "Ticket")
+              if (getDeatils.attendanceOption?.name != "Registration" &&
+                  getDeatils.attendanceOption?.name != "Ticket")
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 24,

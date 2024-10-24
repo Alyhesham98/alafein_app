@@ -8,7 +8,8 @@ class EventDeatilsModel {
   String? poster;
   Category? category;
   bool? isFavorite;
-  String? name;
+  String? NameEn;
+  String? NameAr;
   Organizer? organizer;
   String? description;
   String? date;
@@ -25,7 +26,8 @@ class EventDeatilsModel {
     this.poster,
     this.category,
     this.isFavorite,
-    this.name,
+    this.NameEn,
+    this.NameAr,
     this.organizer,
     this.description,
     this.date,
@@ -46,7 +48,8 @@ class EventDeatilsModel {
           ? null
           : Category.fromJson(json['Category'] as Map<String, dynamic>),
       isFavorite: json['IsFavourite'],
-      name: json['Name'] as String?,
+      NameEn: json['NameEn'] as String?,
+      NameAr: json['NameAr'] as String?,
       organizer: json['Organizer'] == null
           ? null
           : Organizer.fromJson(json['Organizer'] as Map<String, dynamic>),
@@ -72,7 +75,8 @@ class EventDeatilsModel {
         'Poster': poster,
         'Category': category?.toJson(),
         'IsFavorite': isFavorite,
-        'Name': name,
+        'NameEn': NameEn,
+        'NameAr': NameAr,
         'Organizer': organizer?.toJson(),
         'Description': description,
         'Date': date,

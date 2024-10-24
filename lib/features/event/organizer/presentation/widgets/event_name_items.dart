@@ -33,7 +33,7 @@ class EventName extends StatefulWidget {
   final Function onTap;
   final int id;
   final bool isFavorite;
-  final String eventName;
+  final String? eventName;
   final String location;
   final String date;
 
@@ -80,7 +80,7 @@ class _EventNameState extends State<EventName> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  widget.eventName,
+                  widget.eventName!,
                   style: homeLabelStyle,
                   softWrap: true,
                 ),
@@ -103,7 +103,7 @@ class _EventNameState extends State<EventName> {
                 onTap: () {
                   Add2Calendar.addEvent2Cal(
                     buildEvent(widget.date, widget.location,
-                        widget.eventName, widget.name),
+                        widget.eventName!, widget.name),
                   );
                 },
               ),

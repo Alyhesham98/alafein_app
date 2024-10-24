@@ -40,10 +40,11 @@ class SecondaryCustomButton extends StatelessWidget {
                 fontSize: 16, fontWeight: FontWeight.w700),
           ),
           const Spacer(),
-          SvgPicture.asset(
-            AssetsData.forward,
-            colorFilter: kColorFilter(kPrimaryColor),
-          ),
+          // SvgPicture.asset(
+          //   AssetsData.forward,
+          //   colorFilter: kColorFilter(kPrimaryColor),
+          // ),
+          Icon(Icons.arrow_forward, color: kPrimaryColor,),
         ],
       ),
     );

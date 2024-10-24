@@ -1,5 +1,6 @@
 import 'package:alafein/core/utility/colors_data.dart';
 import 'package:alafein/core/utility/strings.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class PrivacyAndPolicy extends StatelessWidget {
@@ -8,12 +9,12 @@ class PrivacyAndPolicy extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
+          icon: Icon(Icons.arrow_back),
+
+      onPressed: () {
             Navigator.of(context).pop();
           },
         ),
@@ -101,7 +102,7 @@ class PrivacyAndPolicy extends StatelessWidget {
                       "*!السياسة والخصوصية ل *على فين",
                       maxLines: 1,
                       textAlign: TextAlign.start,
-                      textDirection: TextDirection.ltr,
+                      // textDirection: TextDirection.ltr,
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 22,
@@ -114,7 +115,7 @@ class PrivacyAndPolicy extends StatelessWidget {
                     const Text(
                       "نحن نهتم بأخذ ما يخص خصوصية وأمن المعلومات الشخصية لمستخدمينا على محمل الجد. باستخدامك تطبيقنا، فإنك توافق على الالتزام بسياسات الخصوصية التالية:",
                       textAlign: TextAlign.start,
-                      textDirection: TextDirection.rtl,
+                      // textDirection: TextDirection.rtl,
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 22,
@@ -130,7 +131,7 @@ class PrivacyAndPolicy extends StatelessWidget {
                       child: Text(
                         "-  جمع المعلومات: نحن نقوم بجمع المعلومات الشخصية من المستخدمين الذين ينشئون حسابات على تطبيقنا، بما في ذلك الاسم وعنوان البريد الإلكتروني وتفضيلات اللغة.\n-  استخدام المعلومات: استخدامنا لهذه المعلومات يساعدنا في تقديم خدماتنا وتحسينها والتواصل مع المستخدم  وتحسين تجربته على تطبيقنا.\n-   مشاركة المعلومات: نحن لا نبيع أو نؤجر معلوماتك الشخصية لأطراف ثالثة. ولكن قد نشاركها مع مزودي الخدمة الذين يساعدوننا في تشغيل تطبيقنا.\n-  أمن البيانات: نتخذ تدابير معقولة لحماية أمن معلوماتك الشخصية\n-  محتوى المستخدم: نحن لسنا مسؤولين عن دقة أو قانونية محتوى المستخدم ، ونحتفظ بالحق في إزالة أي محتوى يخالف أو ينتهك شروط الخدمة الخاصة بنا.\n-  ملفات تعريف الارتباط وتقنيات التتبع: نستخدم ملفات تعريف الارتباط وتقنيات التتبع الأخرى لتحسين تجربتك على تطبيقنا.-n\n-   التغييرات في سياسة الخصوصية: نحتفظ بالحق في تغيير سياسة الخصوصية هذه في أي وقت.\n-  تواصل معنا: إذا كانت لديك أي أسئلة أو مخاوف بشأن سياسة الخصوصية هذه، فيرجى الاتصال بنا باستخدام معلومات الاتصال المتوفرة على تطبيقنا.",
                         textAlign: TextAlign.start,
-                        textDirection: TextDirection.rtl,
+                        // textDirection: ,
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 22,
@@ -144,7 +145,7 @@ class PrivacyAndPolicy extends StatelessWidget {
                       child: Text(
                         "باستخدام تطبيقنا ، فإنك تقر بأنك قد قرأت وفهمت ووافقت على سياسة الخصوصية هذه. نحن ملتزمون بحماية خصوصيتك وسنتخذ جميع التدابير المناسبة للقيام بذلك.",
                           textAlign: TextAlign.start,
-                          textDirection: TextDirection.rtl,
+                          // textDirection: TextDirection.rtl,
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 22,

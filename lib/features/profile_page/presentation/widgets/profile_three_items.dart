@@ -31,7 +31,7 @@ class ThreeItems extends StatelessWidget {
             title: ProfileItemText(
               text: "About Us".tr(),
             ),
-            trailing: SvgPicture.asset(AssetsData.arrowRight),
+            trailing:const Icon(Icons.arrow_forward_ios, size: 10, weight: 900,),
             onTap: () {
               Navigator.push(
               context,
@@ -52,7 +52,7 @@ class ThreeItems extends StatelessWidget {
                 title:  ProfileItemText(
                   text: "Privacy Policy".tr().toUpperCase(),
                 ),
-            trailing: SvgPicture.asset(AssetsData.arrowRight),
+            trailing: const Icon(Icons.arrow_forward_ios, size: 10, weight: 900,),
             onTap: () {
               Navigator.push(
               context,
@@ -71,7 +71,7 @@ class ThreeItems extends StatelessWidget {
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
             title: ProfileItemText(text: "Terms and Conditions".tr(),),
-            trailing: SvgPicture.asset(AssetsData.arrowRight),
+            trailing: const Icon(Icons.arrow_forward_ios, size: 10, weight: 900,),
             onTap: () {
             Navigator.push(
               context,

@@ -8,7 +8,7 @@ class InformationEvent extends StatelessWidget {
     required this.date,
     required this.venue,
   });
-  final String name;
+  final String? name;
   final String date;
   final String venue;
 
@@ -22,7 +22,7 @@ class InformationEvent extends StatelessWidget {
             child: SizedBox(
               width: MediaQuery.of(context).size.width * .5,
               child: Text(
-                name,
+                name!,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: homeLabelStyle.copyWith(fontSize: 18),
