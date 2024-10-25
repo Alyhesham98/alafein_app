@@ -11,7 +11,7 @@ String listEventModelToJson(List<ListEventModel> data) => json.encode(List<dynam
 class ListEventModel {
     int? id;
     String? poster;
-    // String? name;
+    String? name;
     String? nameEn;
     String? nameAr;
     Venue? venue;

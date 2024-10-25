@@ -30,11 +30,10 @@ import '../screen/profile_page.dart';
 // import '../../../main/main_screen.dart';
 
 class CustomProfileAppBarEvent extends StatelessWidget {
-  const CustomProfileAppBarEvent(
-      {super.key,
-      required this.title,
-      required this.onTap,
-      this.color = Colors.black});
+  const CustomProfileAppBarEvent({super.key,
+    required this.title,
+    required this.onTap,
+    this.color = Colors.black});
 
   final String title;
   final int? onTap;
@@ -54,135 +53,136 @@ class CustomProfileAppBarEvent extends StatelessWidget {
       ),
       child: ListTile(
         contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         title: onTap == null
             ? Text(
-                title.tr(),
-                style: personalInfoTextStyle,
-              )
+          title.tr(),
+          style: personalInfoTextStyle,
+        )
             : ProfileItemText(
-                text: title,
-                textColor: color,
-              ),
+          text: title,
+          textColor: color,
+        ),
         trailing:
-            // onTap == null ? null : SvgPicture.asset(AssetsData.arrowRight),
-        onTap == null ? null : const Icon(Icons.arrow_forward_ios, size: 10, weight: 900,),
+        // onTap == null ? null : SvgPicture.asset(AssetsData.arrowRight),
+        onTap == null ? null : const Icon(
+          Icons.arrow_forward_ios, size: 10, weight: 900,),
 
 
         onTap: onTap == null
             ? null
             : () async {
-                switch (onTap) {
-                  case 1:
-                    {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (c) => const ProfileInfoPage(),
-                          ));
-                    }
-                    break;
-                  case 2:
-                    {
-                      _showPopUp(context);
-                    }
-                    break;
-                  case 3:
-                    {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => NotificationsPage(),
+          switch (onTap) {
+            case 1:
+              {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (c) => const ProfileInfoPage(),
+                    ));
+              }
+              break;
+            case 2:
+              {
+                _showPopUp(context);
+              }
+              break;
+            case 3:
+              {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => NotificationsPage(),
+                  ),
+                );
+              }
+              break;
+            case 4:
+              {
+                if (SessionManagement.getUserRole() != "") {
+                  EasyLoading.show();
+                  SessionManagement.signOut();
+                  if (await googleSignIn.isSignedIn()) {
+                    await googleSignIn.signOut().whenComplete(() {
+                      AutoRouter.of(context)
+                          .replaceAll([const LoginRoute()]);
+                    });
+                  } else {
+                    AutoRouter.of(context)
+                        .replaceAll([const LoginRoute()]);
+                  }
+                } else {
+                  AutoRouter.of(context).replaceAll([const LoginRoute()]);
+                }
+                await _deleteCacheDir();
+                EasyLoading.dismiss();
+              }
+              break;
+            case 5:
+              {
+                // Show confirmation dialog
+                bool confirmed = await showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text("Delete Account").tr(),
+                      content: const Text(
+                          "Are you sure you want to delete your account?"),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop(false);
+                          },
+                          child: const Text("No"),
                         ),
-                      );
-                    }
-                    break;
-                  case 4:
-                    {
-                      if (SessionManagement.getUserRole() != "") {
-                        EasyLoading.show();
-                        SessionManagement.signOut();
-                        if (await googleSignIn.isSignedIn()) {
-                          await googleSignIn.signOut().whenComplete(() {
-                            AutoRouter.of(context)
-                                .replaceAll([const LoginRoute()]);
-                          });
-                        } else {
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop(true);
+                          },
+                          child: const Text("Yes"),
+                        ),
+                      ],
+                    );
+                  },
+                );
+
+                if (confirmed == true) {
+                  // User confirmed, proceed with account deletion
+                  EasyLoading.show(status: 'Fetching Profile');
+
+                  // Fetch the user profile to get the user ID
+                  Profile? profile = await fetchProfile();
+
+                  if (profile != null && profile.id != null) {
+                    EasyLoading.show(status: 'Deleting Account');
+                    bool isDeleted =
+                    await deleteProfile(userId: profile.id);
+
+                    if (isDeleted) {
+                      // Successfully deleted the profile
+                      SessionManagement.signOut();
+                      if (await googleSignIn.isSignedIn()) {
+                        await googleSignIn.signOut().whenComplete(() {
                           AutoRouter.of(context)
                               .replaceAll([const LoginRoute()]);
-                        }
+                        });
                       } else {
-                        AutoRouter.of(context).replaceAll([const LoginRoute()]);
+                        AutoRouter.of(context)
+                            .replaceAll([const LoginRoute()]);
                       }
                       await _deleteCacheDir();
-                      EasyLoading.dismiss();
+                    } else {
+                      // Handle the case where deletion failed
+                      EasyLoading.showError('Failed to delete account');
                     }
-                    break;
-                  case 5:
-                    {
-                      // Show confirmation dialog
-                      bool confirmed = await showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text("Delete Account").tr(),
-                            content: const Text(
-                                "Are you sure you want to delete your account?"),
-                            actions: <Widget>[
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop(false);
-                                },
-                                child: const Text("No"),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop(true);
-                                },
-                                child: const Text("Yes"),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-
-                      if (confirmed == true) {
-                        // User confirmed, proceed with account deletion
-                        EasyLoading.show(status: 'Fetching Profile');
-
-                        // Fetch the user profile to get the user ID
-                        Profile? profile = await fetchProfile();
-
-                        if (profile != null && profile.id != null) {
-                          EasyLoading.show(status: 'Deleting Account');
-                          bool isDeleted =
-                              await deleteProfile(userId: profile.id);
-
-                          if (isDeleted) {
-                            // Successfully deleted the profile
-                            SessionManagement.signOut();
-                            if (await googleSignIn.isSignedIn()) {
-                              await googleSignIn.signOut().whenComplete(() {
-                                AutoRouter.of(context)
-                                    .replaceAll([const LoginRoute()]);
-                              });
-                            } else {
-                              AutoRouter.of(context)
-                                  .replaceAll([const LoginRoute()]);
-                            }
-                            await _deleteCacheDir();
-                          } else {
-                            // Handle the case where deletion failed
-                            EasyLoading.showError('Failed to delete account');
-                          }
-                        } else {
-                          EasyLoading.showError('Failed to fetch user profile');
-                        }
-                      }
-                    }
-                    break;
+                  } else {
+                    EasyLoading.showError('Failed to fetch user profile');
+                  }
                 }
-              },
+              }
+              break;
+          }
+        },
       ),
     );
   }
@@ -286,80 +286,87 @@ class CustomProfileAppBarEvent extends StatelessWidget {
 
   Future<void> _showPopUp(BuildContext context) async {
     return showModalBottomSheet(
-        backgroundColor: Colors.white,
-        context: context,
-        builder: (context) {
-          return SizedBox(
-            height: 200,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Column(
-                children: [
-                  const Gap(20),
-                  // Padding(
-                  //   padding: EdgeInsets.symmetric(horizontal: 10.sw),
-                  //   child: Container(),
-                  // ),
-                  InkWell(
-                    borderRadius: BorderRadius.circular(17.0),
-                    onTap: () => changeLanguage(context),
-                    child: Card(
-                      elevation: 0,
-                      color: Colors.white,
-                      // Remove the shadow
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(17.0),
-                        side: const BorderSide(color: kHintColor, width: 2.0),
-                      ),
-                      child: ListTile(
-                        contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16.0, vertical: 8.0),
-                        title: ProfileItemText(
-                          text: "English",
-                          textColor: color,
-                        ),
+      backgroundColor: Colors.white,
+      context: context,
+      builder: (context) {
+        Locale? currentLocale = EasyLocalization.of(context)!.currentLocale;
+        bool isEnglish = currentLocale == const Locale('en', 'US');
+
+        return SizedBox(
+          height: 200,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Column(
+              children: [
+                const Gap(20),
+                InkWell(
+                  borderRadius: BorderRadius.circular(17.0),
+                  onTap: isEnglish ? null : () => changeLanguage(context),
+                  child: Card(
+                    elevation: 0,
+                    color: isEnglish
+                        ? Colors.grey[200]
+                        : Colors.white, // Change color if disabled
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(17.0),
+                      side: const BorderSide(color: kHintColor, width: 2.0),
+                    ),
+                    child: ListTile(
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16.0, vertical: 8.0),
+                      title: ProfileItemText(
+                        text: "English",
+                        textColor: isEnglish
+                            ? Colors.grey
+                            : color, // Change text color if disabled
                       ),
                     ),
                   ),
-                  InkWell(
-                    borderRadius: BorderRadius.circular(17.0),
-                    onTap: () => changeLanguage(context),
-                    child: Card(
-                      elevation: 0,
-                      color: Colors.white,
-                      // Remove the shadow
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(17.0),
-                        side: const BorderSide(color: kHintColor, width: 2.0),
-                      ),
-                      child: ListTile(
-                        contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16.0, vertical: 8.0),
-                        title: ProfileItemText(
-                          text: "العربية",
-                          textColor: color,
-                        ),
+                ),
+                InkWell(
+                  borderRadius: BorderRadius.circular(17.0),
+                  onTap: isEnglish ? () => changeLanguage(context) : null,
+                  child: Card(
+                    elevation: 0,
+                    color: isEnglish
+                        ? Colors.white
+                        : Colors.grey[200], // Change color if disabled
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(17.0),
+                      side: const BorderSide(color: kHintColor, width: 2.0),
+                    ),
+                    child: ListTile(
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16.0, vertical: 8.0),
+                      title: ProfileItemText(
+                        text: "العربية",
+                        textColor: isEnglish
+                            ? color
+                            : Colors.grey, // Change text color if disabled
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
-}
 
-void changeLanguage(BuildContext context) {
-  Locale? currentLocale = EasyLocalization.of(context)!.currentLocale;
-  Locale newLocale = currentLocale == const Locale('en', 'US')
-      ? const Locale('ar', 'EG')
-      : const Locale('en', 'US');
 
-  EasyLocalization.of(context)!.setLocale(newLocale).then((_) {
-    Navigator.pop(context);
-    Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => const MainScreen()),
-        (route) => false);
-  });
+  void changeLanguage(BuildContext context) {
+    Locale? currentLocale = EasyLocalization.of(context)!.currentLocale;
+    Locale newLocale = currentLocale == const Locale('en', 'US')
+        ? const Locale('ar', 'EG')
+        : const Locale('en', 'US');
+
+    EasyLocalization.of(context)!.setLocale(newLocale).then((_) {
+      Navigator.pop(context);
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const MainScreen()),
+              (route) => false);
+    });
+  }
 }

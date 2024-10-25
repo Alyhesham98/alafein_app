@@ -105,7 +105,7 @@ class _HomePageState extends State<HomePage> {
                                 height: 180,
                                 child: state.homeResponse.spotlight?.isEmpty ??
                                         true
-                                    ?  Center(
+                                    ? Center(
                                         child: const Text(
                                           "There are no spotlights today",
                                           style: TextStyle(
@@ -133,20 +133,21 @@ class _HomePageState extends State<HomePage> {
                                                   );
                                                 }
                                               : () async {
-                                                  routeToEventDetails(
-                                                    context,
-                                                    state
-                                                            .homeResponse
-                                                            .spotlight?[index]
-                                                            .id ??
-                                                        -1,
-                                                  );
-                                                  await Future.delayed(
-                                                      const Duration(
-                                                          seconds: 2));
-                                                  AutoRouter.of(context)
-                                                      .popAndPush(
-                                                          const LoginRoute());
+                                                  // routeToEventDetails(
+                                                  //   context,
+                                                  //   state
+                                                  //           .homeResponse
+                                                  //           .spotlight?[index]
+                                                  //           .id ??
+                                                  //       -1,
+                                                  // );
+                                                  await showLoginPopup(context);
+                                                  // await Future.delayed(
+                                                  //     const Duration(
+                                                  //         seconds: 2));
+                                                  // AutoRouter.of(context)
+                                                  //     .popAndPush(
+                                                  //         const LoginRoute());
                                                 },
                                           child: HomeEventItem(
                                             name: state.homeResponse
@@ -329,42 +330,72 @@ class _HomePageState extends State<HomePage> {
                               SizedBox(
                                 height: 180,
                                 child: state.homeResponse.today?.isEmpty ?? true
-                                    ?  Center(
-                                  child: const Text(
-                                    "There are no events happening today",
-                                    style: TextStyle(fontWeight: FontWeight.w900),
-                                  ).tr(),
-                                )
+                                    ? Center(
+                                        child: const Text(
+                                          "There are no events happening today",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w900),
+                                        ).tr(),
+                                      )
                                     : ListView.builder(
-                                  itemCount: state.homeResponse.today?.length ?? 0,
-                                  scrollDirection: Axis.horizontal,
-                                  itemBuilder: (context, index) => InkWell(
-                                    onTap: (SessionManagement.getUserRole() != "" ||
-                                        SessionManagement.getUserRole() == "")
-                                        ? () {
-                                      routeToEventDetails(
-                                          context,
-                                          state.homeResponse.today?[index].id ?? -1);
-                                    }
-                                        : () async {
-                                      routeToEventDetails(
-                                          context,
-                                          state.homeResponse.today?[index].id ?? -1);
-                                      await Future.delayed(const Duration(seconds: 2));
-                                      AutoRouter.of(context).popAndPush(const LoginRoute());
-                                    },
-                                    child: HomeEventItem(
-                                      name: state.homeResponse.today?[index].name ?? "",
-                                      image: state.homeResponse.today?[index].poster != null
-                                          ? "${APICallerConfiguration.baseImageUrl}${state.homeResponse.today?[index].poster}"
-                                          : "",
-                                      catImage: state.homeResponse.today?[index].catPoster != null
-                                          ? "${APICallerConfiguration.baseImageUrl}${state.homeResponse.today?[index].catPoster}"
-                                          : "",
-                                      date: state.homeResponse.today?[index].date ?? "",
-                                    ),
-                                  ),
-                                ),
+                                        itemCount:
+                                            state.homeResponse.today?.length ??
+                                                0,
+                                        scrollDirection: Axis.horizontal,
+                                        itemBuilder: (context, index) =>
+                                            InkWell(
+                                          onTap: (SessionManagement
+                                                          .getUserRole() !=
+                                                      "" ||
+                                                  SessionManagement
+                                                          .getUserRole() ==
+                                                      "")
+                                              ? () {
+                                                  routeToEventDetails(
+                                                      context,
+                                                      state
+                                                              .homeResponse
+                                                              .today?[index]
+                                                              .id ??
+                                                          -1);
+                                                }
+                                              : () async {
+                                                  routeToEventDetails(
+                                                      context,
+                                                      state
+                                                              .homeResponse
+                                                              .today?[index]
+                                                              .id ??
+                                                          -1);
+                                                  await Future.delayed(
+                                                      const Duration(
+                                                          seconds: 2));
+                                                  AutoRouter.of(context)
+                                                      .popAndPush(
+                                                          const LoginRoute());
+                                                },
+                                          child: HomeEventItem(
+                                            name: state.homeResponse
+                                                    .today?[index].name ??
+                                                "",
+                                            image: state.homeResponse
+                                                        .today?[index].poster !=
+                                                    null
+                                                ? "${APICallerConfiguration.baseImageUrl}${state.homeResponse.today?[index].poster}"
+                                                : "",
+                                            catImage: state
+                                                        .homeResponse
+                                                        .today?[index]
+                                                        .catPoster !=
+                                                    null
+                                                ? "${APICallerConfiguration.baseImageUrl}${state.homeResponse.today?[index].catPoster}"
+                                                : "",
+                                            date: state.homeResponse
+                                                    .today?[index].date ??
+                                                "",
+                                          ),
+                                        ),
+                                      ),
                               ),
                             ],
                           ),
@@ -390,5 +421,57 @@ class _HomePageState extends State<HomePage> {
 
   void routeToEventDetails(BuildContext context, int index) {
     AutoRouter.of(context).popAndPush(EventDeatilsPage(index: index));
+  }
+
+  Future<void> showLoginPopup(BuildContext context) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // Prevent closing by tapping outside
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15), // Rounded corners
+          ),
+          title: const Text(
+            'Login Required',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: kPrimaryColor, // Customize title color
+            ),
+          ),
+          content: const Text(
+            'You must log in to see events.',
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.grey, // Customize content color
+            ),
+          ),
+          actionsPadding: const EdgeInsets.symmetric(horizontal: 10),
+          actions: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextButton(
+                style: TextButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: kPrimaryColor, // Custom button color
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                ),
+                child: const Text(
+                  'OK',
+                  style: TextStyle(fontSize: 16),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close the dialog
+                },
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

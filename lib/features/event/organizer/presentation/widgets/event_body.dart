@@ -343,7 +343,7 @@ class _EventbodyState extends State<Eventbody> {
 
                         if (firstEvent.id == null &&
                             firstEvent.poster == null &&
-                            firstEvent.nameEn == null &&
+                            firstEvent.name == null &&
                             firstEvent.venue == null &&
                             firstEvent.date == null &&
                             firstEvent.isFavourite == null) {
@@ -353,7 +353,6 @@ class _EventbodyState extends State<Eventbody> {
                               .replaceAll([const LoginRoute()]);
                         }
                       }
-                      String? currentLocale = EasyLocalization.of(context)!.currentLocale?.languageCode;
 
                       return successState.listEvent.isEmpty
                           ? const Center(
@@ -372,17 +371,23 @@ class _EventbodyState extends State<Eventbody> {
                               ),
                               itemBuilder: (context, index) {
                                 return GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => EventDeatils(
-                                            index: successState
-                                                    .listEvent[index].id ??
-                                                0, //bloc.event!.id!,
-                                          ),
-                                        ));
-                                  },
+                                  onTap: (SessionManagement.getUserRole() != "")
+                                      ? () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    EventDeatils(
+                                                  index: successState
+                                                          .listEvent[index]
+                                                          .id ??
+                                                      0, //bloc.event!.id!,
+                                                ),
+                                              ));
+                                        }
+                                      : () async {
+                                          await showLoginPopup(context);
+                                        },
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
                                       vertical: 10,
@@ -403,26 +408,9 @@ class _EventbodyState extends State<Eventbody> {
                                           ),
                                           Expanded(
                                             child: InformationEvent(
-                                              // name: successState
-                                              //         .listEvent[index].name ??
-                                              //     "",
-                                              name: currentLocale == 'en'
-                                                  ? (successState
-                                                  .listEvent[index].nameEn != null &&
-                                                  successState
-                                                      .listEvent[index].nameEn?.toLowerCase() != "none"
-                                                  ? successState
-                                                  .listEvent[index].nameEn
-                                                  : (successState
-                                                  .listEvent[index].nameAr ?? ""))
-                                                  : (successState
-                                                  .listEvent[index].nameAr != null &&
-                                                  successState
-                                                      .listEvent[index].nameAr?.toLowerCase() != "none"
-                                                  ? successState
-                                                  .listEvent[index].nameAr
-                                                  : (successState
-                                                  .listEvent[index].nameEn ?? "")),
+                                              name: successState
+                                                      .listEvent[index].name ??
+                                                  "",
                                               date: successState
                                                       .listEvent[index].date ??
                                                   "",
@@ -446,6 +434,59 @@ class _EventbodyState extends State<Eventbody> {
           ),
         ],
       ),
+    );
+  }
+
+  Future<void> showLoginPopup(BuildContext context) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // Prevent closing by tapping outside
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15), // Rounded corners
+          ),
+          title: const Text(
+            'Login Required',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: kPrimaryColor, // Customize title color
+            ),
+          ),
+          content: const Text(
+            'You must log in to see events.',
+            style: TextStyle(
+              fontSize: 16,
+              color: kGreyFontColor, // Customize content color
+            ),
+          ),
+          actionsPadding: const EdgeInsets.symmetric(horizontal: 10),
+          actions: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextButton(
+                style: TextButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: kPrimaryColor, // Custom button color
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                ),
+                child: const Text(
+                  'OK',
+                  style: TextStyle(fontSize: 16),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close the dialog
+                },
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
