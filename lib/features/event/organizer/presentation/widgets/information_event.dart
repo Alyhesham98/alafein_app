@@ -31,7 +31,7 @@ class InformationEvent extends StatelessWidget {
           ),
           const SizedBox(height: 2),
           Text(
-            date,
+            date ?? '',
             style: secondaryTextStyle.copyWith(fontSize: 16),
           ),
           const SizedBox(height: 2),
@@ -43,7 +43,7 @@ class InformationEvent extends StatelessWidget {
                 style: secondaryTextStyle.copyWith(fontSize: 14),
               ),
               Text(
-                venue,
+                venue ?? '',
                 style: secondaryTextStyle.copyWith(fontSize: 14),
               ),
             ],

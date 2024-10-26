@@ -12,6 +12,8 @@ class EventDeatilsModel {
   String? NameAr;
   Organizer? organizer;
   String? description;
+  String? descriptionEn;
+  String? descriptionAr;
   String? date;
   AttendanceOption? attendanceOption;
   String? url;
@@ -30,6 +32,8 @@ class EventDeatilsModel {
     this.NameAr,
     this.organizer,
     this.description,
+    this.descriptionEn,
+    this.descriptionAr,
     this.date,
     this.attendanceOption,
     this.url,
@@ -54,6 +58,8 @@ class EventDeatilsModel {
           ? null
           : Organizer.fromJson(json['Organizer'] as Map<String, dynamic>),
       description: json['Description'] as String?,
+      descriptionEn: json['DescriptionEn'] as String?,
+      descriptionAr: json['DescriptionAr'] as String?,
       date: json['Date'] as String?,
       attendanceOption: json['AttendanceOption'] == null
           ? null

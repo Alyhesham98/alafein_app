@@ -8,7 +8,7 @@ import '../widgets/Events_show_comment.dart';
 
 @RoutePage(name: "EventDeatilsPage")
 class EventDeatils extends StatelessWidget {
-  const EventDeatils({super.key,@PathParam('id') required this.index});
+  const EventDeatils({super.key, @PathParam('id') required this.index});
 
   final int index;
 
@@ -17,9 +17,7 @@ class EventDeatils extends StatelessWidget {
     var size = MediaQuery.of(context).size;
     return BlocProvider(
       create: (context) {
-
         return GetEventCubit()..getEventDeatils(id: index);
-
       },
       child: BlocBuilder<GetEventCubit, GetEventState>(
         builder: (context, state) {
@@ -30,7 +28,7 @@ class EventDeatils extends StatelessWidget {
                 SliverToBoxAdapter(
                   child: EventsShowCommentBody(
                     size: size,
-                    id:index,
+                    id: index,
                   ),
                 ),
               ],

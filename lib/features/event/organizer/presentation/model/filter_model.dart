@@ -12,6 +12,8 @@ class FilterModel {
     int id;
     String poster;
     String name;
+    String nameEn;
+    String nameAr;
     Venue venue;
     String date;
     bool isFavourite;
@@ -20,6 +22,8 @@ class FilterModel {
         required this.id,
         required this.poster,
         required this.name,
+        required this.nameEn,
+        required this.nameAr,
         required this.venue,
         required this.date,
         required this.isFavourite,
@@ -29,6 +33,8 @@ class FilterModel {
         id: json["Id"],
         poster: json["Poster"],
         name: json["Name"],
+        nameEn: json['nameEn'],
+        nameAr: json['nameAr'],
         venue: Venue.fromJson(json["Venue"]),
         date: json["Date"],
         isFavourite: json["IsFavourite"],
@@ -38,6 +44,8 @@ class FilterModel {
         "Id": id,
         "Poster": poster,
         "Name": name,
+        'NameEn': nameEn,
+        'NameAr': nameAr,
         "Venue": venue.toJson(),
         "Date": date,
         "IsFavourite": isFavourite,

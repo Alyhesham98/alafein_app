@@ -343,7 +343,8 @@ class _EventbodyState extends State<Eventbody> {
 
                         if (firstEvent.id == null &&
                             firstEvent.poster == null &&
-                            firstEvent.name == null &&
+                            (firstEvent.nameEn == null ||
+                                firstEvent.nameAr == null) &&
                             firstEvent.venue == null &&
                             firstEvent.date == null &&
                             firstEvent.isFavourite == null) {
@@ -353,7 +354,9 @@ class _EventbodyState extends State<Eventbody> {
                               .replaceAll([const LoginRoute()]);
                         }
                       }
-
+                      String? currentLocale = EasyLocalization.of(context)!
+                          .currentLocale
+                          ?.languageCode;
                       return successState.listEvent.isEmpty
                           ? const Center(
                               child: Text(
@@ -408,9 +411,49 @@ class _EventbodyState extends State<Eventbody> {
                                           ),
                                           Expanded(
                                             child: InformationEvent(
-                                              name: successState
-                                                      .listEvent[index].name ??
-                                                  "",
+                                              // name: successState
+                                              //     .listEvent[index].name ??
+                                              //   "",
+                                              // name: successState
+                                              //         .listEvent[index].name ??
+                                              //     "",
+                                              name: currentLocale == 'en'
+                                                  ? (successState
+                                                                  .listEvent[
+                                                                      index]
+                                                                  .nameEn !=
+                                                              null &&
+                                                          successState
+                                                                  .listEvent[
+                                                                      index]
+                                                                  .nameEn
+                                                                  ?.toLowerCase() !=
+                                                              "none"
+                                                      ? successState
+                                                          .listEvent[index]
+                                                          .nameEn
+                                                      : (successState
+                                                              .listEvent[index]
+                                                              .nameAr ??
+                                                          ""))
+                                                  : (successState
+                                                                  .listEvent[
+                                                                      index]
+                                                                  .nameAr !=
+                                                              null &&
+                                                          successState
+                                                                  .listEvent[
+                                                                      index]
+                                                                  .nameAr
+                                                                  ?.toLowerCase() !=
+                                                              "none"
+                                                      ? successState
+                                                          .listEvent[index]
+                                                          .nameAr
+                                                      : (successState
+                                                              .listEvent[index]
+                                                              .nameEn ??
+                                                          "")),
                                               date: successState
                                                       .listEvent[index].date ??
                                                   "",

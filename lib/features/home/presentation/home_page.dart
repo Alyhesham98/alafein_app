@@ -45,6 +45,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    String? currentLocale =
+        EasyLocalization.of(context)!.currentLocale?.languageCode;
     return BlocProvider(
       create: (context) => HomeCubit()..getData(),
       child: Scaffold(
@@ -150,9 +152,35 @@ class _HomePageState extends State<HomePage> {
                                                   //         const LoginRoute());
                                                 },
                                           child: HomeEventItem(
-                                            name: state.homeResponse
-                                                    .spotlight?[index].name ??
-                                                "",
+                                            // name: state.homeResponse
+                                            //         .spotlight?[index].name ??
+                                            //     "",
+                                            name: (state
+                                                            .homeResponse
+                                                            .spotlight?[index]
+                                                            .nameEn ==
+                                                        null &&
+                                                    state
+                                                            .homeResponse
+                                                            .spotlight?[index]
+                                                            .nameAr ==
+                                                        null)
+                                                ? (state
+                                                        .homeResponse
+                                                        .spotlight?[index]
+                                                        .name ??
+                                                    "")
+                                                : (currentLocale == 'en'
+                                                    ? (state
+                                                            .homeResponse
+                                                            .spotlight?[index]
+                                                            .nameEn ??
+                                                        "")
+                                                    : (state
+                                                            .homeResponse
+                                                            .spotlight?[index]
+                                                            .nameAr ??
+                                                        "")),
                                             image: state
                                                         .homeResponse
                                                         .spotlight?[index]
@@ -458,7 +486,8 @@ class _HomePageState extends State<HomePage> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 ),
                 child: const Text(
                   'OK',

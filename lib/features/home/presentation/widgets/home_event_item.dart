@@ -8,7 +8,7 @@ import 'package:gap/gap.dart';
 class HomeEventItem extends StatelessWidget {
   final String image;
   final String catImage;
-  final String name;
+  final String? name;
   final String date;
 
   const HomeEventItem({
@@ -62,7 +62,7 @@ class HomeEventItem extends StatelessWidget {
           ),
           const Gap(8),
           Text(
-            name,
+            name ?? '',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: homeLabel2Style.copyWith(fontSize: 16),

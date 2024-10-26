@@ -23,6 +23,8 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
         event.pageNumber,
         event.pageSize,
         event.name,
+        // event.nameEn,
+        // event.nameAr,
         event.dateFrom,
         event.dateTo,
         event.minFeeCost,

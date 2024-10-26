@@ -39,7 +39,6 @@ class _FavoritePageState extends State<FavoritePage> {
     favoriteListBloc.add(FavoriteListInitialEvent());
   }
 
-
   Future<void> _refresh() async {
     EasyLoading.show(status: 'Loading...');
     favoriteListBloc.add(FavoriteListInitialEvent());
@@ -50,6 +49,7 @@ class _FavoritePageState extends State<FavoritePage> {
 
   @override
   Widget build(BuildContext context) {
+    Locale? currentLocale = EasyLocalization.of(context)!.currentLocale;
 
     var size = MediaQuery.of(context).size;
     return SizedBox(
@@ -64,8 +64,10 @@ class _FavoritePageState extends State<FavoritePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Gap(14),
-               CustomAppBarEvent(
-                title1: "Favorite".tr().toUpperCase() + " " + "Events".tr().toUpperCase(),
+              CustomAppBarEvent(
+                title1: "Favorite".tr().toUpperCase() +
+                    " " +
+                    "Events".tr().toUpperCase(),
                 title2: "Here's what you've liked so far".tr().toUpperCase(),
                 hasIcon: false,
               ),
@@ -109,6 +111,18 @@ class _FavoritePageState extends State<FavoritePage> {
                             color: const Color(0xffECECEC),
                           ),
                           itemBuilder: (context, index) {
+                            final favoriteItem = successState.favoriteList[index];
+
+                            // Debugging data
+                            print("Favorite Item at index $index:");
+                            print("ID: ${favoriteItem.id}");
+                            print("Name: ${favoriteItem.name}");
+                            print("NameEn: ${favoriteItem.nameEn}");
+                            print("NameAr: ${favoriteItem.nameAr}");
+                            print("Date: ${favoriteItem.date}");
+                            print("Venue Name: ${favoriteItem.venue?.name}");
+
+
                             return Padding(
                               padding: const EdgeInsets.symmetric(
                                 vertical: 10,
@@ -130,10 +144,9 @@ class _FavoritePageState extends State<FavoritePage> {
                                       );
                                     },
                                     child: CustomEventImage(
-                                      imageurl: successState
-                                                  .favoriteList[index].poster != null
-                                          ? "${APICallerConfiguration.baseImageUrl}${successState.favoriteList[index].poster}"
-                                          : "",
+                                      imageurl: favoriteItem.poster != null
+                                          ? "${APICallerConfiguration.baseImageUrl}${favoriteItem.poster}"
+                                          : "", // Check if poster URL is null
                                     ),
                                   ),
                                   SizedBox(
@@ -143,66 +156,50 @@ class _FavoritePageState extends State<FavoritePage> {
                                     child: Row(
                                       children: [
                                         InformationEvent(
-                                          name: successState
-                                              .favoriteList[index].name,
-                                          date: successState
-                                              .favoriteList[index].date,
-                                          venue: successState
-                                              .favoriteList[index].venue.name,
+                                          name: (favoriteItem.nameEn == null && favoriteItem.nameAr == null)
+                                              ? (favoriteItem.name ?? "No Name Available") // Default if all names are null
+                                              : (currentLocale == 'en'
+                                              ? (favoriteItem.nameEn ?? "No English Name")
+                                              : (favoriteItem.nameAr ?? "No Arabic Name")),
+                                          date: favoriteItem.date ?? "No Date Available", // Default if date is null
+                                          venue: favoriteItem.venue?.name ?? "No Venue", // Default if venue name is null
                                         ),
-                                        BlocProvider(
-                                          create: (context) =>
-                                              ToggleFavoriteBloc(successState
-                                                  .favoriteList[index].id),
-                                          child: BlocListener<
-                                              ToggleFavoriteBloc,
-                                              ToggleFavoriteState>(
-                                            listener: (context, state) async {
-                                              if (state
-                                                  is ToggleFavoriteSuccessfulState) {
-                                                //change color
-                                                EasyLoading.show();
-                                              }
-                                            },
-                                            child: BlocBuilder<
-                                                ToggleFavoriteBloc,
-                                                ToggleFavoriteState>(
-                                              builder: (context, state) {
-                                                if (state
-                                                    is ToggleFavoriteLoadingState) {
-                                                  return const Center(
-                                                      child:
-                                                          CircularProgressIndicator(
-                                                    color: kPrimaryColor,
-                                                  ));
-                                                } else if (state
-                                                    is ToggleFavoriteErrorState) {
-                                                  return const Text("error");
+                                          BlocProvider(
+                                            create: (context) => ToggleFavoriteBloc(favoriteItem.id),
+                                            child: BlocListener<ToggleFavoriteBloc, ToggleFavoriteState>(
+                                              listener: (context, state) async {
+                                                if (state is ToggleFavoriteSuccessfulState) {
+                                                  EasyLoading.show();
                                                 }
+                                              },
+                                              child: BlocBuilder<ToggleFavoriteBloc, ToggleFavoriteState>(
+                                                builder: (context, state) {
+                                                  if (state is ToggleFavoriteLoadingState) {
+                                                    return const Center(
+                                                      child: CircularProgressIndicator(
+                                                        color: kPrimaryColor,
+                                                      ),
+                                                    );
+                                                  } else if (state is ToggleFavoriteErrorState) {
+                                                    return const Text("Error");
+                                                  }
 
-                                                final ToggleFavoriteBloc
-                                                    toggleFavoriteBloc =
-                                                    ToggleFavoriteBloc(
-                                                        successState
-                                                            .favoriteList[index]
-                                                            .id);
-                                                return CustomIcon(
-                                                  onTap: () async {
-                                                    toggleFavoriteBloc.add(
-                                                        ToggleFavoriteInitialFetchEvent());
-                                                    // favoriteListBloc.add(FavoriteListInitialEvent());
-                                                    await Future.delayed(
-                                                        const Duration(
-                                                            milliseconds: 200));
-                                                    await _refresh();
-                                                  },
+                                                  final ToggleFavoriteBloc toggleFavoriteBloc =
+                                                  ToggleFavoriteBloc(favoriteItem.id);
+                                                  return CustomIcon(
+                                                    onTap: () async {
+                                                      toggleFavoriteBloc.add(ToggleFavoriteInitialFetchEvent());
+                                                      await Future.delayed(const Duration(milliseconds: 200));
+                                                      await _refresh();
+                                                    },
                                                   icon: Icon(
                                                     Icons.favorite_outline,
                                                     color: successState
                                                             .favoriteList[index]
                                                             .isFavourite
                                                         ? Colors.redAccent
-                                                        : const Color(0xFF7C7C7C),
+                                                        : const Color(
+                                                            0xFF7C7C7C),
                                                   ),
                                                 );
                                               },

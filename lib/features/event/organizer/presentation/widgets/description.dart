@@ -5,13 +5,13 @@ import 'package:google_fonts/google_fonts.dart';
 
 class Description extends StatelessWidget {
   const Description({
-    Key? key,
+    super.key,
     required this.size,
     required this.text,
-  }) : super(key: key);
+  });
 
   final Size size;
-  final String text;
+  final String? text;
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +67,7 @@ class Description extends StatelessWidget {
           SizedBox(
             width: size.width * 0.8,
             child: Text(
-              text,
+              text ?? '',
               style: secondaryTextStyle,
               textAlign: TextAlign.left,
             ),

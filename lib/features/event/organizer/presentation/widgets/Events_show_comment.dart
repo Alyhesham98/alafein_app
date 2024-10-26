@@ -35,17 +35,23 @@ class EventsShowCommentBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? currentLocale = EasyLocalization.of(context)!.currentLocale?.languageCode;
+    String? currentLocale =
+        EasyLocalization.of(context)!.currentLocale?.languageCode;
     return BlocBuilder<GetEventCubit, GetEventState>(
       builder: (context, state) {
         final getDeatils = context.read<GetEventCubit>().eventDetails;
-        // print('ID: ${getDeatils?.id}');
+        print('Full Event Details Object: $getDeatils');
+
+        // print('ID: ${getDeatils.id}');
         // print('Poster: ${getDeatils?.poster}');
         // print('Category: ${getDeatils?.category}');
         // print('Is Favorite: ${getDeatils?.isFavorite}');
         // print('Name: ${getDeatils?.name}');
         // print('Organizer: ${getDeatils?.organizer}');
         // print('Description: ${getDeatils?.description}');
+        // print('Description EN: ${getDeatils?.descriptionEn}');
+        // print('Description AR: ${getDeatils?.descriptionAr}');
+
         // print('Date: ${getDeatils?.date}');
         // print('Attendance Option: ${getDeatils?.attendanceOption}');
         // print('URL: ${getDeatils?.url}');
@@ -111,7 +117,13 @@ class EventsShowCommentBody extends StatelessWidget {
               ),
               Description(
                 size: size,
-                text: getDeatils.description ?? '',
+                // text: getDeatils.description ?? '',
+                text: (getDeatils.descriptionEn == null &&
+                        getDeatils.descriptionAr == null)
+                    ? (getDeatils.description ?? "")
+                    : (currentLocale == 'en'
+                        ? (getDeatils.descriptionEn ?? "")
+                        : (getDeatils.descriptionAr ?? "")),
               ),
               Deatils(
                 date: getDeatils.date ?? "",

@@ -12,7 +12,7 @@ part 'toggle_favorite_event.dart';
 part 'toggle_favorite_state.dart';
 
 class ToggleFavoriteBloc extends Bloc<ToggleFavoriteEvent, ToggleFavoriteState> {
-  final int toggleSubmissionId;
+  final int? toggleSubmissionId;
   ToggleFavoriteBloc(this.toggleSubmissionId) : super(ToggleFavoriteInitial()) {
     on<ToggleFavoriteInitialFetchEvent>(toggleFavoriteInitialFetchEvent);
 
@@ -21,7 +21,7 @@ class ToggleFavoriteBloc extends Bloc<ToggleFavoriteEvent, ToggleFavoriteState> 
   FutureOr<void> toggleFavoriteInitialFetchEvent(
     ToggleFavoriteInitialFetchEvent event, Emitter<ToggleFavoriteState> emit) async{
       emit(ToggleFavoriteLoadingState());
-      bool success = await ToggleRepo.fetchToggleFavorite(toggleSubmissionId);
+      bool success = await ToggleRepo.fetchToggleFavorite(toggleSubmissionId!);
       if (success){
         emit(ToggleFavoriteSuccessfulState());
       }else{

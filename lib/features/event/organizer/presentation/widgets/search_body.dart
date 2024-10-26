@@ -38,11 +38,12 @@ class SearchBody extends StatefulWidget {
 }
 
 class _SearchBodyState extends State<SearchBody> {
-  final TextEditingController _searchController= TextEditingController() ;
+  final TextEditingController _searchController = TextEditingController();
   DateTimeRange? _dateTimeRange;
 
   // RangeValues values =  RangeValues(SessionManagement.minCost, SessionManagement.maxCost);
-   RangeValues values =  RangeValues(SessionManagement.minCost, SessionManagement.maxCost);
+  RangeValues values =
+      RangeValues(SessionManagement.minCost, SessionManagement.maxCost);
 
   final FilterBloc filterBloc = FilterBloc();
 
@@ -57,20 +58,24 @@ class _SearchBodyState extends State<SearchBody> {
       pageNumber: 1,
       pageSize: 500,
       name: null.toString(),
-      dateFrom:"2000-02-23T13:16:57.785Z",
+      nameEn: null.toString(),
+      nameAr: null.toString(),
+      dateFrom: "2000-02-23T13:16:57.785Z",
       dateTo: "2050-02-23T13:16:57.785Z",
-      minFeeCost:SessionManagement.minCost,
-      maxFeeCost:SessionManagement.maxCost,
+      minFeeCost: SessionManagement.minCost,
+      maxFeeCost: SessionManagement.maxCost,
     ));
     super.initState();
   }
-  
-Future<void> _refresh()async{
-      EasyLoading.show(status: 'Loading...');
-      EasyLoading.dismiss();
-    return Future.delayed(const Duration(microseconds: 1),
+
+  Future<void> _refresh() async {
+    EasyLoading.show(status: 'Loading...');
+    EasyLoading.dismiss();
+    return Future.delayed(
+      const Duration(microseconds: 1),
     );
   }
+
   @override
   void dispose() {
     _searchController.dispose();
@@ -87,9 +92,7 @@ Future<void> _refresh()async{
       slivers: [
         SliverToBoxAdapter(
           child:
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start, 
-            children: [
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             const Gap(20),
             Padding(
               padding: const EdgeInsets.symmetric(
@@ -100,7 +103,7 @@ Future<void> _refresh()async{
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   InkWell(
-                    onTap: () =>Navigator.pop(context),
+                    onTap: () => Navigator.pop(context),
                     borderRadius: BorderRadius.circular(10),
                     child: const Icon(Icons.arrow_back),
                   ),
@@ -132,19 +135,26 @@ Future<void> _refresh()async{
                       child: CustomInputTextFieldWidget(
                         hintText: 'Search',
                         secure: false,
-                        controller: _searchController, 
-                        onSubmitted: (value) async{
+                        controller: _searchController,
+                        onSubmitted: (value) async {
                           print(value);
                           filterBloc.add(FilterInitialEvent(
                             pageNumber: 1,
                             pageSize: 500,
                             name: value,
-                            dateFrom: _dateTimeRange?.start.year !=null ? "${_dateTimeRange?.start.year}-${_dateTimeRange?.start.month}-${_dateTimeRange?.start.day}" : "2020-02-24",
-                            dateTo: _dateTimeRange?.end.year !=null ? "${_dateTimeRange?.end.year}-${_dateTimeRange?.end.month}-${_dateTimeRange?.end.day}" : "2080-02-24",
-                            minFeeCost:values.start,
-                            maxFeeCost:values.end,
+                            nameEn: value,
+                            nameAr: value,
+                            dateFrom: _dateTimeRange?.start.year != null
+                                ? "${_dateTimeRange?.start.year}-${_dateTimeRange?.start.month}-${_dateTimeRange?.start.day}"
+                                : "2020-02-24",
+                            dateTo: _dateTimeRange?.end.year != null
+                                ? "${_dateTimeRange?.end.year}-${_dateTimeRange?.end.month}-${_dateTimeRange?.end.day}"
+                                : "2080-02-24",
+                            minFeeCost: values.start,
+                            maxFeeCost: values.end,
                           ));
-                        await Future.delayed(const Duration(milliseconds: 300));
+                          await Future.delayed(
+                              const Duration(milliseconds: 300));
                         },
                       ),
                     ),
@@ -153,7 +163,7 @@ Future<void> _refresh()async{
                   InkWell(
                     onTap: () async {
                       _showFilterPopUp(
-                        context, 
+                        context,
                       );
                     },
                     // onTap: (){},
@@ -177,80 +187,92 @@ Future<void> _refresh()async{
         SliverFillRemaining(
           // hasScrollBody: true,
           child: BlocConsumer<FilterBloc, FilterState>(
-            bloc: filterBloc,
-            listenWhen: (previous, current) =>
-                current is FilterActionState,
-            buildWhen: (previous, current) =>
-                current is !FilterActionState,
-            listener: (context, state) async{
-              _refresh();
-            },
-            builder: (context, state) {
-            switch (state.runtimeType) {
-              case FilterLoadingState:
-                EasyLoading.show();
-              case FilterErrorState:
-                EasyLoading.dismiss();
-                EasyLoading.showError("An Error Has been ouccerd");
-              case FilterSuccessfulState:
-                EasyLoading.dismiss();
-                final successState = state as FilterSuccessfulState;
-                return successState.filterList.isEmpty? const Center(child: Text("No Data found",style: homeLabelStyle,)) :
-               ListView.separated(
-                physics: const BouncingScrollPhysics(),
-                shrinkWrap: true,
-                padding: EdgeInsets.zero,
-                itemCount: successState.filterList.length,
-                separatorBuilder: (context, index) => Container(
-                  width: double.infinity,
-                  height: 1,
-                  color: const Color(0xffECECEC),
-                ),
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 20,
-                    ),
-                    child: SizedBox(
-                      height: 100,
-                      child: Row(
-                        children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => EventDeatils(index: successState.filterList[index].id,),
-                              ),
-                            );
-                          },
-                          child:  CustomEventImage(
-                            imageurl: successState.filterList[index].poster != null ?"${APICallerConfiguration.baseImageUrl}${successState.filterList[index].poster}": "",
-                          ),
-                        ),
-                        SizedBox(
-                          width: size.width * 0.05,
-                        ),
-                          Expanded(
-                          child: Row(
-                            children: [
-                              InformationEvent(
-                                name: successState.filterList[index].name,
-                                date: successState.filterList[index].date,
-                                venue: successState.filterList[index].venue.name,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ]),
-                    ),
-                  );
-                  },
-                );
-              }
-              return const SizedBox();
-          }),
+              bloc: filterBloc,
+              listenWhen: (previous, current) => current is FilterActionState,
+              buildWhen: (previous, current) => current is! FilterActionState,
+              listener: (context, state) async {
+                _refresh();
+              },
+              builder: (context, state) {
+                switch (state.runtimeType) {
+                  case FilterLoadingState:
+                    EasyLoading.show();
+                  case FilterErrorState:
+                    EasyLoading.dismiss();
+                    EasyLoading.showError("An Error Has been ouccerd");
+                  case FilterSuccessfulState:
+                    EasyLoading.dismiss();
+                    final successState = state as FilterSuccessfulState;
+                    return successState.filterList.isEmpty
+                        ? const Center(
+                            child: Text(
+                            "No Data found",
+                            style: homeLabelStyle,
+                          ))
+                        : ListView.separated(
+                            physics: const BouncingScrollPhysics(),
+                            shrinkWrap: true,
+                            padding: EdgeInsets.zero,
+                            itemCount: successState.filterList.length,
+                            separatorBuilder: (context, index) => Container(
+                              width: double.infinity,
+                              height: 1,
+                              color: const Color(0xffECECEC),
+                            ),
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 10,
+                                  horizontal: 20,
+                                ),
+                                child: SizedBox(
+                                  height: 100,
+                                  child: Row(children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => EventDeatils(
+                                              index: successState
+                                                  .filterList[index].id,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: CustomEventImage(
+                                        imageurl: successState
+                                                    .filterList[index].poster !=
+                                                null
+                                            ? "${APICallerConfiguration.baseImageUrl}${successState.filterList[index].poster}"
+                                            : "",
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: size.width * 0.05,
+                                    ),
+                                    Expanded(
+                                      child: Row(
+                                        children: [
+                                          InformationEvent(
+                                            name: successState
+                                                .filterList[index].name,
+                                            date: successState
+                                                .filterList[index].date,
+                                            venue: successState
+                                                .filterList[index].venue.name,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ]),
+                                ),
+                              );
+                            },
+                          );
+                }
+                return const SizedBox();
+              }),
         ),
       ],
     );
@@ -277,15 +299,14 @@ Future<void> _refresh()async{
           );
         });
     if (picked != null) {
-      setState(() {
-      });
+      setState(() {});
       _dateTimeRange = picked;
     }
   }
 
   Future<void> _showFilterPopUp(
-      BuildContext co,
-      ) async {
+    BuildContext co,
+  ) async {
     RangeLabels labels = RangeLabels(
       values.start.round().toString(),
       values.end.round().toString(),
@@ -373,7 +394,7 @@ Future<void> _refresh()async{
                             Text(
                               "From ${_dateTimeRange?.start.day}/${_dateTimeRange?.start.month}/${_dateTimeRange?.start.year}  to  ${_dateTimeRange?.end.day}/${_dateTimeRange?.end.month}/${_dateTimeRange?.end.year} ",
                               style: secondaryTextStyle,
-                            ) ,
+                            ),
                         ],
                       ),
                     ),
@@ -383,18 +404,25 @@ Future<void> _refresh()async{
                     padding: const EdgeInsets.symmetric(horizontal: 0),
                     child: MainCustomButton(
                       buttonName: "APPLY",
-                      onPressed: () async{
+                      onPressed: () async {
                         Navigator.of(context).pop();
-                        print("\n${_searchController.text}\n$_dateTimeRange\n$values ");
+                        print(
+                            "\n${_searchController.text}\n$_dateTimeRange\n$values ");
                         filterBloc.add(FilterInitialEvent(
-                            pageNumber: 1,
-                            pageSize: 500,
-                            name: _searchController.text,
-                            dateFrom: _dateTimeRange?.start.year !=null ? "${_dateTimeRange?.start.year}-${_dateTimeRange?.start.month}-${_dateTimeRange?.start.day}" : "2020-02-24",
-                            dateTo: _dateTimeRange?.end.year !=null ? "${_dateTimeRange?.end.year}-${_dateTimeRange?.end.month}-${_dateTimeRange?.end.day}" : "2080-02-24",
-                            minFeeCost:values.start,
-                            maxFeeCost:values.end,
-                          ));
+                          pageNumber: 1,
+                          pageSize: 500,
+                          name: _searchController.text,
+                          nameEn: _searchController.text,
+                          nameAr: _searchController.text,
+                          dateFrom: _dateTimeRange?.start.year != null
+                              ? "${_dateTimeRange?.start.year}-${_dateTimeRange?.start.month}-${_dateTimeRange?.start.day}"
+                              : "2020-02-24",
+                          dateTo: _dateTimeRange?.end.year != null
+                              ? "${_dateTimeRange?.end.year}-${_dateTimeRange?.end.month}-${_dateTimeRange?.end.day}"
+                              : "2080-02-24",
+                          minFeeCost: values.start,
+                          maxFeeCost: values.end,
+                        ));
                         await Future.delayed(const Duration(milliseconds: 300));
                         // await _refresh();
                         //////////////////////////////////////////////////////////////////
@@ -409,36 +437,38 @@ Future<void> _refresh()async{
         });
   }
 
-  Future<CostModel?> fetchCost() async{
+  Future<CostModel?> fetchCost() async {
     var client = http.Client();
 
-      try {
-        var response = await client.get(
-          Uri.parse('https://alafein.azurewebsites.net/api/v1/Event/FeeConfiguration'),
-          headers: {"Authorization": "Bearer ${SessionManagement.getUserToken()}"},
-        );
+    try {
+      var response = await client.get(
+        Uri.parse(
+            'https://alafein.azurewebsites.net/api/v1/Event/FeeConfiguration'),
+        headers: {
+          "Authorization": "Bearer ${SessionManagement.getUserToken()}"
+        },
+      );
+      print("=========================================================");
+      Map<String, dynamic> result = jsonDecode(response.body);
+      if (response.statusCode == 200) {
+        debugPrint(result['Data'].toString());
+        CostModel? cost = CostModel.fromJson(result['Data']);
+        setState(() {
+          SessionManagement.minCost = cost.min;
+          SessionManagement.maxCost = cost.max;
+        });
+        print(" Min Cost : ${SessionManagement.minCost} ");
+        print(" Max Cost : ${SessionManagement.maxCost} ");
         print("=========================================================");
-        Map<String, dynamic> result = jsonDecode(response.body);
-        if  (response.statusCode == 200){
-          debugPrint(result['Data'].toString());
-          CostModel? cost = CostModel.fromJson(result['Data']);
-          setState(() {
-            SessionManagement.minCost = cost.min;
-            SessionManagement.maxCost = cost.max;
-          });
-          print(" Min Cost : ${SessionManagement.minCost} ");
-          print(" Max Cost : ${SessionManagement.maxCost} ");
-          print("=========================================================");
-          return cost;
-        }else{
-            EasyLoading.showError("Costs undefined");     
-            return null;     
-        }
-      } catch (e){
-        log("Error !! : ${e.toString()}");
-        EasyLoading.dismiss();
+        return cost;
+      } else {
+        EasyLoading.showError("Costs undefined");
         return null;
       }
+    } catch (e) {
+      log("Error !! : ${e.toString()}");
+      EasyLoading.dismiss();
+      return null;
+    }
   }
-
 }
