@@ -1,27 +1,28 @@
 part of 'filter_bloc.dart';
 
+@immutable
 abstract class FilterEvent {}
 
 class FilterInitialEvent extends FilterEvent {
   final int pageNumber;
   final int pageSize;
-  final String name;
-  final String nameEn;
-  final String nameAr;
-  final String dateFrom;
-  final String dateTo;
-  final double minFeeCost;
-  final double maxFeeCost;
+  final String? name;
+  final bool? isFavourite;
+  final String? dateFrom;
+  final String? dateTo;
+  final int? categoryId;
+  final double? minFeeCost;
+  final double? maxFeeCost;
 
   FilterInitialEvent({
     required this.pageNumber,
     required this.pageSize,
-    required this.name,
-    required this.nameEn,
-    required this.nameAr,
-    required this.dateFrom,
-    required this.dateTo,
-    required this.minFeeCost,
-    required this.maxFeeCost,
+    this.name,
+    this.isFavourite,
+    this.dateFrom,
+    this.dateTo,
+    this.categoryId,
+    this.minFeeCost,
+    this.maxFeeCost,
   });
 }

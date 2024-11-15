@@ -9,27 +9,24 @@ part 'filter_event.dart';
 part 'filter_state.dart';
 
 class FilterBloc extends Bloc<FilterEvent, FilterState> {
-
-  FilterBloc()
-     : super(FilterInitial()) {
+  FilterBloc() : super(FilterInitial()) {
     on<FilterInitialEvent>(filterInitialFetchEvent);
-
   }
 
   FutureOr<void> filterInitialFetchEvent(
-    FilterInitialEvent event, Emitter<FilterState> emit) async{
-      emit(FilterLoadingState());
-      List<FilterModel> filters = await FilterRepo.fetchFilter(
-        event.pageNumber,
-        event.pageSize,
-        event.name,
-        // event.nameEn,
-        // event.nameAr,
-        event.dateFrom,
-        event.dateTo,
-        event.minFeeCost,
-        event.maxFeeCost
-      );
-      emit(FilterSuccessfulState(filterList :filters));
+      FilterInitialEvent event, Emitter<FilterState> emit) async {
+    emit(FilterLoadingState());
+    List<FilterModel> filters = await FilterRepo.fetchFilter(
+      pageNumber: event.pageNumber,
+      pageSize: event.pageSize,
+      name: event.name,
+      isFavourite: event.isFavourite,
+      dateFrom: event.dateFrom,
+      dateTo: event.dateTo,
+      categoryId: event.categoryId,
+      minFeeCost: event.minFeeCost,
+      maxFeeCost: event.maxFeeCost,
+    );
+    emit(FilterSuccessfulState(filterList: filters));
   }
 }

@@ -15,6 +15,7 @@ import 'package:alafein/features/event/organizer/presentation/views/event_deatil
 import 'package:alafein/features/event/organizer/presentation/widgets/custom_event_image.dart';
 import 'package:alafein/features/event/organizer/presentation/widgets/custom_input_field.dart';
 import 'package:alafein/features/event/organizer/presentation/widgets/information_event.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -56,14 +57,14 @@ class _SearchBodyState extends State<SearchBody> {
     fetchCost();
     filterBloc.add(FilterInitialEvent(
       pageNumber: 1,
-      pageSize: 500,
-      name: null.toString(),
-      nameEn: null.toString(),
-      nameAr: null.toString(),
-      dateFrom: "2000-02-23T13:16:57.785Z",
-      dateTo: "2050-02-23T13:16:57.785Z",
-      minFeeCost: SessionManagement.minCost,
-      maxFeeCost: SessionManagement.maxCost,
+      pageSize: 10,
+      name: "A",
+      isFavourite: null,
+      dateFrom: null,
+      dateTo: null,
+      categoryId: null,
+      minFeeCost: null,
+      maxFeeCost: null,
     ));
     super.initState();
   }
@@ -87,6 +88,8 @@ class _SearchBodyState extends State<SearchBody> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    String? currentLocale =
+        EasyLocalization.of(context)!.currentLocale?.languageCode;
     return CustomScrollView(
       physics: const NeverScrollableScrollPhysics(),
       slivers: [
@@ -108,12 +111,12 @@ class _SearchBodyState extends State<SearchBody> {
                     child: const Icon(Icons.arrow_back),
                   ),
                   const Gap(10),
-                  const Text(
-                    "EVENT SEARCH",
+                   Text(
+                    "EVENT SEARCH".tr(),
                     style: homeLabelStyle,
                   ),
                   Text(
-                    "Discover what’s going on",
+                    "Discover what’s going on".tr(),
                     style: secondaryTextStyle,
                   ),
                 ],
@@ -133,26 +136,30 @@ class _SearchBodyState extends State<SearchBody> {
                         border: Border.all(color: kDividerColor, width: 1.5),
                       ),
                       child: CustomInputTextFieldWidget(
-                        hintText: 'Search',
+                        hintText: 'Search'.tr(),
                         secure: false,
                         controller: _searchController,
                         onSubmitted: (value) async {
-                          print(value);
+                          print("Search value: $value");
+
+                          // Emit the FilterInitialEvent with the correct parameters
                           filterBloc.add(FilterInitialEvent(
                             pageNumber: 1,
                             pageSize: 500,
-                            name: value,
-                            nameEn: value,
-                            nameAr: value,
-                            dateFrom: _dateTimeRange?.start.year != null
-                                ? "${_dateTimeRange?.start.year}-${_dateTimeRange?.start.month}-${_dateTimeRange?.start.day}"
-                                : "2020-02-24",
-                            dateTo: _dateTimeRange?.end.year != null
-                                ? "${_dateTimeRange?.end.year}-${_dateTimeRange?.end.month}-${_dateTimeRange?.end.day}"
-                                : "2080-02-24",
-                            minFeeCost: values.start,
-                            maxFeeCost: values.end,
+                            name: value.isNotEmpty ? value : null,
+                            isFavourite: null,
+                            dateFrom: _dateTimeRange != null
+                                ? "${_dateTimeRange!.start.year}-${_dateTimeRange!.start.month.toString().padLeft(2, '0')}-${_dateTimeRange!.start.day.toString().padLeft(2, '0')}"
+                                : null,
+                            dateTo: _dateTimeRange != null
+                                ? "${_dateTimeRange!.end.year}-${_dateTimeRange!.end.month.toString().padLeft(2, '0')}-${_dateTimeRange!.end.day.toString().padLeft(2, '0')}"
+                                : null,
+                            categoryId: null,
+                            minFeeCost: values.start > 0 ? values.start : null,
+                            maxFeeCost: values.end > 0 ? values.end : null,
                           ));
+
+                          // Optional: Add a short delay for better UX
                           await Future.delayed(
                               const Duration(milliseconds: 300));
                         },
@@ -255,13 +262,19 @@ class _SearchBodyState extends State<SearchBody> {
                                       child: Row(
                                         children: [
                                           InformationEvent(
-                                            name: successState
-                                                .filterList[index].name,
-                                            date: successState
-                                                .filterList[index].date,
-                                            venue: successState
-                                                .filterList[index].venue.name,
-                                          ),
+                                            name: currentLocale == 'en'
+                                                ? (successState.filterList[index].nameEn != null &&
+                                                successState.filterList[index].nameEn!.toLowerCase() != "none"
+                                                ? successState.filterList[index].nameEn
+                                                : (successState.filterList[index].nameAr ?? ""))
+                                                : (successState.filterList[index].nameAr != null &&
+                                                successState.filterList[index].nameAr!.toLowerCase() != "none"
+                                                ? successState.filterList[index].nameAr
+                                                : (successState.filterList[index].nameEn ?? "")),
+                                            date: successState.filterList[index].date ?? "",
+                                            venue: successState.filterList[index].venue?.name ?? "",
+                                          )
+
                                         ],
                                       ),
                                     ),
@@ -412,8 +425,6 @@ class _SearchBodyState extends State<SearchBody> {
                           pageNumber: 1,
                           pageSize: 500,
                           name: _searchController.text,
-                          nameEn: _searchController.text,
-                          nameAr: _searchController.text,
                           dateFrom: _dateTimeRange?.start.year != null
                               ? "${_dateTimeRange?.start.year}-${_dateTimeRange?.start.month}-${_dateTimeRange?.start.day}"
                               : "2020-02-24",

@@ -40,18 +40,16 @@ class EventsShowCommentBody extends StatelessWidget {
     return BlocBuilder<GetEventCubit, GetEventState>(
       builder: (context, state) {
         final getDeatils = context.read<GetEventCubit>().eventDetails;
-        print('Full Event Details Object: $getDeatils');
-
-        // print('ID: ${getDeatils.id}');
+        // print('Full Event Details Object: $getDeatils');
+        //
         // print('Poster: ${getDeatils?.poster}');
         // print('Category: ${getDeatils?.category}');
         // print('Is Favorite: ${getDeatils?.isFavorite}');
-        // print('Name: ${getDeatils?.name}');
         // print('Organizer: ${getDeatils?.organizer}');
         // print('Description: ${getDeatils?.description}');
         // print('Description EN: ${getDeatils?.descriptionEn}');
         // print('Description AR: ${getDeatils?.descriptionAr}');
-
+        //
         // print('Date: ${getDeatils?.date}');
         // print('Attendance Option: ${getDeatils?.attendanceOption}');
         // print('URL: ${getDeatils?.url}');

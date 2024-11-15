@@ -9,8 +9,8 @@ class InformationEvent extends StatelessWidget {
     required this.venue,
   });
   final String? name;
-  final String date;
-  final String venue;
+  final String? date;
+  final String? venue;
 
   @override
   Widget build(BuildContext context) {

@@ -22,7 +22,6 @@ class GetEventCubit extends Cubit<GetEventState> {
   List<Events> events = [];
   Venue? venueDetails;
 
-
   Future<void> getVenueDetails({required int id}) async {
     EasyLoading.show();
     final call = await _apiCaller.call(
@@ -32,11 +31,11 @@ class GetEventCubit extends Cubit<GetEventState> {
           "Authorization": "Bearer ${SessionManagement.getUserToken()}"
         }));
     call.fold(
-          (failure) {
+      (failure) {
         // EasyLoading.showError(failure.toString());
         EasyLoading.dismiss();
       },
-          (response) {
+      (response) {
         if (response.succeeded == true) {
           venueDetails = Venue.fromJson(response.data);
           EasyLoading.dismiss();
@@ -47,7 +46,7 @@ class GetEventCubit extends Cubit<GetEventState> {
         }
       },
     );
-    getComments(id:id);
+    getComments(id: id);
   }
 
   Future<void> getEventPagination() async {
@@ -55,7 +54,9 @@ class GetEventCubit extends Cubit<GetEventState> {
     final call = await _apiCaller.call(
         endpoint: Endpoints.getPagination,
         method: APIMethods.get,
-        queryParameters: {"PageNumber": 1, "PageSize": 500,
+        queryParameters: {
+          "PageNumber": 1,
+          "PageSize": 500,
         },
         options: Options(headers: {
           "Authorization": "Bearer ${SessionManagement.getUserToken()}"
@@ -65,8 +66,7 @@ class GetEventCubit extends Cubit<GetEventState> {
         if (SessionManagement.getUserRole() != "") {
           // EasyLoading.showError(failure.toString());
           EasyLoading.dismiss();
-        }else {
-        }
+        } else {}
       },
       (response) {
         if (response.succeeded == true) {
@@ -85,30 +85,31 @@ class GetEventCubit extends Cubit<GetEventState> {
       },
     );
   }
+
   Future<void> getEventFilterPagination(categoryId) async {
     EasyLoading.show();
     final call = await _apiCaller.call(
         endpoint: Endpoints.getPaginationFilter,
         method: APIMethods.post,
-
-       data: {"pageNumber": 1, "pageSize": 500,
-         "categoryId": categoryId,
-
-       },
+        data: {
+          "pageNumber": 1,
+          "pageSize": 500,
+          "categoryId": categoryId,
+        },
         options: Options(headers: {
           "Authorization": "Bearer ${SessionManagement.getUserToken()}"
         }));
-    print('amrr${{"pageNumber": 1, "pageSize": 500,
+    print('amrr${{
+      "pageNumber": 1,
+      "pageSize": 500,
       "categoryId": 13,
-
     }}');
     call.fold(
       (failure) {
         if (SessionManagement.getUserRole() != "") {
           // EasyLoading.showError(failure.toString());
           EasyLoading.dismiss();
-        }else {
-        }
+        } else {}
       },
       (response) {
         if (response.succeeded == true) {
@@ -129,7 +130,7 @@ class GetEventCubit extends Cubit<GetEventState> {
   }
 
   EventDeatilsModel? eventDetails;
-  List<Comments> comments=[];
+  List<Comments> comments = [];
   List<EventDeatilsModel> eventDetailsList = [];
 
   Future<void> getEventDeatils({required int id}) async {
@@ -147,6 +148,10 @@ class GetEventCubit extends Cubit<GetEventState> {
       },
       (response) {
         if (response.succeeded == true) {
+          print("API Response: $response");
+
+          // Log the response data
+          print("Response Data: ${response.data}");
           eventDetails = EventDeatilsModel.fromJson(response.data);
           EasyLoading.dismiss();
           emit(ScafullGetEventDEatilsState());
@@ -156,8 +161,9 @@ class GetEventCubit extends Cubit<GetEventState> {
         }
       },
     );
-    getComments(id:id);
+    getComments(id: id);
   }
+
   Future<void> getComments({required int id}) async {
     EasyLoading.show();
     final call = await _apiCaller.call(
@@ -176,12 +182,11 @@ class GetEventCubit extends Cubit<GetEventState> {
           for (var element in response.data) {
             log("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO$element");
             comments.add(Comments.fromJson({
-              "Comment":element['Comment'],
+              "Comment": element['Comment'],
               "FirstName": element['User']['FirstName'],
-            "LastName": element['User']['LastName'],
-            "Photo": element['User']['Photo'],
+              "LastName": element['User']['LastName'],
+              "Photo": element['User']['Photo'],
             }));
-
 
             emit(ScafullGetEventState());
           }
@@ -194,16 +199,14 @@ class GetEventCubit extends Cubit<GetEventState> {
       },
     );
   }
-  Future<void> addComments({required int id,  required String comment}) async {
+
+  Future<void> addComments({required int id, required String comment}) async {
     EasyLoading.show();
 
     final call = await _apiCaller.call(
         endpoint: Endpoints.addComment,
         method: APIMethods.post,
-        data: {
-          "id": id,
-          "comment": comment
-        },
+        data: {"id": id, "comment": comment},
         options: Options(headers: {
           "Authorization": "Bearer ${SessionManagement.getUserToken()}"
         }));
@@ -215,8 +218,6 @@ class GetEventCubit extends Cubit<GetEventState> {
       },
       (response) {
         if (response.succeeded == true) {
-
-
           EasyLoading.dismiss();
         } else {
           EasyLoading.showError(response.message ?? "Error !");
@@ -225,6 +226,4 @@ class GetEventCubit extends Cubit<GetEventState> {
       },
     );
   }
-
-
 }
