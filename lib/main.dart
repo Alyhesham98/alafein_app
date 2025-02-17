@@ -17,12 +17,14 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'core/local_data/session_management.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'core/presentation/routes/app_router.dart';
+import 'core/presentation/routes/app_router.gr.dart';
 import 'firebase_options.dart';
 import 'package:http/http.dart' as http;
 
 import 'core/utility/CustomLoader.dart';
 
-Future<void> main() async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
 
@@ -30,6 +32,8 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   callFirebase();
+
+  // Ensure session initialization before token check
   await SessionManagement.init();
 
   await _checkAndRefreshToken();
@@ -70,7 +74,7 @@ callFirebase() async {
 
   final token = await _firebaseMessaging.getToken();
 
-  print('Token ${token}');
+  print('Token Main ${token}');
   try {
     await FirebaseMessaging.instance
         .requestPermission(alert: true, announcement: true, sound: true);
@@ -233,38 +237,48 @@ void configLoading() {
 // }
 //
 
-
-
 Future<void> _checkAndRefreshToken() async {
-  print('_checkAndRefreshToken token');
-  final tokenExpiration = SessionManagement.getTokenExpiration();
   final currToken = SessionManagement.getUserToken();
-  print('The current user token is: $currToken');
-  print('The current token expiration is: $tokenExpiration');
 
-  final now = DateTime.now();
+  print('Checking token: $currToken');
 
-  if (tokenExpiration == null || now.isAfter(tokenExpiration)) {
-    // Token has expired or no expiration time set, attempt to refresh
-    final success = await _refreshToken();
-    if (success) {
-      print('Refreshed Token Successfully');
-    } else {
-      print('ERROR: Refreshed Token FAILED');
-    }
-  } else {
-    final difference = tokenExpiration.difference(now);
-    // Check if the token expires in less than 3 days
-    if (difference.inDays < 3) {
+  if (currToken == null || currToken.isEmpty) {
+    print('ERROR: No token available. Redirecting to login.');
+    _handleSessionExpired();
+    return;
+  }
+
+  final url = Uri.parse(
+      'https://alafein.azurewebsites.net/api/v1/Event/GetCategories?isAscending=false');
+
+  try {
+    final response = await http.get(
+      url,
+      headers: {
+        "Authorization": "Bearer $currToken",
+        "Content-Type": "application/json",
+      },
+    );
+
+    print('Token validation response: ${response.statusCode}');
+
+    if (response.statusCode == 200) {
+      print('Token is valid.');
+    } else if (response.statusCode == 401) {
+      print('Unauthorized access, refreshing token...');
       final success = await _refreshToken();
       if (success) {
         print('Refreshed Token Successfully');
       } else {
-        print('ERROR: Refreshed Token FAILED');
+        print('ERROR: Refresh Token FAILED, logging out.');
+        _handleSessionExpired();
       }
     } else {
-      print('No need to refresh token');
+      print('Unexpected API response: ${response.statusCode}');
     }
+  } catch (e) {
+    print('ERROR: Exception occurred during token verification: $e');
+    _handleSessionExpired();
   }
 }
 
@@ -282,7 +296,7 @@ Future<bool> _refreshToken() async {
     final response = await http.post(
       url,
       headers: {
-        "Content-Type": "application/json-patch+json",
+        "Content-Type": "application/json",
         "Authorization": "Bearer $currentToken"
       },
       body: jsonEncode({"token": currentToken}),
@@ -296,13 +310,9 @@ Future<bool> _refreshToken() async {
         final newTokenExpiration = data['tokenExpiration'] ?? '';
 
         if (newToken.isNotEmpty && newTokenExpiration.isNotEmpty) {
-          SessionManagement.createSession(
-            token: newToken,
-            role: role,
-            tokenExpiration: newTokenExpiration,
-          );
-          SessionManagement.saveTokenExpiration(
-              DateTime.parse(newTokenExpiration));
+          await SessionManagement.updateSessionToken(
+              newToken, DateTime.parse(newTokenExpiration));
+          print('Token successfully updated.');
           return true;
         } else {
           print('ERROR: Invalid data received from token refresh response');
@@ -321,4 +331,21 @@ Future<bool> _refreshToken() async {
     print('ERROR: Exception occurred during token refresh: $e');
     return false;
   }
+}
+
+
+void _handleSessionExpired() {
+  print('Handling session expiration - checking before clearing token.');
+
+  final currentToken = SessionManagement.getUserToken();
+  if (currentToken == null || currentToken.isEmpty) {
+    print('Token already missing, skipping sign out.');
+  } else {
+    print('Clearing expired token only.');
+    SessionManagement.box.delete(SessionManagement.TOKEN_KEY);
+    SessionManagement.box.delete(SessionManagement.TOKEN_EXPIRATION_KEY);
+  }
+
+  // Redirect to login only if the user is actually logged out
+  AppRouterSingleton().appRouter.replaceAll([const LoginRoute()]);
 }
